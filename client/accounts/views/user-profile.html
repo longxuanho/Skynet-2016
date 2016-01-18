@@ -1,0 +1,59 @@
+<h3>Hồ sơ cá nhân:</h3>
+<p>
+    Username:
+    <input type="text" ng-model="user.username" />
+</p>
+<p>
+    Tên hiển thị:
+    <input type="text" ng-model="user.profile.name" />
+</p>
+<p>
+    Họ:
+    <input type="text" ng-model="user.profile.lastName" />
+</p>
+<p>
+    Tên:
+    <input type="text" ng-model="user.profile.firstName" />
+</p>
+<p>
+    Ngày sinh:
+    <input type="date" ng-model="user.profile.birthday" />
+</p>
+<p>
+    Giới tính:
+    <select ng-model="user.profile.gender">
+        <option value="Male">Nam</option>
+        <option value="Male">Nữ</option>
+    </select>
+</p>
+<p>
+    Phòng Ban:
+    <input type="text" ng-model="user.profile.department" />
+</p>
+<p>
+    Đơn vị:
+    <input type="text" ng-model="user.profile.organization" />
+</p>
+<p>
+    Giới thiệu:
+    <input type="text" ng-model="user.profile.bio" />
+</p>
+<button ng-click="updateProfile()">Cập nhật</button>
+<hr>
+<button ng-click="isChangePassword=!isChangePassword">Change Password</button>
+<div ng-show="isChangePassword">
+    <p>
+        Mật khẩu cũ:
+        <input type="text" ng-model="password.current" />
+    </p>
+    <p>
+        Mật khẩu mới:
+        <input type="text" ng-model="password.new" />
+    </p>
+    <p>
+        Nhập lại mật khẩu mới:
+        <input type="text" ng-model="password.repeatNew" />
+    </p>
+    <button ng-click="changePassword()">Cập nhật</button>
+</div>
+<hr> {{user}}
