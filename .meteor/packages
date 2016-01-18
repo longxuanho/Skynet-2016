@@ -25,7 +25,6 @@ angularutils:pagination
 tmeasday:publish-counts
 check
 alanning:roles
-s2corp:angular-ui-grid
 angular:angular-touch
 angular:angular-animate
 random
