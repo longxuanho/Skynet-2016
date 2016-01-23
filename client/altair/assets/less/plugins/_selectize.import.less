@@ -1,5 +1,5 @@
 /* selectize */
-@import (less) "../../../bower_components/selectize/dist/css/selectize.css";
+// @import (less) "../../../bower_components/selectize/dist/css/selectize.css";
 
 .selectize-input {
     border-color: @border_color;
@@ -28,20 +28,24 @@
     [data-selectable] {
         padding-top: 11px;
         padding-bottom: 10px;
+        font-size: 15px;
     }
     .active {
         background: @background_color_default;
         color: inherit;
     }
     .optgroup-header {
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 11px;
+        font-size: 14px;
+        color: @text_muted;
+        padding-top: 8px;
     }
     &.multi {
         .item-icon {
             margin-right: 4px;
         }
+    }
+    &.selectize_fs {
+        z-index: 9999;
     }
 }
 .selectize-control {
@@ -64,6 +68,7 @@
             }
             input {
                 height: 26px;
+                font-size: 15px;
             }
         }
     }
@@ -84,14 +89,27 @@
             }
         }
     }
-    &.single .selectize-input {
-        &:after {
-            border: none !important;
-            content: '\e313';
-            font-family: "Material Icons";
-            font-size: 18px;
-            margin-top: -11px !important;
-            right: 28px;
+    &.single {
+        height: 40px;
+        margin-top: 4px;
+        .selectize-input {
+            border-width: 0 0 1px;
+            padding: 8px 8px 9px;
+            &:after {
+                border: none !important;
+                content: '\e5c5';
+                font-family: "Material Icons";
+                font-size: 28px;
+                margin-top: -12px !important;
+                right: 28px;
+                color: rgba(0,0,0,.3);
+            }
+            .item {
+                font-size: 15px;
+            }
+            input {
+                font-size: 15px;
+            }
         }
     }
 }

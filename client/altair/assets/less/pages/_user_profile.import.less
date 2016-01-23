@@ -13,11 +13,9 @@
         z-index: 100;
         .user_heading_avatar {
             .thumbnail {
-                &,
-                > img {
-                    width: 64px;
-                    height: 64px;
-                }
+                width: 64px;
+                height: 64px;
+                line-height: 54px !important;
             }
         }
     }
@@ -38,22 +36,21 @@
                 display: block;
             }
         }
-        .thumbnail {
-            width: 82px;
-            height: 82px;
-            transition: all 280ms @md_easing;
-        }
         img {
             transition: all 280ms @md_easing;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .thumbnail {
+            transition: all 280ms @md_easing;
             width: 82px;
             height: 82px;
+            line-height: 74px;
             border-radius: 50%;
             border: 2px solid @white;
-            display: inline-block;
             background-color: @background_color_default_hex;
-            .retina_image('../img/avatars/user.png','../img/avatars/user@2x.png',64px,64px);
-            background-position: 50% 0;
-            vertical-align: top;
+            overflow: hidden;
+            box-sizing: border-box;
         }
         .btn-file {
             text-align: center;

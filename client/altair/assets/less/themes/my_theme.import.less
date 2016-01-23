@@ -348,4 +348,13 @@
     .md-card-primary {
         border-left-color: @app_my_theme_color;
     }
+    // wave effect
+    .waves-effect {
+        &.md-btn-flat-primary {
+            background: none;
+            .waves-ripple {
+                background: fade(@app_theme_my_color,40%);
+            }
+        }
+    }
 }

@@ -1,76 +1,90 @@
 angular.module('angular-skynet')
 
 // page title
-.directive('pageTitle', function($rootScope, $timeout) {
-    return {
-        restrict: 'A',
-        link: function() {
-            var listener = function(event, toState) {
-                var default_title = 'Skynet';
-                $timeout(function() {
-                    $rootScope.page_title = (toState.data && toState.data.pageTitle) ? default_title + ' - ' + toState.data.pageTitle : default_title;
-                });
-            };
-            $rootScope.$on('$stateChangeSuccess', listener);
+.directive('pageTitle', [
+    '$rootScope',
+    '$timeout',
+    function($rootScope, $timeout) {
+        return {
+            restrict: 'A',
+            link: function() {
+                var listener = function(event, toState) {
+                    var default_title = 'Altair Admin';
+                    $timeout(function() {
+                        $rootScope.page_title = (toState.data && toState.data.pageTitle) ? default_title + ' - ' + toState.data.pageTitle : default_title;
+                    });
+                };
+                $rootScope.$on('$stateChangeSuccess', listener);
+            }
         }
     }
-})
+])
 
 // add width/height properities to Image
-.directive('addImageProp', function($timeout, utils) {
-    return {
-        restrict: 'A',
-        link: function(scope, elem, attrs) {
-            elem.on('load', function() {
-                $timeout(function() {
-                    var w = !utils.isHighDensity() ? $(elem).width() : $(elem).width() / 2,
-                        h = !utils.isHighDensity() ? $(elem).height() : $(elem).height() / 2;
-                    $(elem).attr('width', w).attr('height', h);
-                })
-            });
-        }
+.directive('addImageProp', [
+    '$timeout',
+    'utils',
+    function($timeout, utils) {
+        return {
+            restrict: 'A',
+            link: function(scope, elem, attrs) {
+                elem.on('load', function() {
+                    $timeout(function() {
+                        var w = !utils.isHighDensity() ? $(elem).width() : $(elem).width() / 2,
+                            h = !utils.isHighDensity() ? $(elem).height() : $(elem).height() / 2;
+                        $(elem).attr('width', w).attr('height', h);
+                    })
+                });
+            }
+        };
     }
-})
+])
 
 // print page
-.directive('printPage', function() {
-    return {
-        restrict: 'A',
-        link: function(scope, elem, attrs) {
-            var message = attrs['printMessage'];
-            $(elem).on('click', function(e) {
-                e.preventDefault();
-                UIkit.modal.confirm(message ? message : 'Bạn muốn in nội dung này?', function() {
-                    // wait for dialog to fully hide
-                    setTimeout(function() {
-                        window.print();
-                    }, 300)
-                }, {
-                    labels: {
-                        'Cancel': 'hủy bỏ',
-                        'Ok': 'in'
-                    }
+.directive('printPage', [
+    function() {
+        return {
+            restrict: 'A',
+            link: function(scope, elem, attrs) {
+                var message = attrs['printMessage'];
+                $(elem).on('click', function(e) {
+                    e.preventDefault();
+                    UIkit.modal.confirm(message ? message : 'Bạn thực sự muốn in nội dung này?', function() {
+                        // wait for dialog to fully hide
+                        setTimeout(function() {
+                            window.print();
+                        }, 300)
+                    }, {
+                        labels: {
+                            'Chấp nhận': 'Hủy bỏ'
+                        }
+                    });
                 });
-            });
-        }
+            }
+        };
     }
-})
+])
 
 // full screen
-.directive('fullScreenToggle', function() {
-    return {
-        restrict: 'A',
-        link: function(scope, elem, attrs) {
-            $(elem).on('click', function(e) {
-                e.preventDefault();
-                screenfull.toggle();
-            });
-        }
-    };
-})
+.directive('fullScreenToggle', [
+    function() {
+        return {
+            restrict: 'A',
+            link: function(scope, elem, attrs) {
+                $(elem).on('click', function(e) {
+                    e.preventDefault();
+                    screenfull.toggle();
+                });
+            }
+        };
+    }
+])
 
 // single card
-.directive('singleCard', function($window, $timeout) {
+.directive('singleCard', [
+    '$window',
+    '$timeout',
+    function($window, $timeout) {
         return {
             restrict: 'A',
             link: function(scope, elem, attrs) {
@@ -99,9 +113,14 @@ angular.module('angular-skynet')
 
             }
         }
-    })
-    // outside list
-    .directive('listOutside', function($window, $timeout) {
+    }
+])
+
+// outside list
+.directive('listOutside', [
+    '$window',
+    '$timeout',
+    function($window, $timeout) {
         return {
             restrict: 'A',
             link: function(scope, elem, attr) {
@@ -128,7 +147,8 @@ angular.module('angular-skynet')
 
             }
         }
-    })
+    }
+])
 
 // callback on last element in ng-repeat
 .directive('onLastRepeat', function($timeout) {
@@ -142,47 +162,44 @@ angular.module('angular-skynet')
 })
 
 // content sidebar
-.directive('contentSidebar', function($rootScope, $document) {
-    return {
-        restrict: 'A',
-        link: function(scope, el, attr) {
-            function scrollbarWidth() {
-                var a = jQuery('<div style="width: 100%; height:200px;">test</div>'),
-                    b = jQuery('<div style="width:200px;height:150px; position: absolute; top: 0; left: 0; visibility: hidden; overflow:hidden;background-color:green;"></div>').append(a),
-                    c = a[0],
-                    a = b[0];
-                jQuery("body").append(a);
-                c = c.offsetWidth;
-                b.css("overflow", "scroll");
-                a = a.clientWidth;
-                b.remove();
-                return c - a
-            };
+.directive('contentSidebar', [
+    '$rootScope',
+    '$document',
+    function($rootScope, $document) {
+        return {
+            restrict: 'A',
+            link: function(scope, el, attr) {
 
-            if (!$rootScope.header_double_height) {
-                $rootScope.$watch('hide_content_sidebar', function() {
-                    if ($rootScope.hide_content_sidebar) {
-                        $('#page_content').css('max-height', $('html').height() - 40);
-                        $('html').css({
-                            'paddingRight': scrollbarWidth(),
-                            'overflow': 'hidden'
-                        });
-                    } else {
-                        $('#page_content').css('max-height', '');
-                        $('html').css({
-                            'paddingRight': '',
-                            'overflow': ''
-                        });
-                    }
-                });
+                if (!$rootScope.header_double_height) {
+                    $rootScope.$watch('hide_content_sidebar', function() {
+                        if ($rootScope.hide_content_sidebar) {
+                            $('#page_content').css('max-height', $('html').height() - 40);
+                            $('html').css({
+                                'paddingRight': scrollbarWidth(),
+                                'overflow': 'hidden'
+                            });
+                        } else {
+                            $('#page_content').css('max-height', '');
+                            $('html').css({
+                                'paddingRight': '',
+                                'overflow': ''
+                            });
+                        }
+                    });
 
+                }
             }
         }
     }
-})
+])
 
 // attach events to document
-.directive('documentEvents', function($rootScope, $window, $timeout, variables) {
+.directive('documentEvents', [
+    '$rootScope',
+    '$window',
+    '$timeout',
+    'variables',
+    function($rootScope, $window, $timeout, variables) {
         return {
             restrict: 'A',
             link: function(scope, el, attr) {
@@ -211,7 +228,6 @@ angular.module('angular-skynet')
                             begin: function() {
                                 $header_main.velocity("reverse");
                                 $rootScope.mainSearchActive = false;
-                                $rootScope.searchText = '';
                             },
                             complete: function() {
                                 $header_main
@@ -270,9 +286,15 @@ angular.module('angular-skynet')
 
             }
         };
-    })
-    // main search show
-    .directive('mainSearchShow', function($rootScope, $window, variables) {
+    }
+])
+
+// main search show
+.directive('mainSearchShow', [
+    '$rootScope',
+    '$window',
+    '$timeout',
+    function($rootScope, $window, variables) {
         return {
             restrict: 'E',
             template: '<a href="#" id="main_search_btn" class="user_action_icon" ng-click="showSearch($event)"><i class="material-icons md-24 md-light">&#xE8B6;</i></a>',
@@ -289,7 +311,6 @@ angular.module('angular-skynet')
                             easing: variables.easing_swiftOut,
                             begin: function() {
                                 $rootScope.mainSearchActive = true;
-                                $rootScope.searchText = '';
                             },
                             complete: function() {
                                 $('#header_main')
@@ -306,9 +327,15 @@ angular.module('angular-skynet')
                 };
             }
         };
-    })
-    // main search hide
-    .directive('mainSearchHide', function($rootScope, $window, variables) {
+    }
+])
+
+// main search hide
+.directive('mainSearchHide', [
+    '$rootScope',
+    '$window',
+    'variables',
+    function($rootScope, $window, variables) {
         return {
             restrict: 'E',
             template: '<i class="md-icon header_main_search_close material-icons" ng-click="hideSearch($event)">&#xE5CD;</i>',
@@ -328,7 +355,6 @@ angular.module('angular-skynet')
                             begin: function() {
                                 $header_main.velocity("reverse");
                                 $rootScope.mainSearchActive = false;
-                                $rootScope.searchText = '';
                             },
                             complete: function() {
                                 $header_main
@@ -346,49 +372,72 @@ angular.module('angular-skynet')
                 };
             }
         };
-    })
+    }
+])
 
 // primary sidebar
-.directive('sidebarPrimary', function($rootScope, $window, $timeout, variables) {
-    return {
-        restrict: 'A',
-        link: function(scope, el, attr) {
-            scope.submenuToggle = function($event) {
-                $event.preventDefault();
+.directive('sidebarPrimary', [
+    '$rootScope',
+    '$window',
+    '$timeout',
+    'variables',
+    function($rootScope, $window, $timeout, variables) {
+        return {
+            restrict: 'A',
+            scope: 'true',
+            link: function(scope, el, attr) {
+                scope.submenuToggle = function($event) {
+                    $event.preventDefault();
 
-                var $this = $($event.currentTarget),
-                    $sidebar_main = $('#sidebar_main'),
-                    slideToogle = $this.next('ul').is(':visible') ? 'slideUp' : 'slideDown';
+                    var $this = $($event.currentTarget),
+                        $sidebar_main = $('#sidebar_main'),
+                        slideToogle = $this.next('ul').is(':visible') ? 'slideUp' : 'slideDown';
 
-                $this.next('ul')
-                    .velocity(slideToogle, {
-                        duration: 400,
-                        easing: variables.easing_swiftOut,
-                        begin: function() {
-                            if (slideToogle == 'slideUp') {
-                                $(this).closest('.submenu_trigger').removeClass('act_section')
-                            } else {
-                                $(this).closest('.submenu_trigger').addClass('act_section')
+                    $this.next('ul')
+                        .velocity(slideToogle, {
+                            duration: 400,
+                            easing: variables.easing_swiftOut,
+                            begin: function() {
+                                if (slideToogle == 'slideUp') {
+                                    $(this).closest('.submenu_trigger').removeClass('act_section')
+                                } else {
+                                    if ($rootScope.menuAccordionMode) {
+                                        $this.closest('li').siblings('.submenu_trigger').each(function() {
+                                            $(this).children('ul').velocity('slideUp', {
+                                                duration: 500,
+                                                easing: variables.easing_swiftOut,
+                                                begin: function() {
+                                                    $(this).closest('.submenu_trigger').removeClass('act_section')
+                                                }
+                                            })
+                                        })
+                                    }
+                                    $(this).closest('.submenu_trigger').addClass('act_section')
+                                }
+                            },
+                            complete: function() {
+                                if (slideToogle !== 'slideUp') {
+                                    var scrollContainer = $sidebar_main.find(".scroll-content").length ? $sidebar_main.find(".scroll-content") : $sidebar_main.find(".scrollbar-inner");
+                                    $this.closest('.act_section').velocity("scroll", {
+                                        duration: 500,
+                                        easing: variables.easing_swiftOut,
+                                        container: scrollContainer
+                                    });
+                                }
                             }
-                        },
-                        complete: function() {
-                            if (slideToogle !== 'slideUp') {
-                                var scrollContainer = $sidebar_main.find(".scroll-content").length ? $sidebar_main.find(".scroll-content") : $sidebar_main.find(".scrollbar-inner");
-                                $this.closest('.act_section').velocity("scroll", {
-                                    duration: 500,
-                                    easing: variables.easing_swiftOut,
-                                    container: scrollContainer
-                                });
-                            }
-                        }
-                    });
-            };
-        }
-    };
-})
+                        });
+                };
+            }
+        };
+    }
+])
 
 // toggle primary sidebar
-.directive('sidebarPrimaryToggle', function($rootScope, $window, $timeout) {
+.directive('sidebarPrimaryToggle', [
+    '$rootScope',
+    '$window',
+    '$timeout',
+    function($rootScope, $window, $timeout) {
         return {
             restrict: 'E',
             replace: true,
@@ -429,9 +478,15 @@ angular.module('angular-skynet')
 
             }
         };
-    })
-    // secondary sidebar
-    .directive('sidebarSecondary', function($rootScope, $timeout, variables) {
+    }
+])
+
+// secondary sidebar
+.directive('sidebarSecondary', [
+    '$rootScope',
+    '$timeout',
+    'variables',
+    function($rootScope, $timeout, variables) {
         return {
             restrict: 'A',
             link: function(scope, el, attrs) {
@@ -495,9 +550,15 @@ angular.module('angular-skynet')
 
             }
         };
-    })
-    // toggle secondary sidebar
-    .directive('sidebarSecondaryToggle', function($rootScope, $window, $timeout) {
+    }
+])
+
+// toggle secondary sidebar
+.directive('sidebarSecondaryToggle', [
+    '$rootScope',
+    '$window',
+    '$timeout',
+    function($rootScope, $window, $timeout) {
         return {
             restrict: 'E',
             replace: true,
@@ -509,9 +570,14 @@ angular.module('angular-skynet')
                 };
             }
         };
-    })
-    // activate card fullscreen
-    .directive('cardFullscreenActivate', function($rootScope, variables) {
+    }
+])
+
+// activate card fullscreen
+.directive('cardFullscreenActivate', [
+    '$rootScope',
+    'variables',
+    function($rootScope, variables) {
         return {
             restrict: 'E',
             replace: true,
@@ -575,527 +641,578 @@ angular.module('angular-skynet')
                 }
             }
         }
-    })
+    }
+])
 
 // deactivate card fullscreen
-.directive('cardFullscreenDeactivate', function($rootScope, $window, variables) {
-    return {
-        restrict: 'E',
-        replace: true,
-        template: '<span class="md-icon md-card-fullscreen-deactivate material-icons uk-float-left" ng-show="card_fullscreen" ng-click="cardFullscreenDeactivate($event)">&#xE5C4;</span>',
-        link: function(scope, el, attrs) {
-            scope.cardFullscreenDeactivate = function($event) {
-                $event.preventDefault();
+.directive('cardFullscreenDeactivate', [
+    '$rootScope',
+    '$window',
+    'variables',
+    function($rootScope, $window, variables) {
+        return {
+            restrict: 'E',
+            replace: true,
+            template: '<span class="md-icon md-card-fullscreen-deactivate material-icons uk-float-left" ng-show="card_fullscreen" ng-click="cardFullscreenDeactivate($event)">&#xE5C4;</span>',
+            link: function(scope, el, attrs) {
+                scope.cardFullscreenDeactivate = function($event) {
+                    $event.preventDefault();
 
-                // get card placeholder width/height and offset
-                var $thisPlaceholderCard = $('.md-card-placeholder'),
-                    mdPlaceholderCard_h = $thisPlaceholderCard.height(),
-                    mdPlaceholderCard_w = $thisPlaceholderCard.width(),
-                    mdPlaceholderCard_offset_top = $thisPlaceholderCard.offset().top,
-                    mdPlaceholderCard_offset_left = $thisPlaceholderCard.offset().left,
-                    $thisCard = $('.md-card-fullscreen');
+                    // get card placeholder width/height and offset
+                    var $thisPlaceholderCard = $('.md-card-placeholder'),
+                        mdPlaceholderCard_h = $thisPlaceholderCard.height(),
+                        mdPlaceholderCard_w = $thisPlaceholderCard.width(),
+                        mdPlaceholderCard_offset_top = $thisPlaceholderCard.offset().top,
+                        mdPlaceholderCard_offset_left = $thisPlaceholderCard.offset().left,
+                        $thisCard = $('.md-card-fullscreen');
 
-                $thisCard
-                // resize card to original size
-                    .velocity({
-                        height: mdPlaceholderCard_h,
-                        width: mdPlaceholderCard_w
-                    }, {
-                        duration: 600,
-                        easing: variables.easing_swiftOut,
-                        begin: function(elements) {
-                            // hide fullscreen content
-                            $thisCard.find('.md-card-fullscreen-content').velocity("transition.slideDownOut", {
-                                duration: 280,
-                                easing: variables.easing_swiftOut
-                            });
-                            $rootScope.card_fullscreen = false;
-                        },
-                        complete: function(elements) {
-                            $rootScope.hide_content_sidebar = false;
-                        }
-                    })
-                    // move card to original position
-                    .velocity({
-                        left: mdPlaceholderCard_offset_left,
-                        top: mdPlaceholderCard_offset_top
-                    }, {
-                        duration: 600,
-                        easing: variables.easing_swiftOut,
-                        complete: function(elements) {
-                            // remove some styles added by velocity.js
-                            $thisCard.removeClass('md-card-fullscreen').css({
-                                width: '',
-                                height: '',
-                                left: '',
-                                top: ''
-                            });
-                            // remove card placeholder
-                            $thisPlaceholderCard.remove();
-                            $(window).resize();
-                        }
-                    })
+                    $thisCard
+                    // resize card to original size
+                        .velocity({
+                            height: mdPlaceholderCard_h,
+                            width: mdPlaceholderCard_w
+                        }, {
+                            duration: 600,
+                            easing: variables.easing_swiftOut,
+                            begin: function(elements) {
+                                // hide fullscreen content
+                                $thisCard.find('.md-card-fullscreen-content').velocity("transition.slideDownOut", {
+                                    duration: 280,
+                                    easing: variables.easing_swiftOut
+                                });
+                                $rootScope.card_fullscreen = false;
+                            },
+                            complete: function(elements) {
+                                $rootScope.hide_content_sidebar = false;
+                            }
+                        })
+                        // move card to original position
+                        .velocity({
+                            left: mdPlaceholderCard_offset_left,
+                            top: mdPlaceholderCard_offset_top
+                        }, {
+                            duration: 600,
+                            easing: variables.easing_swiftOut,
+                            complete: function(elements) {
+                                // remove some styles added by velocity.js
+                                $thisCard.removeClass('md-card-fullscreen').css({
+                                    width: '',
+                                    height: '',
+                                    left: '',
+                                    top: ''
+                                });
+                                // remove card placeholder
+                                $thisPlaceholderCard.remove();
+                                $(window).resize();
+                            }
+                        })
 
+                }
             }
         }
     }
-})
+])
 
 // card close
-.directive('cardClose', function(utils) {
-    return {
-        restrict: 'E',
-        replace: true,
-        scope: true,
-        template: '<i class="md-icon material-icons md-card-toggle" ng-click="cardClose($event)">&#xE14C;</i>',
-        link: function(scope, el, attrs) {
-            scope.cardClose = function($event) {
-                $event.preventDefault();
+.directive('cardClose', [
+    'utils',
+    function(utils) {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: true,
+            template: '<i class="md-icon material-icons md-card-toggle" ng-click="cardClose($event)">&#xE14C;</i>',
+            link: function(scope, el, attrs) {
+                scope.cardClose = function($event) {
+                    $event.preventDefault();
 
-                var $this = $(el),
-                    thisCard = $this.closest('.md-card'),
-                    removeCard = function() {
-                        $(thisCard).remove();
-                    };
+                    var $this = $(el),
+                        thisCard = $this.closest('.md-card'),
+                        removeCard = function() {
+                            $(thisCard).remove();
+                        };
 
-                utils.card_show_hide(thisCard, undefined, removeCard)
+                    utils.card_show_hide(thisCard, undefined, removeCard)
 
+                }
             }
         }
     }
-})
+])
 
 // card toggle
-.directive('cardToggle', function(variables) {
-    return {
-        restrict: 'E',
-        replace: true,
-        scope: true,
-        template: '<i class="md-icon material-icons md-card-toggle" ng-click="cardToggle($event)">&#xE316;</i>',
-        link: function(scope, el, attrs) {
-            scope.cardToggle = function($event) {
-                $event.preventDefault();
+.directive('cardToggle', [
+    'variables',
+    function(variables) {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: true,
+            template: '<i class="md-icon material-icons md-card-toggle" ng-click="cardToggle($event)">&#xE316;</i>',
+            link: function(scope, el, attrs) {
+                scope.cardToggle = function($event) {
+                    $event.preventDefault();
 
-                var $this = $(el),
-                    thisCard = $this.closest('.md-card');
+                    var $this = $(el),
+                        thisCard = $this.closest('.md-card');
 
-                $(thisCard).toggleClass('md-card-collapsed').children('.md-card-content').slideToggle('280', variables.bez_easing_swiftOut);
-
-                $this.velocity({
-                    scale: 0,
-                    opacity: 0.2
-                }, {
-                    duration: 280,
-                    easing: variables.easing_swiftOut,
-                    complete: function() {
-                        $(thisCard).hasClass('md-card-collapsed') ? $this.html('&#xE313;') : $this.html('&#xE316;');
-                        $this.velocity('reverse');
-                    }
-                });
-
-
-            }
-        }
-    }
-})
-
-.directive('cardOverlayToggle', function() {
-    return {
-        restrict: 'E',
-        template: '<i class="md-icon material-icons" ng-click="toggleOverlay($event)">&#xE5D4;</i>',
-        replace: true,
-        scope: true,
-        link: function(scope, el, attrs) {
-
-            if (el.closest('.md-card').hasClass('md-card-overlay-active')) {
-                el.html('&#xE5CD;')
-            }
-
-            scope.toggleOverlay = function($event) {
-
-                $event.preventDefault();
-
-                if (!el.closest('.md-card').hasClass('md-card-overlay-active')) {
-                    el
-                        .html('&#xE5CD;')
-                        .closest('.md-card').addClass('md-card-overlay-active');
-
-                } else {
-                    el
-                        .html('&#xE5D4;')
-                        .closest('.md-card').removeClass('md-card-overlay-active');
-                }
-
-            }
-        }
-    }
-})
-
-// custom scrollbar
-.directive('customScrollbar', function($rootScope) {
-    return {
-        restrict: 'A',
-        scope: true,
-        link: function(scope, el, attrs) {
-
-            // check if mini sidebar is enabled
-            if (attrs['id'] == 'sidebar_main' && $rootScope.miniSidebarActive) {
-                return;
-            }
-
-            $(el).addClass('uk-height-1-1').wrapInner("<div class='scrollbar-inner'></div>");
-            if (Modernizr.touch) {
-                $(el).children('.scrollbar-inner').addClass('touchscroll');
-            } else {
-                $(el).children('.scrollbar-inner').scrollbar({
-                    disableBodyScroll: true,
-                    scrollx: false,
-                    duration: 100
-                });
-            }
-
-        }
-    }
-})
-
-// material design inputs
-.directive('mdInput', function($timeout) {
-    return {
-        restrict: 'A',
-        scope: {
-            ngModel: '='
-        },
-        controller: function($scope, $element) {
-            var $elem = $($element);
-            $scope.updateInput = function() {
-                // clear wrapper classes
-                $elem.closest('.md-input-wrapper').removeClass('md-input-wrapper-danger md-input-wrapper-success md-input-wrapper-disabled');
-
-                if ($elem.hasClass('md-input-danger')) {
-                    $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-danger')
-                }
-                if ($elem.hasClass('md-input-success')) {
-                    $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-success')
-                }
-                if ($elem.prop('disabled')) {
-                    $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-disabled')
-                }
-                if ($elem.val() != '') {
-                    $elem.closest('.md-input-wrapper').addClass('md-input-filled')
-                }
-            };
-        },
-        link: function(scope, elem, attrs) {
-
-            var $elem = $(elem);
-
-            $timeout(function() {
-                if (!$elem.hasClass('md-input-processed')) {
-                    if ($elem.prev('label').length) {
-                        $elem.prev('label').andSelf().wrapAll('<div class="md-input-wrapper"/>');
-                    } else if ($elem.siblings('[data-uk-form-password]').length) {
-                        $elem.siblings('[data-uk-form-password]').andSelf().wrapAll('<div class="md-input-wrapper"/>');
-                    } else {
-                        $elem.wrap('<div class="md-input-wrapper"/>');
-                    }
-                    $elem
-                        .addClass('md-input-processed')
-                        .closest('.md-input-wrapper')
-                        .append('<span class="md-input-bar"/>');
-                }
-
-                scope.updateInput();
-
-            });
-
-            scope.$watch(function() {
-                    return elem.attr('class');
-                },
-                function(newValue, oldValue) {
-                    if (newValue != oldValue) {
-                        scope.updateInput();
-                    }
-                }
-            );
-
-            $elem
-                .on('focus', function() {
-                    $elem.closest('.md-input-wrapper').addClass('md-input-focus')
-                })
-                .on('blur', function() {
-                    $(this).closest('.md-input-wrapper').removeClass('md-input-focus');
-                    if ($(this).val() == '') {
-                        $timeout(function() {
-                            $(this).closest('.md-input-wrapper').removeClass('md-input-filled')
-                        })
-                    } else {
-                        $timeout(function() {
-                            $(this).closest('.md-input-wrapper').addClass('md-input-filled')
-                        })
-                    }
-                });
-
-        }
-    }
-})
-
-// material design fab speed dial
-.directive('mdFabSpeedDial', function(variables) {
-    return {
-        restrict: 'A',
-        scope: true,
-        link: function(scope, elem, attrs) {
-            $(elem)
-                .append('<i class="material-icons md-fab-action-close" style="display:none">&#xE5CD;</i>')
-                .on('click', function(e) {
-                    e.preventDefault();
-
-                    var $this = $(this),
-                        $this_wrapper = $this.closest('.md-fab-wrapper');
-
-                    if (!$this_wrapper.hasClass('md-fab-active')) {
-                        $this_wrapper.addClass('md-fab-active');
-                    } else {
-                        $this_wrapper.removeClass('md-fab-active');
-                    }
+                    $(thisCard).toggleClass('md-card-collapsed').children('.md-card-content').slideToggle('280', variables.bez_easing_swiftOut);
 
                     $this.velocity({
-                        scale: 0
+                        scale: 0,
+                        opacity: 0.2
                     }, {
-                        duration: 140,
+                        duration: 280,
                         easing: variables.easing_swiftOut,
                         complete: function() {
-                            $this.children().toggle();
-                            $this.velocity({
-                                scale: 1
-                            }, {
-                                duration: 140,
-                                easing: variables.easing_swiftOut
-                            })
+                            $(thisCard).hasClass('md-card-collapsed') ? $this.html('&#xE313;') : $this.html('&#xE316;');
+                            $this.velocity('reverse');
                         }
-                    })
-                })
-                .closest('.md-fab-wrapper').find('.md-fab-small')
-                .on('click', function() {
-                    $(this).closest('.md-fab-wrapper').removeClass('md-fab-active')
-                });
+                    });
+
+
+                }
+            }
         }
     }
-})
+])
+
+// card overlay toggle
+.directive('cardOverlayToggle', [
+    function() {
+        return {
+            restrict: 'E',
+            template: '<i class="md-icon material-icons" ng-click="toggleOverlay($event)">&#xE5D4;</i>',
+            replace: true,
+            scope: true,
+            link: function(scope, el, attrs) {
+
+                if (el.closest('.md-card').hasClass('md-card-overlay-active')) {
+                    el.html('&#xE5CD;')
+                }
+
+                scope.toggleOverlay = function($event) {
+
+                    $event.preventDefault();
+
+                    if (!el.closest('.md-card').hasClass('md-card-overlay-active')) {
+                        el
+                            .html('&#xE5CD;')
+                            .closest('.md-card').addClass('md-card-overlay-active');
+
+                    } else {
+                        el
+                            .html('&#xE5D4;')
+                            .closest('.md-card').removeClass('md-card-overlay-active');
+                    }
+
+                }
+            }
+        }
+    }
+])
+
+// custom scrollbar
+.directive('customScrollbar', [
+    '$rootScope',
+    function($rootScope) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function(scope, el, attrs) {
+
+                // check if mini sidebar is enabled
+                if (attrs['id'] == 'sidebar_main' && $rootScope.miniSidebarActive) {
+                    return;
+                }
+
+                $(el).addClass('uk-height-1-1').wrapInner("<div class='scrollbar-inner'></div>");
+                if (Modernizr.touch) {
+                    $(el).children('.scrollbar-inner').addClass('touchscroll');
+                } else {
+                    $(el).children('.scrollbar-inner').scrollbar({
+                        disableBodyScroll: true,
+                        scrollx: false,
+                        duration: 100
+                    });
+                }
+
+            }
+        }
+    }
+])
+
+// material design inputs
+.directive('mdInput', [
+    '$timeout',
+    function($timeout) {
+        return {
+            restrict: 'A',
+            scope: {
+                ngModel: '='
+            },
+            controller: function($scope, $element) {
+                var $elem = $($element);
+                $scope.updateInput = function() {
+                    // clear wrapper classes
+                    $elem.closest('.md-input-wrapper').removeClass('md-input-wrapper-danger md-input-wrapper-success md-input-wrapper-disabled');
+
+                    if ($elem.hasClass('md-input-danger')) {
+                        $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-danger')
+                    }
+                    if ($elem.hasClass('md-input-success')) {
+                        $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-success')
+                    }
+                    if ($elem.prop('disabled')) {
+                        $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-disabled')
+                    }
+                    if ($elem.hasClass('label-fixed')) {
+                        $elem.closest('.md-input-wrapper').addClass('md-input-filled')
+                    }
+                    if ($elem.val() != '') {
+                        $elem.closest('.md-input-wrapper').addClass('md-input-filled')
+                    }
+                };
+            },
+            link: function(scope, elem, attrs) {
+
+                var $elem = $(elem);
+
+                $timeout(function() {
+                    if (!$elem.hasClass('md-input-processed')) {
+                        if ($elem.prev('label').length) {
+                            $elem.prev('label').andSelf().wrapAll('<div class="md-input-wrapper"/>');
+                        } else if ($elem.siblings('[data-uk-form-password]').length) {
+                            $elem.siblings('[data-uk-form-password]').andSelf().wrapAll('<div class="md-input-wrapper"/>');
+                        } else {
+                            $elem.wrap('<div class="md-input-wrapper"/>');
+                        }
+                        $elem
+                            .addClass('md-input-processed')
+                            .closest('.md-input-wrapper')
+                            .append('<span class="md-input-bar"/>');
+                    }
+
+                    scope.updateInput();
+
+                });
+
+                scope.$watch(function() {
+                        return $elem.attr('class');
+                    },
+                    function(newValue, oldValue) {
+                        if (newValue != oldValue) {
+                            scope.updateInput();
+                        }
+                    }
+                );
+
+                scope.$watch(function() {
+                        return $elem.val();
+                    },
+                    function(newValue, oldValue) {
+                        if (!$elem.is(':focus') && (newValue != oldValue)) {
+                            scope.updateInput();
+                        }
+                    }
+                );
+
+                $elem
+                    .on('focus', function() {
+                        $elem.closest('.md-input-wrapper').addClass('md-input-focus')
+                    })
+                    .on('blur', function() {
+                        $timeout(function() {
+                            $elem.closest('.md-input-wrapper').removeClass('md-input-focus');
+                            if ($elem.val() == '') {
+                                $elem.closest('.md-input-wrapper').removeClass('md-input-filled')
+                            } else {
+                                $elem.closest('.md-input-wrapper').addClass('md-input-filled')
+                            }
+                        }, 100)
+                    });
+            }
+        }
+    }
+])
+
+// material design fab speed dial
+.directive('mdFabSpeedDial', [
+    'variables',
+    function(variables) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function(scope, elem, attrs) {
+                $(elem)
+                    .append('<i class="material-icons md-fab-action-close" style="display:none">&#xE5CD;</i>')
+                    .on('click', function(e) {
+                        e.preventDefault();
+
+                        var $this = $(this),
+                            $this_wrapper = $this.closest('.md-fab-wrapper');
+
+                        if (!$this_wrapper.hasClass('md-fab-active')) {
+                            $this_wrapper.addClass('md-fab-active');
+                        } else {
+                            $this_wrapper.removeClass('md-fab-active');
+                        }
+
+                        $this.velocity({
+                            scale: 0
+                        }, {
+                            duration: 140,
+                            easing: variables.easing_swiftOut,
+                            complete: function() {
+                                $this.children().toggle();
+                                $this.velocity({
+                                    scale: 1
+                                }, {
+                                    duration: 140,
+                                    easing: variables.easing_swiftOut
+                                })
+                            }
+                        })
+                    })
+                    .closest('.md-fab-wrapper').find('.md-fab-small')
+                    .on('click', function() {
+                        $(this).closest('.md-fab-wrapper').removeClass('md-fab-active')
+                    });
+            }
+        }
+    }
+])
 
 // material design fab toolbar
-.directive('mdFabToolbar', function(variables, $document) {
-    return {
-        restrict: 'A',
-        scope: true,
-        link: function(scope, elem, attrs) {
+.directive('mdFabToolbar', [
+    'variables',
+    '$document',
+    function(variables, $document) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function(scope, elem, attrs) {
 
-            var $fab_toolbar = $(elem);
+                var $fab_toolbar = $(elem);
 
-            $fab_toolbar
-                .children('i')
-                .on('click', function(e) {
-                    e.preventDefault();
+                $fab_toolbar
+                    .children('i')
+                    .on('click', function(e) {
+                        e.preventDefault();
 
-                    var toolbarItems = $fab_toolbar.children('.md-fab-toolbar-actions').children().length;
+                        var toolbarItems = $fab_toolbar.children('.md-fab-toolbar-actions').children().length;
 
-                    $fab_toolbar.addClass('md-fab-animated');
+                        $fab_toolbar.addClass('md-fab-animated');
 
-                    var FAB_padding = !$fab_toolbar.hasClass('md-fab-small') ? 16 : 24,
-                        FAB_size = !$fab_toolbar.hasClass('md-fab-small') ? 64 : 44;
-
-                    setTimeout(function() {
-                        $fab_toolbar
-                            .width((toolbarItems * FAB_size + FAB_padding))
-                    }, 140);
-
-                    setTimeout(function() {
-                        $fab_toolbar.addClass('md-fab-active');
-                    }, 420);
-
-                });
-
-            $($document).on('click scroll', function(e) {
-                if ($fab_toolbar.hasClass('md-fab-active')) {
-                    if (!$(e.target).closest($fab_toolbar).length) {
-
-                        $fab_toolbar
-                            .css('width', '')
-                            .removeClass('md-fab-active');
+                        var FAB_padding = !$fab_toolbar.hasClass('md-fab-small') ? 16 : 24,
+                            FAB_size = !$fab_toolbar.hasClass('md-fab-small') ? 64 : 44;
 
                         setTimeout(function() {
-                            $fab_toolbar.removeClass('md-fab-animated');
+                            $fab_toolbar
+                                .width((toolbarItems * FAB_size + FAB_padding))
                         }, 140);
 
+                        setTimeout(function() {
+                            $fab_toolbar.addClass('md-fab-active');
+                        }, 420);
+
+                    });
+
+                $($document).on('click scroll', function(e) {
+                    if ($fab_toolbar.hasClass('md-fab-active')) {
+                        if (!$(e.target).closest($fab_toolbar).length) {
+
+                            $fab_toolbar
+                                .css('width', '')
+                                .removeClass('md-fab-active');
+
+                            setTimeout(function() {
+                                $fab_toolbar.removeClass('md-fab-animated');
+                            }, 140);
+
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
-})
+])
 
 // material design fab sheet
-.directive('mdFabSheet', function(variables, $document) {
-    return {
-        restrict: 'A',
-        scope: true,
-        link: function(scope, elem, attrs) {
-            var $fab_sheet = $(elem);
+.directive('mdFabSheet', [
+    'variables',
+    '$document',
+    function(variables, $document) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function(scope, elem, attrs) {
+                var $fab_sheet = $(elem);
 
-            $fab_sheet
-                .children('i')
-                .on('click', function(e) {
-                    e.preventDefault();
+                $fab_sheet
+                    .children('i')
+                    .on('click', function(e) {
+                        e.preventDefault();
 
-                    var sheetItems = $fab_sheet.children('.md-fab-sheet-actions').children('a').length;
+                        var sheetItems = $fab_sheet.children('.md-fab-sheet-actions').children('a').length;
 
-                    $fab_sheet.addClass('md-fab-animated');
-
-                    setTimeout(function() {
-                        $fab_sheet
-                            .width('240px')
-                            .height(sheetItems * 40 + 8);
-                    }, 140);
-
-                    setTimeout(function() {
-                        $fab_sheet.addClass('md-fab-active');
-                    }, 280);
-
-                });
-
-            $($document).on('click scroll', function(e) {
-                if ($fab_sheet.hasClass('md-fab-active')) {
-                    if (!$(e.target).closest($fab_sheet).length) {
-
-                        $fab_sheet
-                            .css({
-                                'height': '',
-                                'width': ''
-                            })
-                            .removeClass('md-fab-active');
+                        $fab_sheet.addClass('md-fab-animated');
 
                         setTimeout(function() {
-                            $fab_sheet.removeClass('md-fab-animated');
+                            $fab_sheet
+                                .width('240px')
+                                .height(sheetItems * 40 + 8);
                         }, 140);
 
+                        setTimeout(function() {
+                            $fab_sheet.addClass('md-fab-active');
+                        }, 280);
+
+                    });
+
+                $($document).on('click scroll', function(e) {
+                    if ($fab_sheet.hasClass('md-fab-active')) {
+                        if (!$(e.target).closest($fab_sheet).length) {
+
+                            $fab_sheet
+                                .css({
+                                    'height': '',
+                                    'width': ''
+                                })
+                                .removeClass('md-fab-active');
+
+                            setTimeout(function() {
+                                $fab_sheet.removeClass('md-fab-animated');
+                            }, 140);
+
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
-})
+])
 
 // hierarchical show
-.directive('hierarchicalShow', function($timeout, $rootScope) {
-    return {
-        restrict: 'A',
-        scope: true,
-        link: function(scope, elem, attrs) {
+.directive('hierarchicalShow', [
+    '$timeout',
+    '$rootScope',
+    function($timeout, $rootScope) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function(scope, elem, attrs) {
 
 
-            var parent_el = $(elem),
-                baseDelay = 60;
+                var parent_el = $(elem),
+                    baseDelay = 60;
 
 
-            var add_animation = function(children, length) {
-                children
-                    .each(function(index) {
+                var add_animation = function(children, length) {
+                    children
+                        .each(function(index) {
+                            $(this).css({
+                                '-webkit-animation-delay': (index * baseDelay) + "ms",
+                                'animation-delay': (index * baseDelay) + "ms"
+                            })
+                        })
+                        .end()
+                        .waypoint({
+                            element: elem[0],
+                            handler: function() {
+                                parent_el.addClass('hierarchical_show_inView');
+                                setTimeout(function() {
+                                    parent_el
+                                        .removeClass('hierarchical_show hierarchical_show_inView fast_animation')
+                                        .children()
+                                        .css({
+                                            '-webkit-animation-delay': '',
+                                            'animation-delay': ''
+                                        });
+                                }, (length * baseDelay) + 1200);
+                                this.destroy();
+                            },
+                            context: window,
+                            offset: '90%'
+                        });
+                };
+
+                $rootScope.$watch('pageLoaded', function() {
+                    if ($rootScope.pageLoaded) {
+                        var children = parent_el.children(),
+                            children_length = children.length;
+
+                        $timeout(function() {
+                            add_animation(children, children_length)
+                        }, 560)
+
+                    }
+                });
+
+            }
+        }
+    }
+])
+
+// hierarchical slide in
+.directive('hierarchicalSlide', [
+    '$timeout',
+    '$rootScope',
+    function($timeout, $rootScope) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function(scope, elem, attrs) {
+
+                var $this = $(elem),
+                    baseDelay = 100;
+
+                var add_animation = function(children, context, childrenLength) {
+                    children.each(function(index) {
                         $(this).css({
                             '-webkit-animation-delay': (index * baseDelay) + "ms",
                             'animation-delay': (index * baseDelay) + "ms"
                         })
-                    })
-                    .end()
-                    .waypoint({
-                        element: elem[0],
+                    });
+                    $this.waypoint({
                         handler: function() {
-                            parent_el.addClass('hierarchical_show_inView');
-                            setTimeout(function() {
-                                parent_el
-                                    .removeClass('hierarchical_show hierarchical_show_inView fast_animation')
-                                    .children()
-                                    .css({
-                                        '-webkit-animation-delay': '',
-                                        'animation-delay': ''
-                                    });
-                            }, (length * baseDelay) + 1200);
+                            $this.addClass('hierarchical_slide_inView');
+                            $timeout(function() {
+                                $this.removeClass('hierarchical_slide hierarchical_slide_inView');
+                                children.css({
+                                    '-webkit-animation-delay': '',
+                                    'animation-delay': ''
+                                });
+                            }, (childrenLength * baseDelay) + 1200);
                             this.destroy();
                         },
-                        context: window,
+                        context: context[0],
                         offset: '90%'
                     });
-            };
+                };
 
-            $rootScope.$watch('pageLoaded', function() {
-                if ($rootScope.pageLoaded) {
-                    var children = parent_el.children(),
-                        children_length = children.length;
+                $rootScope.$watch('pageLoaded', function() {
+                    if ($rootScope.pageLoaded) {
+                        var thisChildren = attrs['slideChildren'] ? $this.children(attrs['slideChildren']) : $this.children(),
+                            thisContext = attrs['slideContext'] ? $this.closest(attrs['slideContext']) : 'window',
+                            thisChildrenLength = thisChildren.length;
 
-                    $timeout(function() {
-                        add_animation(children, children_length)
-                    }, 560)
-
-                }
-            });
-
-        }
-    }
-})
-
-// hierarchical slide in
-.directive('hierarchicalSlide', function($timeout, $rootScope) {
-    return {
-        restrict: 'A',
-        scope: true,
-        link: function(scope, elem, attrs) {
-
-            var $this = $(elem),
-                baseDelay = 100;
-
-            var add_animation = function(children, context, childrenLength) {
-                children.each(function(index) {
-                    $(this).css({
-                        '-webkit-animation-delay': (index * baseDelay) + "ms",
-                        'animation-delay': (index * baseDelay) + "ms"
-                    })
-                });
-                $this.waypoint({
-                    handler: function() {
-                        $this.addClass('hierarchical_slide_inView');
-                        $timeout(function() {
-                            $this.removeClass('hierarchical_slide hierarchical_slide_inView');
-                            children.css({
-                                '-webkit-animation-delay': '',
-                                'animation-delay': ''
-                            });
-                        }, (childrenLength * baseDelay) + 1200);
-                        this.destroy();
-                    },
-                    context: context[0],
-                    offset: '90%'
-                });
-            };
-
-            $rootScope.$watch('pageLoaded', function() {
-                if ($rootScope.pageLoaded) {
-                    var thisChildren = attrs['slideChildren'] ? $this.children(attrs['slideChildren']) : $this.children(),
-                        thisContext = attrs['slideContext'] ? $this.closest(attrs['slideContext']) : 'window',
-                        thisChildrenLength = thisChildren.length;
-
-                    if (thisChildrenLength >= 1) {
-                        $timeout(function() {
-                            add_animation(thisChildren, thisContext, thisChildrenLength)
-                        }, 560)
+                        if (thisChildrenLength >= 1) {
+                            $timeout(function() {
+                                add_animation(thisChildren, thisContext, thisChildrenLength)
+                            }, 560)
+                        }
                     }
-                }
-            });
+                });
 
+            }
         }
     }
-})
+])
 
 // preloaders
-.directive('mdPreloader', function() {
+.directive('mdPreloader', [
+    function() {
         return {
             restrict: 'E',
             scope: {
@@ -1125,8 +1242,13 @@ angular.module('angular-skynet')
 
             }
         }
-    })
-    .directive('preloader', function($rootScope, utils) {
+    }
+])
+
+.directive('preloader', [
+    '$rootScope',
+    'utils',
+    function($rootScope, utils) {
         return {
             restrict: 'E',
             scope: {
@@ -1168,10 +1290,13 @@ angular.module('angular-skynet')
 
             }
         }
-    })
+    }
+])
 
 // uikit components
-.directive('ukHtmlEditor', function($timeout) {
+.directive('ukHtmlEditor', [
+    '$timeout',
+    function($timeout) {
         return {
             restrict: 'A',
             link: function(scope, elem, attrs) {
@@ -1183,8 +1308,12 @@ angular.module('angular-skynet')
                 });
             }
         }
-    })
-    .directive('ukNotification', function($window) {
+    }
+])
+
+.directive('ukNotification', [
+    '$window',
+    function($window) {
         return {
             restrict: 'A',
             scope: {
@@ -1245,4 +1374,5 @@ angular.module('angular-skynet')
 
             }
         }
-    });
+    }
+]);

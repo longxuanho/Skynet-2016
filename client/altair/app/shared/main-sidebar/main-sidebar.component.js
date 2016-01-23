@@ -4,6 +4,7 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
         templateUrl: 'client/altair/app/shared/main-sidebar/main-sidebar.html',
         controllerAs: 'MainSidebar',
         controller: function($scope, $timeout, $window, $rootScope) {
+
             $scope.$on('onLastRepeat', function(scope, element, attrs) {
                 $timeout(function() {
                     if (!$rootScope.miniSidebarActive) {
@@ -22,6 +23,11 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                 })
             });
 
+
+
+
+
+            // menu entries
             // language switcher
             $scope.langSwitcherModel = 'gb';
             var langData = $scope.langSwitcherOptions = [{
@@ -125,6 +131,9 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                 }, {
                     title: 'Advanced Elements',
                     link: 'restricted.forms.advanced'
+                }, {
+                    title: 'File Input',
+                    link: 'restricted.forms.file_input'
                 }, {
                     title: 'File Upload',
                     link: 'restricted.forms.file_upload'
@@ -256,6 +265,9 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                     title: 'Preloaders',
                     link: 'restricted.components.preloaders'
                 }, {
+                    title: 'Slideshow',
+                    link: 'restricted.components.slideshow'
+                }, {
                     title: 'Sortable',
                     link: 'restricted.components.sortable'
                 }, {
@@ -320,6 +332,9 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                     title: 'Tablesorter',
                     link: 'restricted.plugins.tablesorter'
                 }, {
+                    title: 'Tree',
+                    link: 'restricted.plugins.tree'
+                }, {
                     title: 'Vector Maps',
                     link: 'restricted.plugins.vector_maps'
                 }]
@@ -379,7 +394,35 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                     title: 'Error 500',
                     link: 'error.500'
                 }]
-            }]
+            }, {
+                id: 14,
+                title: 'Multi level',
+                icon: '&#xE241;',
+                submenu: [{
+                    title: 'First level',
+                    submenu: [{
+                        title: 'Second level',
+                        submenu: [{
+                            title: 'Third level'
+                        }, {
+                            title: 'Third level'
+                        }, {
+                            title: 'Third level'
+                        }]
+                    }, {
+                        title: 'Long title to test',
+                        submenu: [{
+                            title: 'Third level'
+                        }, {
+                            title: 'Third level'
+                        }, {
+                            title: 'Third level'
+                        }]
+                    }, {
+                        title: 'Even longer title multi line'
+                    }]
+                }]
+            }];
         }
 
     }

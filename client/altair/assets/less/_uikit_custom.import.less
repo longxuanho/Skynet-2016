@@ -197,12 +197,12 @@
         }
     }
 }
-// NEED SOLUTION HERE
+
 /* dropdowns */
 .uk-dropdown {
-    /*transform: scale(0.25, 0);
+    transform: scale(0.25,0);
     opacity: 0;
-    transition: all 280ms @md_easing;*/
+    transition: all 280ms @md_easing;
     animation: none !important;
     transform-origin: 50% 0 !important;
     .boxShadowHelper(2);
@@ -239,6 +239,9 @@
     &.dropdown-modal {
         z-index: 1310;
     }
+    &.dropdown-fs {
+        z-index: 9999;
+    }
     &.uk-dropdown-scrollable {
         -webkit-overflow-scrolling: touch;
     }
@@ -270,9 +273,8 @@
 .uk-dropdown-active {
     display: block !important;
 }
-// NEED SOLUTION HERE
 .uk-dropdown-shown {
-    // transform: scale(1,1);
+    transform: scale(1,1);
     opacity: 1;
 }
 
@@ -404,6 +406,23 @@
     }*/
     > .md-input-wrapper {
         display: inline-block;
+    }
+    &.uk-input-group-danger {
+        .uk-input-group-addon {
+            i {
+                color: @danger_color !important;
+            }
+        }
+        + .parsley-errors-list {
+            margin-left: 58px;
+        }
+    }
+    &.uk-input-group-success {
+        .uk-input-group-addon {
+            i {
+                color: @success_color !important;
+            }
+        }
     }
 }
 
@@ -701,6 +720,9 @@
     }
 }
 
+/* dotnav */
+@import "/client/altair/assets/less/imports/uikit/dotnav.css";
+
 /* progress */
 @import "/client/altair/assets/less/imports/uikit/progress.almost-flat.less";
 .uk-progress {
@@ -851,8 +873,8 @@ div.uk-form-file {
         }
 
     }
-    &.uk-dropdown-up {
-        bottom: auto;
+    &.dp-top {
+        transform-origin: 50% 100% !important;
     }
 }
 .uk-datepicker-table {
@@ -1105,6 +1127,9 @@ a.uk-datepicker-table-muted {
     }
 }
 
+/* slideshow */
+@import "/client/altair/assets/less/imports/uikit/slideshow.almost-flat.less";
+
 /* slidenav */
 @import "/client/altair/assets/less/imports/uikit/slidenav.almost-flat.less";
 
@@ -1292,6 +1317,9 @@ a.uk-datepicker-table-muted {
 /* sortable */
 @import "/client/altair/assets/less/imports/uikit/sortable.almost-flat.less";
 .uk-sortable {
+    > * {
+        touch-action: auto;
+    }
     &.sortable-handler > * {
         cursor: move;
     }

@@ -1,0 +1,444 @@
+// DEFAULT THEME
+// @app_theme_default_primary: #1976D2;
+// @app_theme_default_accent: #7CB342;
+.md-raised {
+    transition: all 280ms @md_easing;
+    &:hover {
+        .boxShadowHelper(3);
+    }
+}
+
+.default_theme {
+    .foreground-color-accent {
+        color: #7cb342;
+    }
+    .background-color-accent {
+        background-color: #7cb342;
+    }
+    .border-color-accent {
+        border-color: #7cb342;
+        background: #7cb342;
+    }
+    .iradio_md.checked {
+        border-color: #7cb342;
+        &:after {
+            background: #7cb342;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: #7cb342 !important;
+        border-color: #7cb342 !important;
+    }
+    // KENDO WITH CUSTOM THEME
+    .k-grid-filter.k-state-active {
+        background-color: @accent_color
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @theme_primary_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @theme_primary_color;
+        border-color: @theme_primary_color;
+        &:hover {
+            background-color: lighten(@theme_primary_color, 5%);
+            border-color: lighten(@theme_primary_color, 5%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@theme_primary_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@theme_primary_color, 12%);
+        border-color: darken(@theme_primary_color, 12%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @accent_color;
+    }
+}
+
+// THEME A
+// @app_theme_a_color:         @md-color-indigo-500;
+// @app_theme_a_colorLight:    @md-color-indigo-50;
+// @app_theme_a_colorDark:     @md-color-indigo-700;
+// @app_theme_a_colorAccent:   @md-color-pink-A200;
+.app_theme_a {
+    // --------- COMPONENTS ---------
+    .foreground-color-accent {
+        color: @app_theme_a_colorAccent;
+    }
+    .background-color-accent {
+        background-color: @app_theme_a_colorAccent;
+    }
+    .border-color-accent {
+        border-color: @app_theme_a_colorAccent;
+    }
+    .iradio_md.checked {
+        border-color: @app_theme_a_colorAccent;
+        &:after {
+            background: @app_theme_a_colorAccent;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: @app_theme_a_colorAccent !important;
+        border-color: @app_theme_a_colorAccent !important;
+    }
+    // KENDO CUSTOM WITH THEME
+    .k-grid-filter.k-state-active {
+        background-color: @app_theme_a_colorAccent
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @app_theme_a_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @app_theme_a_color;
+        border-color: @app_theme_a_color;
+        &:hover {
+            background-color: lighten(@app_theme_a_color, 5%);
+            border-color: lighten(@app_theme_a_color, 5%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@app_theme_a_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@app_theme_a_color, 12%);
+        border-color: darken(@app_theme_a_color, 12%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @app_theme_a_colorAccent;
+    }
+}
+
+// theme B
+// @app_theme_b_color:         @md-color-deep-purple-500;
+// @app_theme_b_colorLight:    @md-color-deep-purple-50;
+// @app_theme_b_colorDark:     @md-color-deep-purple-700;
+// @app_theme_b_colorAccent:   @md-color-cyan-500;
+.app_theme_b {
+    // --------- COMPONENTS ---------
+    .foreground-color-accent {
+        color: @app_theme_b_colorAccent;
+    }
+    .background-color-accent {
+        background-color: @app_theme_b_colorAccent;
+    }
+    .border-color-accent {
+        border-color: @app_theme_b_colorAccent;
+    }
+    .iradio_md.checked {
+        border-color: @app_theme_b_colorAccent;
+        &:after {
+            background: @app_theme_b_colorAccent;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: @app_theme_b_colorAccent !important;
+        border-color: @app_theme_b_colorAccent !important;
+    }
+    // KENDO CUSTOM WITH THEME
+    .k-grid-filter.k-state-active {
+        background-color: @app_theme_b_colorAccent
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @app_theme_b_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @app_theme_b_color;
+        border-color: @app_theme_b_color;
+        &:hover {
+            background-color: lighten(@app_theme_b_color, 10%);
+            border-color: lighten(@app_theme_b_color, 10%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@app_theme_b_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@app_theme_b_color, 12%);
+        border-color: darken(@app_theme_b_color, 12%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @app_theme_b_colorAccent;
+    }
+}
+
+// theme c
+// @app_theme_c_color: @md-color-brown-700;
+// @app_theme_c_colorLight: @md-color-brown-50;
+// @app_theme_c_colorDark: @md-color-brown-900;
+// @app_theme_c_colorAccent: @md-color-blue-600;
+.app_theme_c {
+    // --------- COMPONENTS ---------
+    .foreground-color-accent {
+        color: @app_theme_c_colorAccent;
+    }
+    .background-color-accent {
+        background-color: @app_theme_c_colorAccent;
+    }
+    .border-color-accent {
+        border-color: @app_theme_c_colorAccent;
+    }
+    .iradio_md.checked {
+        border-color: @app_theme_c_colorAccent;
+        &:after {
+            background: @app_theme_c_colorAccent;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: @app_theme_c_colorAccent !important;
+        border-color: @app_theme_c_colorAccent !important;
+    }
+    // KENDO CUSTOM WITH THEME
+    .k-grid-filter.k-state-active {
+        background-color: @app_theme_c_colorAccent
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @app_theme_c_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @app_theme_c_color;
+        border-color: @app_theme_c_color;
+        &:hover {
+            background-color: lighten(@app_theme_c_color, 10%);
+            border-color: lighten(@app_theme_c_color, 10%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@app_theme_c_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@app_theme_c_color, 8%);
+        border-color: darken(@app_theme_c_color, 8%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @app_theme_c_colorAccent;
+    }
+}
+
+// THEME D
+// @app_theme_d_color: @md-color-cyan-600;
+// @app_theme_d_colorLight: @md-color-cyan-50;
+// @app_theme_d_colorDark: @md-color-cyan-800;
+// @app_theme_d_colorAccent: @md-color-deep-purple-500;
+.app_theme_d {
+    // --------- COMPONENTS ---------
+    .foreground-color-accent {
+        color: @app_theme_d_colorAccent;
+    }
+    .background-color-accent {
+        background-color: @app_theme_d_colorAccent;
+    }
+    .border-color-accent {
+        border-color: @app_theme_d_colorAccent;
+    }
+    .iradio_md.checked {
+        border-color: @app_theme_d_colorAccent;
+        &:after {
+            background: @app_theme_d_colorAccent;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: @app_theme_d_colorAccent !important;
+        border-color: @app_theme_d_colorAccent !important;
+    }
+    // KENDO CUSTOM WITH THEME
+    .k-grid-filter.k-state-active {
+        background-color: @app_theme_d_colorAccent
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @app_theme_d_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @app_theme_d_color;
+        border-color: @app_theme_d_color;
+        &:hover {
+            background-color: lighten(@app_theme_d_color, 8%);
+            border-color: lighten(@app_theme_d_color, 8%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@app_theme_d_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@app_theme_d_color, 12%);
+        border-color: darken(@app_theme_d_color, 12%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @app_theme_d_colorAccent;
+    }
+}
+
+// THEME E
+// @app_theme_e_color: @md-color-blue-grey-500;
+// @app_theme_e_colorLight: @md-color-red-50;
+// @app_theme_e_colorDark: @md-color-blue-grey-700;
+// @app_theme_e_colorAccent: @md-color-red-600;
+.app_theme_e {
+    // --------- COMPONENTS ---------
+    .foreground-color-accent {
+        color: @app_theme_e_colorAccent;
+    }
+    .background-color-accent {
+        background-color: @app_theme_e_colorAccent;
+    }
+    .border-color-accent {
+        border-color: @app_theme_e_colorAccent;
+    }
+    .iradio_md.checked {
+        border-color: @app_theme_e_colorAccent;
+        &:after {
+            background: @app_theme_e_colorAccent;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: @app_theme_e_colorAccent !important;
+        border-color: @app_theme_e_colorAccent !important;
+    }
+    // KENDO CUSTOM WITH THEME
+    .k-grid-filter.k-state-active {
+        background-color: @app_theme_e_colorAccent
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @app_theme_e_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @app_theme_e_color;
+        border-color: @app_theme_e_color;
+        &:hover {
+            background-color: lighten(@app_theme_e_color, 10%);
+            border-color: lighten(@app_theme_e_color, 10%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@app_theme_e_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@app_theme_e_color, 12%);
+        border-color: darken(@app_theme_e_color, 12%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @app_theme_e_colorAccent;
+    }
+}
+
+// THEME F
+// @app_theme_f_color: @md-color-grey-800;
+// @app_theme_f_colorLight: @md-color-light-green-50;
+// @app_theme_f_colorDark: @md-color-grey-900;
+// @app_theme_f_colorAccent: @md-color-light-green-600;
+.app_theme_f {
+    // --------- COMPONENTS ---------
+    .foreground-color-accent {
+        color: @app_theme_f_colorAccent;
+    }
+    .background-color-accent {
+        background-color: @app_theme_f_colorAccent;
+    }
+    .border-color-accent {
+        border-color: @app_theme_f_colorAccent;
+    }
+    .iradio_md.checked {
+        border-color: @app_theme_f_colorAccent;
+        &:after {
+            background: @app_theme_f_colorAccent;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: @app_theme_f_colorAccent !important;
+        border-color: @app_theme_f_colorAccent !important;
+    }
+    // KENDO CUSTOM WITH THEME
+    .k-grid-filter.k-state-active {
+        background-color: @app_theme_f_colorAccent
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @app_theme_f_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @app_theme_f_color;
+        border-color: @app_theme_f_color;
+        &:hover {
+            background-color: lighten(@app_theme_f_color, 10%);
+            border-color: lighten(@app_theme_f_color, 10%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@app_theme_f_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@app_theme_f_color, 12%);
+        border-color: darken(@app_theme_f_color, 12%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @app_theme_f_colorAccent;
+    }
+}
+
+// THEME G
+// @app_theme_g_color: @md-color-purple-600;
+// @app_theme_g_colorLight: @md-color-purple-50;
+// @app_theme_g_colorDark: @md-color-purple-700;
+// @app_theme_g_colorAccent: @md-color-green-500;
+.app_theme_g {
+    // --------- COMPONENTS ---------
+    .foreground-color-accent {
+        color: @app_theme_g_colorAccent;
+    }
+    .background-color-accent {
+        background-color: @app_theme_g_colorAccent;
+    }
+    .border-color-accent {
+        border-color: @app_theme_g_colorAccent;
+    }
+    .iradio_md.checked {
+        border-color: @app_theme_g_colorAccent;
+        &:after {
+            background: @app_theme_g_colorAccent;
+        }
+    }
+    .icheckbox_md.hover.checked,
+    .icheckbox_md.checked {
+        background: @app_theme_g_colorAccent !important;
+        border-color: @app_theme_g_colorAccent !important;
+    }
+    // KENDO CUSTOM WITH THEME
+    .k-grid-filter.k-state-active {
+        background-color: @app_theme_g_colorAccent
+    }
+    .k-grid-toolbar,
+    .k-grouping-header {
+        background-color: @app_theme_g_color;
+    }
+    .k-grid .k-header .k-button {
+        background-color: @app_theme_g_color;
+        border-color: @app_theme_g_color;
+        &:hover {
+            background-color: lighten(@app_theme_g_color, 8%);
+            border-color: lighten(@app_theme_g_color, 8%);
+        }
+    }
+    .k-header.k-grid-toolbar {
+        border-color: darken(@app_theme_g_color, 6%);
+    }
+    .k-grouping-header .k-group-indicator {
+        background-color: darken(@app_theme_g_color, 12%);
+        border-color: darken(@app_theme_g_color, 12%);
+    }
+    .k-grid tr.k-state-selected {
+        background-color: @app_theme_g_colorAccent;
+    }
+}

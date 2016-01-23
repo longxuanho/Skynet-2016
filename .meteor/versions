@@ -74,6 +74,10 @@ geojson-utils@1.0.4
 gfk:mailgun-api@1.1.0
 google@1.1.7
 hatachino1:bez@0.0.1
+hatachino1:microplugin@0.0.1
+hatachino1:selectize@0.0.1
+hatachino1:sifter@0.0.1
+hatachino1:waves@0.0.2
 hot-code-push@1.0.0
 html-tools@1.0.5
 htmljs@1.0.5

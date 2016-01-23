@@ -6,67 +6,9 @@
 
 .app_theme_b {
 // --------- COMPONENTS ---------
-    
-    .foreground-color-accent {
-        color: @app_theme_b_colorAccent;
-    }
-
-    .background-color-accent {
-        background-color: @app_theme_b_colorAccent;
-    }
-
-    .border-color-accent {
-        border-color: @app_theme_b_colorAccent;
-    }
-
-    .iradio_md.checked {
-        border-color: @app_theme_b_colorAccent;
-        &:after {
-            background: @app_theme_b_colorAccent;
-        }
-    }
-
-    .icheckbox_md.hover.checked, .icheckbox_md.checked {
-        background: @app_theme_b_colorAccent !important;
-        border-color: @app_theme_b_colorAccent !important;
-    }
-
-    // KENDO CUSTOM WITH THEME
-
-    .k-grid-filter.k-state-active {
-        background-color: @app_theme_b_colorAccent
-    }
-
-    .k-grid-toolbar, .k-grouping-header {
-        background-color: @app_theme_b_color;
-    }
-
-    .k-grid .k-header .k-button {
-        background-color: @app_theme_b_color;
-        border-color: @app_theme_b_color;
-        &:hover {
-            background-color: lighten(@app_theme_b_color, 10%);
-            border-color: lighten(@app_theme_b_color, 10%);
-        }
-    }
-
-    .k-header.k-grid-toolbar {
-        border-color: darken(@app_theme_b_color, 6%);
-    }
-
-    .k-grouping-header .k-group-indicator {
-        background-color: darken(@app_theme_b_color, 12%);
-        border-color: darken(@app_theme_b_color, 12%);
-    }
-
-    .k-grid tr.k-state-selected {
-        background-color: @app_theme_b_colorAccent;
-    }
-
-
     // alerts
     .uk-alert {
-        background-color: @app_theme_b_color;
+        background: @app_theme_b_color;
     }
     // buttons
     .md-btn{
@@ -400,5 +342,14 @@
     // card left border
     .md-card-primary {
         border-left-color: @app_theme_b_color;
+    }
+    // wave effect
+    .waves-effect {
+        &.md-btn-flat-primary {
+            background: none;
+            .waves-ripple {
+                background: fade(@app_theme_b_color,40%);
+            }
+        }
     }
 }

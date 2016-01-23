@@ -73,4 +73,5 @@ angular.module('ngSwitchery', [])
             },
             link: linkSwitchery
         }
+        
     }]);

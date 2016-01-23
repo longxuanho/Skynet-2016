@@ -434,17 +434,16 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
 angular.module('angular-skynet')
     .run(function($rootScope, $state, $stateParams, $http, $window, $timeout, variables) {
 
+        // Load custom style (User profile)
+        if (!localStorage.getItem("notification_style"))
+            localStorage.setItem("notification_style", 'uikit');        
+        $rootScope.notificationStyle = localStorage.getItem("notification_style");
+
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
-        // Load custom style (User profile)
-        if (!localStorage.getItem("notification_style"))
-            localStorage.setItem("notification_style", 'uikit');
-        
-        $rootScope.notificationStyle = localStorage.getItem("notification_style");
-
         $rootScope.$on('$stateChangeSuccess', function() {
-            // scroll view to top
+           // scroll view to top
             $("html, body").animate({
                 scrollTop: 0
             }, 200);
@@ -452,13 +451,15 @@ angular.module('angular-skynet')
             $timeout(function() {
                 $rootScope.pageLoading = false;
                 $($window).resize();
-            }, 300);
+            },300);
 
             $timeout(function() {
                 $rootScope.pageLoaded = true;
                 $rootScope.appInitialized = true;
-            }, 600);
-
+                // wave effects
+                $window.Waves.attach('.md-btn-wave,.md-fab-wave', ['waves-button']);
+                $window.Waves.attach('.md-btn-wave-light,.md-fab-wave-light', ['waves-button', 'waves-light']);
+            },600);
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
@@ -493,32 +494,31 @@ angular.module('angular-skynet')
         });
 
         // fastclick (eliminate the 300ms delay between a physical tap and the firing of a click event on mobile browsers)
-        FastClick.attach(document.body);
+            FastClick.attach(document.body);
 
-        // get version from package.json
-        $http.get('./package.json').success(function(response) {
-            $rootScope.appVer = response.version;
-        });
+            // get version from package.json
+            $http.get('./package.json').success(function(response) {
+                $rootScope.appVer = response.version;
+            });
 
-        // modernizr
-        $rootScope.Modernizr = Modernizr;
+            // modernizr
+            $rootScope.Modernizr = Modernizr;
 
-        // get window width
-        var w = angular.element($window);
-        $rootScope.largeScreen = w.width() >= 1220;
+            // get window width
+            var w = angular.element($window);
+            $rootScope.largeScreen = w.width() >= 1220;
 
-        w.on('resize', function() {
-            // Fix sidebar-secondary bugs
-            $rootScope.sidebar_secondary = (w.width() >= 960) ? false : true;
-            
-            return $rootScope.largeScreen = w.width() >= 1220;
-        });
+            w.on('resize', function() {
+                return $rootScope.largeScreen = w.width() >= 1220;
+            });
 
-        // show/hide main menu on page load
-        $rootScope.primarySidebarOpen = ($rootScope.largeScreen) ? true : false;
-        
+            // show/hide main menu on page load
+            $rootScope.primarySidebarOpen = ($rootScope.largeScreen) ? true : false;
 
-        $rootScope.pageLoading = true;
+            $rootScope.pageLoading = true;
+
+            // wave effects
+            $window.Waves.init();
     })
     .run([
         'PrintToConsole',

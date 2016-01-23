@@ -31,6 +31,10 @@
         outline: none;
         text-decoration: none;
         color: @text_primary_color;
+        .boxShadowHelper(2);
+    }
+    &:active,
+    .uk-button-dropdown.uk-open > & {
         .boxShadowHelper(3);
     }
     &-flat {
@@ -148,13 +152,13 @@
         }
     }
     &-small {
-        line-height: 27px;
+        line-height: 27px !important;
         min-width: 14px;
-        font-size: 11px;
+        font-size: 11px !important;
     }
     &-large {
-        line-height: 42px;
-        font-size: 16px;
+        line-height: 42px !important;
+        font-size: 16px !important;
     }
     &::-moz-focus-inner {
         border: 0;
