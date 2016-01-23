@@ -1,6 +1,7 @@
 // DEFAULT THEME
-// @app_theme_default_primary: #1976D2;
-// @app_theme_default_accent: #7CB342;
+@app_theme_default_primary: #1976D2;
+@app_theme_default_accent: #7CB342;
+
 .md-raised {
     transition: all 280ms @md_easing;
     &:hover {
@@ -10,48 +11,48 @@
 
 .default_theme {
     .foreground-color-accent {
-        color: #7cb342;
+        color: @app_theme_default_primary;
     }
     .background-color-accent {
-        background-color: #7cb342;
+        background-color: @app_theme_default_primary;
     }
     .border-color-accent {
-        border-color: #7cb342;
-        background: #7cb342;
+        border-color: @app_theme_default_primary;
+        background: @app_theme_default_primary;
     }
     .iradio_md.checked {
-        border-color: #7cb342;
+        border-color: @app_theme_default_primary;
         &:after {
-            background: #7cb342;
+            background: @app_theme_default_primary;
         }
     }
     .icheckbox_md.hover.checked,
     .icheckbox_md.checked {
-        background: #7cb342 !important;
-        border-color: #7cb342 !important;
+        background: @app_theme_default_primary !important;
+        border-color: @app_theme_default_primary !important;
     }
     // KENDO WITH CUSTOM THEME
     .k-grid-filter.k-state-active {
-        background-color: @accent_color
+        background-color: @app_theme_default_accent
     }
     .k-grid-toolbar,
     .k-grouping-header {
-        background-color: @theme_primary_color;
+        background-color: @app_theme_default_primary;
     }
     .k-grid .k-header .k-button {
-        background-color: @theme_primary_color;
-        border-color: @theme_primary_color;
+        background-color: @app_theme_default_primary;
+        border-color: @app_theme_default_primary;
         &:hover {
-            background-color: lighten(@theme_primary_color, 5%);
-            border-color: lighten(@theme_primary_color, 5%);
+            background-color: lighten(@app_theme_default_primary, 5%);
+            border-color: lighten(@app_theme_default_primary, 5%);
         }
     }
     .k-header.k-grid-toolbar {
-        border-color: darken(@theme_primary_color, 6%);
+        border-color: darken(@app_theme_default_primary, 6%);
     }
     .k-grouping-header .k-group-indicator {
-        background-color: darken(@theme_primary_color, 12%);
-        border-color: darken(@theme_primary_color, 12%);
+        background-color: darken(@app_theme_default_primary, 12%);
+        border-color: darken(@app_theme_default_primary, 12%);
     }
     .k-grid tr.k-state-selected {
         background-color: @accent_color;

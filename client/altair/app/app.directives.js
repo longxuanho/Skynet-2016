@@ -9,7 +9,7 @@ angular.module('angular-skynet')
             restrict: 'A',
             link: function() {
                 var listener = function(event, toState) {
-                    var default_title = 'Altair Admin';
+                    var default_title = 'Skynet Admin';
                     $timeout(function() {
                         $rootScope.page_title = (toState.data && toState.data.pageTitle) ? default_title + ' - ' + toState.data.pageTitle : default_title;
                     });
@@ -228,6 +228,9 @@ angular.module('angular-skynet')
                             begin: function() {
                                 $header_main.velocity("reverse");
                                 $rootScope.mainSearchActive = false;
+
+                                // MODIFY HERE!
+                                $rootScope.searchText = '';
                             },
                             complete: function() {
                                 $header_main
@@ -311,6 +314,9 @@ angular.module('angular-skynet')
                             easing: variables.easing_swiftOut,
                             begin: function() {
                                 $rootScope.mainSearchActive = true;
+
+                                // MODIFY HERE!
+                                $rootScope.searchText = '';
                             },
                             complete: function() {
                                 $('#header_main')
@@ -355,6 +361,9 @@ angular.module('angular-skynet')
                             begin: function() {
                                 $header_main.velocity("reverse");
                                 $rootScope.mainSearchActive = false;
+
+                                // MODIFY HERE!
+                                $rootScope.searchText = '';
                             },
                             complete: function() {
                                 $header_main
