@@ -1811,6 +1811,14 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
+                    case 'can_upsert_nhan_su':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['support-staff'], 'sky-project') || !Roles.userIsInRole(Meteor.userId(), ['support-staff'], 'xncg'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_delete_nhan_su':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'support-staff'], 'sky-project') || !Roles.userIsInRole(Meteor.userId(), ['support-staff'], 'xncg'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
                     case 'can_upsert_lich_sua_chua':
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'manager-xemay', 'manager-tbn', 'manager-tau', 'manager'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';

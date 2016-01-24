@@ -247,10 +247,6 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/quan-ly/thiet-bi',
             template: '<thietbis-main></thietbis-main>'
         })
-        // .state('thietbis.blank', {
-        //     url: '/',
-        //     template: '<thietbis-blank></thietbis-blank>'
-        // })
         .state('thietbis.blank', {
             url: '/',
             templateUrl: 'client/thietbis/thietbis-blank/thietbis-blank.template.html',
@@ -270,6 +266,31 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/cap-nhat/:thietbiId',
             templateUrl: 'client/thietbis/thietbis-details/thietbis-details.template.html',
             controller: 'ThietBisDetailsCtrl'
+        })
+        // NHANSUS
+        .state('nhansus', {
+            url: '/quan-ly/nhan-su',
+            template: '<nhansus-main></nhansus-main>'
+        })
+        .state('nhansus.blank', {
+            url: '/',
+            templateUrl: 'client/nhansus/nhansus-blank/nhansus-blank.template.html',
+            controller: 'NhanSusBlankCtrl'
+        })
+        .state('nhansus.addNew', {
+            url: '/tao-moi',
+            templateUrl: 'client/nhansus/nhansus-add-new/nhansus-add-new.template.html',
+            controller: 'NhanSusAddNewCtrl'
+        })
+        .state('nhansus.content', {
+            url: '/:nhansuId',
+            templateUrl: 'client/nhansus/nhansus-content/nhansus-content.template.html',
+            controller: 'NhanSusContentCtrl'
+        })
+        .state('nhansus.details', {
+            url: '/cap-nhat/:nhansuId',
+            templateUrl: 'client/nhansus/nhansus-details/nhansus-details.template.html',
+            controller: 'NhanSusDetailsCtrl'
         })
         // .state('suachuas', {
         //     url: '/quan-ly/ke-hoach-sua-chua',
