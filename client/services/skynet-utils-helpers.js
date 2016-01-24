@@ -1700,6 +1700,159 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             newHoSoLuuTru.metadata.search_field = this.resolveField(search_fields, newHoSoLuuTru);
         },
 
+        // ***************************************************
+        // HELPERS - NHANSUS
+        // ***************************************************
+        initNewNhanSuParams: function(scope) {
+            scope.newNhanSu = {
+                isPublic: true,
+                isArchived: false,
+                don_vi: {},
+                tieu_su: {
+                    que_quan: {},
+                    thuong_tru: {},
+                    cmnd: {}
+                },
+                thanh_phan_gia_dinh: [],
+                hoc_van: {
+                    ngoai_ngu: []
+                },
+                cong_viec: {
+                    trang_thai: 'dang_lam_viec',
+                    to_chuc_bien_che: {},
+                    ho_so: {}
+                },
+                bang_cap: {
+                    bang_lai_xe: {},
+                    giay_phep_lai_xe_quan_su: {},
+                    chung_chi_cau_khung: {}
+                },
+                thong_tin_lien_lac: {
+                    nguoi_bao_tin: {},
+                    nguoi_bao_lanh: {}
+                },
+                metadata: {}
+            };
+        },
+        validateNhanSuForm: function(nhansu) {
+            let error = {};
+            if (!nhansu.ma_nv) {
+                error.message = "Chưa có thông tin về mã nhân viên.";
+                return error;
+            }
+            if (nhansu.don_vi.keyId) {
+                error.message = "Chưa có thông tin về đơn vị quản lý.";
+                return error;
+            }
+            if (nhansu.tieu_su.ho_ten_dem) {
+                error.message = "Chưa có thông tin về họ tên đệm của nhân viên.";
+                return error;
+            }
+            if (nhansu.tieu_su.ten) {
+                error.message = "Chưa có thông tin về tên nhân viên.";
+                return error;
+            }
+            if (nhansu.tieu_su.gioi_tinh) {
+                error.message = "Chưa có thông tin về giới tính.";
+                return error;
+            }
+            if (nhansu.tieu_su.quoc_tich) {
+                error.message = "Chưa có thông tin về quốc tịch.";
+                return error;
+            }
+            if (nhansu.cong_viec.trang_thai) {
+                error.message = "Chưa có thông tin về trạng thái công việc hiện tại.";
+                return error;
+            }
+            return;
+        },
+        buildNhanSu: function(nhansu) {
+            if (!nhansu.metadata)
+                nhansu.metadata = {};
+            this.buildMetadata('build', nhansu.metadata);
+
+            if (nhansu.don_vi.keyId) {
+                let item = DonVis.findOne({
+                    _id: nhansu.don_vi.keyId
+                });
+                if (item) {
+                    nhansu.don_vi.ten = item.ten;
+                    nhansu.don_vi.ma = item.ma;
+                }
+            }
+
+            nhansu.tieu_su.ho_ten = nhansu.tieu_su.ho_ten_dem + ' ' + nhansu.tieu_su.ten;
+
+            if (!_.isEmpty(nhansu.tieu_su.que_quan)) {
+                let str = '';
+                if (nhansu.tieu_su.que_quan.phuong_xa)
+                    str += nhansu.tieu_su.que_quan.phuong_xa + ', ';
+                if (nhansu.tieu_su.que_quan.quan_huyen)
+                    str += nhansu.tieu_su.que_quan.quan_huyen + ', ';
+                if (nhansu.tieu_su.que_quan.tinh_thanh)
+                    str += nhansu.tieu_su.que_quan.tinh_thanh + '.';
+                nhansu.tieu_su.que_quan.summary = str;
+            }
+
+            if (!_.isEmpty(nhansu.tieu_su.thuong_tru)) {
+                let str = '';
+                if (nhansu.tieu_su.thuong_tru.dia_chi)
+                    str += nhansu.tieu_su.thuong_tru.dia_chi + ', ';
+                if (nhansu.tieu_su.thuong_tru.phuong_xa)
+                    str += nhansu.tieu_su.thuong_tru.phuong_xa + ', ';
+                if (nhansu.tieu_su.thuong_tru.quan_huyen)
+                    str += nhansu.tieu_su.thuong_tru.quan_huyen + ', ';
+                if (nhansu.tieu_su.thuong_tru.tinh_thanh)
+                    str += nhansu.tieu_su.thuong_tru.tinh_thanh + '.';
+                nhansu.tieu_su.thuong_tru.summary = str;
+            }
+
+            nhansu.metadata.search_field = nhansu._id + ' : ' +  nhansu.ma_nv + ' : ' + nhansu.don_vi.ma  + ' : ' + nhansu.tieu_su.ho_ten + ' : ' + factory.data.utils.latinize(nhansu.tieu_su.ho_ten);
+        },
+        buildNewNhanSu: function(newNhanSu) {
+            if (!newNhanSu.metadata)
+                newNhanSu.metadata = {};
+            this.buildMetadata('buildNew', newNhanSu.metadata);
+
+            if (newNhanSu.don_vi.keyId) {
+                let item = DonVis.findOne({
+                    _id: newNhanSu.don_vi.keyId
+                });
+                if (item) {
+                    newNhanSu.don_vi.ten = item.ten;
+                    newNhanSu.don_vi.ma = item.ma;
+                }
+            }
+
+            newNhanSu.tieu_su.ho_ten = newNhanSu.tieu_su.ho_ten_dem + ' ' + newNhanSu.tieu_su.ten;
+
+            if (!_.isEmpty(newNhanSu.tieu_su.que_quan)) {
+                let str = '';
+                if (newNhanSu.tieu_su.que_quan.phuong_xa)
+                    str = newNhanSu.tieu_su.que_quan.phuong_xa + ', ';
+                if (newNhanSu.tieu_su.que_quan.quan_huyen)
+                    str = newNhanSu.tieu_su.que_quan.quan_huyen + ', ';
+                if (newNhanSu.tieu_su.que_quan.tinh_thanh)
+                    str = newNhanSu.tieu_su.que_quan.tinh_thanh + '.';
+                newNhanSu.tieu_su.que_quan.summary = str;
+            }
+
+            if (!_.isEmpty(newNhanSu.tieu_su.thuong_tru)) {
+                let str = '';
+                if (newNhanSu.tieu_su.thuong_tru.dia_chi)
+                    str += newNhanSu.tieu_su.thuong_tru.dia_chi + ', ';
+                if (newNhanSu.tieu_su.thuong_tru.phuong_xa)
+                    str += newNhanSu.tieu_su.thuong_tru.phuong_xa + ', ';
+                if (newNhanSu.tieu_su.thuong_tru.quan_huyen)
+                    str += newNhanSu.tieu_su.thuong_tru.quan_huyen + ', ';
+                if (newNhanSu.tieu_su.thuong_tru.tinh_thanh)
+                    str += newNhanSu.tieu_su.thuong_tru.tinh_thanh + '.';
+                newNhanSu.tieu_su.thuong_tru.summary = str;
+            }
+
+            newNhanSu.metadata.search_field = newNhanSu.ma_nv + ' : ' +  newNhanSu.don_vi.ma  + ' : ' + newNhanSu.tieu_su.ho_ten + ' : ' + factory.data.utils.latinize(newNhanSu.tieu_su.ho_ten);
+        },
+
         resolveUser: function(userId) {
             if (!userId) {
                 return '';
