@@ -13,6 +13,9 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
         departments: [],
         subdepartments: [],
         isVisible_queQuan: false,
+        que_quan_quan_huyen: [],
+        isVisible_thuongTru: false,
+        thuong_tru_quan_huyen: []
     }
 
     // ***************************************************
@@ -94,6 +97,16 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
                 //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId = '';
                 // if (field === 'modelthietbis')
                 //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
+            } else {
+
+                if (field === 'que_quan_tinh_thanh') {
+                    $scope.newNhanSu.tieu_su.que_quan.quan_huyen = '';
+                    $scope.kOptions.que_quan_quan_huyen = $scope.resource.quan_huyen[e.sender._old];
+                }
+                if (field === 'thuong_tru_tinh_thanh') {
+                    $scope.newNhanSu.tieu_su.thuong_tru.quan_huyen = '';
+                    $scope.kOptions.thuong_tru_quan_huyen = $scope.resource.quan_huyen[e.sender._old];
+                }
             }
 
         },
