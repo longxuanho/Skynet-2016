@@ -270,7 +270,15 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         // NHANSUS
         .state('nhansus', {
             url: '/quan-ly/nhan-su',
-            template: '<nhansus-main></nhansus-main>'
+            template: '<nhansus-main></nhansus-main>',
+            resolve: {
+                data_nhansus: function($http){
+                    return $http({ method: 'GET', url: '/data/data_nhansus.json' })
+                        .then(function (data) {
+                            return data.data;
+                        });
+                }
+            }
         })
         .state('nhansus.blank', {
             url: '/',

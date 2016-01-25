@@ -27,6 +27,8 @@ angular.module('angular-skynet').directive('nhansusMain', function() {
                 'ma_nv': 1
             };
 
+            
+
 
             // ***************************************************
             // REACTIVE HELPERS

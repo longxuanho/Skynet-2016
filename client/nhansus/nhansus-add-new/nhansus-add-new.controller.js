@@ -1,4 +1,4 @@
-angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier) {
+angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, data_nhansus) {
 
 
     // ***************************************************
@@ -7,8 +7,13 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
 
     $scope._helpers = skynetHelpers.helpers;
     $scope._helpers.initNewNhanSuParams($scope);
-
-
+    $scope.resource = angular.copy(data_nhansus);
+    $scope.kOptions = {
+        don_vi: $scope.resource.don_vi,
+        departments: [],
+        subdepartments: [],
+        isVisible_queQuan: false,
+    }
 
     // ***************************************************
     // REACTIVE HELPERS
@@ -71,25 +76,26 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
         // ***************************************************
         kendoOnChangeRestrictValues: function(e, field) {
             if (e.sender.selectedIndex == -1) {
-                if (field === 'nhoms')
-                    $scope.newNhanSu.phan_loai.nhom.keyId = '';
-                if (field === 'chungloais')
-                    $scope.newNhanSu.phan_loai.chung_loai.keyId = '';
-                if (field === 'loais')
-                    $scope.newNhanSu.phan_loai.loai.keyId = '';
-                if (field === 'donvisohuus')
-                    $scope.newNhanSu.don_vi_so_huu.keyId = '';
-                if (field === 'donviquanlies')
-                    $scope.newNhanSu.don_vi_quan_ly.keyId = '';
-                if (field === 'diabans')
-                    $scope.newNhanSu.dia_ban_hoat_dong.keyId = '';
-                if (field === 'quocgias')
-                    $scope.newNhanSu.ho_so_tb.thong_tin_chung.xuat_xu.keyId = '';
-                if (field === 'hangsanxuats')
-                    $scope.newNhanSu.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId = '';
-                if (field === 'modelthietbis')
-                    $scope.newNhanSu.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
+                if (field === 'don_vi')
+                    $scope.newNhanSu.don_vi = '';
+                if (field === 'to_chuc')
+                    $scope.newNhanSu.to_chuc = '';
+                // if (field === 'loais')
+                //     $scope.newNhanSu.phan_loai.loai.keyId = '';
+                // if (field === 'donvisohuus')
+                //     $scope.newNhanSu.don_vi_so_huu.keyId = '';
+                // if (field === 'donviquanlies')
+                //     $scope.newNhanSu.don_vi_quan_ly.keyId = '';
+                // if (field === 'diabans')
+                //     $scope.newNhanSu.dia_ban_hoat_dong.keyId = '';
+                // if (field === 'quocgias')
+                //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.xuat_xu.keyId = '';
+                // if (field === 'hangsanxuats')
+                //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId = '';
+                // if (field === 'modelthietbis')
+                //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
             }
+
         },
         kendoOnDateChangeRestrict: function(e, field) {
             let startDate = e.sender._value;
@@ -191,7 +197,24 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
         }
     })
 
+    $scope.$watch('newNhanSu.tieu_su.isNhapNgu', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.tieu_su.ngay_nhap_ngu = ''; 
+        }
+    });
 
+    $scope.$watch('newNhanSu.don_vi', (newVal) => {
+        $scope.newNhanSu.cong_viec.to_chuc_bien_che.department = '';
+        $scope.kOptions.departments =  $scope.resource.departments[newVal.ma] || [];
+    });
+
+    $scope.$watch('newNhanSu.cong_viec.to_chuc_bien_che.department', (newVal) => {
+        $scope.newNhanSu.cong_viec.to_chuc_bien_che.subdepartment = '';
+        if ($scope.newNhanSu.don_vi.ma)
+            $scope.kOptions.subdepartments =  $scope.resource.subdepartments[$scope.newNhanSu.don_vi.ma][newVal.ma] || [];
+        console.log($scope.newNhanSu.don_vi.ma, "; ", newVal);
+        console.log($scope.kOptions.subdepartments);
+    });
 
 
 

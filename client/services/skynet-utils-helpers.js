@@ -1711,7 +1711,8 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 tieu_su: {
                     que_quan: {},
                     thuong_tru: {},
-                    cmnd: {}
+                    cmnd: {},
+                    quoc_tich: "Việt Nam"
                 },
                 thanh_phan_gia_dinh: [],
                 hoc_van: {
