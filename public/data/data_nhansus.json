@@ -1218,7 +1218,53 @@
 		"LĐHĐ",
 		"LĐQP",
 		"CNVQP"
+	],
+	"quan_he": [
+		"Anh họ",
+		"Anh rể",
+		"Anh trai",
+		"Anh vợ",
+		"Bà ngoại",
+		"Bà nội",
+		"Bác",
+		"Bố chồng",
+		"Bố đẻ",
+		"Bố vợ",
+		"Cậu",
+		"Chị gái",
+		"Chị họ",
+		"Chú",
+		"Cô",
+		"Dì",
+		"Em dâu",
+		"Em gái",
+		"Em họ",
+		"Em rể",
+		"Em trai",
+		"Em vợ",
+		"Mẹ chồng",
+		"Mẹ đẻ",
+		"Mẹ vợ",
+		"Mợ",
+		"Ông ngoại",
+		"Ông nội"
+	],
+	"ngoai_ngu": [
+		"Tiếng Anh",
+		"Tiếng Bồ Đào Nha",
+		"Tiếng Đức",
+		"Tiếng Nga",
+		"Tiếng Nhật",
+		"Tiếng Pháp",
+		"Tiếng Tây Ban Nha",
+		"Tiếng Trung",
+		"Tiếng Ý"
+	],
+	"trang_thai": [
+		"Đang làm việc",
+		"Nghỉ phép",
+		"Nghỉ hưu",
+		"Đóng hồ sơ"
 	]
-
 }
 

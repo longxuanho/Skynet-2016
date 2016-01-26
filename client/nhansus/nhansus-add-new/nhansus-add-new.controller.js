@@ -15,7 +15,13 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
         isVisible_queQuan: false,
         que_quan_quan_huyen: [],
         isVisible_thuongTru: false,
-        thuong_tru_quan_huyen: []
+        thuong_tru_quan_huyen: [],
+        isVisible_nguoi_bao_lanh: false,
+        isVisible_nguoi_bao_tin: false,
+        isVisible_ngoai_ngu: false,
+        isVisible_bang_lai_xe: false,
+        isVisible_giay_phep_lai_xe_quan_su: false,
+        isVisible_chung_chi_cau_khung: false
     }
 
     // ***************************************************
@@ -121,48 +127,11 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
                 }
             }
         },
-        kendoThongsokythuatGridOptions: {
-            dataSource: {
-                data: $scope.newNhanSu.thong_so_ky_thuat,
-                schema: {
-                    model: {
-                        fields: {
-                            "loai_thong_so.nhom": {
-                                type: "string"
-                            },
-                            "loai_thong_so.ten": {
-                                type: "string"
-                            },
-                            "gia_tri": {
-                                type: "number"
-                            },
-                            "don_vi": {
-                                type: "string"
-                            }
-                        }
-                    }
-                },
-                pageSize: 10
-            },
-            editable: true,
-            pageable: true,
-            sortable: true,
-            columns: [{
-                field: "loai_thong_so.nhom",
-                title: "Nhóm",
-                width: "25%"
-            }, {
-                field: "loai_thong_so.ten",
-                title: "Thông số",
-                width: "35%"
-            }, {
-                field: "gia_tri",
-                title: "Giá trị",
-                width: "20%"
-            }, {
-                field: "don_vi",
-                title: "Đơn vị"
-            }]
+        addNewThanhPhanGiaDinh: function() {
+            $scope.newNhanSu.thanh_phan_gia_dinh.push({});
+        },
+        removeThanhPhanGiaDinh: function(index) {
+            $scope.newNhanSu.thanh_phan_gia_dinh.splice(index, 1);
         },
         accentColor: _.findWhere($scope._data.general.themes, {
             name: $rootScope.main_theme
@@ -225,8 +194,6 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
         $scope.newNhanSu.cong_viec.to_chuc_bien_che.subdepartment = '';
         if ($scope.newNhanSu.don_vi.ma)
             $scope.kOptions.subdepartments =  $scope.resource.subdepartments[$scope.newNhanSu.don_vi.ma][newVal.ma] || [];
-        console.log($scope.newNhanSu.don_vi.ma, "; ", newVal);
-        console.log($scope.kOptions.subdepartments);
     });
 
 

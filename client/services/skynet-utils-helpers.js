@@ -1714,12 +1714,14 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                     cmnd: {},
                     quoc_tich: "Việt Nam"
                 },
-                thanh_phan_gia_dinh: [],
+                thanh_phan_gia_dinh: [
+                    {}
+                ],
                 hoc_van: {
                     ngoai_ngu: []
                 },
                 cong_viec: {
-                    trang_thai: 'dang_lam_viec',
+                    trang_thai: 'Đang làm việc',
                     to_chuc_bien_che: {},
                     ho_so: {}
                 },
