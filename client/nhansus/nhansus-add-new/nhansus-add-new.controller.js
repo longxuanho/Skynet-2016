@@ -53,14 +53,15 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
             if (_.isEmpty(err)) {
 
                 $scope._helpers.buildNewNhanSu($scope.newNhanSu);
-                NhanSus.insert($scope.newNhanSu, (error, result) => {
-                    if (error) {
-                        iNotifier.error('Không thể tạo mới nhân sự này. ' + error.message + '.');
-                    } else {
-                        $scope._helpers.initNewNhanSuParams($scope);
-                        iNotifier.success('Nhân sự được tạo mới thành công.');
-                    }
-                });
+                console.log('build: ', $scope.newNhanSu);
+                // NhanSus.insert($scope.newNhanSu, (error, result) => {
+                //     if (error) {
+                //         iNotifier.error('Không thể tạo mới nhân sự này. ' + error.message + '.');
+                //     } else {
+                //         $scope._helpers.initNewNhanSuParams($scope);
+                //         iNotifier.success('Nhân sự được tạo mới thành công.');
+                //     }
+                // });
 
             } else {
                 iNotifier.error(err.message);
@@ -84,37 +85,14 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
         // KENDO
         // ***************************************************
         kendoOnChangeRestrictValues: function(e, field) {
-            if (e.sender.selectedIndex == -1) {
-                if (field === 'don_vi')
-                    $scope.newNhanSu.don_vi = '';
-                if (field === 'to_chuc')
-                    $scope.newNhanSu.to_chuc = '';
-                // if (field === 'loais')
-                //     $scope.newNhanSu.phan_loai.loai.keyId = '';
-                // if (field === 'donvisohuus')
-                //     $scope.newNhanSu.don_vi_so_huu.keyId = '';
-                // if (field === 'donviquanlies')
-                //     $scope.newNhanSu.don_vi_quan_ly.keyId = '';
-                // if (field === 'diabans')
-                //     $scope.newNhanSu.dia_ban_hoat_dong.keyId = '';
-                // if (field === 'quocgias')
-                //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.xuat_xu.keyId = '';
-                // if (field === 'hangsanxuats')
-                //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId = '';
-                // if (field === 'modelthietbis')
-                //     $scope.newNhanSu.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
-            } else {
-
-                if (field === 'que_quan_tinh_thanh') {
-                    $scope.newNhanSu.tieu_su.que_quan.quan_huyen = '';
-                    $scope.kOptions.que_quan_quan_huyen = $scope.resource.quan_huyen[e.sender._old];
-                }
-                if (field === 'thuong_tru_tinh_thanh') {
-                    $scope.newNhanSu.tieu_su.thuong_tru.quan_huyen = '';
-                    $scope.kOptions.thuong_tru_quan_huyen = $scope.resource.quan_huyen[e.sender._old];
-                }
+            if (field === 'que_quan_tinh_thanh') {
+                $scope.newNhanSu.tieu_su.que_quan.quan_huyen = '';
+                $scope.kOptions.que_quan_quan_huyen = $scope.resource.quan_huyen[e.sender._old];
             }
-
+            if (field === 'thuong_tru_tinh_thanh') {
+                $scope.newNhanSu.tieu_su.thuong_tru.quan_huyen = '';
+                $scope.kOptions.thuong_tru_quan_huyen = $scope.resource.quan_huyen[e.sender._old];
+            }
         },
         kendoOnDateChangeRestrict: function(e, field) {
             let startDate = e.sender._value;
@@ -196,6 +174,51 @@ angular.module('angular-skynet').controller('NhanSusAddNewCtrl', function($scope
             $scope.kOptions.subdepartments =  $scope.resource.subdepartments[$scope.newNhanSu.don_vi.ma][newVal.ma] || [];
     });
 
+    $scope.$watch('kOptions.isVisible_queQuan', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.tieu_su.que_quan = ''; 
+        }
+    });
 
+    $scope.$watch('kOptions.isVisible_thuongTru', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.tieu_su.thuong_tru = ''; 
+        }
+    });
 
+    $scope.$watch('kOptions.isVisible_nguoi_bao_lanh', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.thong_tin_lien_he.nguoi_bao_lanh = ''; 
+        }
+    });
+
+    $scope.$watch('kOptions.isVisible_nguoi_bao_tin', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.thong_tin_lien_he.nguoi_bao_tin = ''; 
+        }
+    });
+
+    $scope.$watch('kOptions.isVisible_ngoai_ngu', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.hoc_van.ngoai_ngu = ''; 
+        }
+    });
+
+    $scope.$watch('kOptions.isVisible_bang_lai_xe', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.bang_cap.bang_lai_xe = ''; 
+        }
+    });
+
+    $scope.$watch('kOptions.isVisible_giay_phep_lai_xe_quan_su', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.bang_cap.giay_phep_lai_xe_quan_su = ''; 
+        }
+    });
+
+    $scope.$watch('kOptions.isVisible_chung_chi_cau_khung', (newVal, oldVal) => {
+        if (oldVal && !newVal) {
+            $scope.newNhanSu.bang_cap.chung_chi_cau_khung = ''; 
+        }
+    });
 });

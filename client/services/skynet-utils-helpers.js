@@ -1730,7 +1730,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                     giay_phep_lai_xe_quan_su: {},
                     chung_chi_cau_khung: {}
                 },
-                thong_tin_lien_lac: {
+                thong_tin_lien_he: {
                     nguoi_bao_tin: {},
                     nguoi_bao_lanh: {}
                 },
@@ -1743,27 +1743,27 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 error.message = "Chưa có thông tin về mã nhân viên.";
                 return error;
             }
-            if (nhansu.don_vi.keyId) {
-                error.message = "Chưa có thông tin về đơn vị quản lý.";
-                return error;
-            }
-            if (nhansu.tieu_su.ho_ten_dem) {
+            if (!nhansu.tieu_su.ho_ten_dem) {
                 error.message = "Chưa có thông tin về họ tên đệm của nhân viên.";
                 return error;
             }
-            if (nhansu.tieu_su.ten) {
+            if (!nhansu.tieu_su.ten) {
                 error.message = "Chưa có thông tin về tên nhân viên.";
                 return error;
             }
-            if (nhansu.tieu_su.gioi_tinh) {
+            if (!nhansu.tieu_su.gioi_tinh) {
                 error.message = "Chưa có thông tin về giới tính.";
                 return error;
             }
-            if (nhansu.tieu_su.quoc_tich) {
+            if (!nhansu.tieu_su.quoc_tich) {
                 error.message = "Chưa có thông tin về quốc tịch.";
                 return error;
             }
-            if (nhansu.cong_viec.trang_thai) {
+            if (!nhansu.don_vi.ma) {
+                error.message = "Chưa có thông tin về đơn vị quản lý.";
+                return error;
+            }
+            if (!nhansu.cong_viec.trang_thai) {
                 error.message = "Chưa có thông tin về trạng thái công việc hiện tại.";
                 return error;
             }
@@ -1810,7 +1810,8 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 nhansu.tieu_su.thuong_tru.summary = str;
             }
 
-            nhansu.metadata.search_field = nhansu._id + ' : ' +  nhansu.ma_nv + ' : ' + nhansu.don_vi.ma  + ' : ' + nhansu.tieu_su.ho_ten + ' : ' + factory.data.utils.latinize(nhansu.tieu_su.ho_ten);
+            nhansu.metadata.search_field = nhansu._id + ' : ' +  nhansu.ma_nv + ' : ' + nhansu.don_vi.ma  + ' : ' + nhansu.tieu_su.ho_ten + ' : ' + latinize(nhansu.tieu_su.ho_ten);
+            // + ' : ' + factory.data.utils.latinize(nhansu.tieu_su.ho_ten);
         },
         buildNewNhanSu: function(newNhanSu) {
             if (!newNhanSu.metadata)
@@ -1832,11 +1833,11 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             if (!_.isEmpty(newNhanSu.tieu_su.que_quan)) {
                 let str = '';
                 if (newNhanSu.tieu_su.que_quan.phuong_xa)
-                    str = newNhanSu.tieu_su.que_quan.phuong_xa + ', ';
+                    str += newNhanSu.tieu_su.que_quan.phuong_xa + ', ';
                 if (newNhanSu.tieu_su.que_quan.quan_huyen)
-                    str = newNhanSu.tieu_su.que_quan.quan_huyen + ', ';
+                    str += newNhanSu.tieu_su.que_quan.quan_huyen + ', ';
                 if (newNhanSu.tieu_su.que_quan.tinh_thanh)
-                    str = newNhanSu.tieu_su.que_quan.tinh_thanh + '.';
+                    str += newNhanSu.tieu_su.que_quan.tinh_thanh + '.';
                 newNhanSu.tieu_su.que_quan.summary = str;
             }
 
@@ -1853,7 +1854,8 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 newNhanSu.tieu_su.thuong_tru.summary = str;
             }
 
-            newNhanSu.metadata.search_field = newNhanSu.ma_nv + ' : ' +  newNhanSu.don_vi.ma  + ' : ' + newNhanSu.tieu_su.ho_ten + ' : ' + factory.data.utils.latinize(newNhanSu.tieu_su.ho_ten);
+            newNhanSu.metadata.search_field = newNhanSu.ma_nv + ' : ' +  newNhanSu.don_vi.ma  + ' : ' + newNhanSu.tieu_su.ho_ten + ' : ' + latinize(newNhanSu.tieu_su.ho_ten);
+            // + ' : ' + factory.data.utils.latinize(newNhanSu.tieu_su.ho_ten);
         },
 
         resolveUser: function(userId) {
@@ -1968,7 +1970,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_upsert_nhan_su':
-                        if (!Roles.userIsInRole(Meteor.userId(), ['support-staff'], 'sky-project') || !Roles.userIsInRole(Meteor.userId(), ['support-staff'], 'xncg'))
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'support-staff'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_delete_nhan_su':

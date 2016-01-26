@@ -1130,7 +1130,7 @@
 		"tct": [
 			{
 				"ma": "tct_ktvt",
-				"ten": "P. Kỹ thuật Vật Tư"
+				"ten": "P. Kỹ thuật Vật tư"
 			}
 		],
 		"xncg": [
@@ -1233,7 +1233,10 @@
 		"Cậu",
 		"Chị gái",
 		"Chị họ",
+		"Chồng",
 		"Chú",
+		"Con gái",
+		"Con trai",
 		"Cô",
 		"Dì",
 		"Em dâu",
@@ -1247,7 +1250,8 @@
 		"Mẹ vợ",
 		"Mợ",
 		"Ông ngoại",
-		"Ông nội"
+		"Ông nội",
+		"Vợ"
 	],
 	"ngoai_ngu": [
 		"Tiếng Anh",
