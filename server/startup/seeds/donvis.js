@@ -499,9 +499,9 @@ Meteor.startup(function() {
                     "ngay_tao": "2015-12-31T11:25:36.394Z",
                     "nguoi_tao": "Ai3PeP5nbk2mxEr55",
                     "nguoi_tao_field": "Long Hồ:longxuanho@admin.io",
-                    "search_field": ">_id undefined :>ten CP Đầu tư và phát triển hạ tầng Tân Cảng :>ma DTPT :>ten_quoc_te undefined :>ten_viet_tat undefined :>mo_ta undefined :>metadata Long Hồ:longxuanho@admin.io :"
+                    "search_field": ">_id undefined :>ten CP Đầu tư và Phát triển hạ tầng Tân Cảng :>ma DTPT :>ten_quoc_te undefined :>ten_viet_tat undefined :>mo_ta undefined :>metadata Long Hồ:longxuanho@admin.io :"
                 },
-                "ten": "CP Đầu tư và phát triển hạ tầng Tân Cảng",
+                "ten": "CP Đầu tư và Phát triển hạ tầng Tân Cảng",
                 "phan_loai": "cty_thanh_vien",
                 "ma": "DTPT"
             },
@@ -655,9 +655,9 @@ Meteor.startup(function() {
                     "ngay_tao": "2015-12-31T11:38:25.937Z",
                     "nguoi_tao": "Ai3PeP5nbk2mxEr55",
                     "nguoi_tao_field": "Long Hồ:longxuanho@admin.io",
-                    "search_field": ">_id undefined :>ten Phòng Kỹ Thuật Vật tư :>ma KTVT :>ten_quoc_te undefined :>ten_viet_tat undefined :>mo_ta undefined :>metadata Long Hồ:longxuanho@admin.io :"
+                    "search_field": ">_id undefined :>ten P. Kỹ thuật Vật tư :>ma KTVT :>ten_quoc_te undefined :>ten_viet_tat undefined :>mo_ta undefined :>metadata Long Hồ:longxuanho@admin.io :"
                 },
-                "ten": "Phòng Kỹ Thuật Vật tư",
+                "ten": "P. Kỹ thuật Vật tư",
                 "phan_loai": "tct",
                 "ma": "KTVT"
             }

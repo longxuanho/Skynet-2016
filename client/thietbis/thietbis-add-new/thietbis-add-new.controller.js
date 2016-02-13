@@ -8,7 +8,11 @@ angular.module('angular-skynet').controller('ThietBisAddNewCtrl', function($scop
     $scope._helpers = skynetHelpers.helpers;
     $scope._helpers.initNewThietBiParams($scope);
 
-
+    $scope.params = {
+        nhomSelectedId: null,
+        chungloaiSelectedId: null,
+        hangsanxuatSelectedId: null
+    };
 
     // ***************************************************
     // REACTIVE HELPERS
@@ -22,20 +26,20 @@ angular.module('angular-skynet').controller('ThietBisAddNewCtrl', function($scop
                 }
             });
         },
-        nhomSelectedId: null,
+        // nhomSelectedId: null,
         chungloais: () => {
             return ChungLoais.find({
-                'nhom.keyId': $scope.nhomSelectedId
+                'nhom.keyId': $scope.getReactively('params.nhomSelectedId')
             }, {
                 sort: {
                     'order': 1
                 }
             }).fetch();
         },
-        chungloaiSelectedId: null,
+        // chungloaiSelectedId: null,
         loais: () => {
             return Loais.find({
-                'chung_loai.keyId': $scope.chungloaiSelectedId
+                'chung_loai.keyId': $scope.getReactively('params.chungloaiSelectedId')
             }, {
                 sort: {
                     'order': 1
@@ -70,10 +74,10 @@ angular.module('angular-skynet').controller('ThietBisAddNewCtrl', function($scop
                 }
             }).fetch();
         },
-        hangsanxuatSelectedId: null,
+        // hangsanxuatSelectedId: null,
         modelthietbis: () => {
             return ModelThietBis.find({
-                'hang_san_xuat.keyId': $scope.hangsanxuatSelectedId
+                'hang_san_xuat.keyId': $scope.getReactively('params.hangsanxuatSelectedId')
             }, {
                 sort: {
                     'ten': 1
@@ -101,7 +105,9 @@ angular.module('angular-skynet').controller('ThietBisAddNewCtrl', function($scop
                     if (error) {
                         iNotifier.error('Không thể tạo mới thiết bị này. ' + error.message + '.');
                     } else {
-                        $scope._helpers.initNewThietBiParams($scope);
+                        $scope.$apply( () => {
+                            $scope._helpers.initNewThietBiParams($scope);
+                        });                        
                         iNotifier.success('Thiết bị được tạo mới thành công.');
                     }
                 });
@@ -220,21 +226,21 @@ angular.module('angular-skynet').controller('ThietBisAddNewCtrl', function($scop
     });
 
     $scope.$watch('newThietBi.phan_loai.nhom.keyId', (newVal) => {
-        $scope.nhomSelectedId = newVal;
+        $scope.params.nhomSelectedId = newVal;
 
         if ($scope.newThietBi && $scope.newThietBi.phan_loai && $scope.newThietBi.phan_loai.chung_loai)
             $scope.newThietBi.phan_loai.chung_loai.keyId = '';
     });
 
     $scope.$watch('newThietBi.phan_loai.chung_loai.keyId', (newVal) => {
-        $scope.chungloaiSelectedId = newVal;
+        $scope.params.chungloaiSelectedId = newVal;
 
         if ($scope.newThietBi && $scope.newThietBi.phan_loai && $scope.newThietBi.phan_loai.loai)
             $scope.newThietBi.phan_loai.loai.keyId = '';
     });
 
     $scope.$watch('newThietBi.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId', (newVal) => {
-        $scope.hangsanxuatSelectedId = newVal;
+        $scope.params.hangsanxuatSelectedId = newVal;
 
         if ($scope.newThietBi && $scope.newThietBi.ho_so_tb && $scope.newThietBi.ho_so_tb.thong_tin_chung && $scope.newThietBi.ho_so_tb.thong_tin_chung.model_tb)
             $scope.newThietBi.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
