@@ -1,0 +1,87 @@
+<div class="uk-modal" id="modal_thietbis_details">
+    <div class="uk-modal-dialog">
+        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'slide-bottom'}">
+            <li class="uk-active"><a href="#">Thông tin chung</a></li>
+            <li><a href="#">Bảo hành</a></li>
+            <li><a href="#">Thông số KT</a></li>
+            <li><a href="#">Ghi chú</a></li>
+        </ul>
+        <ul id="tabs_anim6" class="uk-switcher uk-margin">
+            <li>
+                <div class="uk-grid" data-uk-grid-margin>
+                    <div class="uk-width-medium-1-1">
+                        <ul class="md-list">
+                            <li>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">Mã TB</span>
+                                    <span class="uk-text-small uk-text-muted">{{source.ma_tb.ma_tb}} <span ng-show="source.ma_tb.ma_topx">: (TOPX) {{source.ma_tb.ma_topx}}</span>  <span ng-show="source.ma_tb.ma_maximo">: (Maximo) {{source.ma_tb.ma_maximo}}</span> <span ng-show="source.ma_tb.ma_topovn">: (TOPO) {{source.ma_tb.ma_topovn}}</span></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">Phân loại</span>
+                                    <span class="uk-text-small uk-text-muted">{{source.phan_loai.nhom.ten}} > {{source.phan_loai.chung_loai.ten}} > {{source.phan_loai.loai.ten}}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">Xuất xứ</span>
+                                    <span class="uk-text-small uk-text-muted">Hãng sản xuất: {{source.ho_so_tb.thong_tin_chung.hang_san_xuat.ten}} - Model: {{source.ho_so_tb.thong_tin_chung.model_tb.ten}}</span>
+                                    <span class="uk-text-small uk-text-muted">Vendor: {{source.ho_so_tb.thong_tin_chung.vendor.ten}}</span>
+                                    <span class="uk-text-small uk-text-muted">Năm sản xuất: {{source.ho_so_tb.thong_tin_chung.nam_sx}}</span>
+                                    <span class="uk-text-small uk-text-muted">Năm sử dụng: {{source.ho_so_tb.thong_tin_chung.nam_sd}}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">Quản lý</span>
+                                    <span class="uk-text-small uk-text-muted">{{source.don_vi_quan_ly.ten}} ({{source.don_vi_quan_ly.ma}})</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">Sở hữu</span>
+                                    <span class="uk-text-small uk-text-muted">{{source.don_vi_so_huu.ten}} ({{source.don_vhuuso_huu.ma}})</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">Địa bàn hoạt động</span>
+                                    <span class="uk-text-small uk-text-muted">Khu vực: Sint aperiam (nemo)</span>
+                                    <span class="uk-text-small uk-text-muted">Trạng thái: Đang hoạt động</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">Thông tin đăng ký</span>
+                                    <span class="uk-text-small uk-text-muted">ID: Sint aperiam</span>
+                                    <span class="uk-text-small uk-text-muted">Số khung: Sint aperiam</span>
+                                    <span class="uk-text-small uk-text-muted">Số máy: Sint aperiam</span>
+                                    <span class="uk-text-small uk-text-muted">Số giấy đăng ký: Sint aperiam</span>
+                                    <span class="uk-text-small uk-text-muted">Số giấy đăng kiểm: Sint aperiam</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="uk-margin-bottom uk-margin-left">
+                    <p>
+                        <input type="radio" name="radio_demo" id="radio_demo_1" icheck ng-model="$root.orderProperty" value="1"/>
+                        <label for="radio_demo_1" class="inline-label">Tăng dần</label>
+                    </p>
+                    <p>
+                        <input type="radio" name="radio_demo" id="radio_demo_2" icheck ng-model="$root.orderProperty" value="-1"/>
+                        <label for="radio_demo_2" class="inline-label">Giảm dần</label>
+                    </p>
+                </div>
+            </li>
+            <li></li>
+            <li></li>
+        </ul>
+        <div class="uk-modal-footer uk-text-right">
+            <button type="button" class="md-btn md-btn-flat uk-modal-close">Đóng</button>
+        </div>
+    </div>
+</div>

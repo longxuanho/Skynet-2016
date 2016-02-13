@@ -21,7 +21,13 @@ angular.module('angular-skynet').controller('ThietBisBlankCtrl', function($scope
             nhomsFilterSource: [],
             nhomsFilterActiveIds: [],
         },
+        fabState: _.isEmpty($scope._helpers.validateUser('can_upsert_thiet_bi')) ? 'thietbis_createNew' : '',
+        selected: {
+            thietbi: ''
+        }
     };
+
+    console.log('fabState: ', $scope.pageOptions.fabState);
 
     // LOAD LOCAL DATA
     try {
@@ -59,7 +65,19 @@ angular.module('angular-skynet').controller('ThietBisBlankCtrl', function($scope
                     data: new kendo.data.ObservableObject([]),
                 }
             },
-            kOptions: angular.copy($scope._kHelpers.initDefaultOptions())
+            kOptions: angular.copy($scope._kHelpers.initDefaultOptions()),
+            gridOnChange: function(event) {
+                let grid = $("#myGrid").data("kendoGrid");
+                if ((this.kOptions.selectable === 'row' || this.kOptions.selectable === 'cell') && grid.select().length)  {
+                    $scope.pageOptions.fabState = 'thietbis_viewDetails';
+                    $scope.pageOptions.selected.thietbi = grid.dataItem(grid.select());
+                }
+                console.log('selected: ', $scope.pageOptions.selected.thietbi);
+            },
+            gridOnDataBound: function(event) {
+                $scope.pageOptions.fabState = _.isEmpty($scope._helpers.validateUser('can_upsert_thiet_bi')) ? 'thietbis_createNew' : '';
+                $scope.pageOptions.selected.thietbi = '';
+            }
         }
     }
 
@@ -92,7 +110,7 @@ angular.module('angular-skynet').controller('ThietBisBlankCtrl', function($scope
                 } 
                 console.log('buildNhomsFilterSource: ', source);
             }
-        },
+        }
     }
 
     // ***************************************************

@@ -36,8 +36,22 @@
                 k-excel="gridData.thietbisGrid.kOptions.excel"
                 k-pdf="gridData.thietbisGrid.kOptions.pdf"
                 k-toolbar="gridData.thietbisGrid.kOptions.toolbar"
-                k-rebind="gridData.thietbisGrid">
+                k-rebind="gridData.thietbisGrid"
+                k-on-change="gridData.thietbisGrid.gridOnChange(kendoEvent)"
+                k-on-data-bound="gridData.thietbisGrid.gridOnDataBound(kendoEvent)">
             </kendo-grid>
 		</div>
     </div>
 </div>
+
+<thietbis-modal-details source="pageOptions.selected.thietbi"></thietbis-modal-details>
+
+<div class="md-fab-wrapper">
+    <a class="md-fab md-fab-accent no-animate" ng-show="pageOptions.fabState==='thietbis_createNew'" ui-sref="thietbis.addNew">
+        <i class="material-icons">&#xE145;</i>
+    </a>
+    <a class="md-fab md-fab-accent no-animate" ng-show="pageOptions.fabState==='thietbis_viewDetails'" data-uk-modal="{target: '#modal_thietbis_details'}">
+        <i class="material-icons">&#xE8B6;</i>
+    </a>
+</div>
+
