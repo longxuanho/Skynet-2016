@@ -1220,7 +1220,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                         metadata: {},
                         isPublic: true,
                         isArchived: false,
-                        status: 'active'
+                        status: 'Hoạt động'
                     },
                     isUseTemplate: false
                 },
@@ -1253,7 +1253,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                     metadata: {},
                     isPublic: true,
                     isArchived: false,
-                    status: 'active'
+                    status: 'Hoạt động'
                 };
             }
         },

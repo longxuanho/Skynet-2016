@@ -87,7 +87,7 @@ Meteor.startup(function() {
                 },
                 "isPublic": true,
                 "isArchived": false,
-                "status": "active",
+                "status": "Hoạt động",
                 "don_vi_field": ">don_vi_so_huu Tổng Cty Tân Cảng Sài Gòn :>don_vi_so_huu TCT :>don_vi_quan_ly Xí nghiệp Cơ giới :>don_vi_quan_ly XNCG :"
             }, {
                 "_id": "i3exK4ApGyy9fK5ZY",
@@ -172,7 +172,7 @@ Meteor.startup(function() {
                 },
                 "isPublic": true,
                 "isArchived": false,
-                "status": "active",
+                "status": "Hoạt động",
                 "don_vi_field": ">don_vi_so_huu Tổng Cty Tân Cảng Sài Gòn :>don_vi_so_huu TCT :>don_vi_quan_ly CP Tân Cảng 189 Hải Phòng :>don_vi_quan_ly CP189 :"
             }, {
                 "_id": "2mtapZn7s4i7irmjA",
@@ -257,7 +257,7 @@ Meteor.startup(function() {
                 },
                 "isPublic": true,
                 "isArchived": false,
-                "status": "active",
+                "status": "Hoạt động",
                 "don_vi_field": ">don_vi_so_huu CP Đại lý Giao nhận vận tải :>don_vi_so_huu TCL :>don_vi_quan_ly Xí nghiệp Cơ giới :>don_vi_quan_ly XNCG :"
             }, {
                 "_id": "ssHDCApv595tbLfZg",
@@ -345,7 +345,7 @@ Meteor.startup(function() {
                 },
                 "isPublic": true,
                 "isArchived": false,
-                "status": "active",
+                "status": "Hoạt động",
                 "don_vi_field": ">don_vi_so_huu Tổng Cty Tân Cảng Sài Gòn :>don_vi_so_huu TCT :>don_vi_quan_ly CP Tân Cảng 189 Hải Phòng :>don_vi_quan_ly CP189 :"
             }, {
                 "_id": "jKjeApHpaXz73c4fE",
@@ -433,7 +433,7 @@ Meteor.startup(function() {
                 },
                 "isPublic": true,
                 "isArchived": false,
-                "status": "active",
+                "status": "Hoạt động",
                 "don_vi_field": ">don_vi_so_huu Tổng Cty Tân Cảng Sài Gòn :>don_vi_so_huu TCT :>don_vi_quan_ly Xí nghiệp Cơ giới :>don_vi_quan_ly XNCG :"
             }, {
                 "_id": "wC6cwmPwnuS6rBLeq",
@@ -518,7 +518,7 @@ Meteor.startup(function() {
                 },
                 "isPublic": true,
                 "isArchived": false,
-                "status": "active",
+                "status": "Hoạt động",
                 "don_vi_field": ">don_vi_so_huu Tổng Cty Tân Cảng Sài Gòn :>don_vi_so_huu TCT :>don_vi_quan_ly Xí nghiệp Cơ giới :>don_vi_quan_ly XNCG :"
             }, {
                 "_id": "FA54jA76RqaN63GZv",
@@ -603,7 +603,7 @@ Meteor.startup(function() {
                 },
                 "isPublic": true,
                 "isArchived": false,
-                "status": "active",
+                "status": "Hoạt động",
                 "don_vi_field": ">don_vi_so_huu Tổng Cty Tân Cảng Sài Gòn :>don_vi_so_huu TCT :>don_vi_quan_ly Xí nghiệp Cơ giới :>don_vi_quan_ly XNCG :"
             }
 
