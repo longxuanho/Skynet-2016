@@ -1,4 +1,4 @@
-angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($scope, skynetHelpers, $rootScope, iNotifier) {
+angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($scope, skynetHelpers, $rootScope, iNotifier, $timeout) {
 
 
 
@@ -7,17 +7,17 @@ angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($sco
     // ***************************************************
 
     $scope._helpers = skynetHelpers.helpers;
-    $scope._data = skynetHelpers.data;
+    $scope._helpers.initNewThietBiParams($scope);
 
-    $rootScope.page_full_height = false;
-    $rootScope.headerDoubleHeightActive = true;
+    $scope.params = {
+        nhomSelectedId: null,
+        chungloaiSelectedId: null,
+        hangsanxuatSelectedId: null
+    };
 
-    
-
-
-    // // ***************************************************
-    // // REACTIVE HELPERS
-    // // ***************************************************
+    // ***************************************************
+    // REACTIVE HELPERS
+    // ***************************************************
 
     $scope.helpers({
         source: () => {
@@ -31,26 +31,62 @@ angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($sco
                 sort: {
                     'order': 1
                 }
-            }).fetch();
+            });
         },
-        nhomSelectedId: null,
         chungloais: () => {
             return ChungLoais.find({
-                'nhom.keyId': $scope.nhomSelectedId
+                'nhom.keyId': $scope.getReactively('params.nhomSelectedId')
             }, {
                 sort: {
                     'order': 1
                 }
             }).fetch();
         },
-        users: () => {
-            return Meteor.users.find({});
+        loais: () => {
+            return Loais.find({
+                'chung_loai.keyId': $scope.getReactively('params.chungloaiSelectedId')
+            }, {
+                sort: {
+                    'order': 1
+                }
+            }).fetch();
         },
-        isLoggedIn: () => {
-            return Meteor.userId() !== null;
+        donvis: () => {
+            return DonVis.find({}, {
+                sort: {
+                    'ten': 1
+                }
+            }).fetch();
         },
-        currentUserId: () => {
-            return Meteor.userId();
+        diabans: () => {
+            return DiaBans.find({}, {
+                sort: {
+                    'ten': 1
+                }
+            }).fetch();
+        },
+        quocgias: () => {
+            return QuocGias.find({}, {
+                sort: {
+                    'ten': 1
+                }
+            }).fetch();
+        },
+        hangsanxuats: () => {
+            return HangSanXuats.find({}, {
+                sort: {
+                    'ten': 1
+                }
+            }).fetch();
+        },
+        modelthietbis: () => {
+            return ModelThietBis.find({
+                'hang_san_xuat.keyId': $scope.getReactively('params.hangsanxuatSelectedId')
+            }, {
+                sort: {
+                    'ten': 1
+                }
+            }).fetch();
         }
     });
 
@@ -130,13 +166,42 @@ angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($sco
         }).color_accent;
     });
 
-    $scope.$watch('source.nhom.keyId', (newVal) => {
-        $scope.nhomSelectedId = newVal;
-        
-        if (newVal === $scope.master.nhom.keyId)
-            $scope.source.chung_loai.keyId = $scope.master.chung_loai.keyId;
+    $scope.$watch('source.phan_loai.nhom.keyId', (newVal) => {
+        $scope.params.nhomSelectedId = newVal;
+
+        // Reset lại giá trị của chủng loại sau khi chọn keyId của nhóm khác rồi quay về keyId của nhóm lúc đầu, delay 200ms cho quá trình init kendo
+        if (newVal === $scope.master.phan_loai.nhom.keyId) {
+            $timeout(()=>{
+                $scope.source.phan_loai.chung_loai.keyId = $scope.master.phan_loai.chung_loai.keyId;
+            }, 200);            
+        }
         else    
-            $scope.source.chung_loai.keyId = '';
+            $scope.source.phan_loai.chung_loai.keyId = '';
+    });
+
+    $scope.$watch('source.phan_loai.chung_loai.keyId', (newVal) => {
+        $scope.params.chungloaiSelectedId = newVal;
+        
+        // Reset lại giá trị của chủng loại sau khi chọn keyId của chủng loại khác rồi quay về keyId của chủng loại lúc đầu, delay 200ms cho quá trình init kendo
+        if (newVal === $scope.master.phan_loai.chung_loai.keyId) {
+            $timeout(()=>{
+                $scope.source.phan_loai.loai.keyId = $scope.master.phan_loai.loai.keyId;
+            }, 200);
+        }
+        else    
+            $scope.source.phan_loai.loai.keyId = '';
+    });
+
+    $scope.$watch('source.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId', (newVal) => {
+        $scope.params.hangsanxuatSelectedId = newVal;
+        
+        if (newVal === $scope.master.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId) {
+            $timeout(()=>{
+               $scope.source.ho_so_tb.thong_tin_chung.model_tb.keyId = $scope.master.ho_so_tb.thong_tin_chung.model_tb.keyId;
+            }, 200);
+        }
+        else    
+            $scope.source.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
     });
 
 });

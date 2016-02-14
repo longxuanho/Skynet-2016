@@ -1,6 +1,6 @@
 <div class="uk-modal" id="modal_thietbis_details">
     <div class="uk-modal-dialog">
-        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'slide-bottom'}">
+        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'scale'}">
             <li class="uk-active"><a href="#">Thông tin chung</a></li>
             <li><a href="#" ng-show="source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh">Bảo hành</a></li>
             <li><a href="#">Thông số KT</a></li>
@@ -115,7 +115,9 @@
             </li>
         </ul>
         <div class="uk-modal-footer uk-text-right">
-            <button type="button" class="md-btn md-btn-flat uk-modal-close">Đóng</button>
+            <button type="button" class="md-btn md-btn-flat no-animate" ng-click="utils.goToEditPage()" ng-show="utils.isEditable()">Cập nhật</button>
+            <button type="button" class="md-btn md-btn-flat no-animate" ui-sref="thietbis.addNew">Them moi</button>
+            <button type="button" class="md-btn md-btn-flat" ng-click="utils.closeModal()">Đóng</button>
         </div>
     </div>
 </div>
