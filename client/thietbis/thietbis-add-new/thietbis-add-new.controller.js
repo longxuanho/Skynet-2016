@@ -253,9 +253,16 @@ angular.module('angular-skynet').controller('ThietBisAddNewCtrl', function($scop
                 $('#baohanh_end').kendoDatePicker().data('kendoDatePicker').value(endDate);
             }
         }
-    })
+    });
 
-
+    $scope.$watch('newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau', (newVal) => {
+        if (newVal > 0) {
+            if ($scope.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh) {
+                let endDate = moment($scope.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
+                $('#baohanh_end').kendoDatePicker().data('kendoDatePicker').value(endDate);
+            }
+        }
+    });
 
 
 

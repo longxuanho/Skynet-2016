@@ -98,7 +98,7 @@ angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($sco
 
         let err = $scope._helpers.validateUser('can_upsert_thiet_bi');
         if (_.isEmpty(err)) {
-            err = $scope._helpers.validateLoaiForm($scope.source);
+            err = $scope._helpers.validateThietBiForm($scope.source);
             if (_.isEmpty(err)) {
 
                 $scope._helpers.buildThietBi($scope.source);
@@ -106,13 +106,16 @@ angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($sco
                     _id: $rootScope.$stateParams.thietbiId
                 }, {
                     $set: {
-                        ten: $scope.source.ten,
-                        nhom: $scope.source.nhom,
-                        chung_loai: $scope.source.chung_loai,
-                        ma: $scope.source.ma,
+                        ma_tb: $scope.source.ma_tb,
+                        phan_loai: $scope.source.phan_loai,
+                        ho_so_tb: $scope.source.ho_so_tb,
+                        status: $scope.source.status,
                         mo_ta: $scope.source.mo_ta,
                         ghi_chu: $scope.source.ghi_chu,
-                        icon: $scope.source.icon,
+                        dia_ban_hoat_dong: $scope.source.dia_ban_hoat_dong,
+                        don_vi_quan_ly: $scope.source.don_vi_quan_ly,
+                        don_vi_so_huu: $scope.source.don_vi_so_huu,                        
+                        don_vi_field: $scope.source.don_vi_field,                        
                         isPublic: $scope.source.isPublic,
                         isArchived: $scope.source.isArchived,
                         'metadata.ngay_cap_nhat_cuoi': $scope.source.metadata.ngay_cap_nhat_cuoi,
@@ -124,7 +127,7 @@ angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($sco
                     if (error) {
                         iNotifier.error('Không thể cập nhật thiết bị này. ' + error.message + '.');
                     } else {
-                        iNotifier.success('Thiết bị "' + $scope.source.ten + '" được cập nhật thành công.');
+                        iNotifier.success('Thiết bị "' + $scope.source.ma_tb.ma_tb + '" được cập nhật thành công.');
 
                         $scope.master = ThietBis.findOne({
                             _id: $rootScope.$stateParams.thietbiId
@@ -167,41 +170,69 @@ angular.module('angular-skynet').controller('ThietBisDetailsCtrl', function($sco
     });
 
     $scope.$watch('source.phan_loai.nhom.keyId', (newVal) => {
-        $scope.params.nhomSelectedId = newVal;
+        
+        if ($scope.master && $scope.master.phan_loai) {
+            $scope.params.nhomSelectedId = newVal;
 
-        // Reset lại giá trị của chủng loại sau khi chọn keyId của nhóm khác rồi quay về keyId của nhóm lúc đầu, delay 200ms cho quá trình init kendo
-        if (newVal === $scope.master.phan_loai.nhom.keyId) {
-            $timeout(()=>{
-                $scope.source.phan_loai.chung_loai.keyId = $scope.master.phan_loai.chung_loai.keyId;
-            }, 200);            
+            // Reset lại giá trị của chủng loại sau khi chọn keyId của nhóm khác rồi quay về keyId của nhóm lúc đầu, delay 500ms cho quá trình init kendo
+            if (newVal === $scope.master.phan_loai.nhom.keyId) {
+                $timeout(()=>{
+                    $scope.source.phan_loai.chung_loai.keyId = $scope.master.phan_loai.chung_loai.keyId;
+                }, 500);            
+            }
+            else    
+                $scope.source.phan_loai.chung_loai.keyId = '';
         }
-        else    
-            $scope.source.phan_loai.chung_loai.keyId = '';
+        
     });
 
     $scope.$watch('source.phan_loai.chung_loai.keyId', (newVal) => {
-        $scope.params.chungloaiSelectedId = newVal;
         
-        // Reset lại giá trị của chủng loại sau khi chọn keyId của chủng loại khác rồi quay về keyId của chủng loại lúc đầu, delay 200ms cho quá trình init kendo
-        if (newVal === $scope.master.phan_loai.chung_loai.keyId) {
-            $timeout(()=>{
-                $scope.source.phan_loai.loai.keyId = $scope.master.phan_loai.loai.keyId;
-            }, 200);
+        if ($scope.master && $scope.master.phan_loai) {
+            $scope.params.chungloaiSelectedId = newVal;
+            
+            // Reset lại giá trị của chủng loại sau khi chọn keyId của chủng loại khác rồi quay về keyId của chủng loại lúc đầu, delay 500ms cho quá trình init kendo
+            if (newVal === $scope.master.phan_loai.chung_loai.keyId) {
+                $timeout(()=>{
+                    $scope.source.phan_loai.loai.keyId = $scope.master.phan_loai.loai.keyId;
+                }, 500);
+            }
+            else    
+                $scope.source.phan_loai.loai.keyId = '';
         }
-        else    
-            $scope.source.phan_loai.loai.keyId = '';
     });
 
     $scope.$watch('source.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId', (newVal) => {
-        $scope.params.hangsanxuatSelectedId = newVal;
         
-        if (newVal === $scope.master.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId) {
-            $timeout(()=>{
-               $scope.source.ho_so_tb.thong_tin_chung.model_tb.keyId = $scope.master.ho_so_tb.thong_tin_chung.model_tb.keyId;
-            }, 200);
+        if ($scope.master && $scope.master.ho_so_tb) {
+            $scope.params.hangsanxuatSelectedId = newVal;
+            
+            if (newVal === $scope.master.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId) {
+                $timeout(()=>{
+                   $scope.source.ho_so_tb.thong_tin_chung.model_tb.keyId = $scope.master.ho_so_tb.thong_tin_chung.model_tb.keyId;
+                }, 500);
+            }
+            else    
+                $scope.source.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
         }
-        else    
-            $scope.source.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
+    });
+
+    $scope.$watch('source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh', (newVal) => {
+        if (newVal > 0) {
+            if ($scope.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau) {
+                let endDate = moment($scope.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
+                $('#baohanh_end').kendoDatePicker().data('kendoDatePicker').value(endDate);
+            }
+        }
+    });
+
+    $scope.$watch('source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau', (newVal) => {
+        if (newVal > 0) {
+            if ($scope.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh) {
+                let endDate = moment($scope.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
+                $('#baohanh_end').kendoDatePicker().data('kendoDatePicker').value(endDate);
+            }
+        }
     });
 
 });
