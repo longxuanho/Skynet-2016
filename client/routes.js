@@ -254,8 +254,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         })
         .state('thietbis.addNew', {
             url: '/tao-moi',
-            templateUrl: 'client/thietbis/thietbis-add-new/thietbis-add-new.template.html',
-            controller: 'ThietBisAddNewCtrl'
+            template: '<thietbis-add-new></thietbis-add-new>'
         })
         .state('thietbis.content', {
             url: '/:thietbiId',

@@ -1450,6 +1450,12 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 }
             }
 
+            // if (thietbi.ho_so_tb.thong_tin_chung.bao_hanh.isThongTinBaoHanh) {
+            //     if (thietbi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau && thietbi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh)
+            //         thietbi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = moment(thietbi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(thietbi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh), 'M').toDate();
+            // }
+
+
             let ma_tb_fields = ['ma_tb', 'ma_topx', 'ma_maximo', 'ma_topovn'];
             thietbi.ma_tb.ma_tb_field = this.resolveField(ma_tb_fields, thietbi.ma_tb);
 
@@ -1599,6 +1605,11 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                     newThietBi.don_vi_so_huu.icon = item.icon;
                 }
             }
+
+            // if (newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.isThongTinBaoHanh) {
+            //     if (newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau && newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh)
+            //         newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = moment(newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh), 'M').toDate();
+            // }
 
             let ma_tb_fields = ['ma_tb', 'ma_topx', 'ma_maximo', 'ma_topovn'];
             newThietBi.ma_tb.ma_tb_field = this.resolveField(ma_tb_fields, newThietBi.ma_tb);
