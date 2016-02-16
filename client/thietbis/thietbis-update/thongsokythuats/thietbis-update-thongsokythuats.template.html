@@ -1,0 +1,37 @@
+<div class="md-card md-card-single main-print">
+    <form action="" class="uk-form-stacked" ng-cloak>
+        <div class="md-card-toolbar">                        
+            <div class="md-card-toolbar-actions" ng-click="vm.save()">
+                <i class="md-icon material-icons">&#xE161;</i>
+            </div>
+            <div class="md-card-toolbar-actions" ng-click="vm.reset()">
+                <i class="md-icon material-icons">&#xE5D5;</i>
+            </div>
+            <input class="md-card-toolbar-input" type="text" ng-model="vm.source.ma_tb.ma_tb" placeholder="Mã thiết bị mới" />
+        </div>
+        <div class="md-card-content">
+            <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
+                <div class="uk-width-medium-1-1">
+                    <div class="uk-width-medium-1-5">
+                        <div class="uk-form-stacked">
+                            <label for="kUI_dropdown_static">Nhóm thông số</label>
+                            <select kendo-drop-down-list style="width: 100%;" id="phanloai_chungloai_dropdown"
+                                ng-model="vm.source.phan_loai.chung_loai.keyId"
+                                k-filter="'contains'"
+                                k-data-source="vm.dictionary.nhom_thong_so_ky_thuat"
+                                k-rebind="vm.source.phan_loai.chung_loai.keyId">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-medium-1-2">
+                Hi 1
+                </div>
+                <div class="uk-width-medium-1-2">
+                Hi 2
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        

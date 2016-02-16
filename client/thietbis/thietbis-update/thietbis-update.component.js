@@ -30,19 +30,19 @@ angular.module('angular-skynet').directive('thietbisUpdate', function() {
                     {
                         name: "Thông tin chung",
                         value: "thong_tin_chung",
-                        active: true
+                        isActive: true
                     }, {
                         name: "Thông số KT",
                         value: "thong_so_ky_thuat",
-                        active: false
+                        isActive: false
                     }, {
                         name: "Lịch sửa chữa",
                         value: "lich_sua_chua",
-                        active: false
+                        isActive: false
                     }, {
                         name: "Nhật ký TB",
                         value: "nhat_ky_tb",
-                        active: false
+                        isActive: false
                     }, 
                 ]
             }
@@ -76,7 +76,13 @@ angular.module('angular-skynet').directive('thietbisUpdate', function() {
             vm.utils = {
                 accentColor: _.findWhere(vm._data.general.themes, {
                     name: $rootScope.main_theme
-                }).color_accent
+                }).color_accent,
+                setCurrentUpdateState: function (value) {
+                    vm.pageOptions.currentState = value;
+                    _.each(vm.pageOptions.updateStates, (item) => {
+                        item.isActive = (item.value===value) ? true : false;
+                    });
+                }
             };
 
             // ***************************************************
