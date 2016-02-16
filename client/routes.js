@@ -263,8 +263,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         })
         .state('thietbis.details', {
             url: '/cap-nhat/:thietbiId',
-            templateUrl: 'client/thietbis/thietbis-details/thietbis-details.template.html',
-            controller: 'ThietBisDetailsCtrl'
+            template: '<thietbis-update></thietbis-update>'
         })
         // NHANSUS
         .state('nhansus', {
@@ -479,7 +478,7 @@ angular.module('angular-skynet')
             $timeout(function() {
                 $rootScope.pageLoading = false;
                 $($window).resize();
-            },300);
+            }, 300);
 
             $timeout(function() {
                 $rootScope.pageLoaded = true;
@@ -487,7 +486,7 @@ angular.module('angular-skynet')
                 // wave effects
                 $window.Waves.attach('.md-btn-wave,.md-fab-wave', ['waves-button']);
                 $window.Waves.attach('.md-btn-wave-light,.md-fab-wave-light', ['waves-button', 'waves-light']);
-            },600);
+            }, 600);
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {

@@ -5,13 +5,13 @@
             <div class="md-card md-card-single main-print">
                 <form action="" class="uk-form-stacked" ng-cloak>
                     <div class="md-card-toolbar">                        
-                        <div class="md-card-toolbar-actions" ng-click="save()">
+                        <div class="md-card-toolbar-actions" ng-click="vm.save()">
                             <i class="md-icon material-icons">&#xE161;</i>
                         </div>
-                        <div class="md-card-toolbar-actions" ng-click="reset()">
+                        <div class="md-card-toolbar-actions" ng-click="vm.reset()">
                             <i class="md-icon material-icons">&#xE5D5;</i>
                         </div>
-                        <input class="md-card-toolbar-input" type="text" ng-model="source.ma_tb.ma_tb" placeholder="Mã thiết bị mới" />
+                        <input class="md-card-toolbar-input" type="text" ng-model="vm.source.ma_tb.ma_tb" placeholder="Mã thiết bị mới" />
                     </div>
                     <div class="md-card-content">
                         <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
@@ -24,12 +24,13 @@
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Nhóm</label>
                                                     <select kendo-drop-down-list style="width: 100%;"
-                                                        ng-model="source.phan_loai.nhom.keyId"
+                                                        ng-model="vm.source.phan_loai.nhom.keyId"
+                                                        k-delay="500"
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
-                                                        k-data-source="nhoms"
-                                                        k-rebind="nhoms">
+                                                        k-data-source="vm.nhoms"
+                                                        k-rebind="vm.nhoms">
                                                     </select>
                                                 </div>
                                             </div>
@@ -37,13 +38,13 @@
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Chủng loại</label>
                                                     <select kendo-drop-down-list style="width: 100%;"
-                                                        ng-model="source.phan_loai.chung_loai.keyId"
+                                                        ng-model="vm.source.phan_loai.chung_loai.keyId"
+                                                        k-delay="500"
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
-                                                        k-data-source="chungloais"
-                                                        k-ng-delay="source.phan_loai.chung_loai.keyId"
-                                                        k-rebind="chungloais">
+                                                        k-data-source="vm.chungloais"
+                                                        k-rebind="vm.chungloais">
                                                     </select>
                                                 </div>
                                             </div>
@@ -51,13 +52,13 @@
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Loại</label>
                                                     <select kendo-drop-down-list style="width: 100%;"
-                                                        ng-model="source.phan_loai.loai.keyId"
+                                                        ng-model="vm.source.phan_loai.loai.keyId"
+                                                        k-delay="500"
                                                         k-data-text-field="'ten'" 
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
-                                                        k-data-source="loais"
-                                                        k-ng-delay="source.phan_loai.loai.keyId"
-                                                        k-rebind="loais">
+                                                        k-data-source="vm.loais"
+                                                        k-rebind="vm.loais">
                                                     </select>
                                                 </div>
                                             </div>
@@ -69,19 +70,19 @@
                                             <div class="uk-width-medium-1-2">
                                                 <div class="uk-form-row">
                                                     <label>TopX</label>
-                                                    <input type="text" class="md-input" ng-model="source.ma_tb.ma_topx" md-input />
+                                                    <input type="text" class="md-input" ng-model="vm.source.ma_tb.ma_topx" md-input />
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-1-2">
                                                 <div class="uk-form-row">
                                                     <label>Maximo</label>
-                                                    <input type="text" class="md-input" ng-model="source.ma_tb.ma_maximo" md-input />
+                                                    <input type="text" class="md-input" ng-model="vm.source.ma_tb.ma_maximo" md-input />
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-1-2">
                                                 <div class="uk-form-row">
                                                     <label>Topovn</label>
-                                                    <input type="text" class="md-input" ng-model="source.ma_tb.ma_topovn" md-input />
+                                                    <input type="text" class="md-input" ng-model="vm.source.ma_tb.ma_topovn" md-input />
                                                 </div>
                                             </div>
                                         </div>
@@ -93,12 +94,13 @@
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Sở hữu</label>
                                                     <select kendo-drop-down-list style="width: 100%;" 
-                                                        ng-model="source.don_vi_so_huu.keyId"
+                                                        ng-model="vm.source.don_vi_so_huu.keyId"
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
-                                                        k-data-source="donvis"
-                                                        k-rebind="donvis">
+                                                        k-data-source="vm.donvis"
+                                                        k-delay="500"
+                                                        k-rebind="vm.donvis">
                                                     </select>
                                                 </div>
                                             </div>
@@ -106,12 +108,13 @@
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Quản lý</label>
                                                     <select kendo-drop-down-list style="width: 100%;"
-                                                        ng-model="source.don_vi_quan_ly.keyId"
+                                                        ng-model="vm.source.don_vi_quan_ly.keyId"
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
-                                                        k-data-source="donvis"
-                                                        k-rebind="donvis">
+                                                        k-data-source="vm.donvis"
+                                                        k-delay="500"
+                                                        k-rebind="vm.donvis">
                                                     </select>
                                                 </div>
                                             </div>
@@ -123,25 +126,25 @@
                                             <div class="uk-width-medium-3-5">
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Ngày bàn giao</label>
-                                                    <input kendo-date-picker k-ng-model="source.ho_so_tb.thong_tin_chung.bao_hanh.ngay_ban_giao" k-format="'dddd, dd/MM/yyyy'" style="width: 100%;" />
+                                                    <input kendo-date-picker k-ng-model="vm.source.ho_so_tb.thong_tin_chung.bao_hanh.ngay_ban_giao" k-format="'dddd, dd/MM/yyyy'" style="width: 100%;" />
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-2-5">
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Tình trạng</label>
-                                                    <select kendo-drop-down-list style="width: 100%;" ng-model="source.ho_so_tb.thong_tin_chung.bao_hanh.tinh_trang_ban_giao">
+                                                    <select kendo-drop-down-list style="width: 100%;" ng-model="vm.source.ho_so_tb.thong_tin_chung.bao_hanh.tinh_trang_ban_giao">
                                                         <option>Mới</option>
                                                         <option>Đã qua SD</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-1-1">
-                                                <input type="checkbox" name="style_sidebar_mini" id="style_sidebar_mini" icheck ng-model="source.ho_so_tb.thong_tin_chung.bao_hanh.isTrongThoiGianBaoHanh" /> Trong thời gian bảo hành
+                                                <input type="checkbox" name="style_sidebar_mini" id="style_sidebar_mini" icheck ng-model="vm.source.ho_so_tb.thong_tin_chung.bao_hanh.isTrongThoiGianBaoHanh" /> Trong thời gian bảo hành
                                             </div>
                                             <div class="uk-width-medium-1-2">
                                                 <div class="uk-form-row">
                                                     <label>Thời gian (tháng)</label>
-                                                    <input type="number" class="md-input" ng-model="source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh" md-input />
+                                                    <input type="number" class="md-input" ng-model="vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh" md-input />
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-1-2">
@@ -149,13 +152,13 @@
                                             <div class="uk-width-medium-1-2">
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Từ ngày</label>
-                                                    <input kendo-date-picker k-ng-model="source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau" k-on-change="utils.kendoOnDateChangeRestrict(kendoEvent, 'baohanh_batdau')" k-format="'dd/MM/yyyy'" style="width: 100%;" id="baohanh_start" />
+                                                    <input kendo-date-picker k-ng-model="vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau" k-on-change="utils.kendoOnDateChangeRestrict(kendoEvent, 'baohanh_batdau')" k-format="'dd/MM/yyyy'" style="width: 100%;" id="baohanh_start" />
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-1-2">
                                                 <div class="uk-form-stacked">
                                                     <label for="kUI_dropdown_static">Đến ngày</label>
-                                                    <input kendo-date-picker k-ng-model="source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc" k-format="'dd/MM/yyyy'" style="width: 100%;" id="baohanh_end" k-ng-readonly="true" />
+                                                    <input kendo-date-picker k-ng-model="vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc" k-format="'dd/MM/yyyy'" style="width: 100%;" id="baohanh_end" k-ng-readonly="true" />
                                                 </div>
                                             </div>
                                         </div>
@@ -165,11 +168,11 @@
                                         <div class="uk-grid uk-margin-medium-bottom" data-uk-grid-margin>
                                             <div class="uk-width-1-1">
                                                 <label for="user_bio">Mô tả</label>
-                                                <textarea id="user_bio" class="md-input" name="user_bio" cols="10" rows="2" md-input ng-model="source.mo_ta"></textarea>
+                                                <textarea id="user_bio" class="md-input" name="user_bio" cols="10" rows="2" md-input ng-model="vm.source.mo_ta"></textarea>
                                             </div>
                                             <div class="uk-width-1-1">
                                                 <label for="user_bio">Ghi chú</label>
-                                                <textarea id="user_bio" class="md-input" name="user_bio" cols="10" rows="2" md-input ng-model="source.ghi_chu"></textarea>
+                                                <textarea id="user_bio" class="md-input" name="user_bio" cols="10" rows="2" md-input ng-model="vm.source.ghi_chu"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -183,13 +186,13 @@
                                             <div class="uk-form-stacked">
                                                 <label for="kUI_dropdown_static">Địa bàn</label>
                                                 <select kendo-drop-down-list style="width: 100%;"
-                                                    ng-model="source.dia_ban_hoat_dong.keyId"
+                                                    ng-model="vm.source.dia_ban_hoat_dong.keyId"
                                                     k-data-text-field="'ten'"
                                                     k-data-value-field="'_id'"
                                                     k-filter="'contains'"
-                                                    k-data-source="diabans"
-                                                    k-ng-delay="source.dia_ban_hoat_dong.keyId"
-                                                    k-rebind="diabans">
+                                                    k-delay="500"
+                                                    k-data-source="vm.diabans"
+                                                    k-rebind="vm.diabans">
                                                 </select>
                                             </div>
                                         </div>
@@ -197,12 +200,13 @@
                                             <div class="uk-form-stacked">
                                                 <label for="kUI_dropdown_static">Nơi sản xuất</label>
                                                 <select kendo-drop-down-list style="width: 100%;"
-                                                ng-model="source.ho_so_tb.thong_tin_chung.xuat_xu.keyId"
+                                                ng-model="vm.source.ho_so_tb.thong_tin_chung.xuat_xu.keyId"
                                                 k-data-text-field="'ten'"
                                                 k-data-value-field="'_id'"
                                                 k-filter="'contains'"
-                                                k-data-source="quocgias"
-                                                k-rebind="quocgias">
+                                                k-delay="500"
+                                                k-data-source="vm.quocgias"
+                                                k-rebind="vm.quocgias">
                                                 </select>
                                             </div>
                                         </div>
@@ -210,12 +214,13 @@
                                             <div class="uk-form-stacked">
                                                 <label for="kUI_dropdown_static">Hãng sản xuất</label>
                                                 <select kendo-drop-down-list style="width: 100%;"
-                                                    ng-model="source.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId"
+                                                    ng-model="vm.source.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId"
                                                     k-data-text-field="'ten'"
                                                     k-data-value-field="'_id'"
                                                     k-filter="'contains'"
-                                                    k-data-source="hangsanxuats"
-                                                    k-rebind="hangsanxuats">
+                                                    k-delay="500"
+                                                    k-data-source="vm.hangsanxuats"
+                                                    k-rebind="vm.hangsanxuats">
                                                 </select>
                                             </div>
                                         </div>
@@ -223,50 +228,50 @@
                                             <div class="uk-form-stacked">
                                                 <label for="kUI_dropdown_static">Model</label>
                                                 <select kendo-drop-down-list style="width: 100%;"
-                                                    ng-model="source.ho_so_tb.thong_tin_chung.model_tb.keyId"
+                                                    ng-model="vm.source.ho_so_tb.thong_tin_chung.model_tb.keyId"
                                                     k-data-text-field="'ten'"
                                                     k-data-value-field="'_id'"
                                                     k-filter="'contains'"
-                                                    k-data-source="modelthietbis"
-                                                    k-ng-delay="source.ho_so_tb.thong_tin_chung"
-                                                    k-rebind="modelthietbis">
+                                                    k-delay="500"
+                                                    k-data-source="vm.modelthietbis"
+                                                    k-rebind="vm.modelthietbis">
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-2">
                                             <div class="uk-form-row">
                                                 <label>Năm SX</label>
-                                                <input type="number" class="md-input" ng-model="source.ho_so_tb.thong_tin_chung.nam_sx" md-input />
+                                                <input type="number" class="md-input" ng-model="vm.source.ho_so_tb.thong_tin_chung.nam_sx" md-input />
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-2">
                                             <div class="uk-form-row">
                                                 <label>Năm SD</label>
-                                                <input type="number" class="md-input" ng-model="source.ho_so_tb.thong_tin_chung.nam_sd" md-input />
+                                                <input type="number" class="md-input" ng-model="vm.source.ho_so_tb.thong_tin_chung.nam_sd" md-input />
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-2">
                                             <div class="uk-form-row">
                                                 <label>Số khung</label>
-                                                <input type="text" class="md-input" ng-model="source.ho_so_tb.thong_tin_chung.so_khung" md-input />
+                                                <input type="text" class="md-input" ng-model="vm.source.ho_so_tb.thong_tin_chung.so_khung" md-input />
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-2">
                                             <div class="uk-form-row">
                                                 <label>Số máy</label>
-                                                <input type="text" class="md-input" ng-model="source.ho_so_tb.thong_tin_chung.so_may" md-input />
+                                                <input type="text" class="md-input" ng-model="vm.source.ho_so_tb.thong_tin_chung.so_may" md-input />
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-2">
                                             <div class="uk-form-row">
                                                 <label>Số đăng ký</label>
-                                                <input type="text" class="md-input" ng-model="source.ho_so_tb.thong_tin_chung.so_dang_ky" md-input />
+                                                <input type="text" class="md-input" ng-model="vm.source.ho_so_tb.thong_tin_chung.so_dang_ky" md-input />
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-2">
                                             <div class="uk-form-row">
                                                 <label>Số đăng kiểm</label>
-                                                <input type="text" class="md-input" ng-model="source.ho_so_tb.thong_tin_chung.so_dang_kiem" md-input />
+                                                <input type="text" class="md-input" ng-model="vm.source.ho_so_tb.thong_tin_chung.so_dang_kiem" md-input />
                                             </div>
                                         </div>
                                     </div>
