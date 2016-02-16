@@ -24,7 +24,7 @@ angular.module('angular-skynet').directive('thietbisModalDetails', function() {
                 goToEditPage: function() {
                     this.closeModal();
                     $timeout(()=>{
-                        $state.go('thietbis.details', {thietbiId: $scope.source._id});
+                        $state.go('thietbis.update', {thietbiId: $scope.source._id});
                     }, 600);          
                 },
                 closeModal: function() {

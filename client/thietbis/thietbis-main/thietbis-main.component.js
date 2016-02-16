@@ -80,7 +80,7 @@ angular.module('angular-skynet').directive('thietbisMain', function() {
                     }, (error) => {
                         if (!error) {
                             iNotifier.info('Thiết bị "' + loai.ten + '" đã được gỡ bỏ khỏi hệ thống.');
-                            $state.go('thietbis.blank');
+                            $state.go('thietbis.list');
                         } else {
                             iNotifier.error(error.message);
                         }

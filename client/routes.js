@@ -247,10 +247,9 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/quan-ly/thiet-bi',
             template: '<thietbis-main></thietbis-main>'
         })
-        .state('thietbis.blank', {
-            url: '/',
-            templateUrl: 'client/thietbis/thietbis-blank/thietbis-blank.template.html',
-            controller: 'ThietBisBlankCtrl'
+        .state('thietbis.list', {
+            url: '/thong-ke',
+            template: '<thietbis-list></thietbis-list>'
         })
         .state('thietbis.addNew', {
             url: '/tao-moi',
@@ -261,7 +260,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             templateUrl: 'client/thietbis/thietbis-content/thietbis-content.template.html',
             controller: 'ThietBisContentCtrl'
         })
-        .state('thietbis.details', {
+        .state('thietbis.update', {
             url: '/cap-nhat/:thietbiId',
             template: '<thietbis-update></thietbis-update>'
         })

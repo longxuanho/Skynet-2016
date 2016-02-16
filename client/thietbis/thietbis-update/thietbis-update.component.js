@@ -1,7 +1,7 @@
 angular.module('angular-skynet').directive('thietbisUpdate', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/thietbis/thietbis-details/thietbis-details.template.html',
+        templateUrl: 'client/thietbis/thietbis-update/thietbis-update.template.html',
         controllerAs: 'vm',
         controller: function($scope, skynetHelpers, $rootScope, iNotifier, $timeout, $reactive) {
 
@@ -168,6 +168,14 @@ angular.module('angular-skynet').directive('thietbisUpdate', function() {
             };
 
             // ***************************************************
+            // FIX BUGS
+            // ***************************************************
+
+            // $timeout(()=>{
+            //    $("#phanloai_chungloai_dropdown").data("kendoDropDownList").refresh(); // fix bugs kendo không hiển thị được giá trị tại field chủng loại
+            // }, 1000);
+
+            // ***************************************************
             // WATCHERS
             // ***************************************************
 
@@ -225,11 +233,18 @@ angular.module('angular-skynet').directive('thietbisUpdate', function() {
                 }
             });
 
+            $scope.$watch('vm.source.ho_so_tb.thong_tin_chung.bao_hanh.isThongTinBaoHanh', (newVal) => {
+                if (!newVal) {
+                    vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh = '';
+                    vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau = '';
+                    vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = '';
+                }
+            });
+
             $scope.$watch('vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh', (newVal) => {
                 if (newVal > 0) {
                     if (vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau) {
-                        let endDate = moment(vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
-                        $('#baohanh_end').kendoDatePicker().data('kendoDatePicker').value(endDate);
+                        vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = moment(vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
                     }
                 }
             });
@@ -237,12 +252,12 @@ angular.module('angular-skynet').directive('thietbisUpdate', function() {
             $scope.$watch('vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau', (newVal) => {
                 if (newVal > 0) {
                     if (vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh) {
-                        let endDate = moment(vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
-                        $('#baohanh_end').kendoDatePicker().data('kendoDatePicker').value(endDate);
+                        vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = moment(vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
                     }
                 }
             });
 
+            
         }
     }
 });

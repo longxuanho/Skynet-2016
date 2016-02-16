@@ -53,7 +53,7 @@ angular.module('angular-skynet').directive('thietbisModalXoaThietBi', function()
                             }, (error) => {
                                 if (!error) {
                                     iNotifier.info('Thiết bị "' + thietbi.ten + '" đã được gỡ bỏ khỏi hệ thống.');
-                                    $state.go('thietbis.blank');
+                                    $state.go('thietbis.list');
                                 }
                                 else {
                                     iNotifier.error(error.message);
