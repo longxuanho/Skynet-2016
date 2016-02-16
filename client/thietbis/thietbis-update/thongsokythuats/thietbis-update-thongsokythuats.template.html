@@ -10,25 +10,45 @@
             <input class="md-card-toolbar-input" type="text" ng-model="vm.source.ma_tb.ma_tb" placeholder="Mã thiết bị mới" />
         </div>
         <div class="md-card-content">
-            <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
-                <div class="uk-width-medium-1-1">
-                    <div class="uk-width-medium-1-5">
-                        <div class="uk-form-stacked">
-                            <label for="kUI_dropdown_static">Nhóm thông số</label>
-                            <select kendo-drop-down-list style="width: 100%;" id="phanloai_chungloai_dropdown"
-                                ng-model="vm.source.phan_loai.chung_loai.keyId"
-                                k-filter="'contains'"
-                                k-data-source="vm.dictionary.nhom_thong_so_ky_thuat"
-                                k-rebind="vm.source.phan_loai.chung_loai.keyId">
-                            </select>
-                        </div>
+            <div class="uk-grid uk-margin-small-bottom" data-uk-grid-margin>
+                <div class="uk-width-medium-1-4">
+                    <div class="uk-form-stacked">
+                        <label for="kUI_dropdown_static">Nhóm thông số</label>
+                        <select kendo-drop-down-list style="width: 100%;"
+                            ng-model="vm.source.thong_so_ky_thuat.nhom_thong_so"
+                            k-filter="'contains'"
+                            k-data-source="vm.dictionary.nhom_thong_so_ky_thuat"
+                            k-rebind="vm.source.phan_loai.chung_loai.keyId">
+                        </select>
                     </div>
                 </div>
+                <div class="uk-width-medium-3-4"></div>
                 <div class="uk-width-medium-1-2">
-                Hi 1
+                    <input kendo-auto-complete style="width: 100%;" 
+                        ng-model="vm.source.thong_so_ky_thuat.thong_so"
+                        k-filter="'contains'"
+                        k-placeholder="'Thông số kỹ thuật'"
+                        k-highlight-first="true"
+                        k-suggest="true"
+                        k-data-source="vm.dictionary.thong_so_dict[vm.source.phan_loai.chung_loai.ma][vm.source.thong_so_ky_thuat.nhom_thong_so]['text']"/>
                 </div>
-                <div class="uk-width-medium-1-2">
-                Hi 2
+                <div class="uk-width-small-1-2 uk-width-medium-1-4 no-animate" ng-show="vm.pageOptions.isGiaTriKieuNumber">
+                    <input kendo-numeric-text-box style="width: 100%;"
+                        ng-model="vm.source.thong_so_ky_thuat.gia_tri"
+                        k-placeholder="'Giá trị'"
+                        k-culture="'en-US'" />
+                </div>
+                <div class="uk-width-small-1-2 uk-width-medium-1-4 no-animate" ng-show="vm.pageOptions.isGiaTriKieuNumber">
+                    <select kendo-drop-down-list style="width: 100%;"
+                        ng-model="vm.source.thong_so_ky_thuat.don_vi"
+                        k-filter="'contains'"
+                        k-data-source="vm.dictionary.thong_so_dict[vm.source.phan_loai.chung_loai.ma][vm.source.thong_so_ky_thuat.nhom_thong_so]['measure']">
+                    </select>
+                </div>
+                <div class="uk-width-small-1-1 uk-width-medium-1-2 no-animate" ng-show="!vm.pageOptions.isGiaTriKieuNumber">
+                    <input kendo-auto-complete style="width: 100%;" 
+                        ng-model="vm.source.thong_so_ky_thuat.gia_tri_text"
+                        k-placeholder="'Giá trị*'"/>
                 </div>
             </div>
         </div>

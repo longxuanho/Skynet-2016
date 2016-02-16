@@ -114,7 +114,6 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                     "Toàn bộ cần trục"
                                 ],
                                 "measure": [
-                                    "-"
                                 ]
                             }
                         }

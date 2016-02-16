@@ -25,6 +25,10 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
 
             vm.dictionary = angular.copy(skynetDictionary.data.thietbis.thong_so_ky_thuat);
 
+            vm.pageOptions = {
+                isGiaTriKieuNumber: true
+            }
+
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
@@ -120,77 +124,8 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                 }).color_accent;
             });
 
-            $scope.$watch('vm.source.phan_loai.nhom.keyId', (newVal) => {
-                
-                if (vm.master && vm.master.phan_loai) {
-                    vm.params.nhomSelectedId = newVal;
-
-                    // Reset lại giá trị của chủng loại sau khi chọn keyId của nhóm khác rồi quay về keyId của nhóm lúc đầu, delay 300ms cho quá trình init kendo
-                    if (newVal === vm.master.phan_loai.nhom.keyId) {
-                        $timeout(()=>{
-                            vm.source.phan_loai.chung_loai.keyId = vm.master.phan_loai.chung_loai.keyId;
-                        }, 300);            
-                    }
-                    else    
-                        vm.source.phan_loai.chung_loai.keyId = '';
-                }
-                
-            });
-
-            $scope.$watch('vm.source.phan_loai.chung_loai.keyId', (newVal) => {
-                
-                if (vm.master && vm.master.phan_loai) {
-                    vm.params.chungloaiSelectedId = newVal;
-                    
-                    // Reset lại giá trị của chủng loại sau khi chọn keyId của chủng loại khác rồi quay về keyId của chủng loại lúc đầu, delay 300ms cho quá trình init kendo
-                    if (newVal === vm.master.phan_loai.chung_loai.keyId) {
-                        $timeout(()=>{
-                            vm.source.phan_loai.loai.keyId = vm.master.phan_loai.loai.keyId;
-                        }, 300);
-                    }
-                    else    
-                        vm.source.phan_loai.loai.keyId = '';
-                }
-            });
-
-            $scope.$watch('vm.source.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId', (newVal) => {
-                
-                if (vm.master && vm.master.ho_so_tb) {
-                    vm.params.hangsanxuatSelectedId = newVal;
-                    
-                    if (newVal === vm.master.ho_so_tb.thong_tin_chung.hang_san_xuat.keyId) {
-                        $timeout(()=>{
-                           vm.source.ho_so_tb.thong_tin_chung.model_tb.keyId = vm.master.ho_so_tb.thong_tin_chung.model_tb.keyId;
-                        }, 300);
-                    }
-                    else    
-                        vm.source.ho_so_tb.thong_tin_chung.model_tb.keyId = '';
-                }
-            });
-
-            $scope.$watch('vm.source.ho_so_tb.thong_tin_chung.bao_hanh.isThongTinBaoHanh', (newVal) => {
-                if (vm.source && vm.source.ho_so_tb && vm.source.ho_so_tb.thong_tin_chung)
-                    if (!newVal) {
-                        vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh = '';
-                        vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau = '';
-                        vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = '';
-                    }
-            });
-
-            $scope.$watch('vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh', (newVal) => {
-                if (newVal > 0) {
-                    if (vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau) {
-                        vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = moment(vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
-                    }
-                }
-            });
-
-            $scope.$watch('vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau', (newVal) => {
-                if (newVal > 0) {
-                    if (vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh) {
-                        vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc = moment(vm.source.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau).add(parseInt(newVal), 'M').toDate();
-                    }
-                }
+            $scope.$watch('vm.source.thong_so_ky_thuat.nhom_thong_so', (newVal) => {
+                vm.pageOptions.isGiaTriKieuNumber = (_.contains(["Phân cấp cần trục"], newVal)) ? false : true; 
             });
 
             
