@@ -26,7 +26,10 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
             vm.dictionary = angular.copy(skynetDictionary.data.thietbis.thong_so_ky_thuat);
 
             vm.pageOptions = {
-                isGiaTriKieuNumber: true
+                isGiaTriKieuNumber: true,
+                selected: {
+                    thongsokythuat: {}
+                }
             }
 
             vm._helpers.initNewThongSoKyThuatParams(vm, vm.master);
@@ -36,15 +39,36 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                     kData: {
                         dataSource: {
                             data: new kendo.data.ObservableObject([]),
-                            pageSize: 8
-                        },
+                            pageSize: 8,
+                            schema:{
+                                model: {
+                                    id: "_id",
+                                    fields: {
+                                        nhom_thong_so: { type: "string" },
+                                        ten: { type: "string" },
+                                        gia_tri: { type: "number" },
+                                        don_vi: { type: "string" },
+                                        gia_tri_text: { type: "string" }
+                                    }
+                                }
+                            },
+                            group: {
+                                field: "nhom_thong_so", 
+                                aggregates: [
+                                    { field: "nhom_thong_so", aggregate: "count" }
+                                ]
+                            }
+                        }
                     },
                     kOptions: {
                         columns: [{
                             field: "nhom_thong_so",
                             title: "Nhóm",
                             type: "string",
-                            width: "100px"
+                            width: "100px",
+                            hidden: true,
+                            aggregates: ["count"],
+                            groupHeaderTemplate: "Nhóm: #= value # (Số lượng: #= count#)"
                         }, {
                             field: "ten",
                             title: "Thông số",
@@ -54,7 +78,7 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                             field: "gia_tri",
                             title: "Giá trị",
                             type: "number",
-                            width: "100px"
+                            width: "60px"
                         }, {
                             field: "don_vi",
                             title: "Đơn vị",
@@ -64,11 +88,11 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                             field: "gia_tri_text",
                             title: "Giá trị*",
                             type: "string",
-                            width: "60px"
+                            width: "80px"
                         }],
                         selectable: "row",
                         sortable: {
-                            mode: "single",
+                            mode: "multiple",
                             allowUnsort: true
                         },
                         pageable: {
@@ -82,11 +106,7 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                         },
                         filterable: {
                             mode: 'menu',
-                            extra: false
-                        },
-                        groupable: {
-                            enabled: true,
-                            showFooter: false,
+                            extra: true
                         },
                         reorderable: true,
                         scrollable: {
@@ -96,6 +116,30 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                         columnMenu: false
                     },
                     gridOnChange: function(event) {
+                        let grid = $("#myGrid").data("kendoGrid");
+                        if (grid.select().length)  {
+                            // Đổi trạng thái FAB
+                            vm.pageOptions.fabState = 'thietbis_viewDetails';
+                            
+                            if (!vm.pageOptions.selected.thongsokythuat._id) {
+                                vm.pageOptions.selected.thongsokythuat = angular.copy(grid.dataItem(grid.select()));
+                            }
+                            else {
+                                if (vm.pageOptions.selected.thongsokythuat._id === grid.dataItem(grid.select())._id) {
+                                    // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
+                                    vm.pageOptions.selected.thongsokythuat = {};
+                                    try {
+                                        grid.clearSelection();    
+                                    } catch (err) {
+                                        // ERROR CLEAR SELECTION???
+                                        console.log('Error clearing selection: ', err.message);
+                                    }                                                                        
+                                }
+                                else {
+                                    vm.pageOptions.selected.thongsokythuat = grid.dataItem(grid.select());
+                                }
+                            }
+                        }
                     },
                     gridOnDataBound: function(event) {
                     }

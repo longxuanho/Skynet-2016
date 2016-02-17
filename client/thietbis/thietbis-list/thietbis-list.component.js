@@ -35,7 +35,7 @@ angular.module('angular-skynet').directive('thietbisList', function() {
                 },
                 fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_thiet_bi')) ? 'thietbis_createNew' : '',
                 selected: {
-                    thietbi: ''
+                    thietbi: {}
                 }
             };
 
