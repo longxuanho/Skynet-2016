@@ -1,0 +1,56 @@
+<div class="uk-modal" id="modal_thongsokythuats_update">
+    <div class="uk-modal-dialog">
+        <div class="uk-modal-header">
+            <h3 class="uk-modal-title">{{vm.thietbi.ma_tb.ma_tb}}: Cập nhật thông số KT</h3>
+        </div>
+        <div class="uk-grid uk-margin-small-bottom">
+            <div class="uk-width-medium-1-2">
+                <div class="uk-form-stacked">
+                    <label for="kUI_dropdown_static">Nhóm thông số</label>
+                    <select kendo-drop-down-list style="width: 100%;"
+                        ng-model="vm.source.nhom_thong_so"
+                        k-filter="'contains'"
+                        k-delay="500"
+                        k-data-source="vm.dictionary.nhom_thong_so_ky_thuat"
+                        k-rebind="vm.source.phan_loai.chung_loai.keyId">
+                    </select>
+                </div>
+            </div>
+            <div class="uk-width-medium-1-4"></div>
+            <div class="uk-width-medium-1-1 uk-margin-small-top">
+                <input kendo-auto-complete style="width: 100%;" 
+                    ng-model="vm.source.ten"
+                    k-filter="'contains'"
+                    k-placeholder="'Thông số kỹ thuật'"
+                    k-highlight-first="true"
+                    k-suggest="true"
+                    k-data-source="vm.dictionary.thong_so_dict[vm.source.thiet_bi.phan_loai.chung_loai.ma][vm.source.nhom_thong_so]['text']"/>
+            </div>
+            
+            <div class="uk-width-medium-3-5 no-animate uk-margin-small-top" ng-show="vm.modalOptions.isGiaTriKieuNumber">
+                <input kendo-numeric-text-box style="width: 100%;"
+                    ng-model="vm.source.gia_tri"
+                    k-placeholder="'Giá trị'"
+                    k-delay="500"
+                    k-culture="'en-US'" />
+            </div>
+            <div class="uk-width-medium-2-5 no-animate uk-margin-small-top" ng-show="vm.modalOptions.isGiaTriKieuNumber">
+                <select kendo-drop-down-list style="width: 100%;"
+                    ng-model="vm.source.don_vi"
+                    k-filter="'contains'"
+                    k-delay="500"
+                    k-data-source="vm.dictionary.thong_so_dict[vm.source.thiet_bi.phan_loai.chung_loai.ma][vm.source.nhom_thong_so]['measure']">
+                </select>
+            </div>
+            <div class="uk-width-medium-1-2 no-animate uk-margin-small-top" ng-show="!vm.modalOptions.isGiaTriKieuNumber">
+                <input kendo-auto-complete style="width: 100%;" 
+                    ng-model="vm.source.gia_tri_text"
+                    k-placeholder="'Giá trị *'"/>
+            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button type="button" class="md-btn md-btn-flat uk-text-warning no-animate" ng-click="vm.utils.updateThongSoKyThuat()">Cập nhật</button>
+            <button type="button" class="md-btn md-btn-flat no-animate" ng-click="">Khôi phục</button>
+        </div>
+    </div>
+</div>

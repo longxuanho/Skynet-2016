@@ -48,7 +48,7 @@
                 <div class="uk-width-small-1-1 uk-width-medium-1-2 no-animate" ng-show="!vm.pageOptions.isGiaTriKieuNumber">
                     <input kendo-auto-complete style="width: 100%;" 
                         ng-model="vm.newThongSoKyThuat.gia_tri_text"
-                        k-placeholder="'Giá trị*'"/>
+                        k-placeholder="'Giá trị *'"/>
                 </div>
             </div>
         </div>
@@ -65,7 +65,6 @@
         k-selectable="vm.gridData.thongsokythuatsGrid.kOptions.selectable"
         k-sortable="vm.gridData.thongsokythuatsGrid.kOptions.sortable"
         k-pageable="vm.gridData.thongsokythuatsGrid.kOptions.pageable"
-        k-filterable="vm.gridData.thongsokythuatsGrid.kOptions.filterable"
         k-reorderable="vm.gridData.thongsokythuatsGrid.kOptions.reorderable"
         k-scrollable="vm.gridData.thongsokythuatsGrid.kOptions.scrollable"
         k-resizable="vm.gridData.thongsokythuatsGrid.kOptions.resizable"
@@ -73,4 +72,16 @@
         k-on-change="vm.gridData.thongsokythuatsGrid.gridOnChange(kendoEvent)"
         k-on-data-bound="vm.gridData.thongsokythuatsGrid.gridOnDataBound(kendoEvent)">
     </kendo-grid>
-</div>      
+</div> 
+
+<div class="md-fab-wrapper">
+    <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='thongsokythuats_goToList'" ui-sref="thietbis.addNew">
+        <i class="material-icons">&#xE30D;</i>
+    </a>
+    <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='thongsokythuats_update'" data-uk-modal="{target: '#modal_thongsokythuats_update'}">
+        <i class="material-icons">&#xE880;</i>
+    </a>
+</div> 
+
+<thongsokythuats-modal-update id="vm.pageOptions.selected.thongsokythuat._id" thietbi="vm.master"></thongsokythuats-modal-update>
+

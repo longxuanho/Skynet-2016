@@ -9,8 +9,6 @@ angular.module('angular-skynet').directive('thietbisModalDetails', function() {
         controller: function($scope, $rootScope, skynetHelpers, $state, $timeout) {
             $scope._helpers = skynetHelpers.helpers;
 
-            _.isEmpty($scope._helpers.validateUser('can_upsert_thiet_bi')) ? 'thietbis_createNew' : '',
-
             $scope.utils = {
                 isTrongThoiGianBaoHanh: function() {
                     if ($scope.source)

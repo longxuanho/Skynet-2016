@@ -21,12 +21,12 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
 
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
-            vm._helpers.initNewThietBiParams(vm);
 
             vm.dictionary = angular.copy(skynetDictionary.data.thietbis.thong_so_ky_thuat);
 
             vm.pageOptions = {
                 isGiaTriKieuNumber: true,
+                fabState: 'thongsokythuats_goToList',
                 selected: {
                     thongsokythuat: {}
                 }
@@ -86,7 +86,7 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                             width: "50px"
                         }, {
                             field: "gia_tri_text",
-                            title: "Giá trị*",
+                            title: "Giá trị *",
                             type: "string",
                             width: "80px"
                         }],
@@ -100,8 +100,8 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                             pageSizes: false,
                             info: true,
                             buttonCount: 3,
-                            numeric: false,
-                            input: true,
+                            numeric: true,
+                            input: false,
                             previousNext: true
                         },
                         filterable: {
@@ -118,25 +118,28 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                     gridOnChange: function(event) {
                         let grid = $("#myGrid").data("kendoGrid");
                         if (grid.select().length)  {
-                            // Đổi trạng thái FAB
-                            vm.pageOptions.fabState = 'thietbis_viewDetails';
                             
                             if (!vm.pageOptions.selected.thongsokythuat._id) {
                                 vm.pageOptions.selected.thongsokythuat = angular.copy(grid.dataItem(grid.select()));
+                                // Đổi trạng thái FAB
+                                vm.pageOptions.fabState = 'thongsokythuats_update';
                             }
                             else {
                                 if (vm.pageOptions.selected.thongsokythuat._id === grid.dataItem(grid.select())._id) {
                                     // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
                                     vm.pageOptions.selected.thongsokythuat = {};
+                                    vm.pageOptions.fabState = 'thongsokythuats_goToList';                                                                       
+
                                     try {
                                         grid.clearSelection();    
                                     } catch (err) {
                                         // ERROR CLEAR SELECTION???
                                         console.log('Error clearing selection: ', err.message);
-                                    }                                                                        
+                                    }
                                 }
                                 else {
                                     vm.pageOptions.selected.thongsokythuat = grid.dataItem(grid.select());
+                                    vm.pageOptions.fabState = 'thongsokythuats_update';
                                 }
                             }
                         }
@@ -198,69 +201,66 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                 }
             };
 
-            vm.save = () => {
-
-                let err = vm._helpers.validateUser('can_upsert_thong_so_ky_thuat');
-                if (_.isEmpty(err)) {
-                    err = vm._helpers.validateThietBiForm(vm.source);
-                    if (_.isEmpty(err)) {
-
-                        vm._helpers.buildThietBi(vm.source);
-                        ThietBis.update({
-                            _id: $rootScope.$stateParams.thietbiId
-                        }, {
-                            $set: {
-                                ma_tb: vm.source.ma_tb,
-                                phan_loai: vm.source.phan_loai,
-                                ho_so_tb: vm.source.ho_so_tb,
-                                status: vm.source.status,
-                                mo_ta: vm.source.mo_ta,
-                                ghi_chu: vm.source.ghi_chu,
-                                dia_ban_hoat_dong: vm.source.dia_ban_hoat_dong,
-                                don_vi_quan_ly: vm.source.don_vi_quan_ly,
-                                don_vi_so_huu: vm.source.don_vi_so_huu,                        
-                                don_vi_field: vm.source.don_vi_field,                        
-                                isPublic: vm.source.isPublic,
-                                isArchived: vm.source.isArchived,
-                                'metadata.ngay_cap_nhat_cuoi': vm.source.metadata.ngay_cap_nhat_cuoi,
-                                'metadata.nguoi_cap_nhat_cuoi': vm.source.metadata.nguoi_cap_nhat_cuoi,
-                                'metadata.nguoi_cap_nhat_cuoi_field': vm.source.metadata.nguoi_cap_nhat_cuoi_field,
-                                'metadata.search_field': vm.source.metadata.search_field
-                            }
-                        }, (error) => {
-                            if (error) {
-                                iNotifier.error('Không thể cập nhật thiết bị này. ' + error.message + '.');
-                            } else {
-                                iNotifier.success('Thiết bị "' + vm.source.ma_tb.ma_tb + '" được cập nhật thành công.');
-
-                                vm.master = ThietBis.findOne({
-                                    _id: $rootScope.$stateParams.thietbiId
-                                });
-                            }
-                        });
-
-                    } else {
-                        iNotifier.error(err.message);
-                    }
-                } else {
-                    iNotifier.error(err.message);
-                }
-            };
-
-            vm.reset = () => {
-                console.log('vm.source: ', vm.source);
-                console.log('vm.master: ', vm.master);
-                angular.copy(vm.master, vm.source);
-            };
-
             // ***************************************************
             // UTILS
             // ***************************************************
 
             vm.utils = {
+                
                 accentColor: _.findWhere(vm._data.general.themes, {
                     name: $rootScope.main_theme
-                }).color_accent
+                }).color_accent,
+                
+                updateThongSoKyThuat: () => {
+                    let err = vm._helpers.validateUser('can_upsert_thong_so_ky_thuat');
+                    if (_.isEmpty(err)) {
+                        err = vm._helpers.validateThongSoKyThuatForm(vm.source);
+                        if (_.isEmpty(err)) {
+
+                            vm._helpers.buildThongSoKyThuat(vm.source);
+                            ThongSoKyThuats.update({
+                                _id: $rootScope.$stateParams.thietbiId
+                            }, {
+                                $set: {
+                                    ma_tb: vm.source.ma_tb,
+                                    phan_loai: vm.source.phan_loai,
+                                    ho_so_tb: vm.source.ho_so_tb,
+                                    status: vm.source.status,
+                                    mo_ta: vm.source.mo_ta,
+                                    ghi_chu: vm.source.ghi_chu,
+                                    dia_ban_hoat_dong: vm.source.dia_ban_hoat_dong,
+                                    don_vi_quan_ly: vm.source.don_vi_quan_ly,
+                                    don_vi_so_huu: vm.source.don_vi_so_huu,                        
+                                    don_vi_field: vm.source.don_vi_field,                        
+                                    isPublic: vm.source.isPublic,
+                                    isArchived: vm.source.isArchived,
+                                    'metadata.ngay_cap_nhat_cuoi': vm.source.metadata.ngay_cap_nhat_cuoi,
+                                    'metadata.nguoi_cap_nhat_cuoi': vm.source.metadata.nguoi_cap_nhat_cuoi,
+                                    'metadata.nguoi_cap_nhat_cuoi_field': vm.source.metadata.nguoi_cap_nhat_cuoi_field,
+                                    'metadata.search_field': vm.source.metadata.search_field
+                                }
+                            }, (error) => {
+                                if (error) {
+                                    iNotifier.error('Không thể cập nhật thiết bị này. ' + error.message + '.');
+                                } else {
+                                    iNotifier.success('Thiết bị "' + vm.source.ma_tb.ma_tb + '" được cập nhật thành công.');
+
+                                    vm.master = ThongSoKyThuats.findOne({
+                                        _id: $rootScope.$stateParams.thietbiId
+                                    });
+                                }
+                            });
+
+                        } else {
+                            iNotifier.error(err.message);
+                        }
+                    } else {
+                        iNotifier.error(err.message);
+                    }
+                },
+                reset: () => {
+                    angular.copy(vm.master, vm.source);
+                }
             };
 
             // ***************************************************

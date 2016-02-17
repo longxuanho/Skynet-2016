@@ -21,7 +21,6 @@ angular.module('angular-skynet').directive('thietbisUpdateMain', function() {
 
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
-            vm._helpers.initNewThietBiParams(vm);
 
             vm.params = {
                 nhomSelectedId: null,
