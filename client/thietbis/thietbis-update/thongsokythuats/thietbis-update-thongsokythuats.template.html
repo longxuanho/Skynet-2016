@@ -52,24 +52,24 @@
                 </div>
             </div>
         </div>
-        <br/>
-        <kendo-grid
-            id="myGrid"
-            k-data-source="vm.gridData.thongsokythuatsGrid.kData.dataSource"
-            k-columns="vm.gridData.thongsokythuatsGrid.kOptions.columns"
-            k-selectable="vm.gridData.thongsokythuatsGrid.kOptions.selectable"
-            k-sortable="vm.gridData.thongsokythuatsGrid.kOptions.sortable"
-            k-pageable="vm.gridData.thongsokythuatsGrid.kOptions.pageable"
-            k-filterable="vm.gridData.thongsokythuatsGrid.kOptions.filterable"
-            k-groupable="vm.gridData.thongsokythuatsGrid.kOptions.groupable"
-            k-reorderable="vm.gridData.thongsokythuatsGrid.kOptions.reorderable"
-            k-scrollable="vm.gridData.thongsokythuatsGrid.kOptions.scrollable"
-            k-resizable="vm.gridData.thongsokythuatsGrid.kOptions.resizable"
-            k-rebind="vm.gridData.thongsokythuatsGrid"
-            k-on-change="vm.gridData.thongsokythuatsGrid.gridOnChange(kendoEvent)"
-            k-on-data-bound="vm.gridData.thongsokythuatsGrid.gridOnDataBound(kendoEvent)">
-        </kendo-grid>
     </form>
-    {{vm.gridData.thietbisGrid.kData.dataSource}}
 </div>
+
+<br/>
+<kendo-grid
+    id="myGrid"
+    k-data-source="vm.gridData.thongsokythuatsGrid.kData.dataSource"
+    k-columns="vm.gridData.thongsokythuatsGrid.kOptions.columns"
+    k-selectable="vm.gridData.thongsokythuatsGrid.kOptions.selectable"
+    k-sortable="vm.gridData.thongsokythuatsGrid.kOptions.sortable"
+    k-pageable="vm.gridData.thongsokythuatsGrid.kOptions.pageable"
+    k-filterable="vm.gridData.thongsokythuatsGrid.kOptions.filterable"
+    k-groupable="vm.gridData.thongsokythuatsGrid.kOptions.groupable"
+    k-reorderable="vm.gridData.thongsokythuatsGrid.kOptions.reorderable"
+    k-scrollable="vm.gridData.thongsokythuatsGrid.kOptions.scrollable"
+    k-resizable="vm.gridData.thongsokythuatsGrid.kOptions.resizable"
+    k-rebind="vm.gridData.thongsokythuatsGrid"
+    k-on-change="vm.gridData.thongsokythuatsGrid.gridOnChange(kendoEvent)"
+    k-on-data-bound="vm.gridData.thongsokythuatsGrid.gridOnDataBound(kendoEvent)">
+</kendo-grid>
         

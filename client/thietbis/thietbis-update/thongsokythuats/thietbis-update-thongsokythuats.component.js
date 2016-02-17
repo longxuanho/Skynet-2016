@@ -36,19 +36,20 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                     kData: {
                         dataSource: {
                             data: new kendo.data.ObservableObject([]),
-                        }
+                            pageSize: 8
+                        },
                     },
                     kOptions: {
                         columns: [{
                             field: "nhom_thong_so",
                             title: "Nhóm",
                             type: "string",
-                            width: "120px"
+                            width: "100px"
                         }, {
                             field: "ten",
                             title: "Thông số",
                             type: "string",
-                            width: "100px"
+                            width: "150px"
                         }, {
                             field: "gia_tri",
                             title: "Giá trị",
@@ -58,12 +59,12 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                             field: "don_vi",
                             title: "Đơn vị",
                             type: "string",
-                            width: "100px"
+                            width: "50px"
                         }, {
                             field: "gia_tri_text",
                             title: "Giá trị*",
                             type: "string",
-                            width: "100px"
+                            width: "60px"
                         }],
                         selectable: "row",
                         sortable: {
