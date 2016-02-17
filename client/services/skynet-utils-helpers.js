@@ -1257,6 +1257,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 };
             }
         },
+
         validateThietBiForm: function(thietbi) {
             let error = {};
             if (!thietbi.ma_tb.ma_tb) {
@@ -1294,6 +1295,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             
             return;
         },
+
         buildThietBi: function(thietbi) {
             if (!thietbi.metadata)
                 thietbi.metadata = {};
@@ -1494,6 +1496,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             ];
             thietbi.metadata.search_field = this.resolveField(search_fields, thietbi);
         },
+
         buildNewThietBi: function(newThietBi) {
             if (!newThietBi.metadata)
                 newThietBi.metadata = {};
@@ -1650,6 +1653,100 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             newThietBi.metadata.search_field = this.resolveField(search_fields, newThietBi);
         },
 
+        // ***************************************************
+        // HELPERS - THONGSOKYTHUATs
+        // ***************************************************
+
+        initNewThongSoKyThuatParams: function(scope, thietbi) {    
+            scope.newThongSoKyThuat = {
+                thiet_bi: {
+                    keyId: thietbi._id,
+                    ma_tb: angular.copy(thietbi.ma_tb),
+                    phan_loai: angular.copy(thietbi.phan_loai),
+                    ho_so: {
+                        hang_san_xuat: thietbi.ho_so_tb.thong_tin_chung.hang_san_xuat.ten,
+                        model_tb: thietbi.ho_so_tb.thong_tin_chung.model_tb.ten,
+                        nam_sx: thietbi.ho_so_tb.thong_tin_chung.nam_sx,
+                        nam_sd: thietbi.ho_so_tb.thong_tin_chung.nam_sd,
+                        don_vi_quan_ly: thietbi.don_vi_quan_ly.ten,
+                        ma_don_vi_quan_ly: thietbi.don_vi_quan_ly.ma,
+                        don_vi_so_huu: thietbi.don_vi_so_huu.ten,
+                        ma_don_vi_so_huu: thietbi.don_vi_so_huu.ma,
+                        dia_ban_hoat_dong: thietbi.dia_ban_hoat_dong.ten,
+                        ma_dia_ban_hoat_dong: thietbi.dia_ban_hoat_dong.ma,
+                        thoi_gian_bao_hanh: thietbi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bao_hanh,
+                        ket_thuc_bao_hanh: thietbi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc
+                    }
+                },
+                nhom_thong_so: '',
+                ten: '',
+                gia_tri: '',
+                gia_tri_text: '',
+                don_vi: '',
+                mo_ta: '',
+                ghi_chu: '',
+                metadata: {}
+            };
+        },
+
+        validateThongSoKyThuatForm: function(thongsokythuat) {
+            let error = {};
+            if (!thongsokythuat.thiet_bi.keyId) {
+                error.message = "Chưa có thông tin về ID thiết bị.";
+                return error;
+            }
+            if (!thongsokythuat.thiet_bi.ma_tb.ma_tb) {
+                error.message = "Chưa có thông tin về mã thiết bị.";
+                return error;
+            }
+            if (!thongsokythuat.thiet_bi.phan_loai.nhom.keyId) {
+                error.message = "Chưa có thông tin về nhóm thiết bị.";
+                return error;
+            }
+            if (!thongsokythuat.thiet_bi.phan_loai.chung_loai.keyId) {
+                error.message = "Chưa có thông tin về chủng loại thiết bị.";
+                return error;
+            }
+            if (!thongsokythuat.thiet_bi.phan_loai.loai.keyId) {
+                error.message = "Chưa có thông tin về loại thiết bị.";
+                return error;
+            }
+            if (!thongsokythuat.thiet_bi.ho_so) {
+                error.message = "Chưa có thông tin về hồ sơ thiết bị.";
+                return error;
+            }
+            if (!thongsokythuat.nhom_thong_so) {
+                error.message = "Chưa chọn nhóm thông số kỹ thuật của thiết bị.";
+                return error;
+            }
+            if (!thongsokythuat.ten) {
+                error.message = "Chưa có thông tin về tên thông số kỹ thuật.";
+                return error;
+            }
+            if (!thongsokythuat.gia_tri && !thongsokythuat.gia_tri_text) {
+                error.message = "Chưa có thông tin về giá trị của thông số.";
+                return error;
+            }
+            return;
+        },
+
+        buildThongSoKyThuat: function(thongsokythuat) {
+            if (!thongsokythuat.metadata)
+                thongsokythuat.metadata = {};
+            this.buildMetadata('build', thongsokythuat.metadata);
+
+            let ma_tb_fields = ['ma_tb', 'ma_topx', 'ma_maximo', 'ma_topovn'];
+            thongsokythuat.thiet_bi.ma_tb.ma_tb_field = this.resolveField(ma_tb_fields, thongsokythuat.thiet_bi.ma_tb);
+        },
+
+        buildNewThongSoKyThuat: function(newThongSoKyThuat) {
+            if (!newThongSoKyThuat.metadata)
+                newThongSoKyThuat.metadata = {};
+            this.buildMetadata('buildNew', newThongSoKyThuat.metadata);
+
+            let ma_tb_fields = ['ma_tb', 'ma_topx', 'ma_maximo', 'ma_topovn'];
+            newThongSoKyThuat.thiet_bi.ma_tb.ma_tb_field = this.resolveField(ma_tb_fields, newThongSoKyThuat.thiet_bi.ma_tb);
+        },
 
         // ***************************************************
         // HELPERS - HOSOLUUTRUs
@@ -1977,6 +2074,14 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_delete_thiet_bi':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_upsert_thong_so_ky_thuat':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_delete_thong_so_ky_thuat':
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;

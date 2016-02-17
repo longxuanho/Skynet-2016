@@ -29,6 +29,8 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                 isGiaTriKieuNumber: true
             }
 
+            vm._helpers.initNewThongSoKyThuatParams(vm, vm.master);
+
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
@@ -41,9 +43,35 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
             // METHODS
             // ***************************************************
 
+            vm.addNewThongSoKyThuat = () => {
+                let err = vm._helpers.validateUser('can_upsert_thong_so_ky_thuat');
+                if (_.isEmpty(err)) {
+                    err = vm._helpers.validateThongSoKyThuatForm(vm.newThongSoKyThuat);
+                    if (_.isEmpty(err)) {
+
+                        vm._helpers.buildNewThongSoKyThuat(vm.newThongSoKyThuat);
+                        ThongSoKyThuats.insert(vm.newThongSoKyThuat, (error, result) => {
+                            if (error) {
+                                iNotifier.error('Không thể tạo mới thông số kỹ thuật này. ' + error.message + '.');
+                            } else {
+                                $scope.$apply( () => {
+                                    vm._helpers.initNewThongSoKyThuatParams(vm, vm.master);
+                                });                        
+                                iNotifier.success('Thông số kỹ thuật của thiết bị được cập nhật thành công.');
+                            }
+                        });
+
+                    } else {
+                        iNotifier.error(err.message);
+                    }
+                } else {
+                    iNotifier.error(err.message);
+                }
+            };
+
             vm.save = () => {
 
-                let err = vm._helpers.validateUser('can_upsert_thiet_bi');
+                let err = vm._helpers.validateUser('can_upsert_thong_so_ky_thuat');
                 if (_.isEmpty(err)) {
                     err = vm._helpers.validateThietBiForm(vm.source);
                     if (_.isEmpty(err)) {
@@ -124,7 +152,7 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
                 }).color_accent;
             });
 
-            $scope.$watch('vm.source.thong_so_ky_thuat.nhom_thong_so', (newVal) => {
+            $scope.$watch('vm.newThongSoKyThuat.nhom_thong_so', (newVal) => {
                 vm.pageOptions.isGiaTriKieuNumber = (_.contains(["Phân cấp cần trục"], newVal)) ? false : true; 
             });
 
