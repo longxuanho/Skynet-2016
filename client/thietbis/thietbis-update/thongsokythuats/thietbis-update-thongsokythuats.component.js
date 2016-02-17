@@ -31,11 +31,95 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
 
             vm._helpers.initNewThongSoKyThuatParams(vm, vm.master);
 
+            vm.gridData = {
+                thongsokythuatsGrid: {
+                    kData: {
+                        dataSource: {
+                            data: new kendo.data.ObservableObject([]),
+                        }
+                    },
+                    kOptions: {
+                        columns: [{
+                            field: "nhom_thong_so",
+                            title: "Nhóm",
+                            type: "string",
+                            width: "120px"
+                        }, {
+                            field: "ten",
+                            title: "Thông số",
+                            type: "string",
+                            width: "100px"
+                        }, {
+                            field: "gia_tri",
+                            title: "Giá trị",
+                            type: "number",
+                            width: "100px"
+                        }, {
+                            field: "don_vi",
+                            title: "Đơn vị",
+                            type: "string",
+                            width: "100px"
+                        }, {
+                            field: "gia_tri_text",
+                            title: "Giá trị*",
+                            type: "string",
+                            width: "100px"
+                        }],
+                        selectable: "row",
+                        sortable: {
+                            mode: "single",
+                            allowUnsort: true
+                        },
+                        pageable: {
+                            refresh: false,
+                            pageSizes: false,
+                            info: true,
+                            buttonCount: 3,
+                            numeric: false,
+                            input: true,
+                            previousNext: true
+                        },
+                        filterable: {
+                            mode: 'menu',
+                            extra: false
+                        },
+                        groupable: {
+                            enabled: true,
+                            showFooter: false,
+                        },
+                        reorderable: true,
+                        scrollable: {
+                            virtual: false
+                        },
+                        resizable: true,
+                        columnMenu: false
+                    },
+                    gridOnChange: function(event) {
+                    },
+                    gridOnDataBound: function(event) {
+                    }
+                }
+            }
+
+            // ***************************************************
+            // SUBSCRIBE
+            // ***************************************************
+
+            $scope.subscribe('thongsokythuats');
+
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
 
             vm.helpers({
+                thongsokythuats: () => {
+                    vm.gridData.thongsokythuatsGrid.kData.dataSource.data = ThongSoKyThuats.find({
+                        'thiet_bi.keyId': vm.master._id
+                    }).fetch();
+                    return ThongSoKyThuats.find({
+                        'thiet_bi.keyId': vm.master._id
+                    });
+                }
             });
 
 
