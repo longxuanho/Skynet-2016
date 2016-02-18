@@ -7,7 +7,7 @@
             <div class="md-card-toolbar-actions" ng-click="vm.reset()">
                 <i class="md-icon material-icons">&#xE923;</i>
             </div>
-            <input class="md-card-toolbar-input" type="text" ng-model="vm.source.ma_tb.ma_tb" placeholder="Mã thiết bị" readonly />
+            <input class="md-card-toolbar-input" type="text" value="{{vm.master.ma_tb.ma_tb}}: Thêm thông số mới" placeholder="Mã thiết bị" readonly />
         </div>
         <div class="md-card-content">
             <div class="uk-grid uk-margin-small-bottom" data-uk-grid-margin>
@@ -32,20 +32,20 @@
                         k-suggest="true"
                         k-data-source="vm.dictionary.thong_so_dict[vm.source.phan_loai.chung_loai.ma][vm.newThongSoKyThuat.nhom_thong_so]['text']"/>
                 </div>
-                <div class="uk-width-small-1-2 uk-width-medium-1-4 no-animate" ng-show="vm.pageOptions.isGiaTriKieuNumber">
+                <div class="uk-width-small-1-2 uk-width-medium-1-4 no-animate" ng-hide="vm.pageOptions.isGiaTriKieuText">
                     <input kendo-numeric-text-box style="width: 100%;"
                         ng-model="vm.newThongSoKyThuat.gia_tri"
                         k-placeholder="'Giá trị'"
                         k-culture="'en-US'" />
                 </div>
-                <div class="uk-width-small-1-2 uk-width-medium-1-4 no-animate" ng-show="vm.pageOptions.isGiaTriKieuNumber">
+                <div class="uk-width-small-1-2 uk-width-medium-1-4 no-animate" ng-hide="vm.pageOptions.isGiaTriKieuText">
                     <select kendo-drop-down-list style="width: 100%;"
                         ng-model="vm.newThongSoKyThuat.don_vi"
                         k-filter="'contains'"
                         k-data-source="vm.dictionary.thong_so_dict[vm.source.phan_loai.chung_loai.ma][vm.newThongSoKyThuat.nhom_thong_so]['measure']">
                     </select>
                 </div>
-                <div class="uk-width-small-1-1 uk-width-medium-1-2 no-animate" ng-show="!vm.pageOptions.isGiaTriKieuNumber">
+                <div class="uk-width-small-1-1 uk-width-medium-1-2 no-animate" ng-show="vm.pageOptions.isGiaTriKieuText">
                     <input kendo-auto-complete style="width: 100%;" 
                         ng-model="vm.newThongSoKyThuat.gia_tri_text"
                         k-placeholder="'Giá trị *'"/>

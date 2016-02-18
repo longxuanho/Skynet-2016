@@ -18,6 +18,9 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                         "Tốc độ",
                         "Trọng lượng"
                     ],
+                    "nhom_thong_so_voi_gia_tri_text": [
+                        "Phân cấp cần trục"
+                    ],
                     "thong_so_dict": {
                         "STS": {
                             "Tải trọng": {

@@ -432,17 +432,23 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             if (buildType === 'build') {
                 source.ngay_cap_nhat_cuoi = new Date();
                 source.nguoi_cap_nhat_cuoi = Meteor.userId();
+                source.nguoi_cap_nhat_cuoi_email = Meteor.user().emails[0].address;
                 source.nguoi_cap_nhat_cuoi_field = '';
-                if (Meteor.user().profile && Meteor.user().profile.name)
+                if (Meteor.user().profile && Meteor.user().profile.name) {
+                    source.nguoi_cap_nhat_cuoi_name = Meteor.user().profile.name;
                     source.nguoi_cap_nhat_cuoi_field += Meteor.user().profile.name;
+                }
                 source.nguoi_cap_nhat_cuoi_field += ':' + Meteor.user().emails[0].address;
             }
             if (buildType === 'buildNew') {
                 source.ngay_tao = new Date();
                 source.nguoi_tao = Meteor.userId();
+                source.nguoi_tao_email = Meteor.user().emails[0].address;
                 source.nguoi_tao_field = '';
-                if (Meteor.user().profile && Meteor.user().profile.name)
+                if (Meteor.user().profile && Meteor.user().profile.name) {
+                    source.nguoi_tao_name = Meteor.user().profile.name;
                     source.nguoi_tao_field += Meteor.user().profile.name;
+                }
                 source.nguoi_tao_field += ':' + Meteor.user().emails[0].address;
             }
         },
@@ -1659,6 +1665,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
 
         initNewThongSoKyThuatParams: function(scope, thietbi) {    
             scope.newThongSoKyThuat = {
+                isPublic: true,
                 thiet_bi: {
                     keyId: thietbi._id,
                     ma_tb: angular.copy(thietbi.ma_tb),

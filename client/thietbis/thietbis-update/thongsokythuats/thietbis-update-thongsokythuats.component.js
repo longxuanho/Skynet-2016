@@ -25,8 +25,9 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
             vm.dictionary = angular.copy(skynetDictionary.data.thietbis.thong_so_ky_thuat);
 
             vm.pageOptions = {
-                isGiaTriKieuNumber: true,
+                isGiaTriKieuText: false,
                 fabState: 'thongsokythuats_goToList',
+                isConfirmBeforeDelete: false,
                 selected: {
                     thongsokythuat: {}
                 }
@@ -282,7 +283,7 @@ angular.module('angular-skynet').directive('thietbisUpdateThongsokythuats', func
             });
 
             $scope.$watch('vm.newThongSoKyThuat.nhom_thong_so', (newVal) => {
-                vm.pageOptions.isGiaTriKieuNumber = (_.contains(["Phân cấp cần trục"], newVal)) ? false : true; 
+                vm.pageOptions.isGiaTriKieuText = (_.contains(vm.dictionary.nhom_thong_so_voi_gia_tri_text, newVal)) ? true : false; 
             });
 
             
