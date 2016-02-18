@@ -4,8 +4,9 @@ angular.module('angular-skynet').directive('thongsokythuatsModalUpdate', functio
         templateUrl: 'client/thietbis/thietbis-modals/thongsokythuats-modal-update.html',
         controllerAs: 'vm',
         scope: {
-        	id: '=',
-            thietbi: '='
+        	thongsokythuat: '=',
+            thietbi: '=',
+            fabState: '='
         },
         bindToController: true,
         controller: function($scope, $rootScope, skynetHelpers, $state, $timeout, $reactive, skynetDictionary, iNotifier) {
@@ -36,7 +37,7 @@ angular.module('angular-skynet').directive('thongsokythuatsModalUpdate', functio
             vm.helpers({
                 source: () => {
                     vm.master = ThongSoKyThuats.findOne({
-                        _id: vm.getReactively('id')
+                        _id: vm.getReactively('thongsokythuat.id')
                     });
                     return angular.copy(vm.master);
                 }
@@ -55,7 +56,7 @@ angular.module('angular-skynet').directive('thongsokythuatsModalUpdate', functio
 
                             vm._helpers.buildThongSoKyThuat(vm.source);
                             ThongSoKyThuats.update({
-                                _id: vm.id
+                                _id: vm.thongsokythuat.id
                             }, {
                                 $set: {
                                     'nhom_thong_so': vm.source.nhom_thong_so,
@@ -77,7 +78,7 @@ angular.module('angular-skynet').directive('thongsokythuatsModalUpdate', functio
                                     iNotifier.success('Thông số kỹ thuật của thiết bị được cập nhật thành công.');                                    
                                     $scope.$apply(() => {
                                         vm.master = ThongSoKyThuats.findOne({
-                                            _id: vm.id
+                                            _id: vm.thongsokythuat.id
                                         });
                                         vm.source = angular.copy(vm.master);
                                     });                                    
@@ -103,6 +104,10 @@ angular.module('angular-skynet').directive('thongsokythuatsModalUpdate', functio
                         }, (error) => {
                             if (!error) {
                                 this.closeModal();
+                                // Đưa các thiết lập về mặc định, làm sạch selection
+                                vm.modalOptions.isConfirmBeforeDelete = false;
+                                vm.thongsokythuat = {};
+                                vm.fabState = 'thongsokythuats_goToList';
                                 iNotifier.warning('Thông số bạn yêu cầu đã được gỡ bỏ thành công.');
                             } else {
                                 iNotifier.error(error.message);
