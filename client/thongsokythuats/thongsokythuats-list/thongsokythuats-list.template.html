@@ -15,28 +15,39 @@
 <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
     <div class="uk-width-1-1">
     	<div class="uk-container-center" ng-class="{'uk-width-large-8-10': !vm.pageOptions.isDisplayFullWidthGrid, 'uk-width-large-1-1': vm.pageOptions.isDisplayFullWidthGrid}">
-            <thietbis-kendo-grid-menu grid-data="vm.gridData" page-options="vm.pageOptions"></thietbis-kendo-grid-menu>	
+            
+            <k-grid-menu
+                grid-data="vm.gridData"
+                page-options="vm.pageOptions"
+                k-data="vm._kData"
+                k-helpers="vm._kHelpers"
+                local-config-data-name="'thongsokythuats_config_data_filter'"
+                cloud-config-data-name="vm.pageOptions.cloudConfigDataName"
+                >
+            </k-grid-menu>
+
             <br/>
+
             <kendo-grid
                 id="myGrid"
-                k-data-source="vm.gridData.thongsokythuatsGrid.kData.dataSource"
-                k-columns="vm.gridData.thongsokythuatsGrid.kOptions.columns"
-                k-selectable="vm.gridData.thongsokythuatsGrid.kOptions.selectable"
-                k-allow-copy="vm.gridData.thongsokythuatsGrid.kOptions.allowCopy"
-                k-sortable="vm.gridData.thongsokythuatsGrid.kOptions.sortable"
-                k-pageable="vm.gridData.thongsokythuatsGrid.kOptions.pageable"
-                k-filterable="vm.gridData.thongsokythuatsGrid.kOptions.filterable"
-                k-groupable="vm.gridData.thongsokythuatsGrid.kOptions.groupable"
-                k-navigatable="vm.gridData.thongsokythuatsGrid.kOptions.navigatable"
-                k-resizable="vm.gridData.thongsokythuatsGrid.kOptions.resizable"
-                k-reorderable="vm.gridData.thongsokythuatsGrid.kOptions.reorderable"
-                k-scrollable="vm.gridData.thongsokythuatsGrid.kOptions.scrollable"
-                k-excel="vm.gridData.thongsokythuatsGrid.kOptions.excel"
-                k-pdf="vm.gridData.thongsokythuatsGrid.kOptions.pdf"
-                k-toolbar="vm.gridData.thongsokythuatsGrid.kOptions.toolbar"
-                k-rebind="vm.gridData.thongsokythuatsGrid"
-                k-on-change="vm.gridData.thongsokythuatsGrid.gridOnChange(kendoEvent)"
-                k-on-data-bound="vm.gridData.thongsokythuatsGrid.gridOnDataBound(kendoEvent)">
+                k-data-source="vm.gridData.kGrid.kData.dataSource"
+                k-columns="vm.gridData.kGrid.kOptions.columns"
+                k-selectable="vm.gridData.kGrid.kOptions.selectable"
+                k-allow-copy="vm.gridData.kGrid.kOptions.allowCopy"
+                k-sortable="vm.gridData.kGrid.kOptions.sortable"
+                k-pageable="vm.gridData.kGrid.kOptions.pageable"
+                k-filterable="vm.gridData.kGrid.kOptions.filterable"
+                k-groupable="vm.gridData.kGrid.kOptions.groupable"
+                k-navigatable="vm.gridData.kGrid.kOptions.navigatable"
+                k-resizable="vm.gridData.kGrid.kOptions.resizable"
+                k-reorderable="vm.gridData.kGrid.kOptions.reorderable"
+                k-scrollable="vm.gridData.kGrid.kOptions.scrollable"
+                k-excel="vm.gridData.kGrid.kOptions.excel"
+                k-pdf="vm.gridData.kGrid.kOptions.pdf"
+                k-toolbar="vm.gridData.kGrid.kOptions.toolbar"
+                k-rebind="vm.gridData.kGrid"
+                k-on-change="vm.gridData.kGrid.gridOnChange(kendoEvent)"
+                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)">
             </kendo-grid>
 		</div>
     </div>

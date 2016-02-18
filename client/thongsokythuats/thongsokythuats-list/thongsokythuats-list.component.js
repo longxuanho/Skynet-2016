@@ -37,12 +37,14 @@ angular.module('angular-skynet').directive('thongsokythuatsList', function() {
                 selected: {
                     thietbi: {},
                     thongsokythuat: {}
-                }
+                },
+                localConfigDataName: 'thongsokythuats_config_data_local',
+                cloudConfigDataName: 'thongsokythuats_grid_config_data_skynet'
             };
 
             // LOAD LOCAL DATA
             try {
-                let localData = JSON.parse(localStorage.getItem('thongsokythuats_config_data_filter'));
+                let localData = JSON.parse(localStorage.getItem(vm.pageOptions.localConfigDataName));
                 if (!_.isEmpty(localData)) {
                     console.log('dữ liệu được load từ cache (localData): ', localData)
             
@@ -70,7 +72,7 @@ angular.module('angular-skynet').directive('thongsokythuatsList', function() {
             });
 
             vm.gridData = {
-                thongsokythuatsGrid: {
+                kGrid: {
                     kData: {
                         dataSource: {
                             data: new kendo.data.ObservableObject([]),
@@ -92,7 +94,7 @@ angular.module('angular-skynet').directive('thongsokythuatsList', function() {
                 }
             }
 
-            vm._kHelpers.initDefaultDataSource(vm.gridData.thongsokythuatsGrid.kData.dataSource);
+            vm._kHelpers.initDefaultDataSource(vm.gridData.kGrid.kData.dataSource);
 
             // ***************************************************
             // UTILS
@@ -136,7 +138,7 @@ angular.module('angular-skynet').directive('thongsokythuatsList', function() {
                     return Nhoms.find({}, {sort: {order: 1}});
                 },
                 thongsokythuats: () => {
-                    vm.gridData.thongsokythuatsGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? ThietBis.find({
+                    vm.gridData.kGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? ThietBis.find({
                         'thiet_bi.phan_loai.nhom.keyId': vm.pageOptions.filters.filterNhomId
                     }).fetch() : ThongSoKyThuats.find().fetch();
                     return ThongSoKyThuats.find({

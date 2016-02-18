@@ -36,12 +36,14 @@ angular.module('angular-skynet').directive('thietbisList', function() {
                 fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_thiet_bi')) ? 'thietbis_createNew' : '',
                 selected: {
                     thietbi: {}
-                }
+                },
+                localConfigDataName: 'thietbis_config_data_local',
+                cloudConfigDataName: 'thietbis_grid_config_data_skynet'
             };
 
             // LOAD LOCAL DATA
             try {
-                let localData = JSON.parse(localStorage.getItem('thietbis_config_data_filter'));
+                let localData = JSON.parse(localStorage.getItem(vm.pageOptions.localConfigDataName));
                 if (!_.isEmpty(localData)) {
                     console.log('data preload from cache: ', localData)
             
@@ -69,7 +71,7 @@ angular.module('angular-skynet').directive('thietbisList', function() {
             });
 
             vm.gridData = {
-                thietbisGrid: {
+                kGrid: {
                     kData: {
                         dataSource: {
                             data: new kendo.data.ObservableObject([]),
@@ -91,7 +93,7 @@ angular.module('angular-skynet').directive('thietbisList', function() {
                 }
             }
 
-            vm._kHelpers.initDefaultDataSource(vm.gridData.thietbisGrid.kData.dataSource);
+            vm._kHelpers.initDefaultDataSource(vm.gridData.kGrid.kData.dataSource);
 
             // ***************************************************
             // UTILS
@@ -135,7 +137,7 @@ angular.module('angular-skynet').directive('thietbisList', function() {
                     return Nhoms.find({}, {sort: {order: 1}});
                 },
                 thietbis: () => {
-                    vm.gridData.thietbisGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? ThietBis.find({
+                    vm.gridData.kGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? ThietBis.find({
                         'phan_loai.nhom.keyId': vm.pageOptions.filters.filterNhomId
                     }).fetch() : ThietBis.find().fetch();
                     return ThietBis.find({

@@ -28,19 +28,19 @@
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isSelectable">
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isSelectable_mode_menu" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.selectable" value="'row'" ng-value="'row'"/>
+                    <input id="radio_isSelectable_mode_menu" type="radio" icheck ng-model="gridData.kGrid.kOptions.selectable" value="'row'" ng-value="'row'"/>
                     <label for="radio_isSelectable_mode_menu" class="inline-label">Theo hàng</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input  id="radio_isSelectable_mode_row" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.selectable" value="'cell'" ng-value="'cell'"/>
+                    <input  id="radio_isSelectable_mode_row" type="radio" icheck ng-model="gridData.kGrid.kOptions.selectable" value="'cell'" ng-value="'cell'"/>
                     <label for="radio_isSelectable_mode_row" class="inline-label">Theo ô</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isSelectable_mode_multipleRow" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.selectable" value="'multiple, row'" ng-value="'multiple, row'"/>
+                    <input id="radio_isSelectable_mode_multipleRow" type="radio" icheck ng-model="gridData.kGrid.kOptions.selectable" value="'multiple, row'" ng-value="'multiple, row'"/>
                     <label for="radio_isSelectable_mode_multipleRow" class="inline-label">Theo nhiều hàng</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isSelectable_mode_multipleCell" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.selectable" value="'multiple, cell'" ng-value="'multiple, cell'"/>
+                    <input id="radio_isSelectable_mode_multipleCell" type="radio" icheck ng-model="gridData.kGrid.kOptions.selectable" value="'multiple, cell'" ng-value="'multiple, cell'"/>
                     <label for="radio_isSelectable_mode_multipleCell" class="inline-label">Theo nhiều ô</label>
                 </span>
             </div>
@@ -52,15 +52,15 @@
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isAllowCopy">
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isAllowCopy_delimeter_t" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.allowCopy.delimeter" value="'\t'" ng-value="'\t'"/>
+                    <input id="radio_isAllowCopy_delimeter_t" type="radio" icheck ng-model="gridData.kGrid.kOptions.allowCopy.delimeter" value="'\t'" ng-value="'\t'"/>
                     <label for="radio_isAllowCopy_delimeter_t" class="inline-label">Phân tách [\t]</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input  id="radio_isAllowCopy_delimeter_comma" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.allowCopy.delimeter" value="','" ng-value="','"/>
+                    <input  id="radio_isAllowCopy_delimeter_comma" type="radio" icheck ng-model="gridData.kGrid.kOptions.allowCopy.delimeter" value="','" ng-value="','"/>
                     <label for="radio_isAllowCopy_delimeter_comma" class="inline-label">Phân tách [\,]</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isAllowCopy_delimeter_semicolon" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.allowCopy.delimeter" value="';'" ng-value="';'"/>
+                    <input id="radio_isAllowCopy_delimeter_semicolon" type="radio" icheck ng-model="gridData.kGrid.kOptions.allowCopy.delimeter" value="';'" ng-value="';'"/>
                     <label for="radio_isAllowCopy_delimeter_semicolon" class="inline-label">Phân tách [\;]</label>
                 </span>
             </div>
@@ -72,7 +72,7 @@
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isGroupable">
                 <span class="icheck-inline">
-                    <input id="cb_menu_data_generalSettings_groupable_showFooter" class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.groupable.showFooter"/>
+                    <input id="cb_menu_data_generalSettings_groupable_showFooter" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.groupable.showFooter"/>
                     <label for="cb_menu_data_generalSettings_groupable_showFooter" class="inline-label">Hiện các thống kê theo nội dung được nhóm</label>
                 </span>
             </div>
@@ -84,25 +84,25 @@
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isScrollable">
                 <span class="icheck-inline">
-                    <input id="cb_menu_data_generalSettings_scrollable_virtual" class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.scrollable.virtual"/>
+                    <input id="cb_menu_data_generalSettings_scrollable_virtual" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.scrollable.virtual"/>
                     <label for="cb_menu_data_generalSettings_scrollable_virtual" class="inline-label">Sử dụng ảo hóa để cuộn trang</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-medium-top">
                 <span class="icheck-inline">
-                    <input id="cb_menu_data_generalSettings_resizable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.resizable"/>
+                    <input id="cb_menu_data_generalSettings_resizable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.resizable"/>
                     <label for="cb_menu_data_generalSettings_resizable" class="inline-label">Cho phép thay đổi kích thước cột dữ liệu</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input id="cb_menu_data_generalSettings_reorderable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.reorderable"/>
+                    <input id="cb_menu_data_generalSettings_reorderable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.reorderable"/>
                     <label for="cb_menu_data_generalSettings_reorderable" class="inline-label">Cho phép thay đổi thứ tự các cột dữ liệu</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input id="cb_menu_data_generalSettings_navigatable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.navigatable"/>
+                    <input id="cb_menu_data_generalSettings_navigatable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.navigatable"/>
                     <label for="cb_menu_data_generalSettings_navigatable" class="inline-label">Cho phép thao tác dữ liệu bằng keyboard</label>
                 </span>
             </div>
@@ -190,23 +190,23 @@
             <div class="uk-width-medium-1-1 uk-margin-small-top">
                 <div class="uk-form-row">
                     <label>Tên file lưu trữ</label>
-                    <input type="text" class="md-input label-fixed" ng-model="gridData.thietbisGrid.kOptions.excel.fileName" md-input />
+                    <input type="text" class="md-input label-fixed" ng-model="gridData.kGrid.kOptions.excel.fileName" md-input />
                 </div>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-medium-top">
                 Nguồn dữ liệu:
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsExcel_allPages" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.excel.allPages" value="true" ng-value="true"/>
+                    <input id="radio_menu_data_data_saveAsExcel_allPages" type="radio" icheck ng-model="gridData.kGrid.kOptions.excel.allPages" value="true" ng-value="true"/>
                     <label for="radio_menu_data_data_saveAsExcel_allPages" class="inline-label">Tất cả các trang</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsExcel_currPage" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.excel.allPages" value="false" ng-value="false"/>
+                    <input id="radio_menu_data_data_saveAsExcel_currPage" type="radio" icheck ng-model="gridData.kGrid.kOptions.excel.allPages" value="false" ng-value="false"/>
                     <label for="radio_menu_data_data_saveAsExcel_currPage" class="inline-label">Trang hiện tại</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input id="cb_menu_data_data_saveAsExcel_filterable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.excel.filterable"/>
+                    <input id="cb_menu_data_data_saveAsExcel_filterable" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.excel.filterable"/>
                     <label for="cb_menu_data_data_saveAsExcel_filterable" class="inline-label">Tích hợp cùng bộ lọc dữ liệu</label>
                 </span>
             </div>
@@ -231,43 +231,43 @@
             <div class="uk-width-medium-1-1 uk-margin-small-top">
                 <div class="uk-form-row">
                     <label>Tên file lưu trữ</label>
-                    <input type="text" class="md-input label-fixed" ng-model="gridData.thietbisGrid.kOptions.pdf.fileName" md-input />
+                    <input type="text" class="md-input label-fixed" ng-model="gridData.kGrid.kOptions.pdf.fileName" md-input />
                 </div>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-medium-top">
                 Nguồn dữ liệu:
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsPdf_allPages" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.pdf.allPages" value="true" ng-value="true"/>
+                    <input id="radio_menu_data_data_saveAsPdf_allPages" type="radio" icheck ng-model="gridData.kGrid.kOptions.pdf.allPages" value="true" ng-value="true"/>
                     <label for="radio_menu_data_data_saveAsPdf_allPages" class="inline-label">Tất cả các trang </label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsPdf_currPage" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.pdf.allPages" value="false" ng-value="false"/>
+                    <input id="radio_menu_data_data_saveAsPdf_currPage" type="radio" icheck ng-model="gridData.kGrid.kOptions.pdf.allPages" value="false" ng-value="false"/>
                     <label for="radio_menu_data_data_saveAsPdf_currPage" class="inline-label">Trang hiện tại </label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-small-top">
                 Kích cỡ:
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsPdf_paperSize_A4" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.pdf.paperSize" value="'A4'" ng-value="'A4'"/>
+                    <input id="radio_menu_data_data_saveAsPdf_paperSize_A4" type="radio" icheck ng-model="gridData.kGrid.kOptions.pdf.paperSize" value="'A4'" ng-value="'A4'"/>
                     <label for="radio_menu_data_data_saveAsPdf_paperSize_A4" class="inline-label">A4 </label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsPdf_paperSize_A3" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.pdf.paperSize" value="'A3'" ng-value="'A3'"/>
+                    <input id="radio_menu_data_data_saveAsPdf_paperSize_A3" type="radio" icheck ng-model="gridData.kGrid.kOptions.pdf.paperSize" value="'A3'" ng-value="'A3'"/>
                     <label for="radio_menu_data_data_saveAsPdf_paperSize_A3" class="inline-label">A3 </label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsPdf_paperSize_auto" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.pdf.paperSize" value="'auto'" ng-value="'auto'"/>
+                    <input id="radio_menu_data_data_saveAsPdf_paperSize_auto" type="radio" icheck ng-model="gridData.kGrid.kOptions.pdf.paperSize" value="'auto'" ng-value="'auto'"/>
                     <label for="radio_menu_data_data_saveAsPdf_paperSize_auto" class="inline-label">Tối ưu </label>
                 </span>
             </div>
-            <div class="uk-width-medium-1-1 uk-margin-small-top" ng-show="gridData.thietbisGrid.kOptions.pdf.paperSize!=='auto'">
+            <div class="uk-width-medium-1-1 uk-margin-small-top" ng-show="gridData.kGrid.kOptions.pdf.paperSize!=='auto'">
                 Khổ giấy:
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsPdf_landscape" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.pdf.landscape" value="true" ng-value="true"/>
+                    <input id="radio_menu_data_data_saveAsPdf_landscape" type="radio" icheck ng-model="gridData.kGrid.kOptions.pdf.landscape" value="true" ng-value="true"/>
                     <label for="radio_menu_data_data_saveAsPdf_landscape" class="inline-label">Ngang </label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_menu_data_data_saveAsPdf_orriented" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.pdf.landscape" value="false" ng-value="false"/>
+                    <input id="radio_menu_data_data_saveAsPdf_orriented" type="radio" icheck ng-model="gridData.kGrid.kOptions.pdf.landscape" value="false" ng-value="false"/>
                     <label for="radio_menu_data_data_saveAsPdf_orriented" class="inline-label">Dọc </label>
                 </span>
             </div>
@@ -319,37 +319,37 @@
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isPageable">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.pageable.numeric"/>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.pageable.numeric"/>
                     <label class="inline-label">Nút điều hướng dạng số</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isPageable">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.pageable.previousNext"/>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.pageable.previousNext"/>
                     <label class="inline-label">Các nút điều hướng cơ bản</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isPageable">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.pageable.input"/>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.pageable.input"/>
                     <label class="inline-label">Nhập số trang để điều hướng</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isPageable">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.pageable.refresh"/>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.pageable.refresh"/>
                     <label for="checkbox_demo_inline_1" class="inline-label">Hiện nút làm mới dữ liệu</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isPageable">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.pageable.pageSizes"/>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.pageable.pageSizes"/>
                     <label class="inline-label">Tùy biến số mục mỗi trang</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isPageable">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.pageable.info"/>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.pageable.info"/>
                     <label for="checkbox_demo_inline_1" class="inline-label">Hiện thông tin phân trang dữ liệu</label>
                 </span>
             </div>           
@@ -392,21 +392,21 @@
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isFilterable">
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isFilterable_mode_menu" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.filterable.mode" value="'menu'" ng-value="'menu'"/>
+                    <input id="radio_isFilterable_mode_menu" type="radio" icheck ng-model="gridData.kGrid.kOptions.filterable.mode" value="'menu'" ng-value="'menu'"/>
                     <label for="radio_isFilterable_mode_menu" class="inline-label">Theo menu</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input  id="radio_isFilterable_mode_row" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.filterable.mode" value="'row'" ng-value="'row'"/>
+                    <input  id="radio_isFilterable_mode_row" type="radio" icheck ng-model="gridData.kGrid.kOptions.filterable.mode" value="'row'" ng-value="'row'"/>
                     <label for="radio_isFilterable_mode_row" class="inline-label">Theo hàng mới</label>
                 </span>
                 <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isFilterable_mode_both" type="radio" icheck ng-model="gridData.thietbisGrid.kOptions.filterable.mode" value="'menu, row'" ng-value="'menu, row'"/>
+                    <input id="radio_isFilterable_mode_both" type="radio" icheck ng-model="gridData.kGrid.kOptions.filterable.mode" value="'menu, row'" ng-value="'menu, row'"/>
                     <label for="radio_isFilterable_mode_both" class="inline-label">Cả hai</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1" ng-show="menuOptions.isFilterable">
                 <span class="icheck-inline">
-                    <input id="cb_display_filterAndSort_extra" class="iCheckInput" type="checkbox" icheck ng-model="gridData.thietbisGrid.kOptions.filterable.extra"/>
+                    <input id="cb_display_filterAndSort_extra" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.filterable.extra"/>
                     <label for="cb_display_filterAndSort_extra" class="inline-label">Kết hợp nhiều điều kiện</label>
                 </span>
             </div>   

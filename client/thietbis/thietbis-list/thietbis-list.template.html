@@ -15,30 +15,39 @@
 <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
     <div class="uk-width-1-1">
     	<div class="uk-container-center" ng-class="{'uk-width-large-8-10': !vm.pageOptions.isDisplayFullWidthGrid, 'uk-width-large-1-1': vm.pageOptions.isDisplayFullWidthGrid}">
-            <thietbis-kendo-grid-menu grid-data="vm.gridData" page-options="vm.pageOptions"></thietbis-kendo-grid-menu>
+            
+            <k-grid-menu
+                grid-data="vm.gridData"
+                page-options="vm.pageOptions"
+                k-data="vm._kData"
+                k-helpers="vm._kHelpers"
+                local-config-data-name="vm.pageOptions.localConfigDataName"
+                cloud-config-data-name="vm.pageOptions.cloudConfigDataName"
+                >
+            </k-grid-menu>
 			
             <br/>
 
             <kendo-grid
                 id="myGrid"
-                k-data-source="vm.gridData.thietbisGrid.kData.dataSource"
-                k-columns="vm.gridData.thietbisGrid.kOptions.columns"
-                k-selectable="vm.gridData.thietbisGrid.kOptions.selectable"
-                k-allow-copy="vm.gridData.thietbisGrid.kOptions.allowCopy"
-                k-sortable="vm.gridData.thietbisGrid.kOptions.sortable"
-                k-pageable="vm.gridData.thietbisGrid.kOptions.pageable"
-                k-filterable="vm.gridData.thietbisGrid.kOptions.filterable"
-                k-groupable="vm.gridData.thietbisGrid.kOptions.groupable"
-                k-navigatable="vm.gridData.thietbisGrid.kOptions.navigatable"
-                k-resizable="vm.gridData.thietbisGrid.kOptions.resizable"
-                k-reorderable="vm.gridData.thietbisGrid.kOptions.reorderable"
-                k-scrollable="vm.gridData.thietbisGrid.kOptions.scrollable"
-                k-excel="vm.gridData.thietbisGrid.kOptions.excel"
-                k-pdf="vm.gridData.thietbisGrid.kOptions.pdf"
-                k-toolbar="vm.gridData.thietbisGrid.kOptions.toolbar"
-                k-rebind="vm.gridData.thietbisGrid"
-                k-on-change="vm.gridData.thietbisGrid.gridOnChange(kendoEvent)"
-                k-on-data-bound="vm.gridData.thietbisGrid.gridOnDataBound(kendoEvent)">
+                k-data-source="vm.gridData.kGrid.kData.dataSource"
+                k-columns="vm.gridData.kGrid.kOptions.columns"
+                k-selectable="vm.gridData.kGrid.kOptions.selectable"
+                k-allow-copy="vm.gridData.kGrid.kOptions.allowCopy"
+                k-sortable="vm.gridData.kGrid.kOptions.sortable"
+                k-pageable="vm.gridData.kGrid.kOptions.pageable"
+                k-filterable="vm.gridData.kGrid.kOptions.filterable"
+                k-groupable="vm.gridData.kGrid.kOptions.groupable"
+                k-navigatable="vm.gridData.kGrid.kOptions.navigatable"
+                k-resizable="vm.gridData.kGrid.kOptions.resizable"
+                k-reorderable="vm.gridData.kGrid.kOptions.reorderable"
+                k-scrollable="vm.gridData.kGrid.kOptions.scrollable"
+                k-excel="vm.gridData.kGrid.kOptions.excel"
+                k-pdf="vm.gridData.kGrid.kOptions.pdf"
+                k-toolbar="vm.gridData.kGrid.kOptions.toolbar"
+                k-rebind="vm.gridData.kGrid"
+                k-on-change="vm.gridData.kGrid.gridOnChange(kendoEvent)"
+                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)">
             </kendo-grid>
 		</div>
     </div>
