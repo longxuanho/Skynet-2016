@@ -1,7 +1,8 @@
 angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope) {
 
     let factory = {
-        thietbis: {}
+        thietbis: {},
+        thongsokythuats: {}
     };
 
 
@@ -348,6 +349,291 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
         }
     };
 
+    factory.thongsokythuats.data = {
+        config: {
+            schema: {
+                props: {},
+                fields: {
+                    columns: []
+                }
+            },
+            defaultColumns: [
+                'thiet_bi.ma_tb.ma_tb',
+                'thiet_bi.phan_loai.chung_loai.ten',
+                'thiet_bi.ho_so.hang_san_xuat.ten',
+                'thiet_bi.ho_so.model_tb.ten',
+                'nhom_thong_so',
+                'ten',
+                'gia_tri',
+                'don_vi',
+                'gia_tri_text'
+            ],
+            defaultDataSource: {
+                aggregate: undefined,
+                batch: false,
+                filter: undefined,
+                group: [],
+                offlineStorage: null,
+                page: 1,
+                pageSize: 5,
+                // schema: {
+                //     model: factory.thietbis.helpers.buildGridSchemaModel(this.defaultColumns)
+                // },
+                select: null,
+                serverAggregates: false,
+                serverFiltering: false,
+                serverGrouping: false,
+                serverPaging: false,
+                serverSorting: false,
+                sort: undefined,
+                table: null,
+                serverPaging: false,
+                serverSorting: false,
+            },
+            defaultOptions: {
+                allowCopy: {
+                    delimeter: "\t"
+                },
+                altRowTemplate: "",
+                autoBind: true,
+                columnMenu: false,
+                columnResizeHandleWidth: 3,
+                // columns: factory.thietbis.helpers.buildGridColumns(this.defaultColumns),
+                detailTemplate: null,
+                editable: false,
+                excel: {
+                    allPages: false,
+                    filterable: false,
+                    fileName: "From Sky with Love.xlsx",
+                },
+                filterable: {
+                    mode: 'menu',
+                    extra: false
+                },
+                groupable: {
+                    enabled: true,
+                    showFooter: false,
+                },
+                height: null,
+                mobile: "",
+                name: "thongsokythuatsGrid",
+                navigatable: false,
+                noRecords: false,
+                pageable: {
+                    refresh: false,
+                    pageSizes: false,
+                    info: true,
+                    buttonCount: 3,
+                    numeric: false,
+                    input: true,
+                    previousNext: true
+                },
+                pdf: {
+                    allPages: false,
+                    avoidLinks: true,
+                    author: "Long Ho",
+                    creator: "Skynet",
+                    date: new Date(),
+                    fileName: "From Sky with Love.pdf",
+                    keywords: "Skynet's database",
+                    landscape: false,
+                    paperSize: "auto",
+                    subject: "From Sky with Love",
+                    title: "Tong Hop Thuc Luc TCT Tan Cang Sai Gon - from Skynet"
+                },
+                prefix: "",
+                reorderable: true,
+                resizable: true,
+                rowTemplate: "",
+                scrollable: {
+                    virtual: false
+                },
+                selectable: "row",
+                sortable: {
+                    mode: "single",
+                    allowUnsort: true
+                },
+                toolbar: ["excel", "pdf"]
+            },
+            availableColumns: [{
+                field: "_id",
+                title: "ID TSKT",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ma_tb.ma_tb",
+                title: "Mã TB",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "thiet_bi.ma_tb.ma_topx",
+                title: "Mã TOPX",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "thiet_bi.ma_tb.ma_maximo",
+                title: "Mã Maximo",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "thiet_bi.ma_tb.ma_topovn",
+                title: "Mã TopoVn",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "thiet_bi.phan_loai.nhom.keyId",
+                title: "ID nhóm",
+                type: "string",
+                width: "130px"
+            }, {
+                field: "thiet_bi.phan_loai.nhom.ten",
+                title: "Nhóm",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.phan_loai.nhom.ma",
+                title: "Mã nhóm",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.phan_loai.chung_loai.keyId",
+                title: "ID chủng loại",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.phan_loai.chung_loai.ten",
+                title: "Chủng loại",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.phan_loai.chung_loai.ma",
+                title: "Mã chủng loại",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.phan_loai.loai.keyId",
+                title: "ID loại TB",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.phan_loai.loai.ten",
+                title: "Loại TB",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.phan_loai.loai.ma",
+                title: "Mã loại",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.hang_san_xuat",
+                title: "Hãng sản xuất",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.model_tb",
+                title: "Model TB",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.nam_sd",
+                title: "Năm SD",
+                type: "number",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.nam_sx",
+                title: "Năm SX",
+                type: "number",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.don_vi_quan_ly",
+                title: "Đơn vị quản lý",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.ma_don_vi_quan_ly",
+                title: "Mã ĐVQL",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.don_vi_so_huu",
+                title: "Đơn vị sở hữu",
+                type: "string",
+                width: "160px"
+            }, {
+                field: "thiet_bi.ho_so.ma_don_vi_so_huu",
+                title: "Mã ĐVSH",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.dia_ban_hoat_dong",
+                title: "Địa bàn hoạt động",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.ma_dia_ban_hoat_dong",
+                title: "Mã địa bàn hoạt động",
+                type: "string",
+                width: "160px"
+            }, {
+                field: "thiet_bi.ho_so.thoi_gian_bao_hanh",
+                title: "TGBH (tháng)",
+                type: "number",
+                width: "120px"
+            }, {
+                field: "thiet_bi.ho_so.ket_thuc_bao_hanh",
+                title: "Kết thúc bảo hành",
+                type: "date",
+                width: "120px"
+            }, {
+                field: "nhom_thong_so",
+                title: "Nhóm thông số",
+                type: "number",
+                width: "120px"
+            }, {
+                field: "ten",
+                title: "Thông số",
+                type: "number",
+                width: "120px"
+            }, {
+                field: "don_vi",
+                title: "Đơn vị",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "gia_tri",
+                title: "Giá trị",
+                type: "number",
+                width: "120px"
+            }, {
+                field: "gia_tri_text",
+                title: "Giá trị *",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "metadata.nguoi_tao_name",
+                title: "Người tạo",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "metadata.nguoi_tao_email",
+                title: "Người tạo (Email)",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "metadata.nguoi_cap_nhat_cuoi_name",
+                title: "Người cập nhật cuối",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "metadata.nguoi_cap_nhat_cuoi_email",
+                title: "Người cập nhật cuối (Email)",
+                type: "string",
+                width: "120px"
+            }]
+        }
+    };
+
 
     // ***************************************************
     // THIETBIS HELPERS
@@ -394,6 +680,57 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 fields: {}
             };
             _.each(factory.thietbis.data.config.availableColumns, (item) => {
+                if (_.contains(columns, item.field)) {
+                    model.fields[item.field] = {
+                        type: item.type
+                    }
+                }
+            });
+            return model;
+        }
+    };
+
+    factory.thongsokythuats.helpers = {
+        initDefaultDataSource: function(source) {
+            source.aggregate = angular.copy(factory.thongsokythuats.data.config.defaultDataSource.aggregate);
+            source.batch = factory.thongsokythuats.data.config.defaultDataSource.batch;
+            source.filter = angular.copy(factory.thongsokythuats.data.config.defaultDataSource.filter);
+            source.group = angular.copy(factory.thongsokythuats.data.config.defaultDataSource.group);
+            source.offlineStorage = angular.copy(factory.thongsokythuats.data.config.defaultDataSource.offlineStorage);
+            source.page = factory.thongsokythuats.data.config.defaultDataSource.page;
+            source.pageSize = factory.thongsokythuats.data.config.defaultDataSource.pageSize;
+            source.select = angular.copy(factory.thongsokythuats.data.config.defaultDataSource.select);
+            source.serverAggregates = factory.thongsokythuats.data.config.defaultDataSource.serverAggregates;
+            source.serverFiltering = factory.thongsokythuats.data.config.defaultDataSource.serverFiltering;
+            source.serverGrouping = factory.thongsokythuats.data.config.defaultDataSource.serverGrouping;
+            source.serverPaging =  factory.thongsokythuats.data.config.defaultDataSource.serverPaging;
+            source.serverSorting = factory.thongsokythuats.data.config.defaultDataSource.serverSorting;
+            source.sort = angular.copy(factory.thongsokythuats.data.config.defaultDataSource.sort);
+            source.table = angular.copy(factory.thongsokythuats.data.config.defaultDataSource.table);
+            source.serverPaging = factory.thongsokythuats.data.config.defaultDataSource.serverPaging;
+            source.serverSorting = factory.thongsokythuats.data.config.defaultDataSource.serverSorting;
+
+            source.schema = angular.copy(this.buildGridSchemaModel(factory.thongsokythuats.data.config.defaultColumns));
+        },
+        initDefaultOptions: function() {
+            let options = angular.copy(factory.thongsokythuats.data.config.defaultOptions);
+            options.columns = angular.copy(this.buildGridColumns(factory.thongsokythuats.data.config.defaultColumns));
+            
+            return options;
+        },
+        buildGridColumns: function(columns) {
+            return _.without(_.map(factory.thongsokythuats.data.config.availableColumns, (item) => {
+                if (_.contains(columns, item.field)) {
+                    return _.omit(item, 'type');
+                }
+            }), undefined);
+        },
+        buildGridSchemaModel: function(columns) {
+            let model = {
+                id: "_id",
+                fields: {}
+            };
+            _.each(factory.thongsokythuats.data.config.availableColumns, (item) => {
                 if (_.contains(columns, item.field)) {
                     model.fields[item.field] = {
                         type: item.type

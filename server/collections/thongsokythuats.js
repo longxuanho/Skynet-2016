@@ -50,7 +50,7 @@ Meteor.publish("thongsokythuats", function(options, searchString, searchBy) {
     if (searchString == null)
         searchString = '';
     if (searchBy == null)
-        searchBy = 'ten';
+        searchBy = 'thiet_bi.ma_tb.ma_tb_field';
 
     var query = {};
     var regex = {

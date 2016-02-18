@@ -1,0 +1,55 @@
+<div id="top_bar" ng-class="{'topbar-double-height': vm.pageOptions.topBarHeight=='x2'}" ng-show="vm.pageOptions.isDisplayTopBar" class="no-animate">
+    <div class="md-top-bar">
+        <div class="uk-width-large-8-10 uk-container-center">
+            <ul class="top_bar_nav" id="snippets_grid_filter">
+                <li ng-repeat="nhom in vm.pageOptions.filters.nhomsFilterSource" ng-show="nhom.isActive" ng-class="{'uk-active': nhom._id===vm.pageOptions.filters.filterNhomId}" ng-click="vm.utils.setFilterByNhomId(nhom._id)">
+                    <a href="#">{{ nhom.ten }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
+    <div class="uk-width-1-1">
+    	<div class="uk-container-center" ng-class="{'uk-width-large-8-10': !vm.pageOptions.isDisplayFullWidthGrid, 'uk-width-large-1-1': vm.pageOptions.isDisplayFullWidthGrid}">
+            <thietbis-kendo-grid-menu grid-data="vm.gridData" page-options="vm.pageOptions"></thietbis-kendo-grid-menu>	
+            <br/>
+            <kendo-grid
+                id="myGrid"
+                k-data-source="vm.gridData.thongsokythuatsGrid.kData.dataSource"
+                k-columns="vm.gridData.thongsokythuatsGrid.kOptions.columns"
+                k-selectable="vm.gridData.thongsokythuatsGrid.kOptions.selectable"
+                k-allow-copy="vm.gridData.thongsokythuatsGrid.kOptions.allowCopy"
+                k-sortable="vm.gridData.thongsokythuatsGrid.kOptions.sortable"
+                k-pageable="vm.gridData.thongsokythuatsGrid.kOptions.pageable"
+                k-filterable="vm.gridData.thongsokythuatsGrid.kOptions.filterable"
+                k-groupable="vm.gridData.thongsokythuatsGrid.kOptions.groupable"
+                k-navigatable="vm.gridData.thongsokythuatsGrid.kOptions.navigatable"
+                k-resizable="vm.gridData.thongsokythuatsGrid.kOptions.resizable"
+                k-reorderable="vm.gridData.thongsokythuatsGrid.kOptions.reorderable"
+                k-scrollable="vm.gridData.thongsokythuatsGrid.kOptions.scrollable"
+                k-excel="vm.gridData.thongsokythuatsGrid.kOptions.excel"
+                k-pdf="vm.gridData.thongsokythuatsGrid.kOptions.pdf"
+                k-toolbar="vm.gridData.thongsokythuatsGrid.kOptions.toolbar"
+                k-rebind="vm.gridData.thongsokythuatsGrid"
+                k-on-change="vm.gridData.thongsokythuatsGrid.gridOnChange(kendoEvent)"
+                k-on-data-bound="vm.gridData.thongsokythuatsGrid.gridOnDataBound(kendoEvent)">
+            </kendo-grid>
+		</div>
+    </div>
+</div>
+
+<!-- <thietbis-modal-details source="vm.pageOptions.selected.thongsokythuats"></thietbis-modal-details> -->
+
+<div class="md-fab-wrapper">
+    <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='thongsokythuats_createNew'" ui-sref="thongsokythuats.addNew">
+        <i class="material-icons">&#xE145;</i>
+    </a>
+    <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='thongsokythuats_viewDetails'" data-uk-modal="{target: '#modal_thongsokythuats_details'}">
+        <i class="material-icons">&#xE8B6;</i>
+    </a>
+</div>
+

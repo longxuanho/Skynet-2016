@@ -264,6 +264,15 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/cap-nhat/:thietbiId',
             template: '<thietbis-update></thietbis-update>'
         })
+        // THONGSOKYTHUATS
+        .state('thongsokythuats', {
+            url: '/quan-ly/thong-so-ky-thuat',
+            template: '<thongsokythuats-main></thongsokythuats-main>'
+        })
+        .state('thongsokythuats.list', {
+            url: '/thong-ke',
+            template: '<thongsokythuats-list></thongsokythuats-list>'
+        })
         // NHANSUS
         .state('nhansus', {
             url: '/quan-ly/nhan-su',
