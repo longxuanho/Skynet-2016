@@ -1,7 +1,7 @@
 angular.module('angular-skynet').directive('thietbisUpdateMain', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/thietbis/thietbis-update/main/thietbis-update-main.template.html',
+        templateUrl: 'client/thietbis/thietbis-update/thongtinchungs/thietbis-update-thongtinchungs.template.html',
         controllerAs: 'vm',
         scope: {
             source: '=',

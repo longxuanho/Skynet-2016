@@ -1,7 +1,7 @@
 angular.module('angular-skynet').directive('thietbisUpdate', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/thietbis/thietbis-update/thietbis-update.template.html',
+        templateUrl: 'client/thietbis/thietbis-update/main/thietbis-update.template.html',
         controllerAs: 'vm',
         controller: function($scope, skynetHelpers, $rootScope, iNotifier, $timeout, $reactive) {
 
