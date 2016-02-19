@@ -459,72 +459,72 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 field: "_id",
                 title: "ID TSKT",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.ma_tb.ma_tb",
                 title: "Mã TB",
                 type: "string",
-                width: "100px"
+                width: "80px"
             }, {
                 field: "thiet_bi.ma_tb.ma_topx",
                 title: "Mã TOPX",
                 type: "string",
-                width: "100px"
+                width: "80px"
             }, {
                 field: "thiet_bi.ma_tb.ma_maximo",
                 title: "Mã Maximo",
                 type: "string",
-                width: "100px"
+                width: "80px"
             }, {
                 field: "thiet_bi.ma_tb.ma_topovn",
                 title: "Mã TopoVn",
                 type: "string",
-                width: "100px"
+                width: "80px"
             }, {
                 field: "thiet_bi.phan_loai.nhom.keyId",
                 title: "ID nhóm",
                 type: "string",
-                width: "130px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.nhom.ten",
                 title: "Nhóm",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.nhom.ma",
                 title: "Mã nhóm",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.chung_loai.keyId",
                 title: "ID chủng loại",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.chung_loai.ten",
                 title: "Chủng loại",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.chung_loai.ma",
                 title: "Mã chủng loại",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.loai.keyId",
                 title: "ID loại TB",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.loai.ten",
                 title: "Loại TB",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.phan_loai.loai.ma",
                 title: "Mã loại",
                 type: "string",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "thiet_bi.ho_so.hang_san_xuat",
                 title: "Hãng sản xuất",
@@ -588,23 +588,23 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
             }, {
                 field: "nhom_thong_so",
                 title: "Nhóm thông số",
-                type: "number",
-                width: "120px"
+                type: "string",
+                width: "150px"
             }, {
                 field: "ten",
                 title: "Thông số",
-                type: "number",
-                width: "120px"
+                type: "string",
+                width: "180px"
             }, {
                 field: "don_vi",
                 title: "Đơn vị",
                 type: "string",
-                width: "120px"
+                width: "80px"
             }, {
                 field: "gia_tri",
                 title: "Giá trị",
                 type: "number",
-                width: "120px"
+                width: "100px"
             }, {
                 field: "gia_tri_text",
                 title: "Giá trị *",
@@ -622,12 +622,12 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 width: "120px"
             }, {
                 field: "metadata.nguoi_cap_nhat_cuoi_name",
-                title: "Người cập nhật cuối",
+                title: "Cập nhật cuối",
                 type: "string",
                 width: "120px"
             }, {
                 field: "metadata.nguoi_cap_nhat_cuoi_email",
-                title: "Người cập nhật cuối (Email)",
+                title: "Cập nhật cuối (Email)",
                 type: "string",
                 width: "120px"
             }]
@@ -737,6 +737,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     }
                 }
             });
+            console.log('Build Schema: ', model);
             return model;
         }
     };
