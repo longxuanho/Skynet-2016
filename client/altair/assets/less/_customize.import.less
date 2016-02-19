@@ -10,7 +10,69 @@
     }
 }
 
+.color-fade {
+    color: rgba(0,0,0,.12);
+}
+
+.md-icon-fade {
+    font-size: 24px;
+    line-height: 32px !important;
+    height: 32px !important;
+    color: rgba(0,0,0,.12);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 280ms ease-out,color 280ms ease-out;
+    width: 32px !important;
+    text-align: center;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: @text_primary_color;
+        background: rgba(0,0,0,.08);
+    }
+    &-light {
+        color: @white;
+        &:hover,
+        &:focus,
+        &:active {
+            color: @white;
+            background: rgba(0,0,0,.2);
+        }
+    }
+    &-dark {
+        color: @text_primary_color;
+        &:hover,
+        &:focus,
+        &:active {
+            color: @text_primary_color;
+            background: rgba(255,255,255,.6);
+        }
+    }
+    & + & {
+        margin-left: 4px;
+    }
+    &-btn {
+        display: inline-block;
+        &.active {
+            .md-icon {
+                color: @text_primary_color;
+                background: rgba(0,0,0,.08);
+            }
+        }
+    }
+    button& {
+        background: none;
+        border: none;
+        outline: none;
+    }
+}
+
 .default_theme {
+    .color-primary {
+        color: @app_theme_default_primary;
+    }
     .foreground-color-accent {
         color: @app_theme_default_primary;
     }
@@ -80,6 +142,9 @@
 // @app_theme_a_colorAccent:   @md-color-pink-A200;
 .app_theme_a {
     // --------- COMPONENTS ---------
+    .color-primary {
+        color: @app_theme_a_color;
+    }
     .foreground-color-accent {
         color: @app_theme_a_colorAccent;
     }
@@ -146,6 +211,9 @@
 // @app_theme_b_colorAccent:   @md-color-cyan-500;
 .app_theme_b {
     // --------- COMPONENTS ---------
+    .color-primary {
+        color: @app_theme_b_color;
+    }
     .foreground-color-accent {
         color: @app_theme_b_colorAccent;
     }
@@ -212,6 +280,9 @@
 // @app_theme_c_colorAccent: @md-color-blue-600;
 .app_theme_c {
     // --------- COMPONENTS ---------
+    .color-primary {
+        color: @app_theme_c_color;
+    }
     .foreground-color-accent {
         color: @app_theme_c_colorAccent;
     }
@@ -278,6 +349,9 @@
 // @app_theme_d_colorAccent: @md-color-deep-purple-500;
 .app_theme_d {
     // --------- COMPONENTS ---------
+    .color-primary {
+        color: @app_theme_d_color;
+    }
     .foreground-color-accent {
         color: @app_theme_d_colorAccent;
     }
@@ -344,6 +418,9 @@
 // @app_theme_e_colorAccent: @md-color-red-600;
 .app_theme_e {
     // --------- COMPONENTS ---------
+    .color-primary {
+        color: @app_theme_e_color;
+    }
     .foreground-color-accent {
         color: @app_theme_e_colorAccent;
     }
@@ -410,6 +487,9 @@
 // @app_theme_f_colorAccent: @md-color-light-green-600;
 .app_theme_f {
     // --------- COMPONENTS ---------
+    .color-primary {
+        color: @app_theme_f_color;
+    }
     .foreground-color-accent {
         color: @app_theme_f_colorAccent;
     }
@@ -476,6 +556,9 @@
 // @app_theme_g_colorAccent: @md-color-green-500;
 .app_theme_g {
     // --------- COMPONENTS ---------
+    .color-primary {
+        color: @app_theme_g_color;
+    }
     .foreground-color-accent {
         color: @app_theme_g_colorAccent;
     }

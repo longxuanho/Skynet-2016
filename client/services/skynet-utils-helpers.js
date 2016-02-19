@@ -894,71 +894,6 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             newDonVi.metadata.search_field = this.resolveField(search_fields, newDonVi);
         },
 
-        // ***************************************************
-        // HELPERS - LOAITHONGSOKYTHUATS
-        // ***************************************************
-        initNewLoaiThongSoKyThuatParams: function(scope) {
-            scope.newLoaiThongSoKyThuat = {
-                isPublic: true,
-                isArchived: false,
-                chung_loai: {},
-                metadata: {}
-            };
-        },
-        validateLoaiThongSoKyThuatForm: function(loaithongsokythuat) {
-            let error = {};
-            if (!loaithongsokythuat.ten) {
-                error.message = "Chưa có thông tin về tên thông số kỹ thuật.";
-                return error;
-            }
-            if (!loaithongsokythuat.chung_loai.keyId) {
-                error.message = "Chưa có thông tin về chủng loại thiết bị.";
-                return error;
-            }
-            if (!loaithongsokythuat.ma) {
-                error.message = "Chưa có thông tin về mã thông số kỹ thuật.";
-                return error;
-            }
-            return;
-        },
-        buildLoaiThongSoKyThuat: function(loaithongsokythuat) {
-            if (!loaithongsokythuat.metadata)
-                loaithongsokythuat.metadata = {};
-            this.buildMetadata('build', loaithongsokythuat.metadata);
-            if (loaithongsokythuat.chung_loai.keyId) {
-                let item = ChungLoais.findOne({
-                    _id: loaithongsokythuat.chung_loai.keyId
-                });
-                if (item) {
-                    loaithongsokythuat.chung_loai.ten = item.ten;
-                    loaithongsokythuat.chung_loai.ma = item.ma;
-                    loaithongsokythuat.chung_loai.icon = item.icon;
-                }
-            }
-            let search_fields = ['_id', ['chung_loai', 'ten'], 'ten', 'ma', 'mo_ta', ['metadata', 'nguoi_tao'],
-                ['metadata', 'nguoi_tao_field']
-            ];
-            loaithongsokythuat.metadata.search_field = this.resolveField(search_fields, loaithongsokythuat);
-        },
-        buildNewLoaiThongSoKyThuat: function(newLoaiThongSoKyThuat) {
-            if (!newLoaiThongSoKyThuat.metadata)
-                newLoaiThongSoKyThuat.metadata = {};
-            this.buildMetadata('buildNew', newLoaiThongSoKyThuat.metadata);
-            if (newLoaiThongSoKyThuat.chung_loai.keyId) {
-                let item = ChungLoais.findOne({
-                    _id: newLoaiThongSoKyThuat.chung_loai.keyId
-                });
-                if (item) {
-                    newLoaiThongSoKyThuat.chung_loai.ten = item.ten;
-                    newLoaiThongSoKyThuat.chung_loai.ma = item.ma;
-                    newLoaiThongSoKyThuat.chung_loai.icon = item.icon;
-                }
-            }
-            let search_fields = ['_id', ['chung_loai', 'ten'], 'ten', 'ma', 'mo_ta', ['metadata', 'nguoi_tao'],
-                ['metadata', 'nguoi_tao_field']
-            ];
-            newLoaiThongSoKyThuat.metadata.search_field = this.resolveField(search_fields, newLoaiThongSoKyThuat);
-        },
 
         // ***************************************************
         // HELPERS - DIABANS
@@ -1756,6 +1691,140 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         },
 
         // ***************************************************
+        // HELPERS - CAUHOIS
+        // ***************************************************
+
+        initNewCauHoiTemplate: function(scope, isUseTemplate) {
+            scope.newCauHoisTemplate = {
+                ten: Meteor.userId() + '_cauhois_template',
+                phan_loai: 'cauhois_template',
+                gia_tri: {
+                    template: {
+                        ma_tb: {},
+                        phan_loai: {
+                            nhom: {},
+                            chung_loai: {},
+                            loai: {}
+                        },
+                        ho_so_tb: {
+                            thong_tin_chung: {
+                                xuat_xu: {},
+                                bao_hanh: {},
+                                hang_san_xuat: {},
+                                model_tb: {}
+                            }
+                        },
+                        don_vi_quan_ly: {},
+                        don_vi_so_huu: {},
+                        dia_ban_hoat_dong: {},
+                        metadata: {},
+                        isPublic: true,
+                        isArchived: false,
+                        status: 'Hoạt động'
+                    },
+                    isUseTemplate: false
+                },
+                metadata: {}
+            };
+        },
+
+        initNewCauHoiParams: function(scope, template) {
+            if (template) {
+                scope.newCauHoi = angular.copy(template);
+            } else {
+                scope.newCauHoi = {
+                    lop: {
+                        ten: 'Kỹ thuật',
+                        ma: 'ky_thuat'
+                    },
+                    phan_lop: {
+                        ten: 'Trắc nghiệm',
+                        ma: 'trac_nghiem'
+                    },
+                    phan_loai: {
+                        kieu_cau_hoi: {
+                            ma: 'mot_dap_an_dung',
+                            ten: 'Một đáp án đúng'
+                        },
+                        nhom_tb: {},
+                        loai_tb: {},
+                        nhom_cau_hoi: {},
+                        nhom_noi_dung: {},
+                        bac_thi: [],
+                        muc_do: {}
+                    },
+                    noi_dung: {
+                        thong_ke: {
+                            numOfLuaChons: 4,           // Bằng số phần tử của 'lua_chons'
+                            numOfCorrectAnswers: 1
+                        },
+                        lua_chons: [{}, {}, {}, {}],    // Bằng giá trị của 'thong_ke.numOfLuaChons'
+                        isHasImages: false,
+                        url_hinh_anhs: [],
+                    },
+                    tags: [],
+                    metadata: {},
+                    isPublic: true,
+                    isArchived: false,
+                    status: 'Active'
+                };
+            }
+        },
+
+        validateCauHoiForm: function(cauhoi) {
+            let error = {};
+            if (!cauhoi.lop.ten) {
+                error.message = "Chưa có thông tin về lớp câu hỏi.";
+                return error;
+            }
+            if (!cauhoi.phan_lop.ten) {
+                error.message = "Chưa có thông tin về phân lớp câu hỏi.";
+                return error;
+            }
+            if (!cauhoi.phan_loai.kieu_cau_hoi.ten) {
+                error.message = "Chưa có thông tin về kiểu câu hỏi.";
+                return error;
+            }
+            if (!cauhoi.phan_loai.nhom_tb.ma) {
+                error.message = "Chưa có thông tin về nhóm thiết bị.";
+                return error;
+            }
+            if (!cauhoi.phan_loai.loai_tb.ma) {
+                error.message = "Chưa có thông tin về loại thiết bị.";
+                return error;
+            }
+            if (!cauhoi.phan_loai.nhom_cau_hoi.ma) {
+                error.message = "Chưa có thông tin về nhóm câu hỏi.";
+                return error;
+            }            
+            if (!cauhoi.phan_loai.nhom_noi_dung.ma) {
+                error.message = "Chưa có thông tin về nhóm nội dung của câu hỏi.";
+                return error;
+            }
+            if (!cauhoi.noi_dung.tieu_de) {
+                error.message = "Chưa có thông tin về tiêu đề câu hỏi.";
+                return error;
+            }
+            if (!cauhoi.noi_dung.lua_chons.length) {
+                error.message = "Chưa có các lựa chọn đối với câu hỏi trắc nghiệm.";
+                return error;
+            }
+            return;
+        },
+
+        buildCauHoi: function(cauhoi) {
+            if (!cauhoi.metadata)
+                cauhoi.metadata = {};
+            this.buildMetadata('build', cauhoi.metadata);
+        },
+
+        buildNewCauHoi: function(newCauHoi) {
+            if (!newCauHoi.metadata)
+                newCauHoi.metadata = {};
+            this.buildMetadata('buildNew', newCauHoi.metadata);
+        },
+
+        // ***************************************************
         // HELPERS - HOSOLUUTRUs
         // ***************************************************
 
@@ -2089,6 +2158,14 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_delete_thong_so_ky_thuat':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_upsert_cau_hoi':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_delete_cau_hoi':
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;

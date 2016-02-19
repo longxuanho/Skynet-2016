@@ -1,5 +1,24 @@
 angular.module('angular-skynet')
 
+// Chú ý: Module auto-resize
+
+.directive('textareaAutosize', [
+    '$timeout',
+    function($timeout) {
+        return {
+            restrict: 'A',
+            link: function(scope, elem, attrs) {
+                autosize($(elem));
+                $timeout(function() {
+                    scope.$apply(function () {
+                        autosize.update($(elem))
+                    });
+                })
+            }
+        }
+    }
+])
+
 // page title
 .directive('pageTitle', [
     '$rootScope',

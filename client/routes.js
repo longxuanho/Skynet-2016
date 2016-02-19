@@ -273,6 +273,19 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/thong-ke',
             template: '<thongsokythuats-list></thongsokythuats-list>'
         })
+        // CAUHOIS
+        .state('cauhois', {
+            url: '/quan-ly/ngan-hang-cau-hoi',
+            template: '<cauhois-main></cauhois-main>'
+        })
+        .state('cauhois.addNew', {
+            url: '/tao-moi',
+            template: '<cauhois-add-new></cauhois-add-new>'
+        })
+        .state('cauhois.list', {
+            url: '/thong-ke',
+            template: '<cauhois-list></cauhois-list>'
+        })
         // NHANSUS
         .state('nhansus', {
             url: '/quan-ly/nhan-su',

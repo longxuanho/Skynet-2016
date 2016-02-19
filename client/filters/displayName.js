@@ -9,4 +9,10 @@ angular.module('angular-skynet').filter('displayName', function () {
     else
       return user;
   }
-});
+})
+.filter('displayNumberAsAlphabelt', function () {
+    return function (input) {
+        let map = ["A", "B", "C", "D", "E", "F"];
+        return map[input];
+    }
+});;

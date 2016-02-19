@@ -122,6 +122,185 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                         }
                     }
             }
+        },
+        "nganhangcauhois": {
+            "lops": [
+                {
+                    "ma": "ky_thuat",
+                    "ten": "Kỹ thuật"
+                }
+            ],
+            "phan_lops": [
+                {
+                    "ma": "trac_nghiem",
+                    "ten": "Trắc nghiệm"
+                },
+                {
+                    "ma": "tu_luan",
+                    "ten": "Tự luận"
+                },
+            ],
+            "status": [
+                "Active",
+                "Draft"
+            ], 
+            "data": {
+                "ky_thuat": {
+                    "trac_nghiem": {
+                        "kieu_cau_hois": [
+                            {
+                                "ma": "chon_dung_sai",
+                                "ten": "Lựa chọn đúng / sai"
+                            }, {
+                                "ma": "mot_dap_an_dung",
+                                "ten": "Một đáp án đúng"
+                            }, {
+                                "ma": "nhieu_dap_an_dung",
+                                "ten": "Nhiều đáp án đúng"
+                            }
+                        ],
+                        "nhom_tbs": [
+                            {
+                                "ma": "thiet_bi_nang",
+                                "ten": "Thiết bị nâng"
+                            }, {
+                                "ma": "tau_thuyen",
+                                "ten": "Tàu thuyền"
+                            }, {
+                                "ma": "tram_nguon",
+                                "ten": "Trạm nguồn"
+                            }, {
+                                "ma": "xe_may",
+                                "ten": "Xe máy"
+                            }
+                        ],
+                        "loai_tbs": {
+                            "thiet_bi_nang": [
+                                {
+                                    "ma": "ke_kock",
+                                    "ten": "KE / KOCK"
+                                }, {
+                                    "ma": "kock_cm",
+                                    "ten": "KOCK Cái Mép"
+                                }, {
+                                    "ma": "liebherr",
+                                    "ten": "Liebherr"
+                                }, {
+                                    "ma": "mj_50",
+                                    "ten": "Mijack-50"
+                                }, {
+                                    "ma": "mj_850p",
+                                    "ten": "Mijack-850p"
+                                }, {
+                                    "ma": "rtg_6+1",
+                                    "ten": "RTG 6+1"
+                                }, {
+                                    "ma": "xn_hang",
+                                    "ten": "Xe nâng hàng"
+                                }, {
+                                    "ma": "xn_kho",
+                                    "ten": "Xe nâng kho"
+                                }
+                            ]
+                        },
+                        "nhom_cau_hois": [
+                            {
+                                "ma": "tong_quat",
+                                "ten": "Tổng quát",
+                                "tieu_de": "Kiến thức tổng quát",
+                                "mo_ta": "Kiểm tra kiến thức về hàng hóa - phương tiện - kỹ thuật cơ bản"
+                            }, {
+                                "ma": "cum_chi_tiet",
+                                "ten": "Cụm CT",
+                                "tieu_de": "Các cụm chi tiết",
+                                "mo_ta": "Kiểm tra kiến thức về các cụm chi tiết của phương tiện"
+                            }, {
+                                "ma": "van_hanh_kt_db",
+                                "ten": "VH-KT-BD",
+                                "tieu_de": "Vận hành - Kiểm tra - Bảo dưỡng",
+                                "mo_ta": "Kiểm tra kiến thức về vận hành, kiểm tra và bảo dưỡng"
+                            }, {
+                                "ma": "an_toan",
+                                "ten": "An toàn",
+                                "tieu_de": "An toàn và Quy định",
+                                "mo_ta": "Kiểm tra kiến thức về ATLĐ và các Quy định trong quá trình vận hành của TCT"
+                            }, {
+                                "ma": "dien_co_so",
+                                "ten": "Điện cơ sở",
+                                "tieu_de": "Điện cơ sở",
+                                "mo_ta": "Kiểm tra kiến thức cơ sở chuyên ngành Điện"
+                            }
+                        ],
+                        "nhom_noi_dungs": [
+                            {
+                                "ma": "an_toan",
+                                "ten": "An toàn"
+                            }, {
+                                "ma": "co_khi",
+                                "ten": "Cơ khí"
+                            }, {
+                                "ma": "dien",
+                                "ten": "Điện"
+                            }, {
+                                "ma": "kien_thuc_chung",
+                                "ten": "Kiến thức chung"
+                            }, {
+                                "ma": "van_hanh",
+                                "ten": "Vận hành"
+                            }
+                        ],
+                        "bac_this": [
+                            "Bậc 1",
+                            "Bậc 2",
+                            "Bậc 3",
+                            "Bậc 4"
+                        ],
+                        "muc_do": [
+                            {
+                                "ma": "easy",
+                                "ten": "Dễ"
+                            }, {
+                                "ma": "medium",
+                                "ten": "Trung bình"
+                            }, {
+                                "ma": "hard",
+                                "ten": "Khó"
+                            }
+                        ],
+                        "tags": [
+                            "An toàn",
+                            "Bạc đạn",
+                            "Bánh xe",
+                            "Bảo dưỡng",
+                            "Bộ truyền BR",
+                            "Bơm",
+                            "Cảm biến",
+                            "Cáp",
+                            "Con lăn",
+                            "Cụm CT",
+                            "Điện cơ bản",
+                            "Động cơ",
+                            "Giới hạn",
+                            "Gù",
+                            "Hàng hóa",
+                            "Hộp giảm tốc",
+                            "Kẹp ray",
+                            "Khớp nối từ",
+                            "Khung chụp",
+                            "Kiểm tra",
+                            "KT chung",
+                            "Pa lăng",
+                            "Phanh",
+                            "Quy trình",
+                            "Thông số KT",
+                            "Tiêu chuẩn",
+                            "Vận hành",
+                            "Xe tời" 
+                        ]
+                    }    
+                }
+            }
+            
         }
 
     }
