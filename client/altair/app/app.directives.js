@@ -465,40 +465,40 @@ angular.module('angular-skynet')
     '$rootScope',
     '$window',
     '$timeout',
-    function($rootScope, $window, $timeout) {
+    function ($rootScope, $window, $timeout) {
         return {
             restrict: 'E',
             replace: true,
             scope: true,
             template: '<a id="sSwitch_primary" href="#" class="sSwitch sSwitch_left" ng-click="togglePrimarySidebar($event)" ng-hide="miniSidebarActive || topMenuActive"><span class="sSwitchIcon"></span></a>',
-            link: function(scope, el, attrs) {
-                scope.togglePrimarySidebar = function($event) {
+            link: function (scope, el, attrs) {
+                scope.togglePrimarySidebar = function ($event) {
 
                     $event.preventDefault();
 
-                    if ($rootScope.primarySidebarActive) {
+                    if($rootScope.primarySidebarActive) {
                         $rootScope.primarySidebarHiding = true;
-                        if ($rootScope.largeScreen) {
+                        if($rootScope.largeScreen) {
                             $timeout(function() {
                                 $rootScope.primarySidebarHiding = false;
                                 $(window).resize();
-                            }, 280);
+                            },290);
                         }
                     } else {
-                        if ($rootScope.largeScreen) {
+                        if($rootScope.largeScreen) {
                             $timeout(function() {
                                 $(window).resize();
-                            });
+                            },290);
                         }
                     }
 
                     $rootScope.primarySidebarActive = !$rootScope.primarySidebarActive;
 
-                    if (!$rootScope.largeScreen) {
+                    if( !$rootScope.largeScreen ) {
                         $rootScope.hide_content_sidebar = $rootScope.primarySidebarActive ? true : false;
                     }
 
-                    if ($rootScope.primarySidebarOpen) {
+                    if($rootScope.primarySidebarOpen) {
                         $rootScope.primarySidebarOpen = false;
                         $rootScope.primarySidebarActive = false;
                     }
@@ -514,20 +514,20 @@ angular.module('angular-skynet')
     '$rootScope',
     '$timeout',
     'variables',
-    function($rootScope, $timeout, variables) {
+    function ($rootScope,$timeout,variables) {
         return {
             restrict: 'A',
-            link: function(scope, el, attrs) {
+            link: function(scope,el,attrs) {
                 $rootScope.sidebar_secondary = true;
-                if (attrs.toggleHidden == 'large') {
+                if(attrs.toggleHidden == 'large') {
                     $rootScope.secondarySidebarHiddenLarge = true;
                 }
 
                 // chat
                 var $sidebar_secondary = $(el);
-                if ($sidebar_secondary.find('.md-list.chat_users').length) {
+                if($sidebar_secondary.find('.md-list.chat_users').length) {
 
-                    $('.md-list.chat_users').children('li').on('click', function() {
+                    $('.md-list.chat_users').children('li').on('click',function() {
                         $('.md-list.chat_users').velocity("transition.slideRightBigOut", {
                             duration: 280,
                             easing: variables.easing_swiftOut,
@@ -548,14 +548,14 @@ angular.module('angular-skynet')
 
                     $sidebar_secondary
                         .find('.chat_sidebar_close')
-                        .on('click', function() {
+                        .on('click',function() {
                             $sidebar_secondary
                                 .find('.chat_box_wrapper')
                                 .removeClass('chat_box_active')
                                 .velocity("transition.slideRightBigOut", {
                                     duration: 280,
                                     easing: variables.easing_swiftOut,
-                                    complete: function() {
+                                    complete: function () {
                                         $sidebar_secondary.removeClass('chat_sidebar');
                                         $('.md-list.chat_users').velocity("transition.slideRightBigIn", {
                                             duration: 280,
@@ -565,9 +565,9 @@ angular.module('angular-skynet')
                                 })
                         });
 
-                    if ($sidebar_secondary.find('.uk-tab').length) {
-                        $sidebar_secondary.find('.uk-tab').on('change.uk.tab', function(event, active_item, previous_item) {
-                            if ($(active_item).hasClass('chat_sidebar_tab') && $sidebar_secondary.find('.chat_box_wrapper').hasClass('chat_box_active')) {
+                    if($sidebar_secondary.find('.uk-tab').length) {
+                        $sidebar_secondary.find('.uk-tab').on('change.uk.tab',function(event, active_item, previous_item) {
+                            if($(active_item).hasClass('chat_sidebar_tab') && $sidebar_secondary.find('.chat_box_wrapper').hasClass('chat_box_active')) {
                                 $sidebar_secondary.addClass('chat_sidebar')
                             } else {
                                 $sidebar_secondary.removeClass('chat_sidebar')
@@ -586,13 +586,13 @@ angular.module('angular-skynet')
     '$rootScope',
     '$window',
     '$timeout',
-    function($rootScope, $window, $timeout) {
+    function ($rootScope, $window, $timeout) {
         return {
             restrict: 'E',
             replace: true,
             template: '<a href="#" id="sSwitch_secondary" class="sSwitch sSwitch_right" ng-show="sidebar_secondary" ng-click="toggleSecondarySidebar($event)"><span class="sSwitchIcon"></span></a>',
-            link: function(scope, el, attrs) {
-                scope.toggleSecondarySidebar = function($event) {
+            link: function (scope, el, attrs) {
+                scope.toggleSecondarySidebar = function ($event) {
                     $event.preventDefault();
                     $rootScope.secondarySidebarActive = !$rootScope.secondarySidebarActive;
                 };
@@ -605,22 +605,23 @@ angular.module('angular-skynet')
 .directive('cardFullscreenActivate', [
     '$rootScope',
     'variables',
-    function($rootScope, variables) {
+    function ($rootScope, variables) {
         return {
             restrict: 'E',
             replace: true,
             scope: true,
             template: '<i class="md-icon material-icons md-card-fullscreen-activate" ng-click="cardFullscreenActivate($event)">&#xE5D0;</i>',
-            link: function(scope, el, attrs) {
-                scope.cardFullscreenActivate = function($event) {
+            link: function (scope, el, attrs) {
+                scope.cardFullscreenActivate = function ($event) {
                     $event.preventDefault();
 
                     var $thisCard = $(el).closest('.md-card'),
+                        mdCardToolbarFixed = $thisCard.hasClass('toolbar-fixed'),
                         mdCard_h = $thisCard.height(),
                         mdCard_w = $thisCard.width();
 
                     // create placeholder for card
-                    $thisCard.after('<div class="md-card-placeholder" style="width:' + mdCard_w + 'px;height:' + mdCard_h + 'px;"/>');
+                    $thisCard.after('<div class="md-card-placeholder" style="width:'+ mdCard_w+'px;height:'+ mdCard_h+'px;"/>');
                     // add overflow hidden to #page_content (fix for ios)
                     //$body.addClass('md-card-fullscreen-active');
                     // add width/height to card (preserve original size)
@@ -634,7 +635,7 @@ angular.module('angular-skynet')
                         .velocity({
                             left: 0,
                             top: 0
-                        }, {
+                        },{
                             duration: 600,
                             easing: variables.easing_swiftOut,
                             begin: function(elements) {
@@ -649,7 +650,7 @@ angular.module('angular-skynet')
                         .velocity({
                             height: '100%',
                             width: '100%'
-                        }, {
+                        },{
                             duration: 600,
                             easing: variables.easing_swiftOut,
                             complete: function(elements) {
@@ -664,6 +665,9 @@ angular.module('angular-skynet')
                                         $(window).resize();
                                     }
                                 });
+                                if(mdCardToolbarFixed) {
+                                    $thisCard.addClass('mdToolbar_fixed')
+                                }
                             }
                         });
                 }
@@ -671,19 +675,18 @@ angular.module('angular-skynet')
         }
     }
 ])
-
 // deactivate card fullscreen
 .directive('cardFullscreenDeactivate', [
     '$rootScope',
     '$window',
     'variables',
-    function($rootScope, $window, variables) {
+    function ($rootScope, $window, variables) {
         return {
             restrict: 'E',
             replace: true,
             template: '<span class="md-icon md-card-fullscreen-deactivate material-icons uk-float-left" ng-show="card_fullscreen" ng-click="cardFullscreenDeactivate($event)">&#xE5C4;</span>',
-            link: function(scope, el, attrs) {
-                scope.cardFullscreenDeactivate = function($event) {
+            link: function (scope, el, attrs) {
+                scope.cardFullscreenDeactivate = function ($event) {
                     $event.preventDefault();
 
                     // get card placeholder width/height and offset
@@ -692,23 +695,24 @@ angular.module('angular-skynet')
                         mdPlaceholderCard_w = $thisPlaceholderCard.width(),
                         mdPlaceholderCard_offset_top = $thisPlaceholderCard.offset().top,
                         mdPlaceholderCard_offset_left = $thisPlaceholderCard.offset().left,
-                        $thisCard = $('.md-card-fullscreen');
+                        $thisCard = $('.md-card-fullscreen'),
+                        mdCardToolbarFixed = $thisCard.hasClass('toolbar-fixed');
 
                     $thisCard
-                    // resize card to original size
+                        // resize card to original size
                         .velocity({
                             height: mdPlaceholderCard_h,
                             width: mdPlaceholderCard_w
-                        }, {
+                        },{
                             duration: 600,
                             easing: variables.easing_swiftOut,
                             begin: function(elements) {
                                 // hide fullscreen content
-                                $thisCard.find('.md-card-fullscreen-content').velocity("transition.slideDownOut", {
-                                    duration: 280,
-                                    easing: variables.easing_swiftOut
-                                });
+                                $thisCard.find('.md-card-fullscreen-content').velocity("transition.slideDownOut",{ duration: 280, easing: variables.easing_swiftOut });
                                 $rootScope.card_fullscreen = false;
+                                if(mdCardToolbarFixed) {
+                                    $thisCard.removeClass('mdToolbar_fixed')
+                                }
                             },
                             complete: function(elements) {
                                 $rootScope.hide_content_sidebar = false;
@@ -718,7 +722,7 @@ angular.module('angular-skynet')
                         .velocity({
                             left: mdPlaceholderCard_offset_left,
                             top: mdPlaceholderCard_offset_top
-                        }, {
+                        },{
                             duration: 600,
                             easing: variables.easing_swiftOut,
                             complete: function(elements) {
@@ -740,18 +744,17 @@ angular.module('angular-skynet')
         }
     }
 ])
-
 // card close
 .directive('cardClose', [
     'utils',
-    function(utils) {
+    function (utils) {
         return {
             restrict: 'E',
             replace: true,
             scope: true,
             template: '<i class="md-icon material-icons md-card-toggle" ng-click="cardClose($event)">&#xE14C;</i>',
-            link: function(scope, el, attrs) {
-                scope.cardClose = function($event) {
+            link: function (scope, el, attrs) {
+                scope.cardClose = function ($event) {
                     $event.preventDefault();
 
                     var $this = $(el),
@@ -760,25 +763,24 @@ angular.module('angular-skynet')
                             $(thisCard).remove();
                         };
 
-                    utils.card_show_hide(thisCard, undefined, removeCard)
+                    utils.card_show_hide(thisCard,undefined,removeCard)
 
                 }
             }
         }
     }
 ])
-
 // card toggle
 .directive('cardToggle', [
     'variables',
-    function(variables) {
+    function (variables) {
         return {
             restrict: 'E',
             replace: true,
             scope: true,
             template: '<i class="md-icon material-icons md-card-toggle" ng-click="cardToggle($event)">&#xE316;</i>',
-            link: function(scope, el, attrs) {
-                scope.cardToggle = function($event) {
+            link: function (scope, el, attrs) {
+                scope.cardToggle = function ($event) {
                     $event.preventDefault();
 
                     var $this = $(el),
@@ -804,26 +806,25 @@ angular.module('angular-skynet')
         }
     }
 ])
-
 // card overlay toggle
 .directive('cardOverlayToggle', [
-    function() {
+    function () {
         return {
             restrict: 'E',
             template: '<i class="md-icon material-icons" ng-click="toggleOverlay($event)">&#xE5D4;</i>',
             replace: true,
             scope: true,
-            link: function(scope, el, attrs) {
+            link: function (scope, el, attrs) {
 
-                if (el.closest('.md-card').hasClass('md-card-overlay-active')) {
+                if(el.closest('.md-card').hasClass('md-card-overlay-active')) {
                     el.html('&#xE5CD;')
                 }
 
-                scope.toggleOverlay = function($event) {
+                scope.toggleOverlay = function ($event) {
 
                     $event.preventDefault();
 
-                    if (!el.closest('.md-card').hasClass('md-card-overlay-active')) {
+                    if(!el.closest('.md-card').hasClass('md-card-overlay-active')) {
                         el
                             .html('&#xE5CD;')
                             .closest('.md-card').addClass('md-card-overlay-active');
@@ -835,6 +836,50 @@ angular.module('angular-skynet')
                     }
 
                 }
+            }
+        }
+    }
+])
+// card toolbar progress
+.directive('cardProgress', [
+    '$timeout',
+    function ($timeout) {
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function (scope, el, attrs) {
+
+                var $this = $(el).children('.md-card-toolbar'),
+                    bg_percent = parseInt(attrs.cardProgress);
+
+
+                function updateCard(percent) {
+                    var bg_color_default = $this.attr('card-bg-default');
+
+                    if(!bg_color_default) {
+                        var bg_color = $this.css('backgroundColor');
+                        $this.attr('card-bg-default',bg_color)
+                    } else {
+                        var bg_color = bg_color_default;
+                    }
+
+                    $this.css({
+                        'background': '-moz-linear-gradient(left, '+bg_color+' '+percent+'%, #fff '+(percent)+'%)',
+                        'background': '-webkit-linear-gradient(left, '+bg_color+' '+percent+'%, #fff '+(percent)+'%)',
+                        'background': 'linear-gradient(to right,  '+bg_color+' '+percent+'%, #fff '+(percent)+'%)'
+                    });
+
+                    scope.cardPercentage = percent;
+                }
+
+                updateCard(bg_percent);
+
+                scope.$watch(function() {
+                    return $(el).attr('card-progress')
+                }, function(newValue) {
+                    updateCard(newValue);
+                });
+
             }
         }
     }
