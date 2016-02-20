@@ -28,7 +28,31 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 able: {
                     addNumOfLuaChons: true,
                     decreaseNumOfLuaChons: true
-                }                
+                },
+                template: {
+                    flags: {
+                        isPhanLoai: false,
+                        isTags: false,
+                        isUrlHinhAnh: false,
+                        isGhiChu: false
+                    },
+                    phan_loai: {
+                        nhom_cau_hoi: {},
+                        muc_do: {},
+                        nhom_tb: {},
+                        loai_tb: []
+                    },
+                    tags: [],
+                    url_hinh_anh: [],
+                    ghi_chu: {
+                        mo_ta: '',
+                        ghi_chu: ''
+                    }
+                },
+                props: {
+                    isDiffViewLink: true,
+                    isDiffViewResult: false
+                }               
             };
 
             // ***************************************************
