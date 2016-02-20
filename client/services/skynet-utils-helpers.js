@@ -1747,7 +1747,6 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                             ten: 'Một đáp án đúng'
                         },
                         nhom_tb: {},
-                        loai_tb: {},
                         nhom_cau_hoi: {},
                         nhom_noi_dung: {},
                         bac_thi: [],
@@ -1785,20 +1784,16 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 error.message = "Chưa có thông tin về kiểu câu hỏi.";
                 return error;
             }
+            if (!cauhoi.phan_loai.nhom_cau_hoi.ma) {
+                error.message = "Chưa có thông tin về nhóm câu hỏi.";
+                return error;
+            } 
             if (!cauhoi.phan_loai.nhom_tb.ma) {
                 error.message = "Chưa có thông tin về nhóm thiết bị.";
                 return error;
             }
-            if (!cauhoi.phan_loai.loai_tb.ma) {
+            if (!cauhoi.phan_loai.loai_tb.length) {
                 error.message = "Chưa có thông tin về loại thiết bị.";
-                return error;
-            }
-            if (!cauhoi.phan_loai.nhom_cau_hoi.ma) {
-                error.message = "Chưa có thông tin về nhóm câu hỏi.";
-                return error;
-            }            
-            if (!cauhoi.phan_loai.nhom_noi_dung.ma) {
-                error.message = "Chưa có thông tin về nhóm nội dung của câu hỏi.";
                 return error;
             }
             if (!cauhoi.noi_dung.tieu_de) {

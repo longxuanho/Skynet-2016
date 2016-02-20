@@ -190,7 +190,7 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                     "ten": "Mijack-50"
                                 }, {
                                     "ma": "mj_850p",
-                                    "ten": "Mijack-850p"
+                                    "ten": "Mijack-850P"
                                 }, {
                                     "ma": "rtg_6+1",
                                     "ten": "RTG 6+1"
@@ -200,54 +200,45 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                 }, {
                                     "ma": "xn_kho",
                                     "ten": "Xe nâng kho"
+                                }, {
+                                    "ma": "tat_ca",
+                                    "ten": "Tất cả"
                                 }
+
                             ]
                         },
                         "nhom_cau_hois": [
                             {
-                                "ma": "tong_quat",
-                                "ten": "Tổng quát",
-                                "tieu_de": "Kiến thức tổng quát",
-                                "mo_ta": "Kiểm tra kiến thức về hàng hóa - phương tiện - kỹ thuật cơ bản"
+                                "ma": "an_toan",
+                                "ten_ngan": "An toàn",
+                                "ten": "An toàn và Quy định",
+                                "mo_ta": "Các câu hỏi về ATLĐ và các Quy định trong quá trình vận hành của TCT"
                             }, {
                                 "ma": "cum_chi_tiet",
-                                "ten": "Cụm CT",
-                                "tieu_de": "Các cụm chi tiết",
-                                "mo_ta": "Kiểm tra kiến thức về các cụm chi tiết của phương tiện"
-                            }, {
-                                "ma": "van_hanh_kt_db",
-                                "ten": "VH-KT-BD",
-                                "tieu_de": "Vận hành - Kiểm tra - Bảo dưỡng",
-                                "mo_ta": "Kiểm tra kiến thức về vận hành, kiểm tra và bảo dưỡng"
-                            }, {
-                                "ma": "an_toan",
-                                "ten": "An toàn",
-                                "tieu_de": "An toàn và Quy định",
-                                "mo_ta": "Kiểm tra kiến thức về ATLĐ và các Quy định trong quá trình vận hành của TCT"
+                                "ten_ngan": "Cụm CT",
+                                "ten": "Các cụm chi tiết",
+                                "mo_ta": "Các câu hỏi về các cụm chi tiết của phương tiện"
                             }, {
                                 "ma": "dien_co_so",
+                                "ten_ngan": "Điện cơ sở",
                                 "ten": "Điện cơ sở",
-                                "tieu_de": "Điện cơ sở",
-                                "mo_ta": "Kiểm tra kiến thức cơ sở chuyên ngành Điện"
-                            }
-                        ],
-                        "nhom_noi_dungs": [
-                            {
-                                "ma": "an_toan",
-                                "ten": "An toàn"
+                                "mo_ta": "Các câu hỏi về kiến thức cơ sở chuyên ngành Điện"
                             }, {
-                                "ma": "co_khi",
-                                "ten": "Cơ khí"
+                                "ma": "kiem_tra_bao_duong",
+                                "ten_ngan": "KT - BD",
+                                "ten": "Kiểm tra - Bảo dưỡng",
+                                "mo_ta": "Các câu hỏi về kiểm tra phương tiện và bảo dưỡng"
                             }, {
-                                "ma": "dien",
-                                "ten": "Điện"
-                            }, {
-                                "ma": "kien_thuc_chung",
-                                "ten": "Kiến thức chung"
+                                "ma": "tong_quat",
+                                "ten_ngan": "Tổng quát",
+                                "ten": "Kiến thức tổng quát",
+                                "mo_ta": "Các câu hỏi về hàng hóa - phương tiện - kỹ thuật cơ bản"
                             }, {
                                 "ma": "van_hanh",
-                                "ten": "Vận hành"
-                            }
+                                "ten_ngan": "Vận hành",
+                                "ten": "Kỹ năng vận hành",
+                                "mo_ta": "Các câu hỏi về kỹ năng vận hành phương tiện"
+                            } 
                         ],
                         "bac_this": [
                             "Bậc 1",
@@ -255,7 +246,7 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                             "Bậc 3",
                             "Bậc 4"
                         ],
-                        "muc_do": [
+                        "muc_dos": [
                             {
                                 "ma": "easy",
                                 "ten": "Dễ"

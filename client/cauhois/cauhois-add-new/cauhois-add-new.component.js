@@ -3,7 +3,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
         restrict: 'E',
         templateUrl: 'client/cauhois/cauhois-add-new/cauhois-add-new.template.html',
         controllerAs: 'vm',
-        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, $reactive) {
+        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary) {
 
             $reactive(this).attach($scope);
 
@@ -18,6 +18,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
             vm._helpers = skynetHelpers.helpers;
             
             vm._helpers.initNewCauHoiParams(vm);
+            vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
             vm.pageOptions = {
                 limit: {

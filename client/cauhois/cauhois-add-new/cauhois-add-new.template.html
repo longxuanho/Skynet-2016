@@ -8,7 +8,7 @@
                         <div class="md-card-toolbar-actions" ng-click="vm.addNewCauHoi()">
                             <i class="md-icon material-icons">&#xE161;</i>
                         </div>
-                        <input class="md-card-toolbar-input" type="text" ng-model="vm.newCauHoi.ma_tb.ma_tb" placeholder="Mã thiết bị mới" />
+                        <input class="md-card-toolbar-input" type="text" placeholder="Tạo câu hỏi mới" readonly/>
                     </div>
                     <div class="md-card-content">
                         <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
@@ -19,7 +19,7 @@
                                         <div class="uk-width-medium-1-1">
                                             <div class="uk-form-row">
                                                 <label>Câu hỏi</label>
-                                                <textarea cols="30" rows="4" class="md-input" ng-model="form.input_k" md-input textarea-autosize></textarea>
+                                                <textarea cols="30" rows="4" class="md-input" ng-model="vm.newCauHoi.noi_dung.tieu_de" md-input textarea-autosize></textarea>
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-1 uk-clearfix">
@@ -37,7 +37,7 @@
                                                         <div class="uk-grid">
                                                             <div class="uk-width-small-5-6">
                                                                 {{ $index | displayNumberAsAlphabelt }}.<br/>
-                                                                <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="item.noi_dung.lua_chons.tieu_de"></textarea>
+                                                                <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="item.tieu_de"></textarea>
                                                             </div>
                                                             <div class="uk-width-small-1-6">
                                                                 <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': item.isCorrect}" ng-click="vm.utils.setCorrectAnswer($index)">&#xE876;</i>
@@ -55,51 +55,80 @@
                                 <div class="uk-accordion" data-uk-accordion>
                                     <h3 class="uk-accordion-title">Phân loại</h3>
                                     <div class="uk-accordion-content">
-                                        <div class="uk-grid uk-margin-medium-top uk-margin-medium-bottom" data-uk-grid-margin>
-                                            <div class="uk-width-medium-1-2">
-                                                <div class="uk-form-stacked">
-                                                    <label for="kUI_dropdown_static">Nhóm</label>
-                                                    <select kendo-drop-down-list style="width: 100%;"
-                                                        ng-model="vm.newCauHoi.phan_loai.nhom.keyId"
-                                                        k-data-text-field="'ten'"
-                                                        k-data-value-field="'_id'"
-                                                        k-filter="'contains'"
-                                                        k-data-source="vm.nhoms"
-                                                        k-rebind="vm.nhoms">
-                                                    </select>
+                                        <div class="uk-grid uk-margin-medium-bottom">
+                                            <div class="uk-width-medium-1-1 uk-clearfix">
+                                                <div class="uk-align-medium-right">
+                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.addNumOfLuaChons}" ng-click="vm.utils.addNumOfLuaChons()">&#xE898;</i>
+                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE55C;</i>
                                                 </div>
                                             </div>
-                                            <div class="uk-width-medium-1-2">
+                                            <div class="uk-width-medium-3-5">
                                                 <div class="uk-form-stacked">
-                                                    <label for="kUI_dropdown_static">Chủng loại</label>
-                                                    <select kendo-drop-down-list style="width: 100%;"
-                                                        ng-model="vm.newCauHoi.phan_loai.chung_loai.keyId"
-                                                        k-data-text-field="'ten'"
-                                                        k-data-value-field="'_id'"
-                                                        k-filter="'contains'"
-                                                        k-data-source="vm.chungloais"
-                                                        k-rebind="vm.chungloais">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="uk-width-medium-1-2">
-                                                <div class="uk-form-stacked">
-                                                    <label for="kUI_dropdown_static">Loại</label>
-                                                    <select kendo-drop-down-list style="width: 100%;"
-                                                        ng-model="vm.newCauHoi.phan_loai.loai.keyId"
+                                                    <label for="cauhoi_phanloai_nhomcauhoi">Nhóm câu hỏi</label>
+                                                    <select kendo-drop-down-list style="width: 100%;" id="cauhoi_phanloai_nhomcauhoi"
+                                                        k-ng-model="vm.newCauHoi.phan_loai.nhom_cau_hoi"
                                                         k-data-text-field="'ten'" 
-                                                        k-data-value-field="'_id'"
                                                         k-filter="'contains'"
-                                                        k-data-source="vm.loais"
-                                                        k-rebind="vm.loais">
+                                                        k-data-source="vm.dictionary.nhom_cau_hois">
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="uk-width-medium-2-5">
+                                                <div class="uk-form-stacked">
+                                                    <label for="cauhoi_phanloai_mucdo">Mức độ</label>
+                                                    <select kendo-drop-down-list style="width: 100%;" id="cauhoi_phanloai_mucdo"
+                                                        k-ng-model="vm.newCauHoi.phan_loai.muc_do"
+                                                        k-data-text-field="'ten'"
+                                                        k-data-source="vm.dictionary.muc_dos">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-medium-1-2 uk-margin-medium-top">
+                                                <div class="uk-form-stacked">
+                                                    <label for="cauhoi_phanloai_nhomtb">Nhóm TB</label>
+                                                    <select kendo-drop-down-list style="width: 100%;" id="cauhoi_phanloai_nhomtb"
+                                                        k-ng-model="vm.newCauHoi.phan_loai.nhom_tb"
+                                                        k-data-text-field="'ten'"
+                                                        k-filter="'contains'"
+                                                        k-data-source="vm.dictionary.nhom_tbs">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-medium-1-1 uk-margin-medium-top">
+                                                <label for="cauhoi_phanloai_loaithietbi">Loại TB</label>
+                                                <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
+                                                    k-data-source="vm.dictionary.loai_tbs[vm.newCauHoi.phan_loai.nhom_tb.ma]"
+                                                    k-data-text-field="'ten'"
+                                                    k-ng-model="vm.newCauHoi.phan_loai.loai_tb">
+                                                </select>
+                                            </div>
+                                            <div class="uk-width-medium-1-1 uk-margin-medium-top">
+                                                <div class="uk-form-stacked">
+                                                    <label for="cauhoi_phanloai_bacthi">Bậc thi</label>
+                                                    <select kendo-multi-select id="cauhoi_phanloai_bacthi"
+                                                        k-data-source="vm.dictionary.bac_this"
+                                                        k-ng-model="vm.newCauHoi.phan_loai.bac_thi">
+                                                    </select>
+                                                </div>
+                                            </div>                                           
                                         </div>
                                     </div>
                                     <h3 class="uk-accordion-title">Đối chiếu</h3>
                                     <div class="uk-accordion-content">
-                                        <div class="uk-grid uk-margin-medium-top uk-margin-medium-bottom" data-uk-grid-margin>
+                                        <div class="uk-grid uk-margin-medium-bottom">
+                                            <div class="uk-width-medium-1-1 uk-clearfix">
+                                                <div class="uk-align-medium-right">
+                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE157;</i>
+                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE8F4;</i>
+                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE1B7;</i>
+                                                </div>
+                                            </div>
+                                            <div class="uk-width-medium-1-1">
+                                                <label for="cauhoi_phanloai_loaithietbi">Dữ liệu từ hệ thống</label>
+                                                <input kendo-auto-complete style="width: 100%;" 
+                                                    ng-model="country"
+                                                    k-data-source="vm.countryNames"/>
+                                            </div>
                                             <div class="uk-width-medium-1-2">
                                                 <div class="uk-form-row">
                                                     <label>TopX</label>
