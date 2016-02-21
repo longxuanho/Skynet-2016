@@ -916,43 +916,43 @@ angular.module('angular-skynet')
 ])
 
 // material design inputs
-.directive('mdInput', [
+.directive('mdInput',[
     '$timeout',
-    function($timeout) {
+    function ($timeout) {
         return {
             restrict: 'A',
             scope: {
                 ngModel: '='
             },
-            controller: function($scope, $element) {
+            controller: function ($scope,$element) {
                 var $elem = $($element);
                 $scope.updateInput = function() {
                     // clear wrapper classes
                     $elem.closest('.md-input-wrapper').removeClass('md-input-wrapper-danger md-input-wrapper-success md-input-wrapper-disabled');
 
-                    if ($elem.hasClass('md-input-danger')) {
+                    if($elem.hasClass('md-input-danger')) {
                         $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-danger')
                     }
-                    if ($elem.hasClass('md-input-success')) {
+                    if($elem.hasClass('md-input-success')) {
                         $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-success')
                     }
-                    if ($elem.prop('disabled')) {
+                    if($elem.prop('disabled')) {
                         $elem.closest('.md-input-wrapper').addClass('md-input-wrapper-disabled')
                     }
-                    if ($elem.hasClass('label-fixed')) {
+                    if($elem.hasClass('label-fixed')) {
                         $elem.closest('.md-input-wrapper').addClass('md-input-filled')
                     }
-                    if ($elem.val() != '') {
+                    if($elem.val() != '') {
                         $elem.closest('.md-input-wrapper').addClass('md-input-filled')
                     }
                 };
             },
-            link: function(scope, elem, attrs) {
+            link: function (scope, elem, attrs) {
 
                 var $elem = $(elem);
 
                 $timeout(function() {
-                    if (!$elem.hasClass('md-input-processed')) {
+                    if(!$elem.hasClass('md-input-processed')) {
                         if ($elem.prev('label').length) {
                             $elem.prev('label').andSelf().wrapAll('<div class="md-input-wrapper"/>');
                         } else if ($elem.siblings('[data-uk-form-password]').length) {
@@ -971,20 +971,18 @@ angular.module('angular-skynet')
                 });
 
                 scope.$watch(function() {
-                        return $elem.attr('class');
-                    },
-                    function(newValue, oldValue) {
-                        if (newValue != oldValue) {
+                    return $elem.attr('class'); },
+                    function(newValue,oldValue){
+                        if(newValue != oldValue) {
                             scope.updateInput();
                         }
                     }
                 );
 
                 scope.$watch(function() {
-                        return $elem.val();
-                    },
-                    function(newValue, oldValue) {
-                        if (!$elem.is(':focus') && (newValue != oldValue)) {
+                    return $elem.val(); },
+                    function(newValue,oldValue){
+                        if( !$elem.is(':focus') && (newValue != oldValue) ) {
                             scope.updateInput();
                         }
                     }
@@ -997,13 +995,14 @@ angular.module('angular-skynet')
                     .on('blur', function() {
                         $timeout(function() {
                             $elem.closest('.md-input-wrapper').removeClass('md-input-focus');
-                            if ($elem.val() == '') {
+                            if($elem.val() == '') {
                                 $elem.closest('.md-input-wrapper').removeClass('md-input-filled')
                             } else {
                                 $elem.closest('.md-input-wrapper').addClass('md-input-filled')
                             }
-                        }, 100)
+                        },100)
                     });
+
             }
         }
     }
