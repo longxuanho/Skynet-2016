@@ -176,35 +176,15 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                         ],
                         "loai_tbs": {
                             "thiet_bi_nang": [
-                                {
-                                    "ma": "ke_kock",
-                                    "ten": "KE / KOCK"
-                                }, {
-                                    "ma": "kock_cm",
-                                    "ten": "KOCK Cái Mép"
-                                }, {
-                                    "ma": "liebherr",
-                                    "ten": "Liebherr"
-                                }, {
-                                    "ma": "mj_50",
-                                    "ten": "Mijack-50"
-                                }, {
-                                    "ma": "mj_850p",
-                                    "ten": "Mijack-850P"
-                                }, {
-                                    "ma": "rtg_6+1",
-                                    "ten": "RTG 6+1"
-                                }, {
-                                    "ma": "xn_hang",
-                                    "ten": "Xe nâng hàng"
-                                }, {
-                                    "ma": "xn_kho",
-                                    "ten": "Xe nâng kho"
-                                }, {
-                                    "ma": "tat_ca",
-                                    "ten": "Tất cả"
-                                }
-
+                                "KE / KOCK",
+                                "KOCK Cái Mép",
+                                "Liebherr",
+                                "Mijack-50",
+                                "Mijack-850P",
+                                "RTG 6+1",
+                                "Xe nâng hàng",
+                                "Xe nâng kho",
+                                "Tất cả"
                             ]
                         },
                         "nhom_cau_hois": [
@@ -259,35 +239,128 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                             }
                         ],
                         "tags": [
-                            "An toàn",
-                            "Bạc đạn",
-                            "Bánh xe",
-                            "Bảo dưỡng",
-                            "Bộ truyền BR",
-                            "Bơm",
-                            "Cảm biến",
-                            "Cáp",
-                            "Con lăn",
-                            "Cụm CT",
-                            "Điện cơ bản",
-                            "Động cơ",
-                            "Giới hạn",
-                            "Gù",
-                            "Hàng hóa",
-                            "Hộp giảm tốc",
-                            "Kẹp ray",
-                            "Khớp nối từ",
-                            "Khung chụp",
-                            "Kiểm tra",
-                            "KT chung",
-                            "Pa lăng",
-                            "Phanh",
-                            "Quy trình",
-                            "Thông số KT",
-                            "Tiêu chuẩn",
-                            "Vận hành",
-                            "Xe tời" 
-                        ]
+                            {
+                                ten: "An toàn",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Bảo dưỡng",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Điện cơ bản",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Giới hạn",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Hàng hóa",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Kiểm tra",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Kiến thức chung",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Quy định",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Quy trình",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Thông số KT",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Tiêu chuẩn",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Vận hành",
+                                group: " Nội dung"
+                            }, {
+                                ten: "Bạc đạn",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Bánh xe",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Bộ truyền BR",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Bơm",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Cảm biến",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Cáp",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Con lăn",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "CC di chuyển",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Động cơ",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Gù",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Hộp giảm tốc",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Kẹp ray",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Khớp nối từ",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Khung chụp",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Pa lăng",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Phanh",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Vận hành",
+                                group: "Cụm CT"
+                            }, {
+                                ten: "Xe tời",
+                                group: "Cụm CT"
+                            }
+                        ],
+                        // "tags": [
+                        //     "An toàn",
+                        //     "Bạc đạn",
+                        //     "Bánh xe",
+                        //     "Bảo dưỡng",
+                        //     "Bộ truyền BR",
+                        //     "Bơm",
+                        //     "Cảm biến",
+                        //     "Cáp",
+                        //     "Con lăn",
+                        //     "Cụm CT",
+                        //     "Điện cơ bản",
+                        //     "Động cơ",
+                        //     "Giới hạn",
+                        //     "Gù",
+                        //     "Hàng hóa",
+                        //     "Hộp giảm tốc",
+                        //     "Kẹp ray",
+                        //     "Khớp nối từ",
+                        //     "Khung chụp",
+                        //     "Kiểm tra",
+                        //     "KT chung",
+                        //     "Pa lăng",
+                        //     "Phanh",
+                        //     "Quy trình",
+                        //     "Thông số KT",
+                        //     "Tiêu chuẩn",
+                        //     "Vận hành",
+                        //     "Xe tời" 
+                        // ]
                     }    
                 }
             }

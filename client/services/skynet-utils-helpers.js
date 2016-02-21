@@ -1728,46 +1728,46 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             };
         },
 
-        initNewCauHoiParams: function(scope, template) {
-            if (template) {
-                scope.newCauHoi = angular.copy(template);
-            } else {
-                scope.newCauHoi = {
-                    lop: {
-                        ten: 'Kỹ thuật',
-                        ma: 'ky_thuat'
+        initNewCauHoiParams: function(scope) {
+            scope.newCauHoi = {
+                lop: {
+                    ten: 'Kỹ thuật',
+                    ma: 'ky_thuat'
+                },
+                phan_lop: {
+                    ten: 'Trắc nghiệm',
+                    ma: 'trac_nghiem'
+                },
+                phan_loai: {
+                    kieu_cau_hoi: {
+                        ma: 'mot_dap_an_dung',
+                        ten: 'Một đáp án đúng'
                     },
-                    phan_lop: {
-                        ten: 'Trắc nghiệm',
-                        ma: 'trac_nghiem'
+                    nhom_tb: {
+                        ma: "thiet_bi_nang",
+                        ten: "Thiết bị nâng"
                     },
-                    phan_loai: {
-                        kieu_cau_hoi: {
-                            ma: 'mot_dap_an_dung',
-                            ten: 'Một đáp án đúng'
-                        },
-                        nhom_tb: {},
-                        nhom_cau_hoi: {},
-                        nhom_noi_dung: {},
-                        bac_thi: [],
-                        muc_do: {}
+                    loai_tb: [],
+                    nhom_cau_hoi: {},
+                    nhom_noi_dung: {},
+                    bac_thi: [],
+                    muc_do: {}
+                },
+                noi_dung: {
+                    thong_ke: {
+                        numOfLuaChons: 4,           // Bằng số phần tử của 'lua_chons'
+                        numOfCorrectAnswers: 1
                     },
-                    noi_dung: {
-                        thong_ke: {
-                            numOfLuaChons: 4,           // Bằng số phần tử của 'lua_chons'
-                            numOfCorrectAnswers: 1
-                        },
-                        lua_chons: [{}, {}, {}, {}],    // Bằng giá trị của 'thong_ke.numOfLuaChons'
-                        isHasImages: false,
-                        url_hinh_anhs: [],
-                    },
-                    tags: [],
-                    metadata: {},
-                    isPublic: true,
-                    isArchived: false,
-                    status: 'Active'
-                };
-            }
+                    lua_chons: [{isCorrect: false}, {isCorrect: false}, {isCorrect: false}, {isCorrect: false}],    // Bằng giá trị của 'thong_ke.numOfLuaChons'
+                    isHasImages: false,
+                    url_hinh_anhs: [],
+                },
+                tags: [],
+                metadata: {},
+                isPublic: true,
+                isArchived: false,
+                status: 'Active'
+            };
         },
 
         validateCauHoiForm: function(cauhoi) {

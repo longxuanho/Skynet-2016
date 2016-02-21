@@ -41,7 +41,7 @@
                                                         <div class="uk-grid">
                                                             <div class="uk-width-small-5-6">
                                                                 {{ $index | displayNumberAsAlphabelt }}.<br/>
-                                                                <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="item.tieu_de"></textarea>
+                                                                <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="vm.newCauHoi.noi_dung.lua_chons[$index].tieu_de"></textarea>
                                                             </div>
                                                             <div class="uk-width-small-1-6">
                                                                 <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': item.isCorrect}" ng-click="vm.utils.setCorrectAnswer($index)">&#xE876;</i>
@@ -54,8 +54,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="uk-width-large-1-2">
 
+                            <div class="uk-width-large-1-2">
                                 <div class="uk-accordion" data-uk-accordion>
                                     <h3 class="uk-accordion-title">Phân loại</h3>
                                     <div class="uk-accordion-content">
@@ -72,7 +72,9 @@
                                                     <select kendo-drop-down-list style="width: 100%;" id="cauhoi_phanloai_nhomcauhoi"
                                                         k-ng-model="vm.newCauHoi.phan_loai.nhom_cau_hoi"
                                                         k-data-text-field="'ten'" 
+                                                        k-data-value-field="'ma'"
                                                         k-filter="'contains'"
+                                                        k-index="-1"
                                                         k-data-source="vm.dictionary.nhom_cau_hois">
                                                     </select>
                                                 </div>
@@ -83,6 +85,8 @@
                                                     <select kendo-drop-down-list style="width: 100%;" id="cauhoi_phanloai_mucdo"
                                                         k-ng-model="vm.newCauHoi.phan_loai.muc_do"
                                                         k-data-text-field="'ten'"
+                                                        k-data-value-field="'ma'"
+                                                        k-index="-1"
                                                         k-data-source="vm.dictionary.muc_dos">
                                                     </select>
                                                 </div>
@@ -93,7 +97,9 @@
                                                     <select kendo-drop-down-list style="width: 100%;" id="cauhoi_phanloai_nhomtb"
                                                         k-ng-model="vm.newCauHoi.phan_loai.nhom_tb"
                                                         k-data-text-field="'ten'"
+                                                        k-data-value-field="'ma'"
                                                         k-filter="'contains'"
+                                                        k-index="-1"
                                                         k-data-source="vm.dictionary.nhom_tbs">
                                                     </select>
                                                 </div>
@@ -102,7 +108,6 @@
                                                 <label for="cauhoi_phanloai_loaithietbi">Loại TB</label>
                                                 <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
                                                     k-data-source="vm.dictionary.loai_tbs[vm.newCauHoi.phan_loai.nhom_tb.ma]"
-                                                    k-data-text-field="'ten'"
                                                     k-ng-model="vm.newCauHoi.phan_loai.loai_tb">
                                                 </select>
                                             </div>
@@ -130,8 +135,12 @@
                                             <div class="uk-width-medium-1-1">
                                                 <label for="cauhoi_phanloai_loaithietbi">Dữ liệu từ hệ thống</label>
                                                 <input kendo-auto-complete style="width: 100%;" 
-                                                    ng-model="country"
-                                                    k-data-source="vm.countryNames"/>
+                                                    ng-model="vm.pageOptions.input.diffViewSearch"
+                                                    k-filter="'contains'"
+                                                    k-highlight-first="true"
+                                                    k-suggest="true"
+                                                    k-data-source="vm.pageReactiveData.cauhois"
+                                                    k-data-text-field="'noi_dung.tieu_de'"/>
                                             </div>
                                             <div class="uk-width-medium-1-1 uk-margin-medium-top">
                                                 <div class="uk-form-row">
@@ -159,9 +168,12 @@
                                             <div class="uk-width-medium-1-1">
                                                 <label for="cauhoi_phanloai_loaithietbi">Thêm tag mới</label>
                                                 <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
-                                                    k-data-source="vm.dictionary.loai_tbs[vm.newCauHoi.phan_loai.nhom_tb.ma]"
+                                                    k-data-source="vm.pageReactiveData.tags"
+                                                    k-filter="'contains'"
+                                                    k-highlight-first="false"
                                                     k-data-text-field="'ten'"
-                                                    k-ng-model="vm.newCauHoi.phan_loai.loai_tb">
+                                                    k-data-value-field="'ten'"
+                                                    ng-model="vm.newCauHoi.tags">
                                                 </select>
                                             </div>
                                         </div>
@@ -171,8 +183,8 @@
                                         <div class="uk-grid uk-margin-medium-bottom">
                                             <div class="uk-width-medium-1-1 uk-clearfix">
                                                 <div class="uk-align-medium-right">
-                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.addNumOfLuaChons}" ng-click="vm.utils.addNumOfLuaChons()">&#xE145;</i>
-                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE15B;</i>
+                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.addNumOfLuaChons}" ng-click="vm.utils.addNumOfLuaChons()">&#xE145;</i>
+                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE15B;</i>
                                                     <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': vm.pageOptions.template.flags.isUrlHinhAnh}" ng-click="vm.pageOptions.template.flags.isUrlHinhAnh=!vm.pageOptions.template.flags.isUrlHinhAnh">{{ (!vm.pageOptions.template.flags.isUrlHinhAnh) ? '&#xE898;' : '&#xE899;' }}</i>
                                                 </div>
                                             </div>
@@ -223,7 +235,7 @@
                                                 <label for="user_bio">Mô tả</label>
                                                 <textarea id="user_bio" class="md-input" name="user_bio" cols="10" rows="2" md-input ng-model="vm.newCauHoi.mo_ta"></textarea>
                                             </div>
-                                            <div class="uk-width-1-1">
+                                            <div class="uk-width-1-1 uk-margin-medium-top">
                                                 <label for="user_bio">Ghi chú</label>
                                                 <textarea id="user_bio" class="md-input" name="user_bio" cols="10" rows="2" md-input ng-model="vm.newCauHoi.ghi_chu"></textarea>
                                             </div>
@@ -240,7 +252,7 @@
 </div>
 
 <div class="md-fab-wrapper">
-    <a class="md-fab md-fab-accent" style="z-index: 1000;">
+    <a class="md-fab md-fab-accent" ng-click="vm.addNewCauHoi()">
         <i class="material-icons">&#xE161;</i>
     </a>
 </div>

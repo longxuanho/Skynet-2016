@@ -52,14 +52,32 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 props: {
                     isDiffViewLink: true,
                     isDiffViewResult: false
-                }               
+                },
+                input: {
+                    diffViewSearch: '',
+                    diffViewResult: ''
+                }   
             };
+
+            vm.pageReactiveData = {
+                cauhois: [],
+                tags: {
+                    data: vm.dictionary.tags,
+                    sort: { field: 'ten', dir: 'asc' },
+                    group: { field: 'group' }
+
+                }
+            }
 
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
 
             vm.helpers({
+                cauhois: () => {
+                    vm.pageReactiveData.cauhois = CauHois.find().fetch();
+                    return CauHois.find();
+                }
             });
 
 
@@ -74,6 +92,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                     if (_.isEmpty(err)) {
 
                         vm._helpers.buildNewCauHoi(vm.newCauHoi);
+                        console.log('newCauHoi: ', vm.newCauHoi);
                         CauHois.insert(vm.newCauHoi, (error, result) => {
                             if (error) {
                                 iNotifier.error('Không thể tạo mới dữ liệu câu hỏi này. ' + error.message + '.');
