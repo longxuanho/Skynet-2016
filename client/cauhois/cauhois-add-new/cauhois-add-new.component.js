@@ -23,18 +23,22 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
             vm.pageOptions = {
                 limit: {
                     numOfLuaChonsMax: 6,
-                    numOfLuaChonsMin: 2
+                    numOfLuaChonsMin: 2,
+                    numOfUrlHinhAnhsMax: 4,
+                    numOfUrlHinhAnhsMin: 1
                 },
                 able: {
                     addNumOfLuaChons: true,
-                    decreaseNumOfLuaChons: true
+                    decreaseNumOfLuaChons: true,
+                    addNumOfUrlHinhAnhs: false,
+                    decreaseNumOfUrlHinhAnhs: false
                 },
                 template: {
                     flags: {
-                        isPhanLoai: false,
-                        isTags: false,
-                        isUrlHinhAnh: false,
-                        isGhiChu: false
+                        isLockSectionPhanLoai: false,
+                        isLockSectionTags: false,
+                        isLockUrlSectionHinhAnhs: false,
+                        isLockSectionGhiChu: false
                     },
                     phan_loai: {
                         nhom_cau_hoi: {},
@@ -137,7 +141,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 },
                 addNumOfLuaChons: function() {
                     if (vm.newCauHoi.noi_dung.lua_chons.length < vm.pageOptions.limit.numOfLuaChonsMax) {
-                        vm.newCauHoi.noi_dung.lua_chons.push({});
+                        vm.newCauHoi.noi_dung.lua_chons.push({isCorrect: false});
                         vm.pageOptions.able.decreaseNumOfLuaChons = true;   // Bây giờ có thể giảm số lựa chọn
                     }
                     else 
@@ -145,10 +149,42 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 },
                 decreaseNumOfLuaChons: function() {
                     if (vm.newCauHoi.noi_dung.lua_chons.length > vm.pageOptions.limit.numOfLuaChonsMin) {
-                        vm.newCauHoi.noi_dung.lua_chons.pop({});
+                        vm.newCauHoi.noi_dung.lua_chons.pop();
                         vm.pageOptions.able.addNumOfLuaChons = true;        // Bây giờ có thể thêm số lựa chọn
                     } else
                         vm.pageOptions.able.decreaseNumOfLuaChons = false;  // Đã quá giới hạn tối thiểu số lựa chọn cho phép
+                },
+                addNumOfHinhAnhs: function() {
+                    if (vm.pageOptions.able.addNumOfUrlHinhAnhs)
+                        vm.newCauHoi.noi_dung.url_hinh_anhs.push('');
+                },
+                decreaseNumOfHinhAnhs: function() {
+                    if (vm.pageOptions.able.decreaseNumOfUrlHinhAnhs)
+                        vm.newCauHoi.noi_dung.url_hinh_anhs.pop();
+                },
+                resetPhanLoaiSection: function() {
+                    vm.newCauHoi.phan_loai = {
+                        kieu_cau_hoi: {
+                            ma: 'mot_dap_an_dung',
+                            ten: 'Một đáp án đúng'
+                        },
+                        nhom_tb: {
+                            ma: "thiet_bi_nang",
+                            ten: "Thiết bị nâng"
+                        },
+                        loai_tb: [],
+                        nhom_cau_hoi: {},
+                        nhom_noi_dung: {},
+                        bac_thi: [],
+                        muc_do: {}
+                    }
+                },
+                resetTagSection: function() {
+                    vm.newCauHoi.tags = [];             
+                },
+                resetGhiChuSection: function() {
+                    vm.newCauHoi.ghi_chu = '';
+                    vm.newCauHoi.mo_ta = '';
                 }
             };
 
@@ -160,6 +196,36 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 vm.utils.accentColor = _.findWhere(vm._data.general.themes, {
                     name: newVal
                 }).color_accent;
+            });
+
+            $scope.$watch('vm.newCauHoi.noi_dung.isHasImages', (newVal, oldVal) => {
+                if (newVal) {
+                    // Nếu câu hỏi có hình ảnh, khởi tạo 2 trường trống ban đầu để nhập url
+                    vm.newCauHoi.noi_dung.url_hinh_anhs = ['',''];
+                }
+                if (oldVal && !newVal) {
+                    // Nếu người dùng tắt chức năng sử dụng url hình ảnh, xóa tất cả các trường ngay lập tức
+                    vm.newCauHoi.noi_dung.url_hinh_anhs = [];
+                    vm.pageOptions.able.decreaseNumOfUrlHinhAnhs = false;
+                    vm.pageOptions.able.addNumOfUrlHinhAnhs = false; 
+                }
+            });
+
+            $scope.$watch('vm.newCauHoi.noi_dung.url_hinh_anhs.length', (newVal) => {
+                if (newVal > vm.pageOptions.limit.numOfUrlHinhAnhsMin && newVal < vm.pageOptions.limit.numOfUrlHinhAnhsMax) {
+                    // Nếu số trường url hình ảnh trong giới hạn cho phép, mở khóa các tính năng
+                    vm.pageOptions.able.decreaseNumOfUrlHinhAnhs = true;
+                    vm.pageOptions.able.addNumOfUrlHinhAnhs = true; 
+                }
+                if (newVal <= vm.pageOptions.limit.numOfUrlHinhAnhsMin) {
+                    // Nếu số trường url hình ảnh ít hơn giới hạn dưới, khóa khả năng decreaseUrlHinhAnh
+                    vm.pageOptions.able.decreaseNumOfUrlHinhAnhs = false; 
+                }
+                if (newVal >= vm.pageOptions.limit.numOfUrlHinhAnhsMax) {
+                    // Nếu số trường url hình ảnh ít hơn giới hạn trên, khóa khả năng addUrlHinhAnh
+                    vm.pageOptions.able.addNumOfUrlHinhAnhs = false; 
+                }
+
             });
 
         }

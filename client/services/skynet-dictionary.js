@@ -246,6 +246,9 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                 ten: "Bảo dưỡng",
                                 group: " Nội dung"
                             }, {
+                                ten: "Cụm máy",
+                                group: " Nội dung"
+                            }, {
                                 ten: "Điện cơ bản",
                                 group: " Nội dung"
                             }, {
@@ -330,37 +333,7 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                 ten: "Xe tời",
                                 group: "Cụm CT"
                             }
-                        ],
-                        // "tags": [
-                        //     "An toàn",
-                        //     "Bạc đạn",
-                        //     "Bánh xe",
-                        //     "Bảo dưỡng",
-                        //     "Bộ truyền BR",
-                        //     "Bơm",
-                        //     "Cảm biến",
-                        //     "Cáp",
-                        //     "Con lăn",
-                        //     "Cụm CT",
-                        //     "Điện cơ bản",
-                        //     "Động cơ",
-                        //     "Giới hạn",
-                        //     "Gù",
-                        //     "Hàng hóa",
-                        //     "Hộp giảm tốc",
-                        //     "Kẹp ray",
-                        //     "Khớp nối từ",
-                        //     "Khung chụp",
-                        //     "Kiểm tra",
-                        //     "KT chung",
-                        //     "Pa lăng",
-                        //     "Phanh",
-                        //     "Quy trình",
-                        //     "Thông số KT",
-                        //     "Tiêu chuẩn",
-                        //     "Vận hành",
-                        //     "Xe tời" 
-                        // ]
+                        ]
                     }    
                 }
             }

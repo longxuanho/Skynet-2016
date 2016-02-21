@@ -1756,7 +1756,8 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 noi_dung: {
                     thong_ke: {
                         numOfLuaChons: 4,           // Bằng số phần tử của 'lua_chons'
-                        numOfCorrectAnswers: 1
+                        numOfCorrectAnswers: 1,
+                        numOfUrlHinhAnhs: 0
                     },
                     lua_chons: [{isCorrect: false}, {isCorrect: false}, {isCorrect: false}, {isCorrect: false}],    // Bằng giá trị của 'thong_ke.numOfLuaChons'
                     isHasImages: false,
@@ -1804,6 +1805,16 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 error.message = "Chưa có các lựa chọn đối với câu hỏi trắc nghiệm.";
                 return error;
             }
+            
+            // Kiểm tra liệu có ít nhất một đáp án đúng
+            let luachons_without_null = _.filter(cauhoi.noi_dung.lua_chons, (item) => {
+                return item.tieu_de;
+            });
+            if (!(_.findWhere(luachons_without_null, {isCorrect: true}))) {
+                error.message = "Câu hỏi của bạn cần ít nhất một đáp án đúng.";
+                return error;
+            }
+
             return;
         },
 
@@ -1814,6 +1825,22 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         },
 
         buildNewCauHoi: function(newCauHoi) {
+            // Loại bỏ các lựa chọn không có nội dung
+            newCauHoi.noi_dung.lua_chons = _.filter(newCauHoi.noi_dung.lua_chons, (item) => {
+                return item.tieu_de;
+            });
+
+            // Loại bỏ các url hình ảnh không có nội dung
+            newCauHoi.noi_dung.url_hinh_anhs = _.without(newCauHoi.noi_dung.url_hinh_anhs, '');
+            if(!newCauHoi.noi_dung.url_hinh_anhs.length)
+                newCauHoi.noi_dung.isHasImages = false;
+
+            // Tính toán lại các chỉ số thống kê
+            newCauHoi.noi_dung.thong_ke.numOfLuaChons = newCauHoi.noi_dung.lua_chons.length; 
+            newCauHoi.noi_dung.thong_ke.numOfCorrectAnswers = _.where(newCauHoi.noi_dung.lua_chons, {isCorrect: true}).length;
+            newCauHoi.noi_dung.thong_ke.numOfUrlHinhAnhs = newCauHoi.noi_dung.url_hinh_anhs.length;
+
+            // Khởi tạo metadata câu hỏi 
             if (!newCauHoi.metadata)
                 newCauHoi.metadata = {};
             this.buildMetadata('buildNew', newCauHoi.metadata);
