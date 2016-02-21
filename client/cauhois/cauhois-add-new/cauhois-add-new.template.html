@@ -5,7 +5,7 @@
                 <div class="md-card-toolbar">
                     <div class="md-card-toolbar-actions">
                         <card-fullscreen-activate></card-fullscreen-activate>
-                        <i class="md-icon material-icons no-animate" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE5D5;</i>
+                        <i class="md-icon material-icons no-animate" ng-click="vm.utils.resetNewCauHoi()">&#xE5D5;</i>
                         <card-toggle></card-toggle>
                     </div>
                     <card-fullscreen-deactivate></card-fullscreen-deactivate>
@@ -57,7 +57,7 @@
 
                             <div class="uk-width-large-1-2">
                                 <div class="uk-accordion" data-uk-accordion>
-                                    <h3 class="uk-accordion-title">Phân loại</h3>
+                                    <h3 class="uk-accordion-title" id="accordion_phan_loai">Phân loại</h3>
                                     <div class="uk-accordion-content">
                                         <div class="uk-grid uk-margin-medium-bottom">
                                             <div class="uk-width-medium-1-1 uk-clearfix">
@@ -126,18 +126,18 @@
                                             </div>                                           
                                         </div>
                                     </div>
-                                    <h3 class="uk-accordion-title">So sánh với CSDL</h3>
+                                    <h3 class="uk-accordion-title" id="accordion_so_sanh">So sánh với CSDL</h3>
                                     <div class="uk-accordion-content">
                                         <div class="uk-grid uk-margin-medium-bottom">
                                             <div class="uk-width-medium-1-1 uk-clearfix">
                                                 <div class="uk-align-medium-right">
                                                     <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': vm.pageOptions.props.isDiffViewLink}" ng-click="vm.pageOptions.props.isDiffViewLink=!vm.pageOptions.props.isDiffViewLink">&#xE157;</i>
-                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': vm.pageOptions.props.isDiffViewResult}" ng-click="vm.pageOptions.props.isDiffViewResult=!vm.pageOptions.props.isDiffViewResult">&#xE8F4;</i>
+                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': vm.pageOptions.props.isDiffViewResult}" ng-click="vm.utils.makeDiff()">&#xE8F4;</i>
                                                     <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE5D5;</i>
                                                 </div>
                                             </div>
-                                            <div class="uk-width-medium-1-1">
-                                                <label for="pageOptions_diffViewSearch">Dữ liệu từ hệ thống</label>
+                                            <div class="uk-width-medium-1-1 no-animate" ng-show="!vm.pageOptions.props.isDiffViewResult">
+                                                <label for="pageOptions_diffViewSearch">Tra cứu</label>
                                                 <input kendo-auto-complete style="width: 100%;" id="pageOptions_diffViewSearch"
                                                     ng-model="vm.pageOptions.input.diffViewSearch"
                                                     k-filter="'contains'"
@@ -147,9 +147,9 @@
                                                     k-data-source="vm.pageReactiveData.cauhois"
                                                     k-data-text-field="'noi_dung.tieu_de'"/>
                                             </div>
-                                            <div class="uk-width-medium-1-1 uk-margin-medium-top" >
+                                            <div class="uk-width-medium-1-1 uk-margin-medium-top no-animate" ng-show="!vm.pageOptions.props.isDiffViewResult">
                                                 <div class="uk-form-row">
-                                                    <label>Câu hỏi</label>
+                                                    <label>Dữ liệu từ hệ thống</label>
                                                     <textarea 
                                                         cols="30" rows="4" class="md-input" 
                                                         ng-model="vm.pageOptions.input.diffViewSearch"
@@ -157,15 +157,12 @@
                                                     </textarea>
                                                 </div>
                                             </div>
-                                            <div class="uk-width-medium-1-1 uk-margin-medium-top">
-                                                <div class="uk-form-row">
-                                                    <label>DiffView</label>
-                                                    <textarea cols="30" rows="4" class="md-input" ng-model="vm.pageOptions.input.diffViewResult" md-input textarea-autosize></textarea>
-                                                </div>
+                                            <div class="uk-width-medium-1-1 uk-margin-medium-top no-animate" ng-show="vm.pageOptions.props.isDiffViewResult">
+                                                <pre><code id="diff_result" class="large_code" textarea-autosize></code></pre>
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 class="uk-accordion-title">Gắn thẻ (Tag)</h3>
+                                    <h3 class="uk-accordion-title" id="accordion_tags">Gắn thẻ (Tag)</h3>
                                     <div class="uk-accordion-content">
                                         <div class="uk-grid uk-margin-medium-bottom">
                                             <div class="uk-width-medium-1-1 uk-clearfix">
@@ -187,7 +184,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 class="uk-accordion-title">Hình ảnh</h3>
+                                    <h3 class="uk-accordion-title" id="accordion_hinh_anh">Hình ảnh</h3>
                                     <div class="uk-accordion-content">
                                         <div class="uk-grid uk-margin-medium-bottom">
                                             <div class="uk-width-medium-1-1 uk-clearfix">
@@ -216,7 +213,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 class="uk-accordion-title">Ghi chú</h3>
+                                    <h3 class="uk-accordion-title" id="accordion_ghi_chu">Ghi chú</h3>
                                     <div class="uk-accordion-content">
                                         <div class="uk-grid uk-margin-medium-bottom">
                                             <div class="uk-width-medium-1-1 uk-clearfix">

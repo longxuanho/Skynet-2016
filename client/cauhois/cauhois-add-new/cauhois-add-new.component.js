@@ -55,11 +55,11 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                     isDiffViewLink: true,
                     isDiffViewResult: false,
                     isHasImages: false,
-                    lightBoxImageSrc: ''
+                    lightBoxImageSrc: '',
+                    currentSection: 'phan_loai'
                 },
                 input: {
-                    diffViewSearch: '',
-                    diffViewResult: ''
+                    diffViewSearch: ''
                 }
             };
 
@@ -103,21 +103,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                                 iNotifier.error('Không thể tạo mới dữ liệu câu hỏi này. ' + error.message + '.');
                             } else {
                                 $scope.$apply( () => {
-                                    vm._helpers.initNewCauHoiParams(vm);
-
-                                    // Nếu một số trường được kích hoạt khóa
-                                    if (vm.pageOptions.template.flags.isLockSectionPhanLoai) {
-                                        if (!_.isEmpty(vm.pageOptions.template.phan_loai)) 
-                                            vm.newCauHoi.phan_loai = angular.copy(vm.pageOptions.template.phan_loai);
-                                    }
-                                    if (vm.pageOptions.template.flags.isLockSectionTags) {
-                                        if (vm.pageOptions.template.tags.length) 
-                                            vm.newCauHoi.tags = angular.copy(vm.pageOptions.template.tags);
-                                    }
-                                    if (vm.pageOptions.template.flags.isLockSectionGhiChu) {
-                                        vm.newCauHoi.ghi_chu = vm.pageOptions.template.ghi_chu.ghi_chu;
-                                        vm.newCauHoi.mo_ta = vm.pageOptions.template.ghi_chu.mo_ta;
-                                    }
+                                    vm.utils.resetNewCauHoi();
                                 });                        
                                 iNotifier.success('Dữ liệu câu hỏi được tạo mới thành công.');
                             }
@@ -252,12 +238,51 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                     vm.pageOptions.props.lightBoxImageSrc = vm.newCauHoi.noi_dung.url_hinh_anhs[index];
                     if (vm.pageOptions.props.lightBoxImageSrc)
                         UIkit.modal("#modal_lightbox").show();
+                },
+                resetNewCauHoi: function() {
+                    vm._helpers.initNewCauHoiParams(vm);
+
+                    // Nếu một số trường được kích hoạt khóa
+                    if (vm.pageOptions.template.flags.isLockSectionPhanLoai) {
+                        if (!_.isEmpty(vm.pageOptions.template.phan_loai)) 
+                            vm.newCauHoi.phan_loai = angular.copy(vm.pageOptions.template.phan_loai);
+                    }
+                    if (vm.pageOptions.template.flags.isLockSectionTags) {
+                        if (vm.pageOptions.template.tags.length) 
+                            vm.newCauHoi.tags = angular.copy(vm.pageOptions.template.tags);
+                    }
+                    if (vm.pageOptions.template.flags.isLockSectionGhiChu) {
+                        vm.newCauHoi.ghi_chu = vm.pageOptions.template.ghi_chu.ghi_chu;
+                        vm.newCauHoi.mo_ta = vm.pageOptions.template.ghi_chu.mo_ta;
+                    }
+                },
+                makeDiff: function() {
+                    // Toggle trạng thái isDiffViewResult
+                    vm.pageOptions.props.isDiffViewResult = !vm.pageOptions.props.isDiffViewResult;
+                    $('#diff_result').html('');
+                    let diffType = 'diffChars',
+                        panelA = vm.pageOptions.input.diffViewSearch || '';
+                        panelB = vm.newCauHoi.noi_dung.tieu_de || '';
+                        diff = JsDiff[diffType](panelA, panelB);
+                    diff.forEach(function(part){
+                        let color = part.added ? 'md-color-light-green-600': part.removed ? 'md-color-red-500 uk-text-del' : 'md-color-grey-400';
+                        let span = $('<span/>');
+                        span
+                            .addClass(color)
+                            .text(part.value);
+                        $('#diff_result').append(span);
+                    });
+                    
                 }
             };
 
             // ***************************************************
             // WATCHERS
             // ***************************************************
+
+            UIkit.on('toggle.uk.accordion', function(event, active, toggle){
+                vm.pageOptions.props.currentSection = toggle[0].id || 'accordion_phan_loai';
+            });
 
             $rootScope.$watch('main_theme', (newVal) => {
                 vm.utils.accentColor = _.findWhere(vm._data.general.themes, {
@@ -292,7 +317,8 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
             $scope.$watch('vm.newCauHoi.noi_dung.tieu_de', (newVal) => {
                 if (vm.pageOptions.props.isDiffViewLink) {
                     vm.pageOptions.input.diffViewSearch = newVal;
-                    $("#pageOptions_diffViewSearch").data("kendoAutoComplete").search(newVal);
+                    if (vm.pageOptions.props.currentSection==='accordion_so_sanh')
+                        $("#pageOptions_diffViewSearch").data("kendoAutoComplete").search(newVal);
                 }
             });
 
