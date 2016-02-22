@@ -1759,7 +1759,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                         numOfCorrectAnswers: 1,
                         numOfUrlHinhAnhs: 0
                     },
-                    lua_chons: [{isCorrect: false}, {isCorrect: false}, {isCorrect: false}, {isCorrect: false}],    // Bằng giá trị của 'thong_ke.numOfLuaChons'
+                    lua_chons: [{isCorrect: false, order: 0}, {isCorrect: false, order: 1}, {isCorrect: false, order: 2}, {isCorrect: false, order: 3}],    // Bằng giá trị của 'thong_ke.numOfLuaChons'
                     isHasImages: false,
                     url_hinh_anhs: ['', ''],
                 },

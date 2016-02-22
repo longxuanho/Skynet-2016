@@ -5,8 +5,9 @@
                 <div class="md-card-toolbar">
                     <div class="md-card-toolbar-actions">
                         <card-fullscreen-activate></card-fullscreen-activate>
+                        <i class="md-icon material-icons no-animate" ng-click="vm.utils.randomizeLuaChonOrder()">swap_calls</i>
                         <i class="md-icon material-icons no-animate" ng-click="vm.utils.resetNewCauHoi()">&#xE5D5;</i>
-                        <card-toggle></card-toggle>
+                        <i class="md-icon material-icons no-animate" ng-show="$root.card_fullscreen" ng-click="vm.addNewCauHoi()">&#xE161;</i>                        
                     </div>
                     <card-fullscreen-deactivate></card-fullscreen-deactivate>
                     <h3 class="md-card-toolbar-heading-text">
@@ -34,17 +35,16 @@
                                             </div>
                                         </div>
                                         <div class="uk-width-medium-1-1">
-                                            <ul class="uk-nestable" id="nestable">
-                                                <li ng-repeat="item in vm.newCauHoi.noi_dung.lua_chons track by $index" data-id="{{$index}}" class="uk-nestable-item" >
+                                            <ul class="uk-sortable sortable-handler" id="sortable" data-uk-sortable>
+                                                <li ng-repeat="item in vm.newCauHoi.noi_dung.lua_chons | orderBy:'order'" data-index="{{$index}}" class="uk-nestable-item" >
                                                     <div class="uk-nestable-panel">
-                                                        
                                                         <div class="uk-grid">
                                                             <div class="uk-width-small-5-6">
                                                                 {{ $index | displayNumberAsAlphabelt }}.<br/>
-                                                                <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="vm.newCauHoi.noi_dung.lua_chons[$index].tieu_de"></textarea>
+                                                                <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="item.tieu_de"></textarea>
                                                             </div>
                                                             <div class="uk-width-small-1-6">
-                                                                <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': item.isCorrect}" ng-click="vm.utils.setCorrectAnswer($index)">&#xE876;</i>
+                                                                <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': item.isCorrect}" ng-click="vm.utils.setCorrectAnswer(item)">&#xE876;</i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -63,7 +63,7 @@
                                             <div class="uk-width-medium-1-1 uk-clearfix">
                                                 <div class="uk-align-medium-right">
                                                     <i class="md-icon material-icons no-animate" ng-click="vm.utils.resetPhanLoaiSection()">&#xE5D5;</i>
-                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': vm.pageOptions.template.flags.isLockSectionPhanLoai}" ng-click="vm.utils.toggleLockSectionPhanLoai()">{{ (!vm.pageOptions.template.flags.isLockSectionPhanLoai) ? '&#xE898;' : '&#xE899;' }}</i>                                                    
+                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': vm.pageOptions.template.flags.isLockSectionPhanLoai}" ng-click="vm.utils.toggleLockSectionPhanLoai()">{{ (!vm.pageOptions.template.flags.isLockSectionPhanLoai) ? '&#xE898;' : '&#xE899;' }}</i>
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-3-5 uk-margin-small-top">

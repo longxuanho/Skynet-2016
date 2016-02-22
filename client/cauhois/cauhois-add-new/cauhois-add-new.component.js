@@ -56,7 +56,8 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                     isDiffViewResult: false,
                     isHasImages: false,
                     lightBoxImageSrc: '',
-                    currentSection: 'phan_loai'
+                    currentSection: 'phan_loai',
+
                 },
                 input: {
                     diffViewSearch: ''
@@ -129,20 +130,21 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 accentColor: _.findWhere(vm._data.general.themes, {
                     name: $rootScope.main_theme
                 }).color_accent,
-                setCorrectAnswer: function(index) {
-                    if (!vm.newCauHoi.noi_dung.lua_chons[index].isCorrect) {
+                setCorrectAnswer: function(luachon) {
+                    if (!luachon.isCorrect) {
                         // Nếu hành vi người dùng là switch câu trả lời đúng -> clear rồi switch vị trí đáp án đúng
                         _.each(vm.newCauHoi.noi_dung.lua_chons, (item, i) => {
-                            item.isCorrect = (index === i) ? true : false;
-                        });  
+                            item.isCorrect = false;
+                        });
+                        luachon.isCorrect = true;
                     } else { 
                         // Nếu hành vi người dùng là toggle on/off câu trả lời đúng -> toggle
-                        vm.newCauHoi.noi_dung.lua_chons[index].isCorrect = false;
+                        luachon.isCorrect = false;
                     }                     
                 },
                 addNumOfLuaChons: function() {
                     if (vm.newCauHoi.noi_dung.lua_chons.length < vm.pageOptions.limit.numOfLuaChonsMax) {
-                        vm.newCauHoi.noi_dung.lua_chons.push({isCorrect: false});
+                        vm.newCauHoi.noi_dung.lua_chons.push({isCorrect: false, order: vm.newCauHoi.noi_dung.lua_chons.length - 1});
                         vm.pageOptions.able.decreaseNumOfLuaChons = true;   // Bây giờ có thể giảm số lựa chọn
                     }
                     else 
@@ -256,6 +258,24 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                         vm.newCauHoi.mo_ta = vm.pageOptions.template.ghi_chu.mo_ta;
                     }
                 },
+                randomizeLuaChonOrder: function() {
+                    // Loại bỏ các giá trị falsy khỏi lựa chọn trước khi xáo trộn
+                    let luaChons = _.reject(vm.newCauHoi.noi_dung.lua_chons, (item) => {return !item.tieu_de}),
+                        newOrder = _.shuffle( _.range(vm.newCauHoi.noi_dung.lua_chons.length) );
+                    
+                    // Xáo trộn order các lựa chọn theo thứ tự mới
+                    _.each(vm.newCauHoi.noi_dung.lua_chons, (item, i) => {
+                        item.order = newOrder[i];
+                    });
+                },
+                // syncLuaChonOrder: function() {
+                //     if (vm.pageOptions.able.syncLuaChonsOrder) {
+                //         console.log('sync...');
+                //         vm.newCauHoi.noi_dung.lua_chons = _.sortBy(vm.newCauHoi.noi_dung.lua_chons, (item) => { return item.order; });
+                //         vm.pageOptions.able.syncLuaChonsOrder = false;
+                //         console.log('result: ', vm.newCauHoi.noi_dung.lua_chons);
+                //     }                    
+                // },
                 makeDiff: function() {
                     // Toggle trạng thái isDiffViewResult
                     vm.pageOptions.props.isDiffViewResult = !vm.pageOptions.props.isDiffViewResult;
@@ -284,6 +304,21 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 vm.pageOptions.props.currentSection = toggle[0].id || 'accordion_phan_loai';
             });
 
+            UIkit.on('change.uk.sortable', function(event, sortable_object, dragged_element, action){
+                if (action==="moved") {
+                    console.log('processing...');                    
+                    
+                    $scope.$apply(() => {
+                        let newOrder = [],
+                        clone = [];
+                        $('#sortable').children('li').each( function(index) {
+                            newOrder.push(vm.newCauHoi.noi_dung.lua_chons[$(this).data('index')]);
+                            _.extend(vm.newCauHoi.noi_dung.lua_chons[$(this).data('index')], {order: index});
+                        });
+                    })
+                }                
+            });
+
             $rootScope.$watch('main_theme', (newVal) => {
                 vm.utils.accentColor = _.findWhere(vm._data.general.themes, {
                     name: newVal
@@ -294,7 +329,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 if (oldVal) {
                     // Nếu người dùng tắt chức năng sử dụng url hình ảnh, xóa tất cả các trường ngay lập tức
                     vm.newCauHoi.noi_dung.url_hinh_anhs = ['', ''];
-                }                
+                }
             });
 
             $scope.$watch('vm.newCauHoi.noi_dung.url_hinh_anhs.length', (newVal) => {
