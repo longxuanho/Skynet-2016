@@ -16,14 +16,13 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
-            vm._helpers.initNewThietBiParams(vm);
             
-            vm._kData = skynetKendoGrid.thietbis.data;
-            vm._kHelpers = skynetKendoGrid.thietbis.helpers;
+            vm._kData = skynetKendoGrid.cauhois.data;
+            vm._kHelpers = skynetKendoGrid.cauhois.helpers;
             
             vm.pageOptions = {
                 localData: {
-                    thietbis_config_data_filter: {}
+                    cauhois_config_data_filter: {}
                 },
                 isDisplayTopBar: true,
                 isDisplayFullWidthGrid: false,
@@ -33,12 +32,12 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     nhomsFilterSource: [],
                     nhomsFilterActiveIds: [],
                 },
-                fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_thiet_bi')) ? 'thietbis_createNew' : '',
+                fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '',
                 selected: {
-                    thietbi: {}
+                    cauhoi: {}
                 },
-                localConfigDataName: 'thietbis_config_data_local',
-                cloudConfigDataName: 'thietbis_grid_config_data_skynet'
+                localConfigDataName: 'cauhois_config_data_local',
+                cloudConfigDataName: 'cauhois_grid_config_data_skynet'
             };
 
             // LOAD LOCAL DATA
@@ -81,14 +80,14 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     gridOnChange: function(event) {
                         let grid = $("#myGrid").data("kendoGrid");
                         if ((this.kOptions.selectable === 'row' || this.kOptions.selectable === 'cell') && grid.select().length)  {
-                            vm.pageOptions.fabState = 'thietbis_viewDetails';
-                            vm.pageOptions.selected.thietbi = grid.dataItem(grid.select());
+                            vm.pageOptions.fabState = 'cauhois_viewDetails';
+                            vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
                         }
-                        console.log('selected: ', vm.pageOptions.selected.thietbi);
+                        console.log('selected: ', vm.pageOptions.selected.cauhoi);
                     },
                     gridOnDataBound: function(event) {
-                        vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_thiet_bi')) ? 'thietbis_createNew' : '';
-                        vm.pageOptions.selected.thietbi = '';
+                        vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
+                        vm.pageOptions.selected.cauhoi = '';
                     }
                 }
             }
@@ -136,12 +135,12 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
                     return Nhoms.find({}, {sort: {order: 1}});
                 },
-                thietbis: () => {
-                    vm.gridData.kGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? ThietBis.find({
-                        'phan_loai.nhom.keyId': vm.pageOptions.filters.filterNhomId
-                    }).fetch() : ThietBis.find().fetch();
-                    return ThietBis.find({
-                        'phan_loai.nhom.keyId': vm.getReactively('pageOptions.filters.filterNhomId')
+                cauhois: () => {
+                    vm.gridData.kGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? CauHois.find({
+                        'phan_loai.nhom_cau_hoi.ma': vm.pageOptions.filters.filterNhomId
+                    }).fetch() : CauHois.find().fetch();
+                    return CauHois.find({
+                        'phan_loai.nhom_cau_hoi.ma': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
                 }
             });

@@ -2,7 +2,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
 
     let factory = {
         thietbis: {},
-        thongsokythuats: {}
+        thongsokythuats: {},
+        cauhois: {}
     };
 
 
@@ -634,6 +635,139 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
         }
     };
 
+    factory.cauhois.data = {
+        config: {
+            schema: {
+                props: {},
+                fields: {
+                    columns: []
+                }
+            },
+            defaultColumns: [
+                'phan_loai.nhom_cau_hoi.ten',
+                'phan_loai.muc_do.ten',
+                'noi_dung.tieu_de'
+            ],
+            defaultDataSource: {
+                aggregate: undefined,
+                batch: false,
+                filter: undefined,
+                group: [],
+                offlineStorage: null,
+                page: 1,
+                pageSize: 5,
+                // schema: {
+                //     model: factory.thietbis.helpers.buildGridSchemaModel(this.defaultColumns)
+                // },
+                select: null,
+                serverAggregates: false,
+                serverFiltering: false,
+                serverGrouping: false,
+                serverPaging: false,
+                serverSorting: false,
+                sort: undefined,
+                table: null,
+                serverPaging: false,
+                serverSorting: false,
+            },
+            defaultOptions: {
+                allowCopy: {
+                    delimeter: "\t"
+                },
+                altRowTemplate: "",
+                autoBind: true,
+                columnMenu: false,
+                columnResizeHandleWidth: 3,
+                // columns: factory.thietbis.helpers.buildGridColumns(this.defaultColumns),
+                detailTemplate: null,
+                editable: false,
+                excel: {
+                    allPages: false,
+                    filterable: false,
+                    fileName: "From Sky with Love.xlsx",
+                },
+                filterable: {
+                    mode: 'menu',
+                    extra: false
+                },
+                groupable: {
+                    enabled: true,
+                    showFooter: false,
+                },
+                height: null,
+                mobile: "",
+                name: "thongsokythuatsGrid",
+                navigatable: false,
+                noRecords: false,
+                pageable: {
+                    refresh: false,
+                    pageSizes: false,
+                    info: true,
+                    buttonCount: 3,
+                    numeric: false,
+                    input: true,
+                    previousNext: true
+                },
+                pdf: {
+                    allPages: false,
+                    avoidLinks: true,
+                    author: "Long Ho",
+                    creator: "Skynet",
+                    date: new Date(),
+                    fileName: "From Sky with Love.pdf",
+                    keywords: "Skynet's database",
+                    landscape: false,
+                    paperSize: "auto",
+                    subject: "From Sky with Love",
+                    title: "Tong Hop Cau Hoi Thi Nang Giu Bac - from Skynet"
+                },
+                prefix: "",
+                reorderable: true,
+                resizable: true,
+                rowTemplate: "",
+                scrollable: {
+                    virtual: false
+                },
+                selectable: "row",
+                sortable: {
+                    mode: "single",
+                    allowUnsort: true
+                },
+                toolbar: ["excel", "pdf"]
+            },
+            availableColumns: [{
+                field: "_id",
+                title: "ID Câu Hỏi",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "phan_loai.kieu_cau_hoi.ten",
+                title: "Kiểu câu hỏi",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "phan_loai.nhom_cau_hoi.ten_ngan",
+                title: "Mã Nhóm Câu Hỏi",
+                type: "string",
+                width: "80px"
+            }, {
+                field: "phan_loai.nhom_cau_hoi.ten",
+                title: "Nhóm câu hỏi",
+                type: "string",
+                width: "60px"
+            }, {
+                field: "phan_loai.muc_do.ten",
+                title: "Mức độ",
+                type: "string",
+                width: "50px"
+            }, {
+                field: "noi_dung.tieu_de",
+                title: "Nội dung",
+                type: "string",
+                width: "180px"
+            }]
+        }
+    };
 
     // ***************************************************
     // THIETBIS HELPERS
@@ -742,6 +876,57 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
         }
     };
 
+    factory.cauhois.helpers = {
+        initDefaultDataSource: function(source) {
+            source.aggregate = angular.copy(factory.cauhois.data.config.defaultDataSource.aggregate);
+            source.batch = factory.cauhois.data.config.defaultDataSource.batch;
+            source.filter = angular.copy(factory.cauhois.data.config.defaultDataSource.filter);
+            source.group = angular.copy(factory.cauhois.data.config.defaultDataSource.group);
+            source.offlineStorage = angular.copy(factory.cauhois.data.config.defaultDataSource.offlineStorage);
+            source.page = factory.cauhois.data.config.defaultDataSource.page;
+            source.pageSize = factory.cauhois.data.config.defaultDataSource.pageSize;
+            source.select = angular.copy(factory.cauhois.data.config.defaultDataSource.select);
+            source.serverAggregates = factory.cauhois.data.config.defaultDataSource.serverAggregates;
+            source.serverFiltering = factory.cauhois.data.config.defaultDataSource.serverFiltering;
+            source.serverGrouping = factory.cauhois.data.config.defaultDataSource.serverGrouping;
+            source.serverPaging =  factory.cauhois.data.config.defaultDataSource.serverPaging;
+            source.serverSorting = factory.cauhois.data.config.defaultDataSource.serverSorting;
+            source.sort = angular.copy(factory.cauhois.data.config.defaultDataSource.sort);
+            source.table = angular.copy(factory.cauhois.data.config.defaultDataSource.table);
+            source.serverPaging = factory.cauhois.data.config.defaultDataSource.serverPaging;
+            source.serverSorting = factory.cauhois.data.config.defaultDataSource.serverSorting;
+
+            source.schema = angular.copy(this.buildGridSchemaModel(factory.cauhois.data.config.defaultColumns));
+        },
+        initDefaultOptions: function() {
+            let options = angular.copy(factory.cauhois.data.config.defaultOptions);
+            options.columns = angular.copy(this.buildGridColumns(factory.cauhois.data.config.defaultColumns));
+            
+            return options;
+        },
+        buildGridColumns: function(columns) {
+            return _.without(_.map(factory.cauhois.data.config.availableColumns, (item) => {
+                if (_.contains(columns, item.field)) {
+                    return _.omit(item, 'type');
+                }
+            }), undefined);
+        },
+        buildGridSchemaModel: function(columns) {
+            let model = {
+                id: "_id",
+                fields: {}
+            };
+            _.each(factory.cauhois.data.config.availableColumns, (item) => {
+                if (_.contains(columns, item.field)) {
+                    model.fields[item.field] = {
+                        type: item.type
+                    }
+                }
+            });
+            console.log('Build Schema: ', model);
+            return model;
+        }
+    };
     
 
     return factory;
