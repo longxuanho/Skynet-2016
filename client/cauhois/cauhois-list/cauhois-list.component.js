@@ -3,7 +3,7 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
         restrict: 'E',
         templateUrl: 'client/cauhois/cauhois-list/cauhois-list.template.html',
         controllerAs: 'vm',
-        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive) {
+        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary) {
 
             $reactive(this).attach($scope);
 
@@ -19,6 +19,8 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             
             vm._kData = skynetKendoGrid.cauhois.data;
             vm._kHelpers = skynetKendoGrid.cauhois.helpers;
+
+            vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
             
             vm.pageOptions = {
                 localData: {
@@ -39,6 +41,16 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 localConfigDataName: 'cauhois_config_data_local',
                 cloudConfigDataName: 'cauhois_grid_config_data_skynet'
             };
+
+            vm.pageReactiveData = {
+                cauhois: [],
+                tags: {
+                    data: vm.dictionary.tags,
+                    sort: { field: 'ten', dir: 'asc' },
+                    group: { field: 'group' }
+
+                }
+            }
 
             // LOAD LOCAL DATA
             try {
@@ -155,6 +167,12 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // WATCHERS
             // ***************************************************
 
+            vm.sSidebar = {
+                site_online: true,
+                top_bar: true,
+                minify_assets: true
+            };
+            
         }
     }
 });
