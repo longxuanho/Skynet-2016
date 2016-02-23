@@ -26,7 +26,7 @@ angular.module('angular-skynet').directive('cauhoisModalDetails', function() {
                     }, 600);          
                 },
                 closeModal: function() {
-                    let modal = UIkit.modal("#modal_thietbis_details");
+                    let modal = UIkit.modal("#modal_cauhois_details");
                     if (modal.isActive()) {
                         modal.hide();
                     }

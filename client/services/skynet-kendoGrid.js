@@ -806,12 +806,12 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 type: "string",
                 width: "100px"
             }, {
-                field: "fields.bac_thi",
+                field: "ghi_chu",
                 title: "Ghi chú",
                 type: "string",
                 width: "300px"
             }, {
-                field: "fields.bac_thi",
+                field: "mo_ta",
                 title: "Mô tả",
                 type: "string",
                 width: "120px"
