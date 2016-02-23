@@ -51,6 +51,8 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 cloudConfigDataName: 'cauhois_grid_config_data_skynet'
             };
 
+            console.log('nhom: ', vm.pageOptions.filters.nhomsFilterSource)
+
             vm.pageReactiveData = {
                 cauhois: [],
                 tags: {
@@ -59,10 +61,10 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     group: { field: 'group' }
 
                 },
-                searchTags: ['Cáp'],
+                searchTags: [],
                 searchLoaitbs: [],
                 searchBacthis: []
-            }
+            };
 
             // LOAD LOCAL DATA
             try {
@@ -124,28 +126,25 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm.utils = {
                 setFilterByNhomId: function(id) {
-                    vm.pageOptions.filters.filterNhomId = id;
+                    // Nếu người dùng click vào đúng filter item đã chọn -> bỏ chọn, ngược lại, set filter item
+                    vm.pageOptions.filters.filterNhomId = (vm.pageOptions.filters.filterNhomId === id) ? '' : id;
                 },
-                buildNhomsFilterSource: function(source, selectedIds) {
-                    if (source.length) {
-                        if (selectedIds.length) {
-                            _.each(source, (item) => {
-                                if (_.contains(selectedIds, item._id)) 
-                                    item.isActive = true;
-                                else {
-                                    if (!item.isActive)
-                                        item.isActive = false;
-                                }
-                            });
-                        } else {
-                            _.each(source, (item) => {
-                                item.isActive = true
-                            });
-                        } 
-                        console.log('buildNhomsFilterSource: ', source);
-                    }
+                buildNhomsFilterSource: function() {
+                    
+                    vm.pageOptions.filters.nhomsFilterSource = _.sortBy(vm.dictionary.nhom_cau_hois, (item) => {
+                        return item.order;
+                    });
+
+                    // Hiển thị tất cả các item trên Top Bar
+                    _.each(vm.pageOptions.filters.nhomsFilterSource, (item) => {
+                        item.isActive = true
+                    })
+
+                    console.log('buildNhomsFilterSource: ', vm.pageOptions.filters.nhomsFilterSource);
                 }
             }
+
+            vm.utils.buildNhomsFilterSource();
 
             // ***************************************************
             // SUBSCRIBE
@@ -195,9 +194,6 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
-            $rootScope.$watch('secondarySidebarActive', (newVal) => {
-                console.log("Watch: ", newVal);
-            })
             
             
         }

@@ -192,32 +192,38 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                 "ma": "an_toan",
                                 "ten_ngan": "An toàn",
                                 "ten": "An toàn và Quy định",
-                                "mo_ta": "Các câu hỏi về ATLĐ và các Quy định trong quá trình vận hành của TCT"
+                                "mo_ta": "Các câu hỏi về ATLĐ và các Quy định trong quá trình vận hành của TCT",
+                                "order": 4
                             }, {
                                 "ma": "cum_chi_tiet",
                                 "ten_ngan": "Cụm CT",
                                 "ten": "Các cụm chi tiết",
-                                "mo_ta": "Các câu hỏi về các cụm chi tiết của phương tiện"
+                                "mo_ta": "Các câu hỏi về các cụm chi tiết của phương tiện",
+                                "order": 1
                             }, {
                                 "ma": "dien_co_so",
                                 "ten_ngan": "Điện cơ sở",
                                 "ten": "Điện cơ sở",
-                                "mo_ta": "Các câu hỏi về kiến thức cơ sở chuyên ngành Điện"
+                                "mo_ta": "Các câu hỏi về kiến thức cơ sở chuyên ngành Điện",
+                                "order": 5
                             }, {
                                 "ma": "kiem_tra_bao_duong",
                                 "ten_ngan": "KT - BD",
                                 "ten": "Kiểm tra - Bảo dưỡng",
-                                "mo_ta": "Các câu hỏi về kiểm tra phương tiện và bảo dưỡng"
+                                "mo_ta": "Các câu hỏi về kiểm tra phương tiện và bảo dưỡng",
+                                "order": 3
                             }, {
                                 "ma": "tong_quat",
                                 "ten_ngan": "Tổng quát",
                                 "ten": "Kiến thức tổng quát",
-                                "mo_ta": "Các câu hỏi về hàng hóa - phương tiện - kỹ thuật cơ bản"
+                                "mo_ta": "Các câu hỏi về hàng hóa - phương tiện - kỹ thuật cơ bản",
+                                "order": 0
                             }, {
                                 "ma": "van_hanh",
                                 "ten_ngan": "Vận hành",
                                 "ten": "Kỹ năng vận hành",
-                                "mo_ta": "Các câu hỏi về kỹ năng vận hành phương tiện"
+                                "mo_ta": "Các câu hỏi về kỹ năng vận hành phương tiện",
+                                "order": 2
                             } 
                         ],
                         "bac_this": [
