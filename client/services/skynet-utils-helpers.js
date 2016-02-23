@@ -1833,8 +1833,10 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
 
             // Loại bỏ các url hình ảnh không có nội dung
             newCauHoi.noi_dung.url_hinh_anhs = _.without(newCauHoi.noi_dung.url_hinh_anhs, '');
-            if(newCauHoi.noi_dung.url_hinh_anhs.length > 0)
-                newCauHoi.noi_dung.isHasImages = true;
+            newCauHoi.noi_dung.isHasImages = (newCauHoi.noi_dung.url_hinh_anhs.length) ? true : false;
+            console.log('url: ', newCauHoi.noi_dung.url_hinh_anhs);
+            console.log('boolean: ', newCauHoi.noi_dung.isHasImages);
+
 
             // Tính toán lại các chỉ số thống kê
             newCauHoi.noi_dung.thong_ke.numOfLuaChons = newCauHoi.noi_dung.lua_chons.length; 

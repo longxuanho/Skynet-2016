@@ -286,6 +286,10 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/thong-ke',
             template: '<cauhois-list main-page-reactive-data="mainPageReactiveData"></cauhois-list>'
         })
+        .state('cauhois.update', {
+            url: '/cap-nhat/:cauhoiId',
+            template: '<cauhois-update></cauhois-update>'
+        })
         // NHANSUS
         .state('nhansus', {
             url: '/quan-ly/nhan-su',

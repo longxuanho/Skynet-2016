@@ -1,10 +1,10 @@
-angular.module('angular-skynet').directive('cauhoisAddNew', function() {
+angular.module('angular-skynet').directive('cauhoisUpdate', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/cauhois/cauhois-add-new/cauhois-add-new.template.html',
+        templateUrl: 'client/cauhois/cauhois-update/cauhois-update.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary) {
+        controller: function($scope, skynetHelpers, $rootScope, iNotifier, $timeout, $reactive, skynetDictionary, $stateParams) {
 
             $reactive(this).attach($scope);
 
@@ -76,15 +76,26 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
             }
 
             // ***************************************************
+            // SUBSCRIBE
+            // ***************************************************
+
+            $scope.subscribe('cauhois');
+
+            // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
 
             vm.helpers({
-                cauhois: () => {
-                    vm.pageReactiveData.cauhois = CauHois.find().fetch();
-                    // vm.pageReactiveData.dictionary.options.dataSource = CauHois.find().fetch();
-                    return CauHois.find();
-                }
+                source: () => {
+                    vm.master = CauHois.findOne({
+                        _id: $stateParams.cauhoiId
+                    });
+                    // Cập nhật switchery ở Section Hình ảnh
+                    if (!_.isEmpty(vm.master))
+                        vm.pageOptions.props.isHasImages = (vm.master.noi_dung.url_hinh_anhs.length) ? true : false;
+
+                    return angular.copy(vm.master);
+                },
             });
 
 
@@ -92,21 +103,44 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
             // METHODS
             // ***************************************************
 
-            vm.addNewCauHoi = () => {
-                let err = vm._helpers.validateUser('can_upsert_cau_hoi');
+            vm.save = () => {
+
+                let err = vm._helpers.validateUser('can_upsert_thiet_bi');
                 if (_.isEmpty(err)) {
-                    err = vm._helpers.validateCauHoiForm(vm.newCauHoi);
+                    err = vm._helpers.validateThietBiForm(vm.source);
                     if (_.isEmpty(err)) {
 
-                        vm._helpers.buildNewCauHoi(vm.newCauHoi);
-                        CauHois.insert(vm.newCauHoi, (error, result) => {
+                        vm._helpers.buildThietBi(vm.source);
+                        ThietBis.update({
+                            _id: $rootScope.$stateParams.thietbiId
+                        }, {
+                            $set: {
+                                ma_tb: vm.source.ma_tb,
+                                phan_loai: vm.source.phan_loai,
+                                ho_so_tb: vm.source.ho_so_tb,
+                                status: vm.source.status,
+                                mo_ta: vm.source.mo_ta,
+                                ghi_chu: vm.source.ghi_chu,
+                                dia_ban_hoat_dong: vm.source.dia_ban_hoat_dong,
+                                don_vi_quan_ly: vm.source.don_vi_quan_ly,
+                                don_vi_so_huu: vm.source.don_vi_so_huu,                        
+                                don_vi_field: vm.source.don_vi_field,                        
+                                isPublic: vm.source.isPublic,
+                                isArchived: vm.source.isArchived,
+                                'metadata.ngay_cap_nhat_cuoi': vm.source.metadata.ngay_cap_nhat_cuoi,
+                                'metadata.nguoi_cap_nhat_cuoi': vm.source.metadata.nguoi_cap_nhat_cuoi,
+                                'metadata.nguoi_cap_nhat_cuoi_field': vm.source.metadata.nguoi_cap_nhat_cuoi_field,
+                                'metadata.search_field': vm.source.metadata.search_field
+                            }
+                        }, (error) => {
                             if (error) {
-                                iNotifier.error('Không thể tạo mới dữ liệu câu hỏi này. ' + error.message + '.');
+                                iNotifier.error('Không thể cập nhật thiết bị này. ' + error.message + '.');
                             } else {
-                                $scope.$apply( () => {
-                                    vm.utils.resetNewCauHoi();
-                                });                        
-                                iNotifier.success('Dữ liệu câu hỏi được tạo mới thành công.');
+                                iNotifier.success('Thiết bị "' + vm.source.ma_tb.ma_tb + '" được cập nhật thành công.');
+
+                                vm.master = ThietBis.findOne({
+                                    _id: $rootScope.$stateParams.thietbiId
+                                });
                             }
                         });
 
@@ -118,8 +152,10 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 }
             };
 
-            vm.clearNewCauHoiForm = () => {
-                vm._helpers.initNewCauHoiParams(vm);
+            vm.reset = () => {
+                console.log('vm.source: ', vm.source);
+                console.log('vm.master: ', vm.master);
+                angular.copy(vm.master, vm.source);
             };
 
             // ***************************************************
@@ -268,14 +304,6 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                         item.order = newOrder[i];
                     });
                 },
-                // syncLuaChonOrder: function() {
-                //     if (vm.pageOptions.able.syncLuaChonsOrder) {
-                //         console.log('sync...');
-                //         vm.newCauHoi.noi_dung.lua_chons = _.sortBy(vm.newCauHoi.noi_dung.lua_chons, (item) => { return item.order; });
-                //         vm.pageOptions.able.syncLuaChonsOrder = false;
-                //         console.log('result: ', vm.newCauHoi.noi_dung.lua_chons);
-                //     }                    
-                // },
                 makeDiff: function() {
                     // Toggle trạng thái isDiffViewResult
                     vm.pageOptions.props.isDiffViewResult = !vm.pageOptions.props.isDiffViewResult;
@@ -291,10 +319,17 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                             .addClass(color)
                             .text(part.value);
                         $('#diff_result').append(span);
-                    });
-                    
+                    });                    
                 }
             };
+
+            // ***************************************************
+            // FIX BUGS
+            // ***************************************************
+
+            // $timeout(()=>{
+            //    $("#phanloai_chungloai_dropdown").data("kendoDropDownList").refresh(); // fix bugs kendo không hiển thị được giá trị tại field chủng loại
+            // }, 1000);
 
             // ***************************************************
             // WATCHERS
@@ -325,7 +360,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 }).color_accent;
             });
 
-            $scope.$watch('vm.pageOptions.props.isHasImages', (newVal, oldVal) => {
+           $scope.$watch('vm.pageOptions.props.isHasImages', (newVal, oldVal) => {
                 if (oldVal) {
                     // Nếu người dùng tắt chức năng sử dụng url hình ảnh, xóa tất cả các trường ngay lập tức
                     vm.newCauHoi.noi_dung.url_hinh_anhs = ['', ''];
@@ -356,7 +391,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                         $("#pageOptions_diffViewSearch").data("kendoAutoComplete").search(newVal);
                 }
             });
-
+            
         }
     }
 });
