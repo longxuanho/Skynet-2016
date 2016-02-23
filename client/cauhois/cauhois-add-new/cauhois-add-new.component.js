@@ -98,7 +98,6 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                     if (_.isEmpty(err)) {
 
                         vm._helpers.buildNewCauHoi(vm.newCauHoi);
-                        console.log('newCauHoi: ', vm.newCauHoi);
                         CauHois.insert(vm.newCauHoi, (error, result) => {
                             if (error) {
                                 iNotifier.error('Không thể tạo mới dữ liệu câu hỏi này. ' + error.message + '.');
@@ -260,8 +259,8 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 },
                 randomizeLuaChonOrder: function() {
                     // Loại bỏ các giá trị falsy khỏi lựa chọn trước khi xáo trộn
-                    let luaChons = _.reject(vm.newCauHoi.noi_dung.lua_chons, (item) => {return !item.tieu_de}),
-                        newOrder = _.shuffle( _.range(vm.newCauHoi.noi_dung.lua_chons.length) );
+                    vm.newCauHoi.noi_dung.lua_chons = _.reject(vm.newCauHoi.noi_dung.lua_chons, (item) => {return !item.tieu_de});
+                    let newOrder = _.shuffle( _.range(vm.newCauHoi.noi_dung.lua_chons.length) );
                     
                     // Xáo trộn order các lựa chọn theo thứ tự mới
                     _.each(vm.newCauHoi.noi_dung.lua_chons, (item, i) => {

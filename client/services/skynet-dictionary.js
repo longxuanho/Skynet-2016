@@ -309,6 +309,9 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                 ten: "CC di chuyển",
                                 group: "Cụm CT"
                             }, {
+                                ten: "CC tời nâng",
+                                group: "Cụm CT"
+                            }, {
                                 ten: "Động cơ",
                                 group: "Cụm CT"
                             }, {

@@ -1764,6 +1764,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                     url_hinh_anhs: ['', ''],
                 },
                 tags: [],
+                fields: {},
                 metadata: {},
                 isPublic: true,
                 isArchived: false,
@@ -1832,13 +1833,27 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
 
             // Loại bỏ các url hình ảnh không có nội dung
             newCauHoi.noi_dung.url_hinh_anhs = _.without(newCauHoi.noi_dung.url_hinh_anhs, '');
-            if(!newCauHoi.noi_dung.url_hinh_anhs.length)
-                newCauHoi.noi_dung.isHasImages = false;
+            if(newCauHoi.noi_dung.url_hinh_anhs.length > 0)
+                newCauHoi.noi_dung.isHasImages = true;
 
             // Tính toán lại các chỉ số thống kê
             newCauHoi.noi_dung.thong_ke.numOfLuaChons = newCauHoi.noi_dung.lua_chons.length; 
             newCauHoi.noi_dung.thong_ke.numOfCorrectAnswers = _.where(newCauHoi.noi_dung.lua_chons, {isCorrect: true}).length;
             newCauHoi.noi_dung.thong_ke.numOfUrlHinhAnhs = newCauHoi.noi_dung.url_hinh_anhs.length;
+
+            // Cập nhật các trường thông tin 
+            newCauHoi.fields.tags = newCauHoi.tags.join(", ");
+            newCauHoi.fields.loai_tb = newCauHoi.phan_loai.loai_tb.join(", ");
+            newCauHoi.fields.bac_thi = newCauHoi.phan_loai.bac_thi.join(", ");
+
+            let correct_answers = [],
+                alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+            _.each(_.where(newCauHoi.noi_dung.lua_chons, { isCorrect: true }), (item) => {
+                correct_answers.push(alphabelts[item.order]);
+            });
+
+            newCauHoi.fields.correctAnswer = correct_answers.join(", ");
 
             // Khởi tạo metadata câu hỏi 
             if (!newCauHoi.metadata)

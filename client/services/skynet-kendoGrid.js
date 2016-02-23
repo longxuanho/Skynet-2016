@@ -645,8 +645,13 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
             },
             defaultColumns: [
                 'phan_loai.nhom_cau_hoi.ten',
-                'phan_loai.muc_do.ten',
-                'noi_dung.tieu_de'
+                'fields.loai_tb',
+                'noi_dung.tieu_de',
+                'noi_dung.thong_ke.numOfLuaChons',
+                'noi_dung.thong_ke.numOfUrlHinhAnhs',
+                'fields.correctAnswer',
+                'fields.tags',                
+                'fields.bac_thi'
             ],
             defaultDataSource: {
                 aggregate: undefined,
@@ -754,17 +759,62 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 field: "phan_loai.nhom_cau_hoi.ten",
                 title: "Nhóm câu hỏi",
                 type: "string",
-                width: "60px"
+                width: "160px"
+            }, {
+                field: "fields.loai_tb",
+                title: "Loại thiết bị",
+                type: "string",
+                width: "140px"
             }, {
                 field: "phan_loai.muc_do.ten",
                 title: "Mức độ",
                 type: "string",
-                width: "50px"
+                width: "90px"
             }, {
                 field: "noi_dung.tieu_de",
                 title: "Nội dung",
                 type: "string",
-                width: "180px"
+                width: "330px"
+            }, {
+                field: "noi_dung.thong_ke.numOfLuaChons",
+                title: "Lựa chọn",
+                type: "number",
+                width: "115px"
+            }, {
+                field: "noi_dung.thong_ke.numOfCorrectAnswers",
+                title: "SL câu đúng",
+                type: "number",
+                width: "115px"
+            }, {
+                field: "noi_dung.thong_ke.numOfUrlHinhAnhs",
+                title: "Hình ảnh",
+                type: "number",
+                width: "115px"
+            }, {
+                field: "fields.correctAnswer",
+                title: "Đáp án",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "fields.tags",
+                title: "Thẻ dấu",
+                type: "string",
+                width: "200px"
+            }, {
+                field: "fields.bac_thi",
+                title: "Bậc thi",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "fields.bac_thi",
+                title: "Ghi chú",
+                type: "string",
+                width: "300px"
+            }, {
+                field: "fields.bac_thi",
+                title: "Mô tả",
+                type: "string",
+                width: "120px"
             }]
         }
     };
