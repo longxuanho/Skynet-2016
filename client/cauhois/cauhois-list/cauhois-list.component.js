@@ -14,6 +14,8 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;
 
+
+
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
             
@@ -22,6 +24,12 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
             
+            vm.sSidebar = {
+                site_online: true,
+                top_bar: true,
+                minify_assets: true
+            };
+
             vm.pageOptions = {
                 localData: {
                     cauhois_config_data_filter: {}
@@ -166,12 +174,7 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
-
-            vm.sSidebar = {
-                site_online: true,
-                top_bar: true,
-                minify_assets: true
-            };
+            
             
         }
     }

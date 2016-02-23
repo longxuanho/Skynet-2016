@@ -1,6 +1,6 @@
 angular.module('angular-skynet')
 
-// Chú ý: Module auto-resize
+// Chú ý: Module textareaAutoResize
 
 .directive('textareaAutosize', [
     '$timeout',

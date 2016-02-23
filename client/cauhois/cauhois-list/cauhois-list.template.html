@@ -10,8 +10,6 @@
     </div>
 </div>
 
-
-
 <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
     <div class="uk-width-1-1">
     	<div class="uk-container-center" ng-class="{'uk-width-large-8-10': !vm.pageOptions.isDisplayFullWidthGrid, 'uk-width-large-1-1': vm.pageOptions.isDisplayFullWidthGrid}">
@@ -52,6 +50,9 @@
 		</div>
     </div>
 </div>
+
+<button ng-click="test()">Test</button>
+{{$root.secondarySidebarActive}}
 
 <thietbis-modal-details source="vm.pageOptions.selected.thietbi"></thietbis-modal-details>
 
@@ -100,14 +101,16 @@
                         <div class="timeline_date">
                             <span>Thẻ dấu (Tag)</span>
                         </div>
-                        <div class="timeline_content">
+                        <!-- Chú ý stopPropagation để tránh event bubble, ngăn không cho sidebar đóng khi user thay đổi mutilselect -->
+                        <div class="timeline_content" ng-click="$event.stopPropagation();">
                             <select kendo-multi-select id="cauhoi_phanloai_tags"
                                 k-data-source="vm.pageReactiveData.tags"
                                 k-filter="'contains'"
                                 k-highlight-first="false"
                                 k-data-text-field="'ten'"
                                 k-data-value-field="'ten'"
-                                ng-model="vm.newCauHoi.tags">
+                                ng-model="vm.newCauHoi.tags"
+                                >
                             </select>
                         </div>
                     </div>
@@ -116,7 +119,7 @@
                         <div class="timeline_date">
                             <span>Nhóm thiết bị</span>
                         </div>
-                        <div class="timeline_content">
+                        <div class="timeline_content" ng-click="$event.stopPropagation();">
                             <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
                                 k-data-source="vm.dictionary.loai_tbs['thiet_bi_nang']"
                                 k-filter="'contains'"
@@ -130,7 +133,7 @@
                         <div class="timeline_date">
                             <span>Bậc thi</span>
                         </div>
-                        <div class="timeline_content">
+                        <div class="timeline_content" ng-click="$event.stopPropagation();">
                             <select kendo-multi-select id="cauhoi_phanloai_bacthis"
                                 k-data-source="vm.dictionary.bac_this"
                                 k-filter="'contains'"
