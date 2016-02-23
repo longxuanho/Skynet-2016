@@ -51,9 +51,6 @@
     </div>
 </div>
 
-<button ng-click="test()">Test</button>
-{{$root.secondarySidebarActive}}
-
 <thietbis-modal-details source="vm.pageOptions.selected.thietbi"></thietbis-modal-details>
 
 <div class="md-fab-wrapper">
@@ -109,7 +106,7 @@
                                 k-highlight-first="false"
                                 k-data-text-field="'ten'"
                                 k-data-value-field="'ten'"
-                                ng-model="vm.newCauHoi.tags"
+                                ng-model="vm.pageReactiveData.searchTags"
                                 >
                             </select>
                         </div>
@@ -124,7 +121,7 @@
                                 k-data-source="vm.dictionary.loai_tbs['thiet_bi_nang']"
                                 k-filter="'contains'"
                                 k-highlight-first="false"
-                                ng-model="vm.newCauHoi.tags">
+                                ng-model="vm.pageReactiveData.searchLoaitbs">
                             </select>
                         </div>
                     </div>
@@ -138,7 +135,7 @@
                                 k-data-source="vm.dictionary.bac_this"
                                 k-filter="'contains'"
                                 k-highlight-first="true"
-                                ng-model="vm.newCauHoi.tags">
+                                ng-model="vm.pageReactiveData.searchBacthis">
                             </select>
                         </div>
                     </div>

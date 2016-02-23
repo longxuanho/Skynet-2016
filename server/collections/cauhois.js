@@ -45,12 +45,13 @@ CauHois.allow({
 // PUBLISH / SUBSCRIBE
 // ***************************************************
 
-Meteor.publish("cauhois", function(options, searchString, searchBy) {
+Meteor.publish("cauhois", function(options, searchString, searchBy, tags, loaitbs, bacthis) {
 
     if (searchString == null)
         searchString = '';
     if (searchBy == null)
         searchBy = 'noi_dung.tieu_de';
+
 
     var query = {};
     var regex = {
@@ -58,8 +59,26 @@ Meteor.publish("cauhois", function(options, searchString, searchBy) {
         '$options': 'i'
     };
 
+    if (!_.isEmpty(tags)) {
+        query['tags'] = {
+            $in: tags
+        };
+    }
+
+    if (!_.isEmpty(loaitbs)) {
+        query['phan_loai.loai_tb'] = {
+            $in: loaitbs
+        };
+    }
+
+    if (!_.isEmpty(bacthis)) {
+        query['phan_loai.bac_thi'] = {
+            $in: bacthis
+        };
+    }
 
     query[searchBy] = regex;
+
     query['$or'] = [{
         '$and': [{
             'isPublic': true

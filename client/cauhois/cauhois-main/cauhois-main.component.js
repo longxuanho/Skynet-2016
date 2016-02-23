@@ -2,7 +2,7 @@ angular.module('angular-skynet').directive('cauhoisMain', function() {
     return {
         restrict: 'E',
         templateUrl: 'client/cauhois/cauhois-main/cauhois-main.html',
-        controllerAs: 'vm',
+        // controllerAs: 'vm',
         controller: function($scope, skynetHelpers, $rootScope, $state, $stateParams, iNotifier) {
 
 
@@ -39,15 +39,6 @@ angular.module('angular-skynet').directive('cauhoisMain', function() {
 
             $scope.subscribe('users');
             $scope.subscribe('usersettings');
-            $scope.subscribe('cauhois', () => {
-                return [{
-                        limit: parseInt($scope.getReactively('perPage')),
-                        skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage'))
-                    },
-                    $rootScope.getReactively('searchText'),
-                    $rootScope.getReactively('searchBy')
-                ]
-            });
 
 
             // ***************************************************

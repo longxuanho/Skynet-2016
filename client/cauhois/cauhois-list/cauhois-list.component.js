@@ -3,6 +3,9 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
         restrict: 'E',
         templateUrl: 'client/cauhois/cauhois-list/cauhois-list.template.html',
         controllerAs: 'vm',
+        scope: {
+            mainPageReactiveData: '=' 
+        },
         controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary) {
 
             $reactive(this).attach($scope);
@@ -13,8 +16,6 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;
-
-
 
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
@@ -57,7 +58,10 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     sort: { field: 'ten', dir: 'asc' },
                     group: { field: 'group' }
 
-                }
+                },
+                searchTags: ['Cáp'],
+                searchLoaitbs: [],
+                searchBacthis: []
             }
 
             // LOAD LOCAL DATA
@@ -144,6 +148,23 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             }
 
             // ***************************************************
+            // SUBSCRIBE
+            // ***************************************************
+
+            $scope.subscribe('cauhois', () => {
+                return [{
+                        limit: parseInt($scope.getReactively('perPage')),
+                        skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage'))
+                    },
+                    $rootScope.getReactively('searchText'),
+                    $rootScope.getReactively('searchBy'),
+                    $scope.getReactively('vm.pageReactiveData.searchTags'),
+                    $scope.getReactively('vm.pageReactiveData.searchLoaitbs'),
+                    $scope.getReactively('vm.pageReactiveData.searchBacthis')
+                ]
+            });
+
+            // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
 
@@ -174,6 +195,9 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
+            $rootScope.$watch('secondarySidebarActive', (newVal) => {
+                console.log("Watch: ", newVal);
+            })
             
             
         }

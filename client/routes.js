@@ -284,7 +284,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         })
         .state('cauhois.list', {
             url: '/thong-ke',
-            template: '<cauhois-list></cauhois-list>'
+            template: '<cauhois-list main-page-reactive-data="mainPageReactiveData"></cauhois-list>'
         })
         // NHANSUS
         .state('nhansus', {
