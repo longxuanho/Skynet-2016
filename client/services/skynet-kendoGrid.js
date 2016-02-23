@@ -63,7 +63,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 detailTemplate: null,
                 editable: false,
                 excel: {
-                    allPages: false,
+                    allPages: true,
                     filterable: false,
                     fileName: "From Sky with Love.xlsx",
                 },
@@ -403,7 +403,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 detailTemplate: null,
                 editable: false,
                 excel: {
-                    allPages: false,
+                    allPages: true,
                     filterable: false,
                     fileName: "From Sky with Love.xlsx",
                 },

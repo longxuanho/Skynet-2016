@@ -105,11 +105,29 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     kOptions: angular.copy(vm._kHelpers.initDefaultOptions()),
                     gridOnChange: function(event) {
                         let grid = $("#myGrid").data("kendoGrid");
-                        if ((this.kOptions.selectable === 'row' || this.kOptions.selectable === 'cell') && grid.select().length)  {
-                            vm.pageOptions.fabState = 'cauhois_viewDetails';
-                            vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
+
+                        if (grid.select().length) {
+                            if (this.kOptions.selectable === 'row') {
+
+                                let selected = grid.dataItem(grid.select());
+                                
+                                if (vm.pageOptions.selected.cauhoi._id === selected._id) {
+                                    // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
+                                    vm.pageOptions.selected.cauhoi = {};
+                                    vm.pageOptions.fabState = 'cauhois_createNew';                                                                       
+
+                                    try {
+                                        grid.clearSelection();    
+                                    } catch (err) {
+                                        // ERROR CLEAR SELECTION???
+                                        console.log('Error clearing selection: ', err.message);
+                                    }
+                                } else {
+                                    vm.pageOptions.fabState = 'cauhois_viewDetails';
+                                    vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
+                                }
+                            }
                         }
-                        console.log('selected: ', vm.pageOptions.selected.cauhoi);
                     },
                     gridOnDataBound: function(event) {
                         vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
