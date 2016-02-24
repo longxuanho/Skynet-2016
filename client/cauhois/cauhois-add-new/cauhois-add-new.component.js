@@ -144,7 +144,7 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                 },
                 addNumOfLuaChons: function() {
                     if (vm.newCauHoi.noi_dung.lua_chons.length < vm.pageOptions.limit.numOfLuaChonsMax) {
-                        vm.newCauHoi.noi_dung.lua_chons.push({isCorrect: false, order: vm.newCauHoi.noi_dung.lua_chons.length - 1});
+                        vm.newCauHoi.noi_dung.lua_chons.push({isCorrect: false, order: vm.newCauHoi.noi_dung.lua_chons.length});
                         vm.pageOptions.able.decreaseNumOfLuaChons = true;   // Bây giờ có thể giảm số lựa chọn
                     }
                     else 
@@ -267,6 +267,8 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                     _.each(vm.newCauHoi.noi_dung.lua_chons, (item, i) => {
                         item.order = newOrder[i];
                     });
+                    // Sắp xếp lại các lựa chọn theo thứ tự của khóa 'order'
+                    vm.newCauHoi.noi_dung.lua_chons = _.sortBy(vm.newCauHoi.noi_dung.lua_chons, 'order');
                 },
                 // syncLuaChonOrder: function() {
                 //     if (vm.pageOptions.able.syncLuaChonsOrder) {
@@ -306,16 +308,16 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
 
             UIkit.on('change.uk.sortable', function(event, sortable_object, dragged_element, action){
                 if (action==="moved") {
-                    console.log('processing...');                    
-                    
+                    // Đồng bộ: Khi có event sorted, truy nhập các list để trích xuất mảng [data-index] -> [newOrder],
+                    // rồi cập nhật lại các order tuân theo thứ tự này                    
                     $scope.$apply(() => {
-                        let newOrder = [],
-                        clone = [];
                         $('#sortable').children('li').each( function(index) {
-                            newOrder.push(vm.newCauHoi.noi_dung.lua_chons[$(this).data('index')]);
+                            // Để lấy thông tin về data-index: $(this).data('index')
                             _.extend(vm.newCauHoi.noi_dung.lua_chons[$(this).data('index')], {order: index});
                         });
-                    })
+                        // Sắp xếp lại các lựa chọn theo thứ tự của khóa 'order'
+                        vm.newCauHoi.noi_dung.lua_chons = _.sortBy(vm.newCauHoi.noi_dung.lua_chons, 'order');
+                    });
                 }                
             });
 

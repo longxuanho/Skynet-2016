@@ -1,4 +1,6 @@
+
 angular.module('angular-skynet').directive('cauhoisUpdate', function() {
+    
     return {
         restrict: 'E',
         templateUrl: 'client/cauhois/cauhois-update/cauhois-update.template.html',
@@ -35,18 +37,9 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                     decreaseNumOfUrlHinhAnhs: false
                 },
                 template: {
-                    flags: {
-                        isLockSectionPhanLoai: false,
-                        isLockSectionTags: false,
-                        isLockSectionGhiChu: false
-                    },
-                    phan_loai: {
-                        nhom_cau_hoi: {},
-                        muc_do: {},
-                        nhom_tb: {},
-                        loai_tb: []
-                    },
+                    phan_loai: {},
                     tags: [],
+                    url_hinh_anhs: [],
                     ghi_chu: {
                         mo_ta: '',
                         ghi_chu: ''
@@ -71,7 +64,6 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                     data: vm.dictionary.tags,
                     sort: { field: 'ten', dir: 'asc' },
                     group: { field: 'group' }
-
                 }
             }
 
@@ -90,12 +82,24 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                     vm.master = CauHois.findOne({
                         _id: $stateParams.cauhoiId
                     });
-                    // Cập nhật switchery ở Section Hình ảnh
-                    if (!_.isEmpty(vm.master))
+                    
+                    if (!_.isEmpty(vm.master)) {
+                        // Cập nhật switchery ở Section Hình ảnh
                         vm.pageOptions.props.isHasImages = (vm.master.noi_dung.url_hinh_anhs.length) ? true : false;
+                        // Cập nhật các template
+                        vm.pageOptions.template.phan_loai = angular.copy(vm.master.phan_loai);
+                        vm.pageOptions.template.tags = angular.copy(vm.master.tags);
+                        vm.pageOptions.template.url_hinh_anhs = angular.copy(vm.master.noi_dung.url_hinh_anhs);
+                        vm.pageOptions.template.ghi_chu.mo_ta = vm.master.mo_ta;
+                        vm.pageOptions.template.ghi_chu.ghi_chu = vm.master.ghi_chu;                        
+                    }                    
 
                     return angular.copy(vm.master);
                 },
+                cauhois: () => {
+                    vm.pageReactiveData.cauhois = CauHois.find().fetch();
+                    return CauHois.find();
+                }
             });
 
 
@@ -105,28 +109,27 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
 
             vm.save = () => {
 
-                let err = vm._helpers.validateUser('can_upsert_thiet_bi');
+                let err = vm._helpers.validateUser('can_upsert_cau_hoi');
                 if (_.isEmpty(err)) {
-                    err = vm._helpers.validateThietBiForm(vm.source);
+                    err = vm._helpers.validateCauHoiForm(vm.source);
                     if (_.isEmpty(err)) {
 
-                        vm._helpers.buildThietBi(vm.source);
-                        ThietBis.update({
-                            _id: $rootScope.$stateParams.thietbiId
+                        vm._helpers.buildCauHoi(vm.source);
+                        CauHois.update({
+                            _id: $stateParams.cauhoiId
                         }, {
                             $set: {
-                                ma_tb: vm.source.ma_tb,
+                                lop: vm.source.lop,
+                                phan_lop: vm.source.phan_lop,
                                 phan_loai: vm.source.phan_loai,
-                                ho_so_tb: vm.source.ho_so_tb,
-                                status: vm.source.status,
+                                noi_dung: vm.source.noi_dung,                      
+                                tags: vm.source.tags,                      
+                                fields: vm.source.fields,
                                 mo_ta: vm.source.mo_ta,
-                                ghi_chu: vm.source.ghi_chu,
-                                dia_ban_hoat_dong: vm.source.dia_ban_hoat_dong,
-                                don_vi_quan_ly: vm.source.don_vi_quan_ly,
-                                don_vi_so_huu: vm.source.don_vi_so_huu,                        
-                                don_vi_field: vm.source.don_vi_field,                        
+                                ghi_chu: vm.source.ghi_chu,                  
                                 isPublic: vm.source.isPublic,
                                 isArchived: vm.source.isArchived,
+                                status: vm.source.status,
                                 'metadata.ngay_cap_nhat_cuoi': vm.source.metadata.ngay_cap_nhat_cuoi,
                                 'metadata.nguoi_cap_nhat_cuoi': vm.source.metadata.nguoi_cap_nhat_cuoi,
                                 'metadata.nguoi_cap_nhat_cuoi_field': vm.source.metadata.nguoi_cap_nhat_cuoi_field,
@@ -134,16 +137,14 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                             }
                         }, (error) => {
                             if (error) {
-                                iNotifier.error('Không thể cập nhật thiết bị này. ' + error.message + '.');
+                                iNotifier.error('Không thể cập nhật câu hỏi này. ' + error.message + '.');
                             } else {
-                                iNotifier.success('Thiết bị "' + vm.source.ma_tb.ma_tb + '" được cập nhật thành công.');
-
-                                vm.master = ThietBis.findOne({
-                                    _id: $rootScope.$stateParams.thietbiId
+                                iNotifier.success('Câu hỏi mã số "' + vm.source._id + '" được cập nhật thành công.');
+                                vm.master = CauHois.findOne({
+                                    _id: $stateParams.cauhoiId
                                 });
                             }
                         });
-
                     } else {
                         iNotifier.error(err.message);
                     }
@@ -153,8 +154,6 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
             };
 
             vm.reset = () => {
-                console.log('vm.source: ', vm.source);
-                console.log('vm.master: ', vm.master);
                 angular.copy(vm.master, vm.source);
             };
 
@@ -169,7 +168,7 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                 setCorrectAnswer: function(luachon) {
                     if (!luachon.isCorrect) {
                         // Nếu hành vi người dùng là switch câu trả lời đúng -> clear rồi switch vị trí đáp án đúng
-                        _.each(vm.newCauHoi.noi_dung.lua_chons, (item, i) => {
+                        _.each(vm.source.noi_dung.lua_chons, (item, i) => {
                             item.isCorrect = false;
                         });
                         luachon.isCorrect = true;
@@ -179,16 +178,16 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                     }                     
                 },
                 addNumOfLuaChons: function() {
-                    if (vm.newCauHoi.noi_dung.lua_chons.length < vm.pageOptions.limit.numOfLuaChonsMax) {
-                        vm.newCauHoi.noi_dung.lua_chons.push({isCorrect: false, order: vm.newCauHoi.noi_dung.lua_chons.length - 1});
+                    if (vm.source.noi_dung.lua_chons.length < vm.pageOptions.limit.numOfLuaChonsMax) {
+                        vm.source.noi_dung.lua_chons.push({isCorrect: false, order: vm.source.noi_dung.lua_chons.length});
                         vm.pageOptions.able.decreaseNumOfLuaChons = true;   // Bây giờ có thể giảm số lựa chọn
                     }
                     else 
                         vm.pageOptions.able.addNumOfLuaChons = false;       // Đã vượt quá giới hạn tối đa số lựa chọn cho phép
                 },
                 decreaseNumOfLuaChons: function() {
-                    if (vm.newCauHoi.noi_dung.lua_chons.length > vm.pageOptions.limit.numOfLuaChonsMin) {
-                        vm.newCauHoi.noi_dung.lua_chons.pop();
+                    if (vm.source.noi_dung.lua_chons.length > vm.pageOptions.limit.numOfLuaChonsMin) {
+                        vm.source.noi_dung.lua_chons.pop();
                         vm.pageOptions.able.addNumOfLuaChons = true;        // Bây giờ có thể thêm số lựa chọn
                     } else
                         vm.pageOptions.able.decreaseNumOfLuaChons = false;  // Đã quá giới hạn tối thiểu số lựa chọn cho phép
@@ -196,113 +195,42 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                 addNumOfHinhAnhs: function() {
                     if (vm.pageOptions.props.isHasImages)
                         if (vm.pageOptions.able.addNumOfUrlHinhAnhs)
-                            vm.newCauHoi.noi_dung.url_hinh_anhs.push('');
+                            vm.source.noi_dung.url_hinh_anhs.push('');
                 },
                 decreaseNumOfHinhAnhs: function() {
                     if (vm.pageOptions.props.isHasImages)
                         if (vm.pageOptions.able.decreaseNumOfUrlHinhAnhs)
-                            vm.newCauHoi.noi_dung.url_hinh_anhs.pop();
+                            vm.source.noi_dung.url_hinh_anhs.pop();
                 },
                 resetPhanLoaiSection: function() {
-                    // Nếu đang ở chế độ khóa, restore lại thời điểm bắt đầu kích hoạt khóa
-                    if (vm.pageOptions.template.flags.isLockSectionPhanLoai) {
-                        if (!_.isEmpty(vm.pageOptions.template.phan_loai)) 
-                            vm.newCauHoi.phan_loai = angular.copy(vm.pageOptions.template.phan_loai);
-                    } else {
-                        vm.newCauHoi.phan_loai = {
-                            kieu_cau_hoi: {
-                                ma: 'mot_dap_an_dung',
-                                ten: 'Một đáp án đúng'
-                            },
-                            nhom_tb: {
-                                ma: "thiet_bi_nang",
-                                ten: "Thiết bị nâng"
-                            },
-                            loai_tb: [],
-                            nhom_cau_hoi: {},
-                            nhom_noi_dung: {},
-                            bac_thi: [],
-                            muc_do: {}
-                        }
-                    }
+                    vm.source.phan_loai = angular.copy(vm.pageOptions.template.phan_loai);
                 },
                 resetTagSection: function() {
-                    if (vm.pageOptions.template.flags.isLockSectionTags) {
-                        if (vm.pageOptions.template.tags.length) 
-                            vm.newCauHoi.tags = angular.copy(vm.pageOptions.template.tags);
-                    } else {
-                        vm.newCauHoi.tags = [];
-                    }       
+                    vm.source.tags = angular.copy(vm.pageOptions.template.tags);      
                 },
                 resetHinhAnhsSection: function() {
-                    for (let i = 0; i < vm.newCauHoi.noi_dung.url_hinh_anhs.length; i++) {
-                        vm.newCauHoi.noi_dung.url_hinh_anhs[i] = '';
-                    }
+                    vm.source.noi_dung.url_hinh_anhs =  angular.copy(vm.pageOptions.template.url_hinh_anhs);
                 },
                 resetGhiChuSection: function() {
-                    if (vm.pageOptions.template.flags.isLockSectionGhiChu) {
-                        vm.newCauHoi.ghi_chu = vm.pageOptions.template.ghi_chu.ghi_chu;
-                        vm.newCauHoi.mo_ta = vm.pageOptions.template.ghi_chu.mo_ta;
-                    } else {
-                        vm.newCauHoi.ghi_chu = '';
-                        vm.newCauHoi.mo_ta = '';
-                    }
-                },
-                toggleLockSectionPhanLoai: function() {
-                    vm.pageOptions.template.flags.isLockSectionPhanLoai = !vm.pageOptions.template.flags.isLockSectionPhanLoai;
-                    // Nếu kích hoạt chế độ khóa, chụp lại dữ liệu phần Phân Loại
-                    if (vm.pageOptions.template.flags.isLockSectionPhanLoai) {
-                        vm.pageOptions.template.phan_loai = angular.copy(vm.newCauHoi.phan_loai);
-                    }
-                },
-                toggleLockSectionTags: function() {
-                    vm.pageOptions.template.flags.isLockSectionTags = !vm.pageOptions.template.flags.isLockSectionTags;
-                    // Nếu kích hoạt chế độ khóa, chụp lại dữ liệu phần Tags
-                    if (vm.pageOptions.template.flags.isLockSectionTags) {
-                        vm.pageOptions.template.tags = angular.copy(vm.newCauHoi.tags);
-                    }
-                },
-                toggleLockSectionGhiChu: function() {
-                    vm.pageOptions.template.flags.isLockSectionGhiChu = !vm.pageOptions.template.flags.isLockSectionGhiChu;
-                    // Nếu kích hoạt chế độ khóa, chụp lại dữ liệu phần Ghi Chú
-                    if (vm.pageOptions.template.flags.isLockSectionGhiChu) {
-                        vm.pageOptions.template.ghi_chu = {
-                            mo_ta: vm.newCauHoi.mo_ta,
-                            ghi_chu: vm.newCauHoi.ghi_chu
-                        };
-                    }
+                    vm.source.ghi_chu = vm.pageOptions.template.ghi_chu.ghi_chu;
+                    vm.source.mo_ta = vm.pageOptions.template.ghi_chu.mo_ta;
                 },
                 showModalLightBox: function(index) {
-                    vm.pageOptions.props.lightBoxImageSrc = vm.newCauHoi.noi_dung.url_hinh_anhs[index];
+                    vm.pageOptions.props.lightBoxImageSrc = vm.source.noi_dung.url_hinh_anhs[index];
                     if (vm.pageOptions.props.lightBoxImageSrc)
                         UIkit.modal("#modal_lightbox").show();
                 },
-                resetNewCauHoi: function() {
-                    vm._helpers.initNewCauHoiParams(vm);
-
-                    // Nếu một số trường được kích hoạt khóa
-                    if (vm.pageOptions.template.flags.isLockSectionPhanLoai) {
-                        if (!_.isEmpty(vm.pageOptions.template.phan_loai)) 
-                            vm.newCauHoi.phan_loai = angular.copy(vm.pageOptions.template.phan_loai);
-                    }
-                    if (vm.pageOptions.template.flags.isLockSectionTags) {
-                        if (vm.pageOptions.template.tags.length) 
-                            vm.newCauHoi.tags = angular.copy(vm.pageOptions.template.tags);
-                    }
-                    if (vm.pageOptions.template.flags.isLockSectionGhiChu) {
-                        vm.newCauHoi.ghi_chu = vm.pageOptions.template.ghi_chu.ghi_chu;
-                        vm.newCauHoi.mo_ta = vm.pageOptions.template.ghi_chu.mo_ta;
-                    }
-                },
                 randomizeLuaChonOrder: function() {
                     // Loại bỏ các giá trị falsy khỏi lựa chọn trước khi xáo trộn
-                    vm.newCauHoi.noi_dung.lua_chons = _.reject(vm.newCauHoi.noi_dung.lua_chons, (item) => {return !item.tieu_de});
-                    let newOrder = _.shuffle( _.range(vm.newCauHoi.noi_dung.lua_chons.length) );
+                    vm.source.noi_dung.lua_chons = _.reject(vm.source.noi_dung.lua_chons, (item) => {return !item.tieu_de});
+                    let newOrder = _.shuffle( _.range(vm.source.noi_dung.lua_chons.length) );
                     
                     // Xáo trộn order các lựa chọn theo thứ tự mới
-                    _.each(vm.newCauHoi.noi_dung.lua_chons, (item, i) => {
+                    _.each(vm.source.noi_dung.lua_chons, (item, i) => {
                         item.order = newOrder[i];
                     });
+                    // Sắp xếp lại các lựa chọn theo thứ tự của khóa 'order'
+                    vm.source.noi_dung.lua_chons = _.sortBy(vm.source.noi_dung.lua_chons, 'order');
                 },
                 makeDiff: function() {
                     // Toggle trạng thái isDiffViewResult
@@ -310,7 +238,7 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                     $('#diff_result').html('');
                     let diffType = 'diffChars',
                         panelA = vm.pageOptions.input.diffViewSearch || '';
-                        panelB = vm.newCauHoi.noi_dung.tieu_de || '';
+                        panelB = vm.source.noi_dung.tieu_de || '';
                         diff = JsDiff[diffType](panelA, panelB);
                     diff.forEach(function(part){
                         let color = part.added ? 'md-color-light-green-600': part.removed ? 'md-color-red-500 uk-text-del' : 'md-color-grey-400';
@@ -324,14 +252,6 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
             };
 
             // ***************************************************
-            // FIX BUGS
-            // ***************************************************
-
-            // $timeout(()=>{
-            //    $("#phanloai_chungloai_dropdown").data("kendoDropDownList").refresh(); // fix bugs kendo không hiển thị được giá trị tại field chủng loại
-            // }, 1000);
-
-            // ***************************************************
             // WATCHERS
             // ***************************************************
 
@@ -340,17 +260,17 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
             });
 
             UIkit.on('change.uk.sortable', function(event, sortable_object, dragged_element, action){
-                if (action==="moved") {
-                    console.log('processing...');                    
-                    
+                if (action==="moved") {              
+                    // Đồng bộ: Khi có event sorted, truy nhập các list để trích xuất mảng [data-index] -> [newOrder],
+                    // rồi cập nhật lại các order tuân theo thứ tự này.   
                     $scope.$apply(() => {
-                        let newOrder = [],
-                        clone = [];
                         $('#sortable').children('li').each( function(index) {
-                            newOrder.push(vm.newCauHoi.noi_dung.lua_chons[$(this).data('index')]);
-                            _.extend(vm.newCauHoi.noi_dung.lua_chons[$(this).data('index')], {order: index});
-                        });
-                    })
+                            // Để lấy thông tin về data-index: $(this).data('index')
+                            _.extend(vm.source.noi_dung.lua_chons[$(this).data('index')], {order: index});                            
+                        });                     
+                        // Sắp xếp lại các lựa chọn theo thứ tự của khóa 'order'
+                        vm.source.noi_dung.lua_chons = _.sortBy(vm.source.noi_dung.lua_chons, 'order');
+                    });
                 }                
             });
 
@@ -363,11 +283,11 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
            $scope.$watch('vm.pageOptions.props.isHasImages', (newVal, oldVal) => {
                 if (oldVal) {
                     // Nếu người dùng tắt chức năng sử dụng url hình ảnh, xóa tất cả các trường ngay lập tức
-                    vm.newCauHoi.noi_dung.url_hinh_anhs = ['', ''];
+                    vm.source.noi_dung.url_hinh_anhs = ['', ''];
                 }
             });
 
-            $scope.$watch('vm.newCauHoi.noi_dung.url_hinh_anhs.length', (newVal) => {
+            $scope.$watch('vm.source.noi_dung.url_hinh_anhs.length', (newVal) => {
                 if (newVal > vm.pageOptions.limit.numOfUrlHinhAnhsMin && newVal < vm.pageOptions.limit.numOfUrlHinhAnhsMax) {
                     // Nếu số trường url hình ảnh trong giới hạn cho phép, mở khóa các tính năng
                     vm.pageOptions.able.decreaseNumOfUrlHinhAnhs = true;
@@ -384,7 +304,7 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
 
             });
 
-            $scope.$watch('vm.newCauHoi.noi_dung.tieu_de', (newVal) => {
+            $scope.$watch('vm.source.noi_dung.tieu_de', (newVal) => {
                 if (vm.pageOptions.props.isDiffViewLink) {
                     vm.pageOptions.input.diffViewSearch = newVal;
                     if (vm.pageOptions.props.currentSection==='accordion_so_sanh')

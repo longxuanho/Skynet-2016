@@ -1820,6 +1820,35 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         },
 
         buildCauHoi: function(cauhoi) {
+            // Loại bỏ các lựa chọn không có nội dung
+            cauhoi.noi_dung.lua_chons = _.filter(cauhoi.noi_dung.lua_chons, (item) => {
+                return item.tieu_de;
+            });
+
+            // Loại bỏ các url hình ảnh không có nội dung
+            cauhoi.noi_dung.url_hinh_anhs = _.without(cauhoi.noi_dung.url_hinh_anhs, '');
+            cauhoi.noi_dung.isHasImages = (cauhoi.noi_dung.url_hinh_anhs.length) ? true : false;
+
+            // Tính toán lại các chỉ số thống kê
+            cauhoi.noi_dung.thong_ke.numOfLuaChons = cauhoi.noi_dung.lua_chons.length; 
+            cauhoi.noi_dung.thong_ke.numOfCorrectAnswers = _.where(cauhoi.noi_dung.lua_chons, {isCorrect: true}).length;
+            cauhoi.noi_dung.thong_ke.numOfUrlHinhAnhs = cauhoi.noi_dung.url_hinh_anhs.length;
+
+            // Cập nhật các trường thông tin 
+            cauhoi.fields.tags = cauhoi.tags.join(", ");
+            cauhoi.fields.loai_tb = cauhoi.phan_loai.loai_tb.join(", ");
+            cauhoi.fields.bac_thi = cauhoi.phan_loai.bac_thi.join(", ");
+
+            let correct_answers = [],
+                alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+            _.each(_.where(cauhoi.noi_dung.lua_chons, { isCorrect: true }), (item) => {
+                correct_answers.push(alphabelts[item.order]);
+            });
+
+            cauhoi.fields.correctAnswer = correct_answers.join(", ");
+
+            // Khởi tạo metadata câu hỏi 
             if (!cauhoi.metadata)
                 cauhoi.metadata = {};
             this.buildMetadata('build', cauhoi.metadata);
@@ -1834,9 +1863,6 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             // Loại bỏ các url hình ảnh không có nội dung
             newCauHoi.noi_dung.url_hinh_anhs = _.without(newCauHoi.noi_dung.url_hinh_anhs, '');
             newCauHoi.noi_dung.isHasImages = (newCauHoi.noi_dung.url_hinh_anhs.length) ? true : false;
-            console.log('url: ', newCauHoi.noi_dung.url_hinh_anhs);
-            console.log('boolean: ', newCauHoi.noi_dung.isHasImages);
-
 
             // Tính toán lại các chỉ số thống kê
             newCauHoi.noi_dung.thong_ke.numOfLuaChons = newCauHoi.noi_dung.lua_chons.length; 

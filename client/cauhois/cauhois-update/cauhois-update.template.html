@@ -6,7 +6,7 @@
                     <div class="md-card-toolbar-actions">
                         <card-fullscreen-activate></card-fullscreen-activate>
                         <i class="md-icon material-icons no-animate" ng-click="vm.utils.randomizeLuaChonOrder()">&#xE0D7;</i>
-                        <i class="md-icon material-icons no-animate" ng-click="vm.utils.resetNewCauHoi()">&#xE5D5;</i>
+                        <i class="md-icon material-icons no-animate" ng-click="vm.reset()">&#xE5D5;</i>
                         <i class="md-icon material-icons no-animate" ng-show="$root.card_fullscreen" ng-click="vm.addNewCauHoi()">&#xE161;</i>                        
                     </div>
                     <card-fullscreen-deactivate></card-fullscreen-deactivate>
@@ -36,11 +36,11 @@
                                         </div>
                                         <div class="uk-width-medium-1-1">
                                             <ul class="uk-sortable sortable-handler" id="sortable" data-uk-sortable>
-                                                <li ng-repeat="item in vm.source.noi_dung.lua_chons | orderBy:'order'" data-index="{{$index}}" class="uk-nestable-item" >
+                                                <li ng-repeat="item in vm.source.noi_dung.lua_chons | orderBy:'order'" data-index="{{item.order}}" class="uk-nestable-item" >
                                                     <div class="uk-nestable-panel">
                                                         <div class="uk-grid">
                                                             <div class="uk-width-small-5-6">
-                                                                {{ $index | displayNumberAsAlphabelt }}.<br/>
+                                                                {{ item.order | displayNumberAsAlphabelt }}.<br/>
                                                                 <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="item.tieu_de"></textarea>
                                                             </div>
                                                             <div class="uk-width-small-1-6">
@@ -63,7 +63,6 @@
                                             <div class="uk-width-medium-1-1 uk-clearfix">
                                                 <div class="uk-align-medium-right">
                                                     <i class="md-icon material-icons no-animate" ng-click="vm.utils.resetPhanLoaiSection()">&#xE5D5;</i>
-                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': vm.pageOptions.template.flags.isLockSectionPhanLoai}" ng-click="vm.utils.toggleLockSectionPhanLoai()">{{ (!vm.pageOptions.template.flags.isLockSectionPhanLoai) ? '&#xE898;' : '&#xE899;' }}</i>
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-3-5 uk-margin-small-top">
@@ -145,7 +144,6 @@
                                                     k-filter="'contains'"
                                                     k-min-length="3"
                                                     k-highlight-first="true"
-                                                    k-suggest="true"
                                                     k-data-source="vm.pageReactiveData.cauhois"
                                                     k-data-text-field="'noi_dung.tieu_de'"/>
                                             </div>
@@ -170,7 +168,6 @@
                                             <div class="uk-width-medium-1-1 uk-clearfix">
                                                 <div class="uk-align-medium-right">                                                  
                                                     <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.resetTagSection()">&#xE5D5;</i>
-                                                     <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': vm.pageOptions.template.flags.isLockSectionTags}" ng-click="vm.utils.toggleLockSectionTags()">{{ (!vm.pageOptions.template.flags.isLockSectionTags) ? '&#xE898;' : '&#xE899;' }}</i>
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-1-1">
@@ -221,7 +218,6 @@
                                             <div class="uk-width-medium-1-1 uk-clearfix">
                                                 <div class="uk-align-medium-right">
                                                     <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.resetGhiChuSection()">&#xE5D5;</i>
-                                                    <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': vm.pageOptions.template.flags.isLockSectionGhiChu}" ng-click="vm.utils.toggleLockSectionGhiChu()">{{ (!vm.pageOptions.template.flags.isLockSectionGhiChu) ? '&#xE898;' : '&#xE899;' }}</i>
                                                 </div>
                                             </div>
                                             <div class="uk-width-1-1">
@@ -245,7 +241,7 @@
 </div>
 
 <div class="md-fab-wrapper">
-    <a class="md-fab md-fab-accent" ng-click="vm.addNewCauHoi()">
+    <a class="md-fab md-fab-accent" ng-click="vm.save()">
         <i class="material-icons">&#xE161;</i>
     </a>
 </div>
