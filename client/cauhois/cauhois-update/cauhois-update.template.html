@@ -4,14 +4,15 @@
             <div class="md-card">
                 <div class="md-card-toolbar">
                     <div class="md-card-toolbar-actions">
-                        <card-fullscreen-activate></card-fullscreen-activate>
+                        <card-fullscreen-activate></card-fullscreen-activate>                        
                         <i class="md-icon material-icons no-animate" ng-click="vm.utils.randomizeLuaChonOrder()">&#xE0D7;</i>
                         <i class="md-icon material-icons no-animate" ng-click="vm.reset()">&#xE5D5;</i>
-                        <i class="md-icon material-icons no-animate" ng-show="$root.card_fullscreen" ng-click="vm.addNewCauHoi()">&#xE161;</i>                        
+                        <i class="md-icon material-icons no-animate" ng-show="$root.card_fullscreen" ng-click="vm.addNewCauHoi()">&#xE161;</i>
+                        <i class="md-icon material-icons no-animate" ng-class="{'uk-text-warning': vm.pageOptions.able.removeCauHoi}" data-uk-modal="{target: '#modal_cauhois_xoa_cau_hoi'}" ng-show="vm.pageOptions.able.removeCauHoi">&#xE872;</i>       
                     </div>
                     <card-fullscreen-deactivate></card-fullscreen-deactivate>
                     <h3 class="md-card-toolbar-heading-text">
-                        Tạo câu hỏi mới
+                        Cập nhật câu hỏi: {{vm.source._id}}
                     </h3>
                 </div>
                 <div class="md-card-content">
@@ -134,7 +135,7 @@
                                                 <div class="uk-align-medium-right">
                                                     <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': vm.pageOptions.props.isDiffViewLink}" ng-click="vm.pageOptions.props.isDiffViewLink=!vm.pageOptions.props.isDiffViewLink">&#xE157;</i>
                                                     <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': vm.pageOptions.props.isDiffViewResult}" ng-click="vm.utils.makeDiff()">&#xE8F4;</i>
-                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE5D5;</i>
+                                                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.pageOptions.input.diffViewSearch=''">&#xE5D5;</i>
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-1-1 no-animate" ng-show="!vm.pageOptions.props.isDiffViewResult">
@@ -245,6 +246,8 @@
         <i class="material-icons">&#xE161;</i>
     </a>
 </div>
+
+<cauhois-modal-xoa-cau-hoi source="vm.source"></cauhois-modal-xoa-cau-hoi>
 
 <div class="uk-modal" id="modal_lightbox">
     <div class="uk-modal-dialog uk-modal-dialog-lightbox">

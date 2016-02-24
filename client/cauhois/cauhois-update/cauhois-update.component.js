@@ -6,7 +6,7 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
         templateUrl: 'client/cauhois/cauhois-update/cauhois-update.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, skynetHelpers, $rootScope, iNotifier, $timeout, $reactive, skynetDictionary, $stateParams) {
+        controller: function($scope, skynetHelpers, $rootScope, iNotifier, $timeout, $reactive, skynetDictionary, $stateParams, $state) {
 
             $reactive(this).attach($scope);
 
@@ -34,7 +34,8 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                     addNumOfLuaChons: true,
                     decreaseNumOfLuaChons: true,
                     addNumOfUrlHinhAnhs: false,
-                    decreaseNumOfUrlHinhAnhs: false
+                    decreaseNumOfUrlHinhAnhs: false,
+                    removeCauHoi: false
                 },
                 template: {
                     phan_loai: {},
@@ -91,7 +92,10 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                         vm.pageOptions.template.tags = angular.copy(vm.master.tags);
                         vm.pageOptions.template.url_hinh_anhs = angular.copy(vm.master.noi_dung.url_hinh_anhs);
                         vm.pageOptions.template.ghi_chu.mo_ta = vm.master.mo_ta;
-                        vm.pageOptions.template.ghi_chu.ghi_chu = vm.master.ghi_chu;                        
+                        vm.pageOptions.template.ghi_chu.ghi_chu = vm.master.ghi_chu;
+
+                        // Người dùng có quyền remove câu hỏi?
+                        vm.pageOptions.able.removeCauHoi =   _.isEmpty($scope._helpers.validateUser('can_delete_cau_hoi')) ? true : false;                      
                     }                    
 
                     return angular.copy(vm.master);
@@ -156,6 +160,26 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
             vm.reset = () => {
                 angular.copy(vm.master, vm.source);
             };
+
+            vm.remove = (cauhoi) => {
+                let err = $scope._helpers.validateUser('can_delete_cau_hoi');
+                if (_.isEmpty(err)) {
+
+                    CauHois.remove({
+                        _id: cauhoi._id
+                    }, (error) => {
+                        if (!error) {
+                            iNotifier.info('Câu hỏi mã "' + cauhoi._id + '" đã được gỡ bỏ khỏi hệ thống thành công.');
+                            $state.go('cauhois.list');
+                        } else {
+                            iNotifier.error(error.message);
+                        }
+                    });
+
+                } else {
+                    iNotifier.error(err.message);
+                }
+            }
 
             // ***************************************************
             // UTILS

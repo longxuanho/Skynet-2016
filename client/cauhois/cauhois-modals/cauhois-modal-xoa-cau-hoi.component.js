@@ -1,9 +1,11 @@
 angular.module('angular-skynet').directive('cauhoisModalXoaCauHoi', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/cauhois/cauhois-modals/cauhois-modal-xoa-thiet-bi.html',
-        controllerAs: 'vm',
-        controller: function($scope, $stateParams, $rootScope, skynetHelpers, $state, iNotifier) {
+        templateUrl: 'client/cauhois/cauhois-modals/cauhois-modal-xoa-cau-hoi.html',
+        scope: {
+            source: '='
+        },
+        controller: function($scope, $stateParams, $rootScope, skynetHelpers, $state, iNotifier, $timeout) {
 
             
             // ***************************************************
@@ -13,21 +15,6 @@ angular.module('angular-skynet').directive('cauhoisModalXoaCauHoi', function() {
             $scope._helpers = skynetHelpers.helpers;
             
             $scope.confirmCode = '';
-
-            
-            // ***************************************************
-            // METHODS
-            // ***************************************************
-
-            $scope.remove = () => {
-                let modal = UIkit.modal("#modal_thietbis_xoa_thiet_bi");
-
-                if (modal.isActive())
-                    modal.hide();
-
-                $scope.utils.removeThietBi($scope.confirmCode, $scope.source)
-            }
-
 
             // ***************************************************
             // UTILS
@@ -42,25 +29,26 @@ angular.module('angular-skynet').directive('cauhoisModalXoaCauHoi', function() {
                     }
                     return;
                 },
-                removeThietBi: function(confirmCode, thietbi) {
+                removeCauHoi: function(cauhoi) {
                     let err = this.validateConfirmCode();
+
                     if (_.isEmpty(err)) {
-                        err = $scope._helpers.validateUser('can_delete_thiet_bi');
+                        err = $scope._helpers.validateUser('can_delete_cau_hoi');
                         if (_.isEmpty(err)) {
 
-                            ThietBis.remove({
-                                _id: thietbi._id
+                            CauHois.remove({
+                                _id: cauhoi._id
                             }, (error) => {
                                 if (!error) {
-                                    iNotifier.info('Thiết bị "' + thietbi.ten + '" đã được gỡ bỏ khỏi hệ thống.');
-                                    $state.go('thietbis.list');
+                                    this.goToListPageAndNotify('Câu hỏi mã "' + cauhoi._id + '" đã được gỡ bỏ khỏi hệ thống.');
                                 }
                                 else {
                                     iNotifier.error(error.message);
+                                    $scope.$apply(() => {
+                                        $scope.confirmCode = '';
+                                    });
                                 }
-                            });
-
-                            $scope.confirmCode = '';
+                            });                            
 
                         } else {
                             iNotifier.error(err.message);
@@ -68,11 +56,23 @@ angular.module('angular-skynet').directive('cauhoisModalXoaCauHoi', function() {
                     } else {
                         iNotifier.error(err.message);
                     }
+                },
+                goToListPageAndNotify: function(message) {
+                    this.closeModal();
+                    $timeout(()=>{
+                        $state.go('cauhois.list');
+                    }, 600);
+                    $timeout(()=>{
+                        iNotifier.warning(message);
+                    }, 2500);         
+                },
+                closeModal: function() {
+                    let modal = UIkit.modal("#modal_thietbis_xoa_cau_hoi");
+                    if (modal.isActive()) {
+                        modal.hide();
+                    }
                 }
             }
-
-
-
         }
     }
 });
