@@ -913,6 +913,26 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 width: "160px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Người cập nhật cuối: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "fields.lua_chons.A",
+                title: "Lựa chọn A",
+                type: "string",
+                width: "300px"
+            }, {
+                field: "fields.lua_chons.B",
+                title: "Lựa chọn B",
+                type: "string",
+                width: "300px"
+            }, {
+                field: "fields.lua_chons.C",
+                title: "Lựa chọn C",
+                type: "string",
+                width: "300px"
+            }, {
+                field: "fields.lua_chons.D",
+                title: "Lựa chọn D",
+                type: "string",
+                width: "300px"
             }]
         }
     };
