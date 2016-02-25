@@ -46,7 +46,10 @@
                 k-toolbar="vm.gridData.kGrid.kOptions.toolbar"
                 k-rebind="vm.gridData.kGrid"
                 k-on-change="vm.gridData.kGrid.gridOnChange(kendoEvent)"
-                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)">
+                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)"          
+                >
+                <!-- k-detail-template="vm.gridData.kGrid.kOptions.detailTemplate" -->
+                <!-- k-detail-init="vm.gridData.kGrid.kOptions.detailInit" -->
             </kendo-grid>
 		</div>
     </div>
@@ -62,6 +65,12 @@
         <i class="material-icons">&#xE880;</i>
     </a>
 </div>
+
+<script type="text/x-kendo-template" id="k_template">
+    <div class="myGridDetails">
+        Hello!
+    </div>
+</script>
 
 <!-- secondary sidebar -->
 <aside id="sidebar_secondary" sidebar-secondary class="tabbed_sidebar">

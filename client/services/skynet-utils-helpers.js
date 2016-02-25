@@ -1848,10 +1848,21 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
 
             cauhoi.fields.correctAnswer = correct_answers.join(", ");
 
+            // Cập nhật các trường mới hỗ trợ xuất thông tin từ Excel - Đáp án A, B, C bố trí theo chiều ngang.
+            cauhoi.fields.lua_chons = {};
+            _.each(cauhoi.noi_dung.lua_chons, (item, index) => {
+                cauhoi.fields.lua_chons[alphabelts[index]] = item.tieu_de;
+            });
+
             // Khởi tạo metadata câu hỏi 
             if (!cauhoi.metadata)
                 cauhoi.metadata = {};
             this.buildMetadata('build', cauhoi.metadata);
+
+            // Cập nhật các trường ghi chú về thời gian từ dạng Date về dạng String, hỗ trợ nhóm dữ liệu trong Grid
+            cauhoi.fields.thoi_gians = {},
+            cauhoi.fields.thoi_gians.ngay_tao_string = kendo.toString(cauhoi.metadata.ngay_tao, 'yyyy-MM-dd');
+            cauhoi.fields.thoi_gians.ngay_cap_nhat_cuoi_string = kendo.toString(cauhoi.metadata.ngay_cap_nhat_cuoi, 'yyyy-MM-dd');
         },
 
         buildNewCauHoi: function(newCauHoi) {
@@ -1883,10 +1894,20 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
 
             newCauHoi.fields.correctAnswer = correct_answers.join(", ");
 
+            // Tạo các trường mới hỗ trợ xuất thông tin từ Excel - Đáp án A, B, C bố trí theo chiều ngang.
+            newCauHoi.fields.lua_chons = {};
+            _.each(newCauHoi.noi_dung.lua_chons, (item, index) => {
+                newCauHoi.fields.lua_chons[alphabelts[index]] = item.tieu_de;
+            });
+
             // Khởi tạo metadata câu hỏi 
             if (!newCauHoi.metadata)
                 newCauHoi.metadata = {};
             this.buildMetadata('buildNew', newCauHoi.metadata);
+
+            // Tạo các trường mới ghi chú về thời gian từ dạng Date về dạng String, hỗ trợ nhóm dữ liệu trong Grid
+            newCauHoi.fields.thoi_gians = {},
+            newCauHoi.fields.thoi_gians.ngay_tao_string = kendo.toString(newCauHoi.metadata.ngay_tao, 'yyyy-MM-dd');            
         },
 
         // ***************************************************

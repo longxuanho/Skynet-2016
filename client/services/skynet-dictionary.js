@@ -336,9 +336,6 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                 ten: "Phanh",
                                 group: "Cụm CT"
                             }, {
-                                ten: "Vận hành",
-                                group: "Cụm CT"
-                            }, {
                                 ten: "Xe tời",
                                 group: "Cụm CT"
                             }

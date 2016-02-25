@@ -651,7 +651,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 'noi_dung.thong_ke.numOfUrlHinhAnhs',
                 'fields.correctAnswer',
                 'fields.tags',                
-                'fields.bac_thi'
+                'fields.bac_thi',
+                'fields.ngay_tao'
             ],
             defaultDataSource: {
                 aggregate: undefined,
@@ -739,7 +740,13 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     mode: "single",
                     allowUnsort: true
                 },
-                toolbar: ["excel", "pdf"]
+                toolbar: ["excel", "pdf"],
+                detailTemplate: "",
+                detailInit: function(e) {
+                    e.detailRow.find(".myGridDetails").kendoGrid({
+                        dataSource: e.data.noi_dung.lua_chons
+                    });
+                }                
             },
             availableColumns: [{
                 field: "_id",
@@ -753,7 +760,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 width: "120px"
             }, {
                 field: "phan_loai.nhom_cau_hoi.ten_ngan",
-                title: "Mã Nhóm Câu Hỏi",
+                title: "Mã nhóm câu hỏi",
                 type: "string",
                 width: "80px"
             }, {
@@ -848,6 +855,64 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 title: "Mô tả",
                 type: "string",
                 width: "120px"
+            }, {
+                field: "metadata.ngay_tao",
+                title: "Ngày tạo (D)",
+                type: "date",
+                format: "{0: yyyy-MM-dd}",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Ngày tạo: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "metadata.ngay_cap_nhat_cuoi",
+                title: "Ngày CN cuối (D)",
+                type: "date",
+                format: "{0: yyyy-MM-dd}",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Ngày cập nhật cuối: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "fields.thoi_gians.ngay_tao_string",
+                title: "Ngày tạo (S)",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Ngày tạo: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "fields.thoi_gians.ngay_cap_nhat_cuoi_string",
+                title: "Ngày CN cuối (S)",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Ngày cập nhật cuối: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "metadata.nguoi_tao_name",
+                title: "Người tạo",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người tạo: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "metadata.nguoi_tao_email",
+                title: "Người tạo (Email)",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người tạo: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "metadata.nguoi_cap_nhat_cuoi_name",
+                title: "Người cập nhật cuối",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người cập nhật cuối: #= value # (Số câu hỏi: #= count#)"
+            }, {
+                field: "metadata.nguoi_cap_nhat_cuoi_email",
+                title: "Người cập nhật cuối (Email)",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người cập nhật cuối: #= value # (Số câu hỏi: #= count#)"
             }]
         }
     };

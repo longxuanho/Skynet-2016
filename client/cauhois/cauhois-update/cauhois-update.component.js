@@ -136,8 +136,9 @@ angular.module('angular-skynet').directive('cauhoisUpdate', function() {
                                 status: vm.source.status,
                                 'metadata.ngay_cap_nhat_cuoi': vm.source.metadata.ngay_cap_nhat_cuoi,
                                 'metadata.nguoi_cap_nhat_cuoi': vm.source.metadata.nguoi_cap_nhat_cuoi,
-                                'metadata.nguoi_cap_nhat_cuoi_field': vm.source.metadata.nguoi_cap_nhat_cuoi_field,
-                                'metadata.search_field': vm.source.metadata.search_field
+                                'metadata.nguoi_cap_nhat_cuoi_name': vm.source.metadata.nguoi_cap_nhat_cuoi_name,
+                                'metadata.nguoi_cap_nhat_cuoi_email': vm.source.metadata.nguoi_cap_nhat_cuoi_email,
+                                'metadata.nguoi_cap_nhat_cuoi_field': vm.source.metadata.nguoi_cap_nhat_cuoi_field
                             }
                         }, (error) => {
                             if (error) {
