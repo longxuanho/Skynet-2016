@@ -46,10 +46,9 @@
                 k-toolbar="vm.gridData.kGrid.kOptions.toolbar"
                 k-rebind="vm.gridData.kGrid"
                 k-on-change="vm.gridData.kGrid.gridOnChange(kendoEvent)"
-                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)"          
+                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)"
+                k-ng-delay = "vm.gridData.kGrid.kData.dataSource"        
                 >
-                <!-- k-detail-template="vm.gridData.kGrid.kOptions.detailTemplate" -->
-                <!-- k-detail-init="vm.gridData.kGrid.kOptions.detailInit" -->
             </kendo-grid>
 		</div>
     </div>

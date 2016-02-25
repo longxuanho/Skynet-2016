@@ -1045,7 +1045,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
     };
 
     factory.cauhois.helpers = {
-        initDefaultDataSource: function(source) {
+        initDefaultDataSource: function() {
+            let source = {}
             source.aggregate = angular.copy(factory.cauhois.data.config.defaultDataSource.aggregate);
             source.batch = factory.cauhois.data.config.defaultDataSource.batch;
             source.filter = angular.copy(factory.cauhois.data.config.defaultDataSource.filter);
@@ -1065,6 +1066,9 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
             source.serverSorting = factory.cauhois.data.config.defaultDataSource.serverSorting;
 
             source.schema = angular.copy(this.buildGridSchemaModel(factory.cauhois.data.config.defaultColumns));
+            source.data = [];
+
+            return source;
         },
         initDefaultOptions: function() {
             let options = angular.copy(factory.cauhois.data.config.defaultOptions);

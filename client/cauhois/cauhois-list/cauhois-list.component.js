@@ -95,13 +95,13 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 "Roboto|Italic": "/assets/fonts/DejaVuSans-Oblique.ttf"
             });
 
+            let seed = {
+                dataSource: vm._kHelpers.initDefaultDataSource()
+            }
+
+
             vm.gridData = {
                 kGrid: {
-                    kData: {
-                        dataSource: {
-                            data: new kendo.data.ObservableObject([]),
-                        }
-                    },
                     kOptions: angular.copy(vm._kHelpers.initDefaultOptions()),
                     gridOnChange: function(event) {
                         let grid = $("#myGrid").data("kendoGrid");
@@ -129,6 +129,9 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                             }
                         }
                     },
+                    kData: {
+                        dataSource: new kendo.data.DataSource(vm._kHelpers.initDefaultDataSource())
+                    },                    
                     gridOnDataBound: function(event) {
                         vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
                         vm.pageOptions.selected.cauhoi = '';
@@ -136,7 +139,7 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 }
             }
 
-            vm._kHelpers.initDefaultDataSource(vm.gridData.kGrid.kData.dataSource);
+            
 
             // ***************************************************
             // UTILS
@@ -194,9 +197,13 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     return Nhoms.find({}, {sort: {order: 1}});
                 },
                 cauhois: () => {
-                    vm.gridData.kGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? CauHois.find({
-                        'phan_loai.nhom_cau_hoi.ma': vm.pageOptions.filters.filterNhomId
-                    }).fetch() : CauHois.find().fetch();
+                    // vm.gridData.kGrid.kData.dataSource.data = (vm.pageOptions.filters.filterNhomId) ? CauHois.find({
+                    //     'phan_loai.nhom_cau_hoi.ma': vm.pageOptions.filters.filterNhomId
+                    // }).fetch() : CauHois.find().fetch();
+                    seed.dataSource.data = CauHois.find().fetch();
+                    console.log('data: ',  seed.dataSource.data);
+                    if (seed.dataSource.data)
+                        vm.gridData.kGrid.kData.dataSource.data(seed.dataSource.data);
                     return CauHois.find({
                         'phan_loai.nhom_cau_hoi.ma': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
