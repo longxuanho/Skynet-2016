@@ -681,10 +681,11 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 },
                 altRowTemplate: "",
                 autoBind: true,
-                columnMenu: false,
+                columnMenu: {
+                    sortable: false
+                },
                 columnResizeHandleWidth: 3,
                 // columns: factory.thietbis.helpers.buildGridColumns(this.defaultColumns),
-                detailTemplate: null,
                 editable: false,
                 excel: {
                     allPages: false,
@@ -759,52 +760,84 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 field: "phan_loai.nhom_cau_hoi.ten",
                 title: "Nhóm câu hỏi",
                 type: "string",
-                width: "160px"
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "#= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "fields.loai_tb",
                 title: "Loại thiết bị",
                 type: "string",
-                width: "140px"
+                width: "140px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "#= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "phan_loai.muc_do.ten",
                 title: "Mức độ",
                 type: "string",
-                width: "90px"
+                width: "90px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Mức độ: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "noi_dung.tieu_de",
                 title: "Nội dung",
                 type: "string",
-                width: "330px"
+                width: "330px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Nội dung: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "noi_dung.thong_ke.numOfLuaChons",
                 title: "Lựa chọn",
                 type: "number",
-                width: "115px"
+                width: "115px",
+                attributes: {
+                    style: "text-align: center;"
+                },
+                aggregates: ["count"],
+                groupHeaderTemplate: "Số lựa chọn: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "noi_dung.thong_ke.numOfCorrectAnswers",
                 title: "SL câu đúng",
                 type: "number",
-                width: "115px"
+                width: "115px",
+                attributes: {
+                    style: "text-align: center;"
+                },
+                aggregates: ["count"],
+                groupHeaderTemplate: "Số đáp án đúng: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "noi_dung.thong_ke.numOfUrlHinhAnhs",
                 title: "Hình ảnh",
                 type: "number",
-                width: "115px"
+                width: "115px",
+                attributes: {
+                    style: "text-align: center;"
+                },
+                aggregates: ["count"],
+                groupHeaderTemplate: "Hình ảnh: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "fields.correctAnswer",
                 title: "Đáp án",
                 type: "string",
-                width: "100px"
+                width: "100px",
+                attributes: {
+                    style: "text-align: center;"
+                },
+                aggregates: ["count"],
+                groupHeaderTemplate: "Đáp án đúng: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "fields.tags",
                 title: "Thẻ dấu",
                 type: "string",
-                width: "200px"
+                width: "200px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Thẻ: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "fields.bac_thi",
                 title: "Bậc thi",
                 type: "string",
-                width: "100px"
+                width: "100px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Bậc thi: #= value # (Số câu hỏi: #= count#)"
             }, {
                 field: "ghi_chu",
                 title: "Ghi chú",
@@ -957,7 +990,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
         buildGridColumns: function(columns) {
             return _.without(_.map(factory.cauhois.data.config.availableColumns, (item) => {
                 if (_.contains(columns, item.field)) {
-                    return _.omit(item, 'type');
+                    // return _.omit(item, 'type');
+                    return item;
                 }
             }), undefined);
         },

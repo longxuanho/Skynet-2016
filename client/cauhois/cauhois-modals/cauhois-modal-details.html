@@ -3,6 +3,7 @@
         <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'scale'}">
             <li class="uk-active"><a href="#">Câu hỏi</a></li>
             <li><a href="#">Thông tin</a></li>
+            <li><a href="#" ng-show="source.noi_dung.url_hinh_anhs.length">Hình ảnh</a></li>
             <li><a href="#" ng-show="source.mo_ta || source.ghi_chu">Ghi chú</a></li>
         </ul>
         <ul id="tabs_anim6" class="uk-switcher uk-margin">
@@ -72,6 +73,12 @@
                         </ul>
                     </div>
                 </div>
+            </li>
+            <li>
+                {{source.noi_dung.url_hinh_anhs}}
+                <ul class="uk-slideshow" data-uk-slideshow="{autoplay:true, kenburns:true}">
+                    <li ng-repeat="item in source.noi_dung.url_hinh_anhs"><img src="{{item}}" alt="{{item}}"></li>
+                </ul>
             </li>
             <li>
                 <div class="uk-grid" data-uk-grid-margin>

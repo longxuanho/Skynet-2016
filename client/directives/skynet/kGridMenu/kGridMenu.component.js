@@ -41,7 +41,7 @@ angular.module('angular-skynet').directive('kGridMenu', function() {
                 isSortable_MultipleMode: false,
                 isFilterable: $scope.gridData.kGrid.kOptions.filterable ? true : false,
                 isFilterable_mode: $scope.gridData.kGrid.kOptions.filterable.mode,
-                isGroupable: $scope.gridData.kGrid.kOptions.filterable ? true : false,
+                isGroupable: $scope.gridData.kGrid.kOptions.groupable ? true : false,
                 isScrollable: $scope.gridData.kGrid.kOptions.scrollable ? true : false,
                 newConfig: {},
                 currentConfig: {},
