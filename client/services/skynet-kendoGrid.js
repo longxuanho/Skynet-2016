@@ -654,28 +654,6 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 'fields.bac_thi',
                 'fields.ngay_tao'
             ],
-            defaultDataSource: {
-                aggregate: undefined,
-                batch: false,
-                filter: undefined,
-                group: [],
-                offlineStorage: null,
-                page: 1,
-                pageSize: 5,
-                // schema: {
-                //     model: factory.thietbis.helpers.buildGridSchemaModel(this.defaultColumns)
-                // },
-                select: null,
-                serverAggregates: false,
-                serverFiltering: false,
-                serverGrouping: false,
-                serverPaging: false,
-                serverSorting: false,
-                sort: undefined,
-                table: null,
-                serverPaging: false,
-                serverSorting: false,
-            },
             defaultOptions: {
                 allowCopy: {
                     delimeter: "\t"
@@ -1039,35 +1017,34 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     }
                 }
             });
-            console.log('Build Schema: ', model);
             return model;
         }
     };
 
     factory.cauhois.helpers = {
         initDefaultDataSource: function() {
-            let source = {}
-            source.aggregate = angular.copy(factory.cauhois.data.config.defaultDataSource.aggregate);
-            source.batch = factory.cauhois.data.config.defaultDataSource.batch;
-            source.filter = angular.copy(factory.cauhois.data.config.defaultDataSource.filter);
-            source.group = angular.copy(factory.cauhois.data.config.defaultDataSource.group);
-            source.offlineStorage = angular.copy(factory.cauhois.data.config.defaultDataSource.offlineStorage);
-            source.page = factory.cauhois.data.config.defaultDataSource.page;
-            source.pageSize = factory.cauhois.data.config.defaultDataSource.pageSize;
-            source.select = angular.copy(factory.cauhois.data.config.defaultDataSource.select);
-            source.serverAggregates = factory.cauhois.data.config.defaultDataSource.serverAggregates;
-            source.serverFiltering = factory.cauhois.data.config.defaultDataSource.serverFiltering;
-            source.serverGrouping = factory.cauhois.data.config.defaultDataSource.serverGrouping;
-            source.serverPaging =  factory.cauhois.data.config.defaultDataSource.serverPaging;
-            source.serverSorting = factory.cauhois.data.config.defaultDataSource.serverSorting;
-            source.sort = angular.copy(factory.cauhois.data.config.defaultDataSource.sort);
-            source.table = angular.copy(factory.cauhois.data.config.defaultDataSource.table);
-            source.serverPaging = factory.cauhois.data.config.defaultDataSource.serverPaging;
-            source.serverSorting = factory.cauhois.data.config.defaultDataSource.serverSorting;
+            let source = {
+                aggregate: undefined,
+                batch: false,
+                filter: undefined,
+                group: [],
+                offlineStorage: null,
+                page: 1,
+                pageSize: 5,
+                select: null,
+                serverAggregates: false,
+                serverFiltering: false,
+                serverGrouping: false,
+                serverPaging: false,
+                serverSorting: false,
+                sort: undefined,
+                table: null,
+                serverPaging: false,
+                serverSorting: false,
 
-            source.schema = angular.copy(this.buildGridSchemaModel(factory.cauhois.data.config.defaultColumns));
-            source.data = [];
-
+                schema: this.buildGridSchemaModel(factory.cauhois.data.config.defaultColumns),
+                data: []
+            };
             return source;
         },
         initDefaultOptions: function() {

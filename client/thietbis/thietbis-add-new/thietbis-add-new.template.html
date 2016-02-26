@@ -24,6 +24,7 @@
                                                     k-data-text-field="'ten'"
                                                     k-data-value-field="'_id'"
                                                     k-filter="'contains'"
+                                                    k-index="-1"
                                                     k-data-source="vm.diabans"
                                                     k-rebind="vm.diabans">
                                                 </select>
@@ -37,6 +38,7 @@
                                                 k-data-text-field="'ten'"
                                                 k-data-value-field="'_id'"
                                                 k-filter="'contains'"
+                                                k-index="-1"
                                                 k-data-source="vm.quocgias"
                                                 k-rebind="vm.quocgias">
                                                 </select>
@@ -50,6 +52,7 @@
                                                     k-data-text-field="'ten'"
                                                     k-data-value-field="'_id'"
                                                     k-filter="'contains'"
+                                                    k-index="-1"
                                                     k-data-source="vm.hangsanxuats"
                                                     k-rebind="vm.hangsanxuats">
                                                 </select>
@@ -63,6 +66,7 @@
                                                     k-data-text-field="'ten'"
                                                     k-data-value-field="'_id'"
                                                     k-filter="'contains'"
+                                                    k-index="-1"
                                                     k-data-source="vm.modelthietbis"
                                                     k-rebind="vm.modelthietbis">
                                                 </select>
@@ -120,6 +124,7 @@
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
+                                                        k-index="-1"
                                                         k-data-source="vm.nhoms"
                                                         k-rebind="vm.nhoms">
                                                     </select>
@@ -133,6 +138,7 @@
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
+                                                        k-index="-1"
                                                         k-data-source="vm.chungloais"
                                                         k-rebind="vm.chungloais">
                                                     </select>
@@ -146,6 +152,7 @@
                                                         k-data-text-field="'ten'" 
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
+                                                        k-index="-1"
                                                         k-data-source="vm.loais"
                                                         k-rebind="vm.loais">
                                                     </select>
@@ -187,6 +194,7 @@
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
+                                                        k-index="-1"
                                                         k-data-source="vm.donvis"
                                                         k-rebind="vm.donvis">
                                                     </select>
@@ -200,6 +208,7 @@
                                                         k-data-text-field="'ten'"
                                                         k-data-value-field="'_id'"
                                                         k-filter="'contains'"
+                                                        k-index="-1"
                                                         k-data-source="vm.donvis"
                                                         k-rebind="vm.donvis">
                                                     </select>
@@ -212,13 +221,13 @@
                                         <div class="uk-grid uk-margin-medium-top uk-margin-medium-bottom" data-uk-grid-margin>
                                             <div class="uk-width-medium-3-5">
                                                 <div class="uk-form-stacked">
-                                                    <label for="kUI_dropdown_static">Ngày bàn giao</label>
+                                                    <label for="kUI_datepicker_ngay_ban_giao">Ngày bàn giao</label>
                                                     <input kendo-date-picker k-ng-model="vm.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.ngay_ban_giao" k-format="'dddd, dd/MM/yyyy'" style="width: 100%;" />
                                                 </div>
                                             </div>
                                             <div class="uk-width-medium-2-5">
                                                 <div class="uk-form-stacked">
-                                                    <label for="kUI_dropdown_static">Tình trạng</label>
+                                                    <label for="kUI_datepicker_tinh_trang_ban_giao">Tình trạng</label>
                                                     <select kendo-drop-down-list style="width: 100%;" ng-model="vm.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.tinh_trang_ban_giao">
                                                         <option>Mới</option>
                                                         <option>Đã qua SD</option>
@@ -238,7 +247,7 @@
                                             </div>
                                             <div class="uk-width-medium-1-2  uk-margin-medium-top no-animate" ng-show="vm.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.isThongTinBaoHanh">
                                                 <div class="uk-form-stacked">
-                                                    <label for="kUI_dropdown_static">Từ ngày</label>
+                                                    <label for="kUI_datepicker_thoi_gian_bat_dau">Từ ngày</label>
                                                     <input kendo-date-picker id="baohanh_start" 
                                                         k-ng-model="vm.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_bat_dau"
                                                         k-format="'dd/MM/yyyy'"
@@ -247,7 +256,7 @@
                                             </div>
                                             <div class="uk-width-medium-1-2  uk-margin-medium-top no-animate" ng-show="vm.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.isThongTinBaoHanh">
                                                 <div class="uk-form-stacked">
-                                                    <label for="kUI_dropdown_static">Đến ngày</label>
+                                                    <label for="kUI_datepicker_thoi_gian_ket_thuc">Đến ngày</label>
                                                     <input kendo-date-picker id="baohanh_end"
                                                         k-ng-model="vm.newThietBi.ho_so_tb.thong_tin_chung.bao_hanh.thoi_gian_ket_thuc"
                                                         k-format="'dd/MM/yyyy'"
