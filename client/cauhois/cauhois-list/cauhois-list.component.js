@@ -3,9 +3,7 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
         restrict: 'E',
         templateUrl: 'client/cauhois/cauhois-list/cauhois-list.template.html',
         controllerAs: 'vm',
-        scope: {
-            mainPageReactiveData: '=' 
-        },
+        bindToController: true,
         controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary) {
 
             $reactive(this).attach($scope);
@@ -24,12 +22,6 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             vm._kHelpers = skynetKendoGrid.cauhois.helpers;
 
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
-            
-            vm.sSidebar = {
-                site_online: true,
-                top_bar: true,
-                minify_assets: true
-            };
 
             vm.pageOptions = {
                 localData: {
