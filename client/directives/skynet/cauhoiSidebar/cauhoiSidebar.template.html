@@ -79,49 +79,13 @@
             </li>
             <li>
                 <ul class="md-list md-list-addon chat_users">
-                    <li>
+                    <li ng-repeat="user in usersStatus">
                         <div class="md-list-addon-element">
+                            <span class="element-status" ng-class="{'element-status-success': user.status.online, 'element-status-warning': (!user.status.online) && (user.status.idle), 'element-status-danger': (!user.status.online) && (!user.status.idle)}"></span>
                             <img class="md-user-image md-list-addon-avatar" src="assets/img/avatars/avatar_02_tn.png" alt=""/>
                         </div>
                         <div class="md-list-content">
-                            <span class="md-list-heading">Catalina Weber</span>
-                            <span class="uk-text-small uk-text-muted">
-                                <span class="uk-text-small uk-text-muted">
-                                    Lorem ipsumm...
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="md-list-addon-element">
-                            <img class="md-user-image md-list-addon-avatar" src="assets/img/avatars/avatar_07_tn.png" alt=""/>
-                        </div>
-                        <div class="md-list-content">
-                            <span class="md-list-heading">Jayme Hermiston</span>
-                            <span class="uk-text-small uk-text-muted">
-                                Lorem ipsumm...
-                            </span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="md-list-addon-element">
-                            <img class="md-user-image md-list-addon-avatar" src="assets/img/avatars/avatar_06_tn.png" alt=""/>
-                        </div>
-                        <div class="md-list-content">
-                            <span class="md-list-heading">Enid Roob</span>
-                            <span class="uk-text-small uk-text-muted">
-                                <span class="uk-text-small uk-text-muted">
-                                    Lorem ipsumm...
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="md-list-addon-element">
-                            <img class="md-user-image md-list-addon-avatar" src="assets/img/avatars/avatar_04_tn.png" alt=""/>
-                        </div>
-                        <div class="md-list-content">
-                            <span class="md-list-heading">Enid Roob</span>
+                            <span class="md-list-heading">{{(user.profile.name) ? user.profile.name : user.emails[0].address }}</span>
                             <span class="uk-text-small uk-text-muted">
                                 <span class="uk-text-small uk-text-muted">
                                     Lorem ipsumm...
@@ -130,65 +94,6 @@
                         </div>
                     </li>
                 </ul>
-                <div class="chat_box_wrapper chat_box_small" id="chat">
-                    <div class="chat_box touchscroll chat_box_colors_a">
-                        <div class="chat_message_wrapper">
-                            <div class="chat_user_avatar">
-                                <img class="md-user-image" src="assets/img/avatars/avatar_11_tn.png" alt=""/>
-                            </div>
-                            <ul class="chat_message">
-                                <li>
-                                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, eum? </p>
-                                </li>
-                                <li>
-                                    <p> Lorem ipsum dolor sit amet.<span class="chat_message_time">13:38</span> </p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="chat_message_wrapper chat_message_right">
-                            <div class="chat_user_avatar">
-                                <img class="md-user-image" src="assets/img/avatars/avatar_03_tn.png" alt=""/>
-                            </div>
-                            <ul class="chat_message">
-                                <li>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem delectus distinctio dolor earum est hic id impedit ipsum minima mollitia natus nulla perspiciatis quae quasi, quis recusandae, saepe, sunt totam.
-                                        <span class="chat_message_time">13:34</span>
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="chat_message_wrapper">
-                            <div class="chat_user_avatar">
-                                <img class="md-user-image" src="assets/img/avatars/avatar_11_tn.png" alt=""/>
-                            </div>
-                            <ul class="chat_message">
-                                <li>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque ea mollitia pariatur porro quae sed sequi sint tenetur ut veritatis.
-                                        <span class="chat_message_time">23 Jun 1:10am</span>
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="chat_message_wrapper chat_message_right">
-                            <div class="chat_user_avatar">
-                                <img class="md-user-image" src="assets/img/avatars/avatar_03_tn.png" alt=""/>
-                            </div>
-                            <ul class="chat_message">
-                                <li>
-                                    <p> Lorem ipsum dolor sit amet, consectetur. </p>
-                                </li>
-                                <li>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        <span class="chat_message_time">Friday 13:34</span>
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </li>
             <li>
                 <h4 class="heading_c uk-margin-small-bottom uk-margin-top">General Settings</h4>

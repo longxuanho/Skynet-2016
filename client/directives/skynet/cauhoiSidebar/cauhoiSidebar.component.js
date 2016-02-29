@@ -30,7 +30,11 @@ angular.module('angular-skynet').directive('cauhoiSidebar', function() {
             // ***************************************************
             
 
+            // ***************************************************
+            // SUBSCRIBE
+            // ***************************************************
 
+            $scope.subscribe('userStatus');
 
             // ***************************************************
             // UTILS
@@ -64,7 +68,11 @@ angular.module('angular-skynet').directive('cauhoiSidebar', function() {
             // REACTIVE HELPERS
             // ***************************************************
             $scope.helpers({
-                
+                usersStatus: () => {
+                    return Meteor.users.find({},{
+                        sort : { 'profile.name' : 1 } 
+                    });
+                }
             });
 
 
