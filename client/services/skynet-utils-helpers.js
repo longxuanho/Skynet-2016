@@ -13,330 +13,6 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             notifyCheckEmail: 'notify_checkEmail',
             notifyResetMatKhau: 'notify_resetMatKhau'
         },
-        ui: {
-            searchFields: {
-                nhoms: [{
-                    value: 'ten',
-                    name: 'Tên nhóm'
-                }, {
-                    value: 'ma',
-                    name: 'Mã nhóm'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'ghi_chu',
-                    name: 'Ghi chú'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                chungloais: [{
-                    value: 'ten',
-                    name: 'Tên chủng loại'
-                }, {
-                    value: 'ma',
-                    name: 'Mã chủng loại'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'ghi_chu',
-                    name: 'Ghi chú'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                loais: [{
-                    value: 'ten',
-                    name: 'Tên loại'
-                }, {
-                    value: 'ma',
-                    name: 'Mã loại'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'ghi_chu',
-                    name: 'Ghi chú'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                quocgias: [{
-                    value: 'ten',
-                    name: 'Tên quốc gia'
-                }, {
-                    value: 'ma',
-                    name: 'Mã quốc gia'
-                }, {
-                    value: 'name',
-                    name: 'Country name'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                hangsanxuats: [{
-                    value: 'ten',
-                    name: 'Hãng sản xuất'
-                }, {
-                    value: 'ma',
-                    name: 'Mã hãng sản xuất'
-                }, {
-                    value: 'quoc_gia.ten',
-                    name: 'Quốc gia'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                modelthietbis: [{
-                    value: 'ten',
-                    name: 'Tên model'
-                }, {
-                    value: 'ma',
-                    name: 'Mã model'
-                }, {
-                    value: 'hang_san_xuat.ten',
-                    name: 'Hãng sản xuất'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                donvis: [{
-                    value: 'ten',
-                    name: 'Tên đơn vị'
-                }, {
-                    value: 'ten_quoc_te',
-                    name: 'Tên đơn vị (Eng)'
-                }, {
-                    value: 'ma',
-                    name: 'Mã đơn vị'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                loaithongsokythuats: [{
-                    value: 'ten',
-                    name: 'Tên Thông Số'
-                }, {
-                    value: 'don_vi',
-                    name: 'Đơn vị tính'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                diabans: [{
-                    value: 'ten',
-                    name: 'Tên địa bàn'
-                }, {
-                    value: 'ma',
-                    name: 'Mã địa bàn'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                suachuas: [{
-                    value: 'ten',
-                    name: 'Nội dung'
-                }, {
-                    value: 'thiet_bi.ma_tb_field',
-                    name: 'Mã thiết bị'
-                }, {
-                    value: 'thiet_bi.phan_loai_field',
-                    name: 'Phân loại'
-                }, {
-                    value: 'trang_thai',
-                    name: 'Trạng thái'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'metadata.nguoi_tao_field',
-                    name: 'Người tạo'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                thietbis: [{
-                    value: 'ma_tb.ma_tb_field',
-                    name: 'Mã Thiết Bị'
-                }, {
-                    value: 'ho_so_tb.thong_tin_chung.ho_so_field',
-                    name: 'Dòng Thiết Bị'
-                }, {
-                    value: 'don_vi_field',
-                    name: 'Quản lý/Sở hữu'
-                }, {
-                    value: 'dia_ban_hoat_dong_field',
-                    name: 'Địa bàn hoạt động'
-                }, {
-                    value: 'ghi_chu',
-                    name: 'Ghi chú'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }],
-                hosoluutrus: [{
-                    value: 'ten',
-                    name: 'Tiêu Đề'
-                }, {
-                    value: 'noi_dung',
-                    name: 'Nội Dung'
-                }, {
-                    value: 'mo_ta',
-                    name: 'Mô tả'
-                }, {
-                    value: 'ghi_chu',
-                    name: 'Ghi chú'
-                }, {
-                    value: 'metadata.search_field',
-                    name: 'Tất cả'
-                }]
-            },
-            display: {
-                diabans: {
-                    details: {
-                        states: {
-                            tinh_thanh: false,
-                            dia_phuong: false,
-                        },
-                        setState: function(target, value) {
-                            if (_.isString(target))
-                                this.states[target] = value;
-                            if (_.isArray(target))
-                                _.each(target, (item) => {
-                                    this.states[item] = value;
-                                });
-                        },
-                        toggleState: function(target) {
-                            if (_.isString(target))
-                                this.states[target] = !this.states[target];
-                            if (_.isArray(target))
-                                _.each(target, (item) => {
-                                    this.states[item] = !this.states[item];
-                                });
-                        }
-                    }
-                },
-                thietbis: {
-                    add_new: {
-                        count: {
-                            numOfNewLyLichThietBis: 0,
-                            numOfNewRefImgs: 0,
-                            numOfNewThongSoKyThuats: 0,
-                            numOfNewDonViQuanLies: 1,
-                            numOfNewDonViSoHuus: 1,
-                        },
-                        array: {
-                            numOfNewLyLichThietBisArray: [],
-                            numOfNewRefImgsArray: [],
-                            numOfNewThongSoKyThuatsArray: [],
-                            numOfNewDonViQuanLiesArray: [],
-                            numOfNewDonViSoHuusArray: []
-                        },
-                        limit: {
-                            max: {
-                                numOfLyLichThietBis: 5,
-                                numOfRefImgs: 5,
-                                numOfThongSoKyThuats: 30,
-                                numOfDonViQuanLies: 3,
-                                numOfDonViSoHuus: 3
-                            },
-                            min: {
-                                numOfLyLichThietBis: 0,
-                                numOfRefImgs: 0,
-                                numOfThongSoKyThuats: 0,
-                                numOfDonViQuanLies: 1,
-                                numOfDonViSoHuus: 1
-                            }
-                        },
-                        resolveDataArray: function() {
-                            this.array.numOfNewLyLichThietBisArray = _.range(this.count.numOfNewLyLichThietBis);
-                            this.array.numOfNewRefImgsArray = _.range(this.count.numOfNewRefImgs);
-                            this.array.numOfNewThongSoKyThuatsArray = _.range(this.count.numOfNewThongSoKyThuats);
-                            this.array.numOfNewDonViQuanLiesArray = _.range(this.count.numOfNewDonViQuanLies);
-                            this.array.numOfNewDonViSoHuusArray = _.range(this.count.numOfNewDonViSoHuus);
-                        },
-                        resetDataCount: function() {
-                            this.count.numOfNewLyLichThietBis = 0;
-                            this.count.numOfNewRefImgs = 0;
-                            this.count.numOfNewThongSoKyThuats = 0;
-                            this.count.numOfNewDonViQuanLies = 1;
-                            this.count.numOfNewDonViSoHuus = 1;
-                        },
-                        initNewUiParams: function() {
-                            this.resetDataCount();
-                            this.resolveDataArray();
-                        },
-                        isUseTemplate: false,
-                    },
-                    details: {
-                        isOnSaving: false,
-                        limit: {
-                            max: {
-                                numOfLyLichThietBis: 5,
-                                numOfRefImgs: 5,
-                                numOfThongSoKyThuats: 30,
-                                numOfDonViQuanLies: 3,
-                                numOfDonViSoHuus: 3
-                            },
-                            min: {
-                                numOfLyLichThietBis: 0,
-                                numOfRefImgs: 0,
-                                numOfThongSoKyThuats: 0,
-                                numOfDonViQuanLies: 1,
-                                numOfDonViSoHuus: 1
-                            }
-                        },
-                    }
-                }
-            }
-        },
         general: {
             themes: [{
                 name: 'default_theme',
@@ -1883,17 +1559,28 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         initNewSuaChuaParams: function(scope) {
             scope.newSuaChua = {
                 phan_loai: {
-                    nhom_tb: {},
-                    loai_tb: {},
-                    loai_sua_chua: {}
+                    nhom_tb: {
+                        ten: "Xe - máy",
+                        ma: "xe_may"
+                    },
+                    loai_tb: {
+                        ma: ''
+                    },
+                    loai_sua_chua: {
+                        ma: ''
+                    }
                 },
                 ma_tb: {
                     ma_tb: ''
                 },
                 dia_diem: {
                     dia_diem: 'Nhà xưởng sửa chữa',
-                    khu_vuc: '',
-                    vi_tri: ''
+                    khu_vuc: {
+                        ma: ''
+                    },
+                    vi_tri: {
+                        ma: ''
+                    }
                 },
                 noi_dung: {
                     noi_dung: ''
@@ -1917,30 +1604,30 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         validateSuaChuaForm: function(suachua) {
             let error = {};
             if (!suachua.phan_loai.nhom_tb.ten) {
-                error.message = "Chưa có thông tin về phân nhóm thiết bị.";
+                error.message = "Chưa có thông tin về phân nhóm phương tiện.";
                 return error;
             }
             if (!suachua.phan_loai.loai_tb.ten) {
-                error.message = "Chưa có thông tin về phân loại thiết bị.";
-                return error;
-            }
-            if (!suachua.phan_loai.loai_sua_chua.ten) {
-                error.message = "Chưa có thông tin về phân loại sửa chữa.";
+                error.message = "Chưa có thông tin về phân loại phương tiện.";
                 return error;
             }
             if (!suachua.ma_tb.ma_tb) {
-                error.message = "Chưa có thông tin về mã thiết bị.";
+                error.message = "Chưa có thông tin về mã phương tiện.";
                 return error;
             } 
+            if (!suachua.phan_loai.loai_sua_chua.ten) {
+                error.message = "Chưa có thông tin về phân loại sửa chữa.";
+                return error;
+            }            
             if (!suachua.dia_diem.dia_diem) {
                 error.message = "Chưa có thông tin về địa điểm sửa chữa.";
                 return error;
             }
-            if (!suachua.dia_diem.khu_vuc) {
+            if (!suachua.dia_diem.khu_vuc.ma) {
                 error.message = "Chưa có thông tin về khu vực sửa chữa.";
                 return error;
             }
-            if (!suachua.dia_diem.vi_tri) {
+            if (!suachua.dia_diem.vi_tri.ma) {
                 error.message = "Chưa có thông tin về vị trí sửa chữa.";
                 return error;
             }
@@ -1952,7 +1639,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 error.message = "Chưa có thông tin về thời gian bắt đầu sửa chữa.";
                 return error;
             }
-            if (!suachua.thoi_gian.ket_thuc_du_kien) {
+            if (!suachua.thoi_gian.sua_chua_du_kien) {
                 error.message = "Chưa có thông tin về thời gian kết thúc theo dự kiến.";
                 return error;
             }
@@ -2009,49 +1696,20 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             cauhoi.fields.thoi_gians.ngay_cap_nhat_cuoi_string = kendo.toString(cauhoi.metadata.ngay_cap_nhat_cuoi, 'yyyy-MM-dd');
         },
 
-        buildNewSuaChua: function(newSuaChua) {
-            // Loại bỏ các lựa chọn không có nội dung
-            newSuaChua.noi_dung.lua_chons = _.filter(newSuaChua.noi_dung.lua_chons, (item) => {
-                return item.tieu_de;
-            });
+        buildNewSuaChua: function(newSuaChua) {            
+            // Tính toán thời gian kết thúc dự kiến
+            newSuaChua.thoi_gian.ket_thuc_du_kien = moment(newSuaChua.thoi_gian.bat_dau).add(newSuaChua.thoi_gian.sua_chua_du_kien, 'hours').toDate();
 
-            // Loại bỏ các url hình ảnh không có nội dung
-            newSuaChua.noi_dung.url_hinh_anhs = _.without(newSuaChua.noi_dung.url_hinh_anhs, '');
-            newSuaChua.noi_dung.isHasImages = (newSuaChua.noi_dung.url_hinh_anhs.length) ? true : false;
-
-            // Tính toán lại các chỉ số thống kê
-            newSuaChua.noi_dung.thong_ke.numOfLuaChons = newSuaChua.noi_dung.lua_chons.length; 
-            newSuaChua.noi_dung.thong_ke.numOfCorrectAnswers = _.where(newSuaChua.noi_dung.lua_chons, {isCorrect: true}).length;
-            newSuaChua.noi_dung.thong_ke.numOfUrlHinhAnhs = newSuaChua.noi_dung.url_hinh_anhs.length;
-
-            // Cập nhật các trường thông tin 
-            newSuaChua.fields.tags = newSuaChua.tags.join(", ");
-            newSuaChua.fields.loai_tb = newSuaChua.phan_loai.loai_tb.join(", ");
-            newSuaChua.fields.bac_thi = newSuaChua.phan_loai.bac_thi.join(", ");
-
-            let correct_answers = [],
-                alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-            _.each(_.where(newSuaChua.noi_dung.lua_chons, { isCorrect: true }), (item) => {
-                correct_answers.push(alphabelts[item.order]);
-            });
-
-            newSuaChua.fields.correctAnswer = correct_answers.join(", ");
-
-            // Tạo các trường mới hỗ trợ xuất thông tin từ Excel - Đáp án A, B, C bố trí theo chiều ngang.
-            newSuaChua.fields.lua_chons = {};
-            _.each(newSuaChua.noi_dung.lua_chons, (item, index) => {
-                newSuaChua.fields.lua_chons[alphabelts[index]] = item.tieu_de;
-            });
+            // Tính toán các thông số thống kê
+            // newSuaChua.thong_ke.thoi_gian.thoi_gian_sua_chua = moment.duration(moment(newSuaChua.thoi_gian.bat_dau).diff(moment(newSuaChua.thoi_gian.ket_thuc))).asHours();
+            newSuaChua.thong_ke.thoi_gian.ngay_bat_dau = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy-MM-dd", "vi-VN");
+            newSuaChua.thong_ke.thoi_gian.thang_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "MM", "vi-VN");
+            newSuaChua.thong_ke.thoi_gian.nam_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy", "vi-VN");
 
             // Khởi tạo metadata câu hỏi 
             if (!newSuaChua.metadata)
                 newSuaChua.metadata = {};
-            this.buildMetadata('buildNew', newSuaChua.metadata);
-
-            // Tạo các trường mới ghi chú về thời gian từ dạng Date về dạng String, hỗ trợ nhóm dữ liệu trong Grid
-            newSuaChua.fields.thoi_gians = {},
-            newSuaChua.fields.thoi_gians.ngay_tao_string = kendo.toString(newSuaChua.metadata.ngay_tao, 'yyyy-MM-dd');            
+            this.buildMetadata('buildNew', newSuaChua.metadata);           
         },
 
         // ***************************************************

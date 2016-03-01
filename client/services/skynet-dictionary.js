@@ -458,49 +458,72 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                 }
             ],
             "khu_vucs": [
-                "Khu A",
-                "Khu B",
-                "Khu C",
-                "Khu D",
-                "Khu E"
+                {
+                    ten: "Khu A",
+                    ma: "zone_a"
+                }, {
+                    ten: "Khu B",
+                    ma: "zone_b"
+                }, {
+                    ten: "Khu C",
+                    ma: "zone_c"
+                }, {
+                    ten: "Khu D",
+                    ma: "zone_d"
+                }, {
+                    ten: "Khu E",
+                    ma: "zone_e"
+                }
             ], 
             "vi_tris": [
                 {
                     "ten": "A01",
-                    group: "Khu A"
+                    "ma": "A01",
+                    group: "zone_a"
                 }, {
                     "ten": "A02",
-                    group: "Khu A"
+                    "ma": "A02",
+                    group: "zone_a"
                 }, {
                     "ten": "A03",
-                    group: "Khu A"
+                    "ma": "A03",
+                    group: "zone_a"
                 }, {
                     "ten": "A04",
-                    group: "Khu A"
+                    "ma": "A04",
+                    group: "zone_a"
                 }, {
                     "ten": "A05",
-                    group: "Khu A"
+                    "ma": "A05",
+                    group: "zone_a"
                 }, {
                     "ten": "A06",
-                    group: "Khu A"
+                    "ma": "A06",
+                    group: "zone_a"
                 }, {
                     "ten": "B01",
-                    group: "Khu B"
+                    "ma": "B01",
+                    group: "zone_b"
                 }, {
                     "ten": "B02",
-                    group: "Khu B"
+                    "ma": "B02",
+                    group: "zone_b"
                 },{
                     "ten": "B03",
-                    group: "Khu B"
+                    "ma": "B03",
+                    group: "zone_b"
                 },{
                     "ten": "C01",
-                    group: "Khu C"
+                    "ma": "C01",
+                    group: "zone_c"
                 },{
                     "ten": "C02",
-                    group: "Khu C"
+                    "ma": "C02",
+                    group: "zone_c"
                 },{
                     "ten": "C03",
-                    group: "Khu C"
+                    "ma": "C03",
+                    group: "zone_c"
                 }
             ],
             tags: {

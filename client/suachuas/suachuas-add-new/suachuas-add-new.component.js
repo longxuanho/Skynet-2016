@@ -18,7 +18,8 @@ angular.module('angular-skynet').directive('suachuasAddNew', function() {
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
             
-            vm._helpers.initNewCauHoiParams(vm);
+            vm._helpers.initNewSuaChuaParams(vm);
+            console.log('after init: ', vm.newSuaChua);
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
             vm.pageOptions = {
