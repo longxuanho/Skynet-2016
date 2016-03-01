@@ -284,11 +284,28 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         })
         .state('cauhois.list', {
             url: '/thong-ke',
-            template: '<cauhois-list main-page-reactive-data="mainPageReactiveData"></cauhois-list>'
+            template: '<cauhois-list></cauhois-list>'
         })
         .state('cauhois.update', {
             url: '/cap-nhat/:cauhoiId',
             template: '<cauhois-update></cauhois-update>'
+        })
+        // SUACHUAS
+        .state('suachuas', {
+            url: '/quan-ly/sua-chua-thiet-bi',
+            template: '<suachuas-main></suachuas-main>'
+        })
+        .state('suachuas.addNew', {
+            url: '/tao-moi',
+            template: '<suachuas-add-new></suachuas-add-new>'
+        })
+        .state('suachuas.list', {
+            url: '/thong-ke',
+            template: '<suachuas-list></suachuas-list>'
+        })
+        .state('suachuas.update', {
+            url: '/cap-nhat/:suachuaId',
+            template: '<suachuas-update></suachuas-update>'
         })
         // NHANSUS
         .state('nhansus', {
@@ -323,40 +340,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             templateUrl: 'client/nhansus/nhansus-details/nhansus-details.template.html',
             controller: 'NhanSusDetailsCtrl'
         })
-        // .state('suachuas', {
-        //     url: '/quan-ly/ke-hoach-sua-chua',
-        //     template: '<suachuas-list></suachuas-list>'
-        // })
-        // .state('suachuaDetails', {
-        //     url: '/quan-ly/ke-hoach-sua-chua/:suachuaId',
-        //     template: '<suachua-details></suachua-details>',
-        //     resolve: {
-        //         currentUser: ($q) => {
-        //             if (Meteor.userId() == null) {
-        //                 return $q.reject('AUTH_REQUIRED');
-        //             } else {
-        //                 return $q.resolve();
-        //             }
-        //         }
-        //     }
-        // })
-        // .state('thietbis', {
-        //     url: '/quan-ly/thiet-bi',
-        //     template: '<thietbis-list></thietbis-list>'
-        // })
-        // .state('thietbiDetails', {
-        //     url: '/quan-ly/thiet-bi/:thietbiId',
-        //     template: '<thietbi-details></thietbi-details>',
-        //     resolve: {
-        //         currentUser: ($q) => {
-        //             if (Meteor.userId() == null) {
-        //                 return $q.reject('AUTH_REQUIRED');
-        //             } else {
-        //                 return $q.resolve();
-        //             }
-        //         }
-        //     }
-        // })
+        
         .state('thongkes', {
             url: '/quan-ly/thong-ke-thiet-bi',
             template: '<thongkes-list></thongkes-list>'

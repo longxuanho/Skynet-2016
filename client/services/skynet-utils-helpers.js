@@ -1694,40 +1694,6 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         // HELPERS - CAUHOIS
         // ***************************************************
 
-        initNewCauHoiTemplate: function(scope, isUseTemplate) {
-            scope.newCauHoisTemplate = {
-                ten: Meteor.userId() + '_cauhois_template',
-                phan_loai: 'cauhois_template',
-                gia_tri: {
-                    template: {
-                        ma_tb: {},
-                        phan_loai: {
-                            nhom: {},
-                            chung_loai: {},
-                            loai: {}
-                        },
-                        ho_so_tb: {
-                            thong_tin_chung: {
-                                xuat_xu: {},
-                                bao_hanh: {},
-                                hang_san_xuat: {},
-                                model_tb: {}
-                            }
-                        },
-                        don_vi_quan_ly: {},
-                        don_vi_so_huu: {},
-                        dia_ban_hoat_dong: {},
-                        metadata: {},
-                        isPublic: true,
-                        isArchived: false,
-                        status: 'Hoạt động'
-                    },
-                    isUseTemplate: false
-                },
-                metadata: {}
-            };
-        },
-
         initNewCauHoiParams: function(scope) {
             scope.newCauHoi = {
                 lop: {
@@ -1908,6 +1874,184 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             // Tạo các trường mới ghi chú về thời gian từ dạng Date về dạng String, hỗ trợ nhóm dữ liệu trong Grid
             newCauHoi.fields.thoi_gians = {},
             newCauHoi.fields.thoi_gians.ngay_tao_string = kendo.toString(newCauHoi.metadata.ngay_tao, 'yyyy-MM-dd');            
+        },
+
+        // ***************************************************
+        // HELPERS - SUACHUAS
+        // ***************************************************
+
+        initNewSuaChuaParams: function(scope) {
+            scope.newSuaChua = {
+                phan_loai: {
+                    nhom_tb: {},
+                    loai_tb: {},
+                    loai_sua_chua: {}
+                },
+                ma_tb: {
+                    ma_tb: ''
+                },
+                dia_diem: {
+                    dia_diem: 'Nhà xưởng sửa chữa',
+                    khu_vuc: '',
+                    vi_tri: ''
+                },
+                noi_dung: {
+                    noi_dung: ''
+                },
+                thoi_gian: {
+                    bat_dau: new Date()
+                },
+                thong_ke: {
+                    thoi_gian: {}
+                },
+                tags: [],
+                trang_thai: {
+                    ten: 'Sửa chữa',
+                    ma: 'sua_chua'
+                },
+                isPublic: true,
+                isArchived: false
+            };
+        },
+
+        validateSuaChuaForm: function(suachua) {
+            let error = {};
+            if (!suachua.phan_loai.nhom_tb.ten) {
+                error.message = "Chưa có thông tin về phân nhóm thiết bị.";
+                return error;
+            }
+            if (!suachua.phan_loai.loai_tb.ten) {
+                error.message = "Chưa có thông tin về phân loại thiết bị.";
+                return error;
+            }
+            if (!suachua.phan_loai.loai_sua_chua.ten) {
+                error.message = "Chưa có thông tin về phân loại sửa chữa.";
+                return error;
+            }
+            if (!suachua.ma_tb.ma_tb) {
+                error.message = "Chưa có thông tin về mã thiết bị.";
+                return error;
+            } 
+            if (!suachua.dia_diem.dia_diem) {
+                error.message = "Chưa có thông tin về địa điểm sửa chữa.";
+                return error;
+            }
+            if (!suachua.dia_diem.khu_vuc) {
+                error.message = "Chưa có thông tin về khu vực sửa chữa.";
+                return error;
+            }
+            if (!suachua.dia_diem.vi_tri) {
+                error.message = "Chưa có thông tin về vị trí sửa chữa.";
+                return error;
+            }
+            if (!suachua.noi_dung.noi_dung) {
+                error.message = "Chưa có thông tin về nội dung sửa chữa.";
+                return error;
+            }
+            if (!suachua.thoi_gian.bat_dau) {
+                error.message = "Chưa có thông tin về thời gian bắt đầu sửa chữa.";
+                return error;
+            }
+            if (!suachua.thoi_gian.ket_thuc_du_kien) {
+                error.message = "Chưa có thông tin về thời gian kết thúc theo dự kiến.";
+                return error;
+            }
+            if (!suachua.trang_thai.ma) {
+                error.message = "Chưa có thông tin trạng thái sửa chữa.";
+                return error;
+            }
+            return;
+        },
+
+        buildSuaChua: function(cauhoi) {
+            // Loại bỏ các lựa chọn không có nội dung
+            cauhoi.noi_dung.lua_chons = _.filter(cauhoi.noi_dung.lua_chons, (item) => {
+                return item.tieu_de;
+            });
+
+            // Loại bỏ các url hình ảnh không có nội dung
+            cauhoi.noi_dung.url_hinh_anhs = _.without(cauhoi.noi_dung.url_hinh_anhs, '');
+            cauhoi.noi_dung.isHasImages = (cauhoi.noi_dung.url_hinh_anhs.length) ? true : false;
+
+            // Tính toán lại các chỉ số thống kê
+            cauhoi.noi_dung.thong_ke.numOfLuaChons = cauhoi.noi_dung.lua_chons.length; 
+            cauhoi.noi_dung.thong_ke.numOfCorrectAnswers = _.where(cauhoi.noi_dung.lua_chons, {isCorrect: true}).length;
+            cauhoi.noi_dung.thong_ke.numOfUrlHinhAnhs = cauhoi.noi_dung.url_hinh_anhs.length;
+
+            // Cập nhật các trường thông tin 
+            cauhoi.fields.tags = cauhoi.tags.join(", ");
+            cauhoi.fields.loai_tb = cauhoi.phan_loai.loai_tb.join(", ");
+            cauhoi.fields.bac_thi = cauhoi.phan_loai.bac_thi.join(", ");
+
+            let correct_answers = [],
+                alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+            _.each(_.where(cauhoi.noi_dung.lua_chons, { isCorrect: true }), (item) => {
+                correct_answers.push(alphabelts[item.order]);
+            });
+
+            cauhoi.fields.correctAnswer = correct_answers.join(", ");
+
+            // Cập nhật các trường mới hỗ trợ xuất thông tin từ Excel - Đáp án A, B, C bố trí theo chiều ngang.
+            cauhoi.fields.lua_chons = {};
+            _.each(cauhoi.noi_dung.lua_chons, (item, index) => {
+                cauhoi.fields.lua_chons[alphabelts[index]] = item.tieu_de;
+            });
+
+            // Khởi tạo metadata câu hỏi 
+            if (!cauhoi.metadata)
+                cauhoi.metadata = {};
+            this.buildMetadata('build', cauhoi.metadata);
+
+            // Cập nhật các trường ghi chú về thời gian từ dạng Date về dạng String, hỗ trợ nhóm dữ liệu trong Grid
+            cauhoi.fields.thoi_gians = {},
+            cauhoi.fields.thoi_gians.ngay_tao_string = kendo.toString(cauhoi.metadata.ngay_tao, 'yyyy-MM-dd');
+            cauhoi.fields.thoi_gians.ngay_cap_nhat_cuoi_string = kendo.toString(cauhoi.metadata.ngay_cap_nhat_cuoi, 'yyyy-MM-dd');
+        },
+
+        buildNewSuaChua: function(newSuaChua) {
+            // Loại bỏ các lựa chọn không có nội dung
+            newSuaChua.noi_dung.lua_chons = _.filter(newSuaChua.noi_dung.lua_chons, (item) => {
+                return item.tieu_de;
+            });
+
+            // Loại bỏ các url hình ảnh không có nội dung
+            newSuaChua.noi_dung.url_hinh_anhs = _.without(newSuaChua.noi_dung.url_hinh_anhs, '');
+            newSuaChua.noi_dung.isHasImages = (newSuaChua.noi_dung.url_hinh_anhs.length) ? true : false;
+
+            // Tính toán lại các chỉ số thống kê
+            newSuaChua.noi_dung.thong_ke.numOfLuaChons = newSuaChua.noi_dung.lua_chons.length; 
+            newSuaChua.noi_dung.thong_ke.numOfCorrectAnswers = _.where(newSuaChua.noi_dung.lua_chons, {isCorrect: true}).length;
+            newSuaChua.noi_dung.thong_ke.numOfUrlHinhAnhs = newSuaChua.noi_dung.url_hinh_anhs.length;
+
+            // Cập nhật các trường thông tin 
+            newSuaChua.fields.tags = newSuaChua.tags.join(", ");
+            newSuaChua.fields.loai_tb = newSuaChua.phan_loai.loai_tb.join(", ");
+            newSuaChua.fields.bac_thi = newSuaChua.phan_loai.bac_thi.join(", ");
+
+            let correct_answers = [],
+                alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+            _.each(_.where(newSuaChua.noi_dung.lua_chons, { isCorrect: true }), (item) => {
+                correct_answers.push(alphabelts[item.order]);
+            });
+
+            newSuaChua.fields.correctAnswer = correct_answers.join(", ");
+
+            // Tạo các trường mới hỗ trợ xuất thông tin từ Excel - Đáp án A, B, C bố trí theo chiều ngang.
+            newSuaChua.fields.lua_chons = {};
+            _.each(newSuaChua.noi_dung.lua_chons, (item, index) => {
+                newSuaChua.fields.lua_chons[alphabelts[index]] = item.tieu_de;
+            });
+
+            // Khởi tạo metadata câu hỏi 
+            if (!newSuaChua.metadata)
+                newSuaChua.metadata = {};
+            this.buildMetadata('buildNew', newSuaChua.metadata);
+
+            // Tạo các trường mới ghi chú về thời gian từ dạng Date về dạng String, hỗ trợ nhóm dữ liệu trong Grid
+            newSuaChua.fields.thoi_gians = {},
+            newSuaChua.fields.thoi_gians.ngay_tao_string = kendo.toString(newSuaChua.metadata.ngay_tao, 'yyyy-MM-dd');            
         },
 
         // ***************************************************
@@ -2253,6 +2397,14 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                         break;
                     case 'can_delete_cau_hoi':
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_upsert_sua_chua':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'manager', 'manager-xemay', 'manager-tbn'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_delete_sua_chua':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'manager', 'manager-xemay', 'manager-tbn'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_upsert_nhan_su':

@@ -343,9 +343,211 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                     }    
                 }
             }
-            
+        },
+        "suachuas": {
+            "nhom_tbs": [
+                {
+                    "ten": "Thiết bị nâng",
+                    "ma": "thiet_bi_nang"
+                }, {
+                    "ten": "Xe - máy",
+                    "ma": "xe_may"
+                }
+            ],
+            "loai_tbs": [
+                {
+                    "ten": "Đầu kéo chạy ngoài",
+                    "ma": "dau_keo_chay_ngoai",
+                    "group": "xe_may"
+                }, {
+                    "ten": "Đầu kéo nội bộ",
+                    "ma": "dau_keo_noi_bo",
+                    "group": "xe_may"
+                }, {
+                    "ten": "Rơ móoc",
+                    "ma": "ro_mooc",
+                    "group": "xe_may"
+                }, {
+                    "ten": "Xe bus nội bộ",
+                    "ma": "xe_bus_noi_bo",
+                    "group": "xe_may"
+                }
+            ],
+            "ma_tbs": [
+                {
+                    "ma_tb": "NB100",
+                    "group": "dau_keo_noi_bo"
+                }, {
+                    "ma_tb": "NB101",
+                    "group": "dau_keo_noi_bo"
+                }, {
+                    "ma_tb": "NB102",
+                    "group": "dau_keo_noi_bo"
+                }, {
+                    "ma_tb": "NB103",
+                    "group": "dau_keo_noi_bo"
+                }, {
+                    "ma_tb": "NB104",
+                    "group": "dau_keo_noi_bo"
+                }, {
+                    "ma_tb": "NB105",
+                    "group": "dau_keo_noi_bo"
+                }, {
+                    "ma_tb": "NB106",
+                    "group": "dau_keo_noi_bo"
+                }, {
+                    "ma_tb": "CP189-01",
+                    "group": "dau_keo_chay_ngoai"
+                }, {
+                    "ma_tb": "CP189-02",
+                    "group": "dau_keo_chay_ngoai"
+                }, {
+                    "ma_tb": "CPCL16",
+                    "group": "dau_keo_chay_ngoai"
+                }, {
+                    "ma_tb": "CPCL17",
+                    "group": "dau_keo_chay_ngoai"
+                }, {
+                    "ma_tb": "KC01",
+                    "group": "dau_keo_chay_ngoai"
+                }, {
+                    "ma_tb": "KC02",
+                    "group": "dau_keo_chay_ngoai"
+                }, {
+                    "ma_tb": "NO-07",
+                    "group": "xe_bus_noi_bo"
+                }, {
+                    "ma_tb": "NO-08",
+                    "group": "xe_bus_noi_bo"
+                }, {
+                    "ma_tb": "NO-09",
+                    "group": "xe_bus_noi_bo"
+                }, {
+                    "ma_tb": "NO-10",
+                    "group": "xe_bus_noi_bo"
+                }, {
+                    "ma_tb": "R-50R-0010",
+                    "group": "ro_mooc"
+                }, {
+                    "ma_tb": "R-51R-00070",
+                    "group": "ro_mooc"
+                }, {
+                    "ma_tb": "R-51R-00074",
+                    "group": "ro_mooc"
+                }, {
+                    "ma_tb": "R-51R-00159",
+                    "group": "ro_mooc"
+                }
+            ],
+            "loai_sua_chuas": [
+                {
+                    "ten": "Sửa chữa nhỏ",
+                    "ma": "sua_chua_nho"
+                }, {
+                    "ten": "Sửa chữa cụm",
+                    "ma": "sua_chua_cum"
+                }, {
+                    "ten": "Sửa chữa lớn",
+                    "ma": "sua_chua_lon"
+                }, {
+                    "ten": "Đại tu phương tiện",
+                    "ma": "dai_tu"
+                }, {
+                    "ten": "Kiểm tra",
+                    "ma": "kiem_tra"
+                }
+            ],
+            "khu_vucs": [
+                "Khu A",
+                "Khu B",
+                "Khu C",
+                "Khu D",
+                "Khu E"
+            ], 
+            "vi_tris": [
+                {
+                    "ten": "A01",
+                    group: "Khu A"
+                }, {
+                    "ten": "A02",
+                    group: "Khu A"
+                }, {
+                    "ten": "A03",
+                    group: "Khu A"
+                }, {
+                    "ten": "A04",
+                    group: "Khu A"
+                }, {
+                    "ten": "A05",
+                    group: "Khu A"
+                }, {
+                    "ten": "A06",
+                    group: "Khu A"
+                }, {
+                    "ten": "B01",
+                    group: "Khu B"
+                }, {
+                    "ten": "B02",
+                    group: "Khu B"
+                },{
+                    "ten": "B03",
+                    group: "Khu B"
+                },{
+                    "ten": "C01",
+                    group: "Khu C"
+                },{
+                    "ten": "C02",
+                    group: "Khu C"
+                },{
+                    "ten": "C03",
+                    group: "Khu C"
+                }
+            ],
+            tags: {
+                "dau_keo_chay_ngoai": [
+                    "Ắc quy",
+                    "Bánh xe",
+                    "Bình nhiên liệu",
+                    "Bộ phận khởi động",
+                    "Cần gạt nước",
+                    "Dây đai",
+                    "Điều hòa",
+                    "Động cơ",
+                    "Hộp số",
+                    "Kính chắn gió",
+                    "Lốp xe",
+                    "Ống xả",
+                    "Phanh"
+                ],
+                "dau_keo_noi_bo": [
+                    "Ắc quy",
+                    "Bánh xe",
+                    "Bình nhiên liệu",
+                    "Bộ phận khởi động",
+                    "Cần gạt nước",
+                    "Dây đai",
+                    "Điều hòa",
+                    "Động cơ",
+                    "Hộp số",
+                    "Kính chắn gió",
+                    "Lốp xe",
+                    "Ống xả",
+                    "Phanh"
+                ]
+            }, 
+            trang_thais: [
+                {
+                    "ten": "Sửa chữa",
+                    "ma": "sua_chua"
+                }, {
+                    "ten": "Hoàn thành",
+                    "ma": "hoan_thanh"
+                }, {
+                    "ten": "Ngừng sửa chữa",
+                    "ma": "ngung_sua_chua"
+                }
+            ]
         }
-
     }
 
     return factory;
