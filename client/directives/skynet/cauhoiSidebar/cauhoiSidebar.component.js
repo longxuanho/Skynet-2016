@@ -70,7 +70,10 @@ angular.module('angular-skynet').directive('cauhoiSidebar', function() {
             $scope.helpers({
                 usersStatus: () => {
                     return Meteor.users.find({},{
-                        sort : { 'profile.name' : 1 } 
+                        sort : { 
+                            'status.online' : -1,
+                            'profile.name': 1
+                        } 
                     });
                 }
             });
