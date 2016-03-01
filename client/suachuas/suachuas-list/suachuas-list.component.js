@@ -18,14 +18,14 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
             
-            vm._kData = skynetKendoGrid.cauhois.data;
-            vm._kHelpers = skynetKendoGrid.cauhois.helpers;
+            vm._kData = skynetKendoGrid.suachuas.data;
+            vm._kHelpers = skynetKendoGrid.suachuas.helpers;
 
-            vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
+            vm.dictionary = angular.copy(skynetDictionary.data.suachuas);
 
             vm.pageOptions = {
                 localData: {
-                    cauhois_config_data_filter: {}
+                    suachuas_config_data_filter: {}
                 },
                 isDisplayTopBar: true,
                 isDisplayFullWidthGrid: false,
@@ -35,24 +35,24 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                     nhomsFilterSource: [],
                     nhomsFilterActiveIds: [],
                 },
-                fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '',
+                fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_sua_chua')) ? 'suachuas_createNew' : '',
                 selected: {
                     cauhoi: {}
                 },
-                localConfigDataName: 'cauhois_config_data_local',
-                cloudConfigDataName: 'cauhois_grid_config_data_skynet'
+                localConfigDataName: 'suachuas_config_data_local',
+                cloudConfigDataName: 'suachuas_grid_config_data_skynet'
             };
 
             console.log('nhom: ', vm.pageOptions.filters.nhomsFilterSource)
 
             vm.pageReactiveData = {
-                cauhois: [],
-                tags: {
-                    data: vm.dictionary.tags,
-                    sort: { field: 'ten', dir: 'asc' },
-                    group: { field: 'group' }
+                suachuas: [],
+                // tags: {
+                //     data: vm.dictionary.tags,
+                //     sort: { field: 'ten', dir: 'asc' },
+                //     group: { field: 'group' }
 
-                },
+                // },
                 searchTags: [],
                 searchLoaitbs: [],
                 searchBacthis: []
@@ -105,7 +105,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                                 if (vm.pageOptions.selected.cauhoi._id === selected._id) {
                                     // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
                                     vm.pageOptions.selected.cauhoi = {};
-                                    vm.pageOptions.fabState = 'cauhois_createNew';                                                                       
+                                    vm.pageOptions.fabState = 'suachuas_createNew';                                                                       
 
                                     try {
                                         grid.clearSelection();    
@@ -114,14 +114,14 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                                         console.log('Error clearing selection: ', err.message);
                                     }
                                 } else {
-                                    vm.pageOptions.fabState = 'cauhois_viewDetails';
+                                    vm.pageOptions.fabState = 'suachuas_viewDetails';
                                     vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
                                 }
                             }
                         }
                     },                                        
                     gridOnDataBound: function(event) {
-                        vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
+                        vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_sua_chua')) ? 'suachuas_createNew' : '';
                         vm.pageOptions.selected.cauhoi = '';
                     }
                 }
@@ -146,7 +146,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                 },
                 buildNhomsFilterSource: function() {
                     
-                    vm.pageOptions.filters.nhomsFilterSource = _.sortBy(vm.dictionary.nhom_cau_hois, (item) => {
+                    vm.pageOptions.filters.nhomsFilterSource = _.sortBy(vm.dictionary.nhom_sua_chuas, (item) => {
                         return item.order;
                     });
 
@@ -165,7 +165,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            $scope.subscribe('cauhois', () => {
+            $scope.subscribe('suachuas', () => {
                 return [{
                         limit: parseInt($scope.getReactively('perPage')),
                         skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage'))
@@ -183,22 +183,15 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // ***************************************************
 
             vm.helpers({
-                nhomsSource: () => {
-                    vm.pageOptions.filters.nhomsFilterSource = Nhoms.find({}, {sort: {order: 1}}).fetch();
-                    vm.pageOptions.filters.nhomsFilterSource.unshift({_id: '', ten: "Tất cả"});
-                    vm.utils.buildNhomsFilterSource(vm.pageOptions.filters.nhomsFilterSource, vm.pageOptions.filters.nhomsFilterActiveIds);
-
-                    return Nhoms.find({}, {sort: {order: 1}});
-                },
-                cauhois: () => {
-                    let data = vm.pageOptions.filters.filterNhomId ? CauHois.find({'phan_loai.nhom_cau_hoi.ma': vm.pageOptions.filters.filterNhomId}).fetch() : CauHois.find({}).fetch();
+                suachuas: () => {
+                    let data = vm.pageOptions.filters.filterNhomId ? SuaChuas.find({'phan_loai.nhom_sua_chua.ma': vm.pageOptions.filters.filterNhomId}).fetch() : SuaChuas.find({}).fetch();
                     try {
                         vm.gridData.kGrid.kData.dataSource.data(data);
                     } catch (error) {
                         console.log("Error: ", error);
                     }
-                    return CauHois.find({
-                        'phan_loai.nhom_cau_hoi.ma': vm.getReactively('pageOptions.filters.filterNhomId')
+                    return SuaChuas.find({
+                        'phan_loai.nhom_sua_chua.ma': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
                 }
             });

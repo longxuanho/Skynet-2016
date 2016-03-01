@@ -560,8 +560,8 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
             }, 
             trang_thais: [
                 {
-                    "ten": "Sửa chữa",
-                    "ma": "sua_chua"
+                    "ten": "Đang sửa chữa",
+                    "ma": "dang_sua_chua"
                 }, {
                     "ten": "Hoàn thành",
                     "ma": "hoan_thanh"

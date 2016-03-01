@@ -1593,8 +1593,8 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 },
                 tags: [],
                 trang_thai: {
-                    ten: 'Sửa chữa',
-                    ma: 'sua_chua'
+                    ten: 'Đang sửa chữa',
+                    ma: 'dang_sua_chua'
                 },
                 isPublic: true,
                 isArchived: false
@@ -1705,6 +1705,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             newSuaChua.thong_ke.thoi_gian.ngay_bat_dau = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy-MM-dd", "vi-VN");
             newSuaChua.thong_ke.thoi_gian.thang_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "MM", "vi-VN");
             newSuaChua.thong_ke.thoi_gian.nam_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy", "vi-VN");
+            newSuaChua.thong_ke.tags_field = newSuaChua.tags.join(", ");
 
             // Khởi tạo metadata câu hỏi 
             if (!newSuaChua.metadata)

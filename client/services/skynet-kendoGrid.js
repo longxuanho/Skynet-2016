@@ -3,7 +3,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
     let factory = {
         thietbis: {},
         thongsokythuats: {},
-        cauhois: {}
+        cauhois: {},
+        suachuas: {},
     };
 
 
@@ -915,6 +916,254 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
         }
     };
 
+    factory.suachuas.data = {
+        config: {
+            schema: {
+                props: {},
+                fields: {
+                    columns: []
+                }
+            },
+            defaultColumns: [
+                'phan_loai.loai_tb.ten',
+                'ma_tb.ma_tb',
+                'phan_loai.loai_sua_chua.ten',
+                'trang_thai.ten',
+                'dia_diem.khu_vuc.ten',
+                'dia_diem.vi_tri.ten',
+                'noi_dung.noi_dung',                
+                'thong_ke.thoi_gian.ngay_bat_dau',
+                'thong_ke.thoi_gian.thoi_gian_sua_chua'
+            ],
+            defaultOptions: {
+                allowCopy: {
+                    delimeter: "\t"
+                },
+                altRowTemplate: "",
+                autoBind: true,
+                columnMenu: {
+                    sortable: false
+                },
+                columnResizeHandleWidth: 3,
+                // columns: factory.thietbis.helpers.buildGridColumns(this.defaultColumns),
+                editable: false,
+                excel: {
+                    allPages: false,
+                    filterable: false,
+                    fileName: "From Sky with Love.xlsx",
+                },
+                filterable: {
+                    mode: 'menu',
+                    extra: false
+                },
+                groupable: {
+                    enabled: true,
+                    showFooter: false,
+                },
+                height: null,
+                mobile: "",
+                name: "suachuasGrid",
+                navigatable: false,
+                noRecords: false,
+                pageable: {
+                    refresh: false,
+                    pageSizes: false,
+                    info: true,
+                    buttonCount: 3,
+                    numeric: false,
+                    input: true,
+                    previousNext: true
+                },
+                pdf: {
+                    allPages: false,
+                    avoidLinks: true,
+                    author: "Long Ho",
+                    creator: "Skynet",
+                    date: new Date(),
+                    fileName: "From Sky with Love.pdf",
+                    keywords: "Skynet's database",
+                    landscape: false,
+                    paperSize: "auto",
+                    subject: "From Sky with Love",
+                    title: "Tong Hop Sua Chua - from Skynet"
+                },
+                prefix: "",
+                reorderable: true,
+                resizable: true,
+                rowTemplate: "",
+                scrollable: {
+                    virtual: false
+                },
+                selectable: "row",
+                sortable: {
+                    mode: "single",
+                    allowUnsort: true
+                },
+                toolbar: ["excel", "pdf"],
+                detailTemplate: "",
+                detailInit: function(e) {
+                    e.detailRow.find(".myGridDetails").kendoGrid({
+                        dataSource: e.data.noi_dung.lua_chons
+                    });
+                }                
+            },
+            availableColumns: [{
+                field: "_id",
+                title: "ID Sửa chữa",
+                type: "string",
+                width: "100px"
+            }, {
+                field: "phan_loai.nhom_tb.ten",
+                title: "Nhóm phương tiện",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Nhóm PT: #= value # (#= count# lượt)"
+            }, {
+                field: "phan_loai.loai_tb.ten",
+                title: "Loại PT",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Loại PT: #= value # (#= count# lượt)"
+            }, {
+                field: "ma_tb.ma_tb",
+                title: "Mã PT",
+                type: "string",
+                width: "120px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Mã PT: #= value # (#= count# lượt)"
+            }, {
+                field: "phan_loai.loai_sua_chua.ten",
+                title: "Loại sửa chữa",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Loại SC: #= value # (#= count# lượt)"
+            }, {
+                field: "trang_thai.ten",
+                title: "Trạng thái",
+                type: "string",
+                width: "120px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Trạng thái: #= value # (#= count# lượt)"
+            }, {
+                field: "dia_diem.khu_vuc.ten",
+                title: "Khu vực SC",
+                type: "string",
+                width: "120px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "#= value # (#= count# lượt)"
+            }, {
+                field: "dia_diem.vi_tri.ten",
+                title: "Vị trí",
+                type: "string",
+                width: "120px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Vị trí: #= value # (#= count# lượt)"
+            }, {
+                field: "noi_dung.noi_dung",
+                title: "Nội dung sửa chữa",
+                type: "string",
+                width: "320px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Nội dung SC: #= value # (#= count# lượt)"
+            }, {
+                field: "thong_ke.thoi_gian.thoi_gian_sua_chua",
+                title: "TGSC (giờ)",
+                type: "number",
+                width: "120px",
+                aggregates: ["min", "max", "average"],
+                groupHeaderTemplate: "Thời gian SC: #= value # (min: #= count#, max: #= count#, avg: #= average#)"
+            }, {
+                field: "thong_ke.thoi_gian.ngay_bat_dau",
+                title: "Ngày bắt đầu",
+                type: "string",
+                width: "140px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Ngày: #= value # (#= count# lượt)"
+            }, {
+                field: "thong_ke.thoi_gian.ngay_ket_thuc",
+                title: "Ngày kết thúc",
+                type: "string",
+                width: "140px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Ngày: #= value # (#= count# lượt)"
+            }, {
+                field: "thong_ke.tags_field",
+                title: "Thẻ dấu",
+                type: "string",
+                width: "320px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Thẻ: #= value # (#= count# lượt)"
+            }, {
+                field: "thong_ke.thoi_gian.thang_sua_chua",
+                title: "Tháng",
+                type: "string",
+                width: "100px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Tháng: #= value # (#= count# lượt)"
+            }, {
+                field: "thong_ke.thoi_gian.nam_sua_chua",
+                title: "Năm",
+                type: "string",
+                width: "100px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Năm: #= value # (#= count# lượt)"
+            }, {
+                field: "ghi_chu",
+                title: "Ghi chú",
+                type: "string",
+                width: "300px"
+            }, {
+                field: "mo_ta",
+                title: "Mô tả",
+                type: "string",
+                width: "120px"
+            }, {
+                field: "metadata.ngay_tao",
+                title: "Ngày tạo",
+                type: "date",
+                format: "{0: yyyy-MM-dd}",
+                width: "160px"
+            }, {
+                field: "metadata.ngay_cap_nhat_cuoi",
+                title: "Ngày CN cuối",
+                type: "date",
+                format: "{0: yyyy-MM-dd}",
+                width: "160px"
+            }, {
+                field: "metadata.nguoi_tao_name",
+                title: "Người tạo",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)"
+            }, {
+                field: "metadata.nguoi_tao_email",
+                title: "Người tạo (Email)",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)"
+            }, {
+                field: "metadata.nguoi_cap_nhat_cuoi_name",
+                title: "Người cập nhật cuối",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)"
+            }, {
+                field: "metadata.nguoi_cap_nhat_cuoi_email",
+                title: "Người cập nhật cuối (Email)",
+                type: "string",
+                width: "160px",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)"
+            }]
+        }
+    };
+
     // ***************************************************
     // THIETBIS HELPERS
     // ***************************************************
@@ -1067,6 +1316,63 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 fields: {}
             };
             _.each(factory.cauhois.data.config.availableColumns, (item) => {
+                if (_.contains(columns, item.field)) {
+                    model.fields[item.field] = {
+                        type: item.type
+                    }
+                }
+            });
+            console.log('Build Schema: ', model);
+            return model;
+        }
+    };
+
+    factory.suachuas.helpers = {
+        initDefaultDataSource: function() {
+            let source = {
+                aggregate: undefined,
+                batch: false,
+                filter: undefined,
+                group: [],
+                offlineStorage: null,
+                page: 1,
+                pageSize: 5,
+                select: null,
+                serverAggregates: false,
+                serverFiltering: false,
+                serverGrouping: false,
+                serverPaging: false,
+                serverSorting: false,
+                sort: undefined,
+                table: null,
+                serverPaging: false,
+                serverSorting: false,
+
+                schema: this.buildGridSchemaModel(factory.suachuas.data.config.defaultColumns),
+                data: []
+            };
+            return source;
+        },
+        initDefaultOptions: function() {
+            let options = angular.copy(factory.suachuas.data.config.defaultOptions);
+            options.columns = angular.copy(this.buildGridColumns(factory.suachuas.data.config.defaultColumns));
+            
+            return options;
+        },
+        buildGridColumns: function(columns) {
+            return _.without(_.map(factory.suachuas.data.config.availableColumns, (item) => {
+                if (_.contains(columns, item.field)) {
+                    // return _.omit(item, 'type');
+                    return item;
+                }
+            }), undefined);
+        },
+        buildGridSchemaModel: function(columns) {
+            let model = {
+                id: "_id",
+                fields: {}
+            };
+            _.each(factory.suachuas.data.config.availableColumns, (item) => {
                 if (_.contains(columns, item.field)) {
                     model.fields[item.field] = {
                         type: item.type
