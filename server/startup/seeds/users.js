@@ -14,7 +14,7 @@ Meteor.startup(function() {
                 "emails" : [ 
                     {
                         "address" : "test@manager.io",
-                        "verified" : false
+                        "verified" : true
                     }
                 ],
                 "profile" : {
@@ -45,7 +45,7 @@ Meteor.startup(function() {
                 "emails" : [ 
                     {
                         "address" : "test@guest.io",
-                        "verified" : false
+                        "verified" : true
                     }
                 ],
                 "profile" : {
@@ -80,7 +80,7 @@ Meteor.startup(function() {
                 "emails" : [ 
                     {
                         "address" : "test@user.io",
-                        "verified" : false
+                        "verified" : true
                     }
                 ],
                 "profile" : {
@@ -124,7 +124,7 @@ Meteor.startup(function() {
                 "emails" : [ 
                     {
                         "address" : "longxuanho@admin.io",
-                        "verified" : false
+                        "verified" : true
                     }
                 ],
                 "profile" : {

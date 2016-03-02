@@ -47,66 +47,61 @@ CauHois.allow({
 
 Meteor.publish("cauhois", function(options, searchString, searchBy, tags, loaitbs, bacthis) {
 
-    if (searchString == null)
-        searchString = '';
-    if (searchBy == null)
-        searchBy = 'noi_dung.tieu_de';
+    // Check Security...
+    let group = Meteor.settings.private.roles['master-group'],
+        rights = Meteor.settings.private.rights['can-view'].cauhois[group];
 
+    if (this.userId && Roles.userIsInRole(this.userId, rights, group)) {
+        if (searchString == null)
+            searchString = '';
+        if (searchBy == null)
+            searchBy = 'noi_dung.tieu_de';
 
-    var query = {};
-    var regex = {
-        '$regex': '.*' + searchString || '' + '.*',
-        '$options': 'i'
-    };
-
-    if (!_.isEmpty(tags)) {
-        query['tags'] = {
-            $in: tags
+        var query = {};
+        var regex = {
+            '$regex': '.*' + searchString || '' + '.*',
+            '$options': 'i'
         };
-    }
 
-    if (!_.isEmpty(loaitbs)) {
-        query['phan_loai.loai_tb'] = {
-            $in: loaitbs
-        };
-    }
+        if (!_.isEmpty(tags)) {
+            query['tags'] = {
+                $in: tags
+            };
+        }
 
-    if (!_.isEmpty(bacthis)) {
-        query['phan_loai.bac_thi'] = {
-            $in: bacthis
-        };
-    }
+        if (!_.isEmpty(loaitbs)) {
+            query['phan_loai.loai_tb'] = {
+                $in: loaitbs
+            };
+        }
 
-    query[searchBy] = regex;
+        if (!_.isEmpty(bacthis)) {
+            query['phan_loai.bac_thi'] = {
+                $in: bacthis
+            };
+        }
 
-    query['$or'] = [{
-        '$and': [{
-            'isPublic': true
+        query[searchBy] = regex;
+
+        query['$or'] = [{
+            '$and': [{
+                'isPublic': true
+            }, {
+                'isPublic': {
+                    '$exists': true
+                }
+            }]
         }, {
-            'isPublic': {
-                '$exists': true
-            }
-        }]
-    }, {
-        '$and': [{
-            'metadata.nguoi_tao': this.userId
-        }, {
-            'metadata.nguoi_tao': {
-                '$exists': true
-            }
-        }]
-    }];
+            '$and': [{
+                'metadata.nguoi_tao': this.userId
+            }, {
+                'metadata.nguoi_tao': {
+                    '$exists': true
+                }
+            }]
+        }];
 
-    Counts.publish(this, 'numberOfCauHoisTotal', CauHois.find({
-        '$or': query['$or']
-    }), {
-        noReady: true
-    });
-
-
-    Counts.publish(this, 'numberOfCauHois', CauHois.find(query), {
-        noReady: true
-    });
-
-    return CauHois.find(query, options);
+        return CauHois.find(query, options);
+    }
+    return;    
 });

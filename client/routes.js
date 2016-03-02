@@ -284,7 +284,21 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         })
         .state('cauhois.list', {
             url: '/thong-ke',
-            template: '<cauhois-list></cauhois-list>'
+            template: '<cauhois-list></cauhois-list>',
+            resolve: {
+                currentUser: ($q) => {
+                    if (Meteor.userId() == null) {
+                        return $q.reject('AUTH_REQUIRED');
+                    } else if (!Meteor.user().emails[0].verified) {
+                        return $q.reject('AUTH_NOT_VERIFIED');
+                    } if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project')) {
+                        // Không đủ quyền xem nội dung câu hỏi
+                        return $q.reject('AUTH_NOT_AUTHORIZED');
+                    } else {
+                        return $q.resolve();
+                    }
+                }
+            }
         })
         .state('cauhois.update', {
             url: '/cap-nhat/:cauhoiId',
@@ -377,6 +391,8 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
                 currentUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
+                    } else if (!Meteor.user().emails[0].verified) {
+                        return $q.reject('AUTH_NOT_VERIFIED');
                     } else {
                         return $q.resolve();
                     }
@@ -441,6 +457,10 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/notify/reset-mat-khau',
             template: '<notify-reset-mat-khau></notify-reset-mat-khau>'
         })
+        .state('notify_notAuthorized', {
+            url: '/notify/noi-dung-bi-han-che',
+            template: '<notify-not-authorized></notify-not-authorized>'
+        })
         .state('users_resetPassword', {
             url: '/reset-mat-khau/:token',
             template: '<users-reset-password></users-reset-password>'
@@ -472,11 +492,24 @@ angular.module('angular-skynet')
 
         // Load custom style (User profile)
         if (!localStorage.getItem("notification_style"))
-            localStorage.setItem("notification_style", 'uikit');        
+            localStorage.setItem("notification_style", 'uikit');
         $rootScope.notificationStyle = localStorage.getItem("notification_style");
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+
+        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            if (error === 'AUTH_REQUIRED') {
+                $state.go('login');
+            }
+            if (error === 'AUTH_NOT_VERIFIED') {
+                $state.go('notify_checkEmail');
+            }
+            if (error === 'AUTH_NOT_AUTHORIZED') {
+                $state.go('notify_notAuthorized');
+            }
+            
+        });
 
         $rootScope.$on('$stateChangeSuccess', function() {
            // scroll view to top

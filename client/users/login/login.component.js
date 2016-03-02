@@ -3,7 +3,7 @@ angular.module('angular-skynet').directive('login', function() {
         restrict: 'E',
         templateUrl: 'client/users/login/login.html',
         controllerAs: 'Login',
-        controller: function($scope, $stateParams, skynetHelpers, $state, $rootScope, utils) {
+        controller: function($scope, $stateParams, skynetHelpers, $state, $rootScope, utils, iNotifier) {
 
 
             // ***************************************************
@@ -94,13 +94,13 @@ angular.module('angular-skynet').directive('login', function() {
                 $scope.loginState = 'onLogging';
                 Meteor.loginWithPassword($scope.credentials.email, $scope.credentials.password, (err) => {
                     if (err) {
-                        toastr.error("Email người dùng hoặc mật khẩu không chính xác.");
+                        iNotifier.error("Email người dùng hoặc mật khẩu không chính xác.");
                         console.log('Có lỗi khi đăng nhập: ', err);
                         $scope.$apply(() => {
                             $scope.loginState = 'idle';
                         });
                     } else {
-                        toastr.success("Đăng nhập thành công!");
+                        iNotifier.success("Đăng nhập thành công!");
                         $state.go($scope._data.states.master);
                     }
                 });
@@ -112,18 +112,18 @@ angular.module('angular-skynet').directive('login', function() {
                 if (_.isEmpty(error)) {
                     Accounts.createUser($scope.newCredentials, (err) => {
                         if (err) {
-                            toastr.error("Không thể khởi tạo người dùng này. Xin vui lòng thử lại sau. ", err.reason);
+                            iNotifier.error("Không thể khởi tạo người dùng này. Xin vui lòng thử lại sau. ", err.reason);
                             console.log('Có lỗi khi khởi tạo người dùng mới: ', err);
                             $scope.$apply(() => {
                                 $scope.loginState = 'idle';
                             });
                         } else {
-                            toastr.success("Một email kích hoạt tài khoản đã được gửi tới địa chỉ hộp thư của bạn.");
+                            iNotifier.success("Một email kích hoạt tài khoản đã được gửi tới địa chỉ hộp thư của bạn.");
                             $state.go($scope._data.states.notifyCheckEmail);
                         }
                     });
                 } else {
-                    toastr.error(error.message);
+                    iNotifier.error(error.message);
                 }
             };
 
@@ -133,18 +133,18 @@ angular.module('angular-skynet').directive('login', function() {
                 if (_.isEmpty(error)) {
                     Accounts.forgotPassword($scope.resetPasswordCredentials, (err) => {
                         if (err) {
-                            toastr.error('Có lỗi xảy ra trong quá trình reset mật khẩu: ' + err.reason + '.');
+                            iNotifier.error('Có lỗi xảy ra trong quá trình reset mật khẩu: ' + err.reason + '.');
                             console.log('Có lỗi khi reset mật khẩu: ', err);
                             $scope.$apply(() => {
                                 $scope.loginState = 'idle';
                             });
                         } else {
-                            toastr.success('Một email chứa thông tin reset mật khẩu đã được gửi tới địa chỉ hộp thư của bạn.');
+                            iNotifier.success('Một email chứa thông tin reset mật khẩu đã được gửi tới địa chỉ hộp thư của bạn.');
                             $state.go($scope._data.states.notifyResetMatKhau);
                         }
                     });
                 } else {
-                    toastr.error(error.message);
+                    iNotifier.error(error.message);
                 }
             };
 

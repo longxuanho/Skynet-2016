@@ -718,17 +718,20 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 field: "_id",
                 title: "ID Câu Hỏi",
                 type: "string",
-                width: "100px"
+                width: "100px",
+                hidden: true
             }, {
                 field: "phan_loai.kieu_cau_hoi.ten",
                 title: "Kiểu câu hỏi",
                 type: "string",
-                width: "120px"
+                width: "120px",
+                hidden: true
             }, {
                 field: "phan_loai.nhom_cau_hoi.ten_ngan",
                 title: "Mã nhóm câu hỏi",
                 type: "string",
-                width: "80px"
+                width: "80px",
+                hidden: true
             }, {
                 field: "phan_loai.nhom_cau_hoi.ten",
                 title: "Nhóm câu hỏi",
@@ -749,7 +752,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 type: "string",
                 width: "90px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Mức độ: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Mức độ: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "noi_dung.tieu_de",
                 title: "Nội dung",
@@ -815,12 +819,14 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 field: "ghi_chu",
                 title: "Ghi chú",
                 type: "string",
-                width: "300px"
+                width: "300px",
+                hidden: true
             }, {
                 field: "mo_ta",
                 title: "Mô tả",
                 type: "string",
-                width: "120px"
+                width: "120px",
+                hidden: true
             }, {
                 field: "metadata.ngay_tao",
                 title: "Ngày tạo (D)",
@@ -836,69 +842,80 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 format: "{0: yyyy-MM-dd}",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Ngày cập nhật cuối: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Ngày cập nhật cuối: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "fields.thoi_gians.ngay_tao_string",
                 title: "Ngày tạo (S)",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Ngày tạo: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Ngày tạo: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "fields.thoi_gians.ngay_cap_nhat_cuoi_string",
                 title: "Ngày CN cuối (S)",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Ngày cập nhật cuối: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Ngày cập nhật cuối: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "metadata.nguoi_tao_name",
                 title: "Người tạo",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Người tạo: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Người tạo: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "metadata.nguoi_tao_email",
                 title: "Người tạo (Email)",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Người tạo: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Người tạo: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "metadata.nguoi_cap_nhat_cuoi_name",
                 title: "Người cập nhật cuối",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "metadata.nguoi_cap_nhat_cuoi_email",
                 title: "Người cập nhật cuối (Email)",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# câu hỏi)",
+                hidden: true
             }, {
                 field: "fields.lua_chons.A",
                 title: "Lựa chọn A",
                 type: "string",
-                width: "300px"
+                width: "300px",
+                hidden: true
             }, {
                 field: "fields.lua_chons.B",
                 title: "Lựa chọn B",
                 type: "string",
-                width: "300px"
+                width: "300px",
+                hidden: true
             }, {
                 field: "fields.lua_chons.C",
                 title: "Lựa chọn C",
                 type: "string",
-                width: "300px"
+                width: "300px",
+                hidden: true
             }, {
                 field: "fields.lua_chons.D",
                 title: "Lựa chọn D",
                 type: "string",
-                width: "300px"
+                width: "300px",
+                hidden: true
             }]
         }
     };
@@ -1287,19 +1304,22 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
             // Khởi tạo các cấu hình cơ bản
             let options = angular.copy(factory.cauhois.data.config.defaultOptions);
             // Khởi tạo các cột dữ liệu
-            options.columns = angular.copy(this.buildGridColumns(factory.cauhois.data.config.defaultColumns));
+            options.columns = angular.copy(this.buildGridColumns());
             // Khởi tạo nguồn dữ liệu - dataSource
             options.dataSource = this.initDefaultDataSource();
 
             return options;
         },
-        buildGridColumns: function(columns) {
-            return _.without(_.map(factory.cauhois.data.config.availableColumns, (item) => {
-                if (_.contains(columns, item.field)) {
-                    // return _.omit(item, 'type');
-                    return item;
-                }
-            }), undefined);
+        // buildGridColumns: function(columns) {
+        //     return _.without(_.map(factory.cauhois.data.config.availableColumns, (item) => {
+        //         if (_.contains(columns, item.field)) {
+        //             // return _.omit(item, 'type');
+        //             return item;
+        //         }
+        //     }), undefined);
+        // },
+        buildGridColumns: function() {
+            return factory.cauhois.data.config.availableColumns;
         },
         buildGridSchemaModel: function(columns) {
             let model = {
