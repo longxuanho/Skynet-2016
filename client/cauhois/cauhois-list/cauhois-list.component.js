@@ -90,42 +90,36 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm.gridData = {
                 kGrid: {
-                    kOptions: angular.copy(vm._kHelpers.initDefaultOptions()),
-                    kData: {
-                        dataSource: new kendo.data.DataSource(vm._kHelpers.initDefaultDataSource())
-                    },
-                    gridOnChange: function(event) {
-                        let grid = $("#myGrid").data("kendoGrid");
-
-                        if (grid.select().length) {
-                            if (this.kOptions.selectable === 'row') {
-
-                                let selected = grid.dataItem(grid.select());
-                                
-                                if (vm.pageOptions.selected.cauhoi._id === selected._id) {
-                                    // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
-                                    vm.pageOptions.selected.cauhoi = {};
-                                    vm.pageOptions.fabState = 'cauhois_createNew';                                                                       
-
-                                    try {
-                                        grid.clearSelection();    
-                                    } catch (err) {
-                                        // ERROR CLEAR SELECTION???
-                                        console.log('Error clearing selection: ', err.message);
-                                    }
-                                } else {
-                                    vm.pageOptions.fabState = 'cauhois_viewDetails';
-                                    vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
-                                }
-                            }
-                        }
-                    },                                        
-                    gridOnDataBound: function(event) {
-                        vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
-                        vm.pageOptions.selected.cauhoi = '';
-                    }
+                    kOptions: vm._kHelpers.initDefaultOptions()
                 }
             }
+
+            // Quản lý các sự kiện events với kOptions
+            // Khi người dùng click chọn một item, nếu item chưa được chọn -> chọn, nếu item đã được chọn trước đó -> bỏ chọn.
+            vm.gridData.kGrid.kOptions.change = function(e) {
+                let grid = $("#myGrid").data("kendoGrid");
+                if (grid.select().length) {
+                    if (vm.gridData.kGrid.kOptions.selectable === 'row') {
+
+                        let selected = grid.dataItem(grid.select());
+                        
+                        if (vm.pageOptions.selected.cauhoi._id === selected._id) {
+                            // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
+                            vm.pageOptions.selected.cauhoi = {};
+                            vm.pageOptions.fabState = 'cauhois_createNew';                                                                       
+                            grid.clearSelection();    
+                        } else {
+                            vm.pageOptions.fabState = 'cauhois_viewDetails';
+                            vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
+                        }
+                    }
+                }
+            };
+            // Security: Chỉ cho phép tạo câu hỏi mới nếu người dùng có đủ thẩm quyền.
+            vm.gridData.kGrid.kOptions.dataBound = function(e) {
+                vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
+                // vm.pageOptions.selected.cauhoi = {};
+            };
 
             
 
@@ -177,17 +171,10 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // ***************************************************
 
             vm.helpers({
-                nhomsSource: () => {
-                    vm.pageOptions.filters.nhomsFilterSource = Nhoms.find({}, {sort: {order: 1}}).fetch();
-                    vm.pageOptions.filters.nhomsFilterSource.unshift({_id: '', ten: "Tất cả"});
-                    vm.utils.buildNhomsFilterSource(vm.pageOptions.filters.nhomsFilterSource, vm.pageOptions.filters.nhomsFilterActiveIds);
-
-                    return Nhoms.find({}, {sort: {order: 1}});
-                },
                 cauhois: () => {
                     let data = vm.pageOptions.filters.filterNhomId ? CauHois.find({'phan_loai.nhom_cau_hoi.ma': vm.pageOptions.filters.filterNhomId}).fetch() : CauHois.find({}).fetch();
                     try {
-                        vm.gridData.kGrid.kData.dataSource.data(data);
+                        vm.gridData.kGrid.kOptions.dataSource.data(data);
                     } catch (error) {
                         console.log("Error: ", error);
                     }

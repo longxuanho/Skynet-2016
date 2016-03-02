@@ -26,30 +26,10 @@
 			
             <br/>
 
-            <kendo-grid
-                id="myGrid"
-                k-data-source="vm.gridData.kGrid.kData.dataSource"
-                k-columns="vm.gridData.kGrid.kOptions.columns"
-                k-column-menu="vm.gridData.kGrid.kOptions.columnMenu"
-                k-selectable="vm.gridData.kGrid.kOptions.selectable"
-                k-allow-copy="vm.gridData.kGrid.kOptions.allowCopy"
-                k-sortable="vm.gridData.kGrid.kOptions.sortable"
-                k-pageable="vm.gridData.kGrid.kOptions.pageable"
-                k-filterable="vm.gridData.kGrid.kOptions.filterable"
-                k-groupable="vm.gridData.kGrid.kOptions.groupable"
-                k-navigatable="vm.gridData.kGrid.kOptions.navigatable"
-                k-resizable="vm.gridData.kGrid.kOptions.resizable"
-                k-reorderable="vm.gridData.kGrid.kOptions.reorderable"
-                k-scrollable="vm.gridData.kGrid.kOptions.scrollable"
-                k-excel="vm.gridData.kGrid.kOptions.excel"
-                k-pdf="vm.gridData.kGrid.kOptions.pdf"
-                k-toolbar="vm.gridData.kGrid.kOptions.toolbar"
-                k-rebind="vm.gridData.kGrid"
-                k-on-change="vm.gridData.kGrid.gridOnChange(kendoEvent)"
-                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)"
-                k-ng-delay = "vm.gridData.kGrid.kData.dataSource"        
-                >
-            </kendo-grid>
+            <div id="myGrid" kendo-grid
+                k-options="vm.gridData.kGrid.kOptions"       
+            >
+            </div>
 		</div>
     </div>
 </div>

@@ -659,13 +659,11 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 allowCopy: {
                     delimeter: "\t"
                 },
-                altRowTemplate: "",
                 autoBind: true,
                 columnMenu: {
                     sortable: false
                 },
                 columnResizeHandleWidth: 3,
-                // columns: factory.thietbis.helpers.buildGridColumns(this.defaultColumns),
                 editable: false,
                 excel: {
                     allPages: false,
@@ -680,9 +678,6 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     enabled: true,
                     showFooter: false,
                 },
-                height: null,
-                mobile: "",
-                name: "thongsokythuatsGrid",
                 navigatable: false,
                 noRecords: false,
                 pageable: {
@@ -707,10 +702,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     subject: "From Sky with Love",
                     title: "Tong Hop Cau Hoi Thi Nang Giu Bac - from Skynet"
                 },
-                prefix: "",
                 reorderable: true,
                 resizable: true,
-                rowTemplate: "",
                 scrollable: {
                     virtual: false
                 },
@@ -719,13 +712,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     mode: "single",
                     allowUnsort: true
                 },
-                toolbar: ["excel", "pdf"],
-                detailTemplate: "",
-                detailInit: function(e) {
-                    e.detailRow.find(".myGridDetails").kendoGrid({
-                        dataSource: e.data.noi_dung.lua_chons
-                    });
-                }                
+                toolbar: ["excel", "pdf"]               
             },
             availableColumns: [{
                 field: "_id",
@@ -1288,34 +1275,22 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
 
     factory.cauhois.helpers = {
         initDefaultDataSource: function() {
-            let source = {
-                aggregate: undefined,
-                batch: false,
-                filter: undefined,
-                group: [],
-                offlineStorage: null,
+            let source = kendo.data.DataSource.create({
+                data: [],
                 page: 1,
                 pageSize: 5,
-                select: null,
-                serverAggregates: false,
-                serverFiltering: false,
-                serverGrouping: false,
-                serverPaging: false,
-                serverSorting: false,
-                sort: undefined,
-                table: null,
-                serverPaging: false,
-                serverSorting: false,
-
                 schema: this.buildGridSchemaModel(factory.cauhois.data.config.defaultColumns),
-                data: []
-            };
+            });
             return source;
         },
         initDefaultOptions: function() {
+            // Khởi tạo các cấu hình cơ bản
             let options = angular.copy(factory.cauhois.data.config.defaultOptions);
+            // Khởi tạo các cột dữ liệu
             options.columns = angular.copy(this.buildGridColumns(factory.cauhois.data.config.defaultColumns));
-            
+            // Khởi tạo nguồn dữ liệu - dataSource
+            options.dataSource = this.initDefaultDataSource();
+
             return options;
         },
         buildGridColumns: function(columns) {

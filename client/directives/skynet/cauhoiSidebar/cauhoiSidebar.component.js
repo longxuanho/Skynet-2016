@@ -1,7 +1,7 @@
 angular.module('angular-skynet').directive('cauhoiSidebar', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/directives/skynet/cauhoiSidebar/suachuaSidebar.template.html',
+        templateUrl: 'client/directives/skynet/cauhoiSidebar/cauhoiSidebar.template.html',
         scope: {
             'pageReactiveData': '='
         },
