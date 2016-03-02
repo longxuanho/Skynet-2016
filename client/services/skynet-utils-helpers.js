@@ -1627,7 +1627,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 error.message = "Chưa có thông tin về khu vực sửa chữa.";
                 return error;
             }
-            if (!suachua.dia_diem.vi_tri.ma) {
+            if (!suachua.dia_diem.vi_tri) {
                 error.message = "Chưa có thông tin về vị trí sửa chữa.";
                 return error;
             }

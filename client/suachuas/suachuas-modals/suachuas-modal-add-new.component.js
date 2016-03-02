@@ -22,7 +22,11 @@ angular.module('angular-skynet').directive('suachuasModalAddNew', function() {
 
             vm._helpers.initNewSuaChuaParams(vm);
             vm.modalOptions = {
-                errorMessage: 'This is an error'
+                errorMessage: 'This is an error',
+            };
+
+            vm.modalData = {
+                vi_tris: []
             }
 
             let myAlert = $('.newsuachua_alert');
@@ -98,6 +102,29 @@ angular.module('angular-skynet').directive('suachuasModalAddNew', function() {
             //         name: newVal
             //     }).color_accent;
             // });
+
+            $scope.$watch('vm.newSuaChua.dia_diem.khu_vuc.ma', (newVal) => {
+                if (newVal) {
+                    // Tính toán các vị trí còn trống và loại bỏ các vị trí đã được sử dụng trong danh sách
+                    // 1. Tìm các vị trí đã được sử dụng
+                    let originals = SuaChuas.find({                    
+                        'trang_thai.ma': 'dang_sua_chua' ,
+                        'dia_diem.khu_vuc.ma': newVal
+                    }).fetch();
+                    if (originals.length) {
+                        let occupieds = [];
+                        _.each(originals, (item) => {
+                            // Mảng occupieds chứa các vị trí đã được chiếm dụng
+                            occupieds.push(item.dia_diem.vi_tri);       
+                        });
+                        // 2. Loại bỏ các mảng này khỏi danh sách khả dụng
+                        vm.modalData.vi_tris = _.difference(vm.dictionary.vi_tris[newVal], occupieds);
+
+                    } else
+                        // Trường hợp chưa có vị trí bị chiếm dụng, trả về tất cả.
+                        vm.modalData.vi_tris = angular.copy(vm.dictionary.vi_tris[newVal]);
+                }
+            });
         }
     }
 });

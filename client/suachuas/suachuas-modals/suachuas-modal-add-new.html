@@ -93,15 +93,11 @@
                                 <div class="uk-form-stacked">
                                     <label for="newsuachua_diadiem_vitri">Vị trí</label>
                                     <select kendo-drop-down-list style="width: 100%;" id="newsuachua_diadiem_vitri"
-                                        k-ng-model="vm.newSuaChua.dia_diem.vi_tri"
-                                        k-cascade-from="'newsuachua_diadiem_khuvuc'"
-                                        k-cascade-from-field="'group'"
+                                        ng-model="vm.newSuaChua.dia_diem.vi_tri"
                                         k-option-label="' '"
-                                        k-data-text-field="'ten'" 
-                                        k-data-value-field="'ma'"
                                         k-filter="'contains'"
                                         k-index="-1"
-                                        k-data-source="vm.dictionary.vi_tris">
+                                        k-data-source="vm.modalData.vi_tris">
                                     </select>
                                 </div>
                             </div>

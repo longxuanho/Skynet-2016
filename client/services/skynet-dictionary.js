@@ -475,57 +475,80 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                     ma: "zone_e"
                 }
             ], 
-            "vi_tris": [
-                {
-                    "ten": "A01",
-                    "ma": "A01",
-                    group: "zone_a"
-                }, {
-                    "ten": "A02",
-                    "ma": "A02",
-                    group: "zone_a"
-                }, {
-                    "ten": "A03",
-                    "ma": "A03",
-                    group: "zone_a"
-                }, {
-                    "ten": "A04",
-                    "ma": "A04",
-                    group: "zone_a"
-                }, {
-                    "ten": "A05",
-                    "ma": "A05",
-                    group: "zone_a"
-                }, {
-                    "ten": "A06",
-                    "ma": "A06",
-                    group: "zone_a"
-                }, {
-                    "ten": "B01",
-                    "ma": "B01",
-                    group: "zone_b"
-                }, {
-                    "ten": "B02",
-                    "ma": "B02",
-                    group: "zone_b"
-                },{
-                    "ten": "B03",
-                    "ma": "B03",
-                    group: "zone_b"
-                },{
-                    "ten": "C01",
-                    "ma": "C01",
-                    group: "zone_c"
-                },{
-                    "ten": "C02",
-                    "ma": "C02",
-                    group: "zone_c"
-                },{
-                    "ten": "C03",
-                    "ma": "C03",
-                    group: "zone_c"
-                }
-            ],
+            // "vi_tris": [
+            //     {
+            //         "ten": "A01",
+            //         "ma": "A01",
+            //         group: "zone_a"
+            //     }, {
+            //         "ten": "A02",
+            //         "ma": "A02",
+            //         group: "zone_a"
+            //     }, {
+            //         "ten": "A03",
+            //         "ma": "A03",
+            //         group: "zone_a"
+            //     }, {
+            //         "ten": "A04",
+            //         "ma": "A04",
+            //         group: "zone_a"
+            //     }, {
+            //         "ten": "A05",
+            //         "ma": "A05",
+            //         group: "zone_a"
+            //     }, {
+            //         "ten": "A06",
+            //         "ma": "A06",
+            //         group: "zone_a"
+            //     }, {
+            //         "ten": "B01",
+            //         "ma": "B01",
+            //         group: "zone_b"
+            //     }, {
+            //         "ten": "B02",
+            //         "ma": "B02",
+            //         group: "zone_b"
+            //     },{
+            //         "ten": "B03",
+            //         "ma": "B03",
+            //         group: "zone_b"
+            //     },{
+            //         "ten": "C01",
+            //         "ma": "C01",
+            //         group: "zone_c"
+            //     },{
+            //         "ten": "C02",
+            //         "ma": "C02",
+            //         group: "zone_c"
+            //     },{
+            //         "ten": "C03",
+            //         "ma": "C03",
+            //         group: "zone_c"
+            //     }
+            // ],
+            "vi_tris": {
+                'zone_a': [
+                    "A01",
+                    "A02",
+                    "A03",
+                    "A04",
+                    "A05"
+                ],
+                'zone_b': [
+                    "B01",
+                    "B02",
+                    "B03",
+                    "B04",
+                    "B05"
+                ],
+                'zone_c': [
+                    "C01",
+                    "C02",
+                    "C03",
+                    "C04",
+                    "C05"
+                ]
+            },
             tags: {
                 "dau_keo_chay_ngoai": [
                     "Ắc quy",

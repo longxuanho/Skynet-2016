@@ -930,7 +930,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 'phan_loai.loai_sua_chua.ten',
                 'trang_thai.ten',
                 'dia_diem.khu_vuc.ten',
-                'dia_diem.vi_tri.ten',
+                'dia_diem.vi_tri',
                 'noi_dung.noi_dung',                
                 'thong_ke.thoi_gian.ngay_bat_dau',
                 'thong_ke.thoi_gian.thoi_gian_sua_chua',
@@ -1056,7 +1056,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 aggregates: ["count"],
                 groupHeaderTemplate: "#= value # (#= count# lượt)"
             }, {
-                field: "dia_diem.vi_tri.ten",
+                field: "dia_diem.vi_tri",
                 title: "Vị trí",
                 type: "string",
                 width: "120px",
@@ -1352,7 +1352,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 group: [],
                 offlineStorage: null,
                 page: 1,
-                pageSize: 5,
+                pageSize: 10,
                 select: null,
                 serverAggregates: false,
                 serverFiltering: false,
