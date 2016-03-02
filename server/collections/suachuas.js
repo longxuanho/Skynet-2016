@@ -45,19 +45,24 @@ SuaChuas.allow({
 // PUBLISH / SUBSCRIBE
 // ***************************************************
 
-Meteor.publish("suachuas", function(options, searchString, searchBy) {
+Meteor.publish("suachuas", function(options, searchString, searchBy, tags) {
 
     if (searchString == null)
         searchString = '';
     if (searchBy == null)
         searchBy = 'noi_dung.noi_dung';
 
-
     var query = {};
     var regex = {
         '$regex': '.*' + searchString || '' + '.*',
         '$options': 'i'
     };
+
+    if (!_.isEmpty(tags)) {
+        query['tags'] = {
+            $in: tags
+        };
+    }
 
     query[searchBy] = regex;
 

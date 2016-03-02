@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('suachuasModalAddNew', function() {
         templateUrl: 'client/suachuas/suachuas-modals/suachuas-modal-add-new.html',
         controllerAs: 'vm',
         scope: {
-        	source: '='
+        	dictionary: '='
         },
         bindToController: true,
         controller: function($scope, $rootScope, skynetHelpers, $state, $timeout, $reactive, skynetDictionary, iNotifier, $timeout) {
@@ -19,18 +19,17 @@ angular.module('angular-skynet').directive('suachuasModalAddNew', function() {
             let vm = this;
 
             vm._helpers = skynetHelpers.helpers;
-            vm.dictionary = angular.copy(skynetDictionary.data.suachuas);
 
             vm._helpers.initNewSuaChuaParams(vm);
             vm.modalOptions = {
                 errorMessage: 'This is an error'
             }
 
-            let myAlert = $('.suachua_alert');
+            let myAlert = $('.newsuachua_alert');
             myAlert.hide();
 
             // ***************************************************
-            // INITIALIZE
+            // UTILS
             // ***************************************************
 
             vm.utils = {
@@ -89,6 +88,16 @@ angular.module('angular-skynet').directive('suachuasModalAddNew', function() {
                     }
                 }
             }
+
+            // ***************************************************
+            // WATCHERS
+            // ***************************************************
+
+            // $rootScope.$watch('main_theme', (newVal) => {
+            //     $scope.utils.accentColor = _.findWhere($scope._data.general.themes, {
+            //         name: newVal
+            //     }).color_accent;
+            // });
         }
     }
 });

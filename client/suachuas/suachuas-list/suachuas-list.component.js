@@ -37,13 +37,15 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                 },
                 fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_sua_chua')) ? 'suachuas_createNew' : '',
                 selected: {
-                    cauhoi: {}
+                    suachua: {
+                        tags: []
+                    }
                 },
                 localConfigDataName: 'suachuas_config_data_local',
                 cloudConfigDataName: 'suachuas_grid_config_data_skynet'
             };
 
-            console.log('nhom: ', vm.pageOptions.filters.nhomsFilterSource)
+            
 
             vm.pageReactiveData = {
                 suachuas: [],
@@ -102,9 +104,9 @@ angular.module('angular-skynet').directive('suachuasList', function() {
 
                                 let selected = grid.dataItem(grid.select());
                                 
-                                if (vm.pageOptions.selected.cauhoi._id === selected._id) {
+                                if (vm.pageOptions.selected.suachua._id === selected._id) {
                                     // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
-                                    vm.pageOptions.selected.cauhoi = {};
+                                    vm.pageOptions.selected.suachua = {};
                                     vm.pageOptions.fabState = 'suachuas_createNew';                                                                       
 
                                     try {
@@ -115,14 +117,14 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                                     }
                                 } else {
                                     vm.pageOptions.fabState = 'suachuas_viewDetails';
-                                    vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
+                                    vm.pageOptions.selected.suachua = grid.dataItem(grid.select());
                                 }
                             }
                         }
                     },                                        
                     gridOnDataBound: function(event) {
                         vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_sua_chua')) ? 'suachuas_createNew' : '';
-                        vm.pageOptions.selected.cauhoi = '';
+                        vm.pageOptions.selected.suachua = '';
                     }
                 }
             }
@@ -145,10 +147,8 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                     vm.pageOptions.filters.filterNhomId = (vm.pageOptions.filters.filterNhomId === id) ? '' : id;
                 },
                 buildNhomsFilterSource: function() {
-                    
-                    vm.pageOptions.filters.nhomsFilterSource = _.sortBy(vm.dictionary.nhom_sua_chuas, (item) => {
-                        return item.order;
-                    });
+                    vm.pageOptions.filters.nhomsFilterSource = angular.copy(vm.dictionary.trang_thais);
+                    vm.pageOptions.filters.nhomsFilterSource.unshift({ma: '', ten: "Tất cả"});
 
                     // Hiển thị tất cả các item trên Top Bar
                     _.each(vm.pageOptions.filters.nhomsFilterSource, (item) => {
@@ -184,14 +184,14 @@ angular.module('angular-skynet').directive('suachuasList', function() {
 
             vm.helpers({
                 suachuas: () => {
-                    let data = vm.pageOptions.filters.filterNhomId ? SuaChuas.find({'phan_loai.nhom_sua_chua.ma': vm.pageOptions.filters.filterNhomId}).fetch() : SuaChuas.find({}).fetch();
+                    let data = vm.pageOptions.filters.filterNhomId ? SuaChuas.find({'trang_thai.ma': vm.pageOptions.filters.filterNhomId}).fetch() : SuaChuas.find({}).fetch();
                     try {
                         vm.gridData.kGrid.kData.dataSource.data(data);
                     } catch (error) {
                         console.log("Error: ", error);
                     }
                     return SuaChuas.find({
-                        'phan_loai.nhom_sua_chua.ma': vm.getReactively('pageOptions.filters.filterNhomId')
+                        'trang_thai.ma': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
                 }
             });

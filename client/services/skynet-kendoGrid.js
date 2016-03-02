@@ -933,7 +933,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 'dia_diem.vi_tri.ten',
                 'noi_dung.noi_dung',                
                 'thong_ke.thoi_gian.ngay_bat_dau',
-                'thong_ke.thoi_gian.thoi_gian_sua_chua'
+                'thong_ke.thoi_gian.thoi_gian_sua_chua',
+                'thoi_gian.sua_chua_du_kien'
             ],
             defaultOptions: {
                 allowCopy: {
@@ -1044,14 +1045,14 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 field: "trang_thai.ten",
                 title: "Trạng thái",
                 type: "string",
-                width: "120px",
+                width: "180px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Trạng thái: #= value # (#= count# lượt)"
             }, {
                 field: "dia_diem.khu_vuc.ten",
                 title: "Khu vực SC",
                 type: "string",
-                width: "120px",
+                width: "130px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "#= value # (#= count# lượt)"
             }, {
@@ -1073,8 +1074,23 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 title: "TGSC (giờ)",
                 type: "number",
                 width: "120px",
+                format: "{0: #.00}",
+                attributes: {
+                    style: "text-align: right;"
+                },
                 aggregates: ["min", "max", "average"],
-                groupHeaderTemplate: "Thời gian SC: #= value # (min: #= count#, max: #= count#, avg: #= average#)"
+                groupHeaderTemplate: "Thời gian SC: #= value # (min: #= min#, max: #= max#, avg: #= average#)"
+            }, {
+                field: "thoi_gian.sua_chua_du_kien",
+                title: "SC dự kiến (giờ)",
+                type: "number",
+                width: "120px",
+                format: "{0: #.00}",
+                attributes: {
+                    style: "text-align: right;"
+                },
+                aggregates: ["min", "max", "average"],
+                groupHeaderTemplate: "Thời gian SC dự kiến: #= value # (min: #= min#, max: #= max#, avg: #= average#)"
             }, {
                 field: "thong_ke.thoi_gian.ngay_bat_dau",
                 title: "Ngày bắt đầu",

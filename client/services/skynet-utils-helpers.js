@@ -1650,50 +1650,17 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             return;
         },
 
-        buildSuaChua: function(cauhoi) {
-            // Loại bỏ các lựa chọn không có nội dung
-            cauhoi.noi_dung.lua_chons = _.filter(cauhoi.noi_dung.lua_chons, (item) => {
-                return item.tieu_de;
-            });
-
-            // Loại bỏ các url hình ảnh không có nội dung
-            cauhoi.noi_dung.url_hinh_anhs = _.without(cauhoi.noi_dung.url_hinh_anhs, '');
-            cauhoi.noi_dung.isHasImages = (cauhoi.noi_dung.url_hinh_anhs.length) ? true : false;
-
-            // Tính toán lại các chỉ số thống kê
-            cauhoi.noi_dung.thong_ke.numOfLuaChons = cauhoi.noi_dung.lua_chons.length; 
-            cauhoi.noi_dung.thong_ke.numOfCorrectAnswers = _.where(cauhoi.noi_dung.lua_chons, {isCorrect: true}).length;
-            cauhoi.noi_dung.thong_ke.numOfUrlHinhAnhs = cauhoi.noi_dung.url_hinh_anhs.length;
-
-            // Cập nhật các trường thông tin 
-            cauhoi.fields.tags = cauhoi.tags.join(", ");
-            cauhoi.fields.loai_tb = cauhoi.phan_loai.loai_tb.join(", ");
-            cauhoi.fields.bac_thi = cauhoi.phan_loai.bac_thi.join(", ");
-
-            let correct_answers = [],
-                alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-            _.each(_.where(cauhoi.noi_dung.lua_chons, { isCorrect: true }), (item) => {
-                correct_answers.push(alphabelts[item.order]);
-            });
-
-            cauhoi.fields.correctAnswer = correct_answers.join(", ");
-
-            // Cập nhật các trường mới hỗ trợ xuất thông tin từ Excel - Đáp án A, B, C bố trí theo chiều ngang.
-            cauhoi.fields.lua_chons = {};
-            _.each(cauhoi.noi_dung.lua_chons, (item, index) => {
-                cauhoi.fields.lua_chons[alphabelts[index]] = item.tieu_de;
-            });
+        buildSuaChua: function(suachua) {
+            
+            // Tính toán các thông số thống kê
+            suachua.thong_ke.tags_field = suachua.tags.join(", ");
+            suachua.thong_ke.thoi_gian.ngay_ket_thuc = kendo.toString(suachua.thoi_gian.bat_dau, "yyyy-MM-dd", "vi-VN");
+            suachua.thong_ke.thoi_gian.thoi_gian_sua_chua = moment.duration(moment(suachua.thoi_gian.ket_thuc).diff(moment(suachua.thoi_gian.bat_dau))).asHours(); 
 
             // Khởi tạo metadata câu hỏi 
-            if (!cauhoi.metadata)
-                cauhoi.metadata = {};
-            this.buildMetadata('build', cauhoi.metadata);
-
-            // Cập nhật các trường ghi chú về thời gian từ dạng Date về dạng String, hỗ trợ nhóm dữ liệu trong Grid
-            cauhoi.fields.thoi_gians = {},
-            cauhoi.fields.thoi_gians.ngay_tao_string = kendo.toString(cauhoi.metadata.ngay_tao, 'yyyy-MM-dd');
-            cauhoi.fields.thoi_gians.ngay_cap_nhat_cuoi_string = kendo.toString(cauhoi.metadata.ngay_cap_nhat_cuoi, 'yyyy-MM-dd');
+            if (!suachua.metadata)
+                suachua.metadata = {};
+            this.buildMetadata('build', suachua.metadata);
         },
 
         buildNewSuaChua: function(newSuaChua) {            
@@ -1701,7 +1668,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             newSuaChua.thoi_gian.ket_thuc_du_kien = moment(newSuaChua.thoi_gian.bat_dau).add(newSuaChua.thoi_gian.sua_chua_du_kien, 'hours').toDate();
 
             // Tính toán các thông số thống kê
-            // newSuaChua.thong_ke.thoi_gian.thoi_gian_sua_chua = moment.duration(moment(newSuaChua.thoi_gian.bat_dau).diff(moment(newSuaChua.thoi_gian.ket_thuc))).asHours();
+            
             newSuaChua.thong_ke.thoi_gian.ngay_bat_dau = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy-MM-dd", "vi-VN");
             newSuaChua.thong_ke.thoi_gian.thang_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "MM", "vi-VN");
             newSuaChua.thong_ke.thoi_gian.nam_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy", "vi-VN");

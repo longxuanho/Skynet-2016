@@ -1,9 +1,10 @@
-angular.module('angular-skynet').directive('cauhoiSidebar', function() {
+angular.module('angular-skynet').directive('suachuasSidebar', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/directives/skynet/cauhoiSidebar/suachuaSidebar.template.html',
+        templateUrl: 'client/directives/skynet/suachuasSidebar/suachuasSidebar.template.html',
         scope: {
-            'pageReactiveData': '='
+            'pageReactiveData': '=',
+            'dictionary': '='
         },
         controllerAs: 'vm',
         bindToController: true,
@@ -16,8 +17,6 @@ angular.module('angular-skynet').directive('cauhoiSidebar', function() {
             // ***************************************************
             // INITIALIZE
             // ***************************************************
-
-            vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
             vm.sSidebar = {
                 site_online: true,
