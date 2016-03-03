@@ -5,7 +5,7 @@ angular.module('angular-skynet').directive('usersProfileAbout', function() {
         controllerAs: 'UsersProfileAbout',
         scope: {
             user: '=',
-            states: '='
+            pageOptions: '='
         },
         controller: function($scope, $stateParams, $state, $timeout, skynetHelpers) {
 
@@ -63,51 +63,6 @@ angular.module('angular-skynet').directive('usersProfileAbout', function() {
             // ***************************************************
             // METHODS
             // ***************************************************
-
-            $scope.updateUserProfile = () => {
-
-                let err = $scope.utils.validateUser();
-                if (_.isEmpty(err)) {
-                    err = $scope.utils.validateUserProfileForm();
-                    if (_.isEmpty(err)) {
-
-                        $scope.utils.buildUserProfile();
-                        Meteor.users.update({
-                            _id: $stateParams.userId
-                        }, {
-                            $set: {
-                                'profile.name': $scope.user.profile.name,
-                                'profile.lastName': $scope.user.profile.lastName,
-                                'profile.firstName': $scope.user.profile.firstName,
-                                'profile.birthday': $scope.user.profile.birthday,
-                                'profile.gender': $scope.user.profile.gender,
-                                'profile.department': $scope.user.profile.department,
-                                'profile.organization': $scope.user.profile.organization,
-                                'profile.bio': $scope.user.profile.bio,
-                                'profile.email_work': $scope.user.profile.email_work,
-                                'profile.phone': $scope.user.profile.phone,
-                                'profile.search_field': $scope.user._id + ' : ' + $scope.user.username + ' : ' + $scope.user.emails[0].address + ' : ' + $scope.user.profile.name
-                            }
-                        }, (error) => {
-                            if (error) {
-                                toastr.error('Không thể cập nhật profile của bạn. ' + error.message + '.');
-                                console.log('Có lỗi xảy ra trong quá trình cập nhật profile ', error);
-                            } else {
-                                toastr.success('Hồ sơ cá nhân của bạn đã được cập nhật thành công.');
-                                $scope.$apply(() => {
-                                    if ($scope.onEditMode)
-                                        $scope.onEditMode = false;
-                                });
-                            }
-                        });
-
-                    } else {
-                        toastr.error(err.message);
-                    }
-                } else {
-                    toastr.error(err.message);
-                }
-            };
 
             $scope.updateUserAvatar = () => {
 
@@ -209,6 +164,17 @@ angular.module('angular-skynet').directive('usersProfileAbout', function() {
                     };
                 }
             }
+
+            // ***************************************************
+            // WATCHERS
+            // ***************************************************
+
+            $scope.$watch('pageOptions.isEditable', (newVal, oldVal) => {
+                // Nếu người dùng chuyển sang chế độ readonly, sử dụng jQuery để gỡ bỏ tất cả các thuộc tính read-only
+                if (newVal) {
+                    $('.jquery-remove-readonly').removeAttr('readonly');
+                }
+            })
 
         }
     }

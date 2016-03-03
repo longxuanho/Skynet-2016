@@ -3,8 +3,10 @@ angular.module('angular-skynet').directive('usersProfile', function() {
         restrict: 'E',
         templateUrl: 'client/users/users-profile/users-profile.html',
         controllerAs: 'UsersProfile',
-        controller: function($scope, $stateParams, $state, $timeout, skynetHelpers) {
+        controller: function($scope, $stateParams, $state, $timeout, skynetHelpers, $rootScope, iNotifier) {
 
+            // Ẩn topMenu - ngược?
+            $rootScope.topMenuActive = true;
 
             // ***************************************************
             // INITIALIZE
@@ -12,36 +14,20 @@ angular.module('angular-skynet').directive('usersProfile', function() {
 
             $scope._data = skynetHelpers.data;
 
-            $scope.states = {
-                profileState: 'profile_about_view',
-                profileSubState: ''
-            };
+            // $scope.states = {
+            //     profileState: 'profile_about_view',
+            //     profileSubState: ''
+            // };
+
+            $scope.pageOptions = {
+                isEditable: false
+            }
 
             $scope.credentials = {
                 oldPassword: '',
                 newPassword: '',
                 repeatNewPassword: ''
             }
-
-            $('#user_profile_tabs').on('change.uk.tab', function(event, activeTab, prevItem) {
-                if (activeTab.length > 0) {
-                    if (activeTab[0].id === 'user_profile_general') {
-                        console.log('profile triggered!');
-                        $scope.states.profileState = 'profile_about_view';
-                        $scope.states.profileSubState = '';
-                    }
-                    if (activeTab[0].id === 'user_profile_settings') {
-                        console.log('settings triggered!');
-                        $scope.states.profileState = 'profile_settings_view';
-                        $scope.states.profileSubState = '';
-                    }
-                    if (activeTab[0].id === 'user_profile_mics') {
-                        console.log('mics triggered!');
-                        $scope.states.profileState = 'profile_mics_view';
-                        $scope.states.profileSubState = '';
-                    }
-                }
-            });
 
             // ***************************************************
             // SUBSCRIBE
@@ -70,14 +56,60 @@ angular.module('angular-skynet').directive('usersProfile', function() {
             // METHODS
             // ***************************************************
 
-            $scope.resetEditProfile = () => {
-                angular.copy($scope.master, $scope.user);
-            };
+            
 
             // ***************************************************
             // ULTILS
             // ***************************************************
             $scope.utils = {
+                updateUserProfile: function() {
+
+                    let err = $scope.utils.validateUser();
+                    if (_.isEmpty(err)) {
+                        err = $scope.utils.validateUserProfileForm();
+                        if (_.isEmpty(err)) {
+
+                            $scope.utils.buildUserProfile();
+                            Meteor.users.update({
+                                _id: $stateParams.userId
+                            }, {
+                                $set: {
+                                    'profile.name': $scope.user.profile.name,
+                                    'profile.lastName': $scope.user.profile.lastName,
+                                    'profile.firstName': $scope.user.profile.firstName,
+                                    'profile.birthday': $scope.user.profile.birthday,
+                                    'profile.gender': $scope.user.profile.gender,
+                                    'profile.department': $scope.user.profile.department,
+                                    'profile.organization': $scope.user.profile.organization,
+                                    'profile.bio': $scope.user.profile.bio,
+                                    'profile.email_work': $scope.user.profile.email_work,
+                                    'profile.phone': $scope.user.profile.phone,
+                                    'profile.search_field': $scope.user._id + ' : ' + $scope.user.username + ' : ' + $scope.user.emails[0].address + ' : ' + $scope.user.profile.name
+                                }
+                            }, (error) => {
+                                if (error) {
+                                    iNotifier.error('Không thể cập nhật profile của bạn. ' + error.message + '.');
+                                    $scope.$apply(() => {
+                                        $scope.pageOptions.isEditable = false;
+                                    });
+                                } else {
+                                    iNotifier.success('Hồ sơ cá nhân của bạn đã được cập nhật thành công.');
+                                    $scope.$apply(() => {
+                                        $scope.pageOptions.isEditable = false;
+                                    });
+                                }
+                            });
+
+                        } else {
+                            iNotifier.error(err.message);
+                        }
+                    } else {
+                        iNotifier.error(err.message);
+                    }
+                },
+                resetEditProfile: function () {
+                    angular.copy($scope.master, $scope.user);
+                },
                 validateUserProfileForm: function() {
 
                 },
