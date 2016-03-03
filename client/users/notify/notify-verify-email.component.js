@@ -3,9 +3,14 @@ angular.module('angular-skynet').directive('notifyVerifyEmail', function() {
         restrict: 'E',
         templateUrl: 'client/users/notify/notify-verify-email.html',
         controllerAs: 'NotifyVerifyEmail',
-        controller: function($scope, $state, $stateParams, $timeout, skynetHelpers, iNotifier) {
+        controller: function($scope, $state, $stateParams, $timeout, skynetHelpers, iNotifier, $rootScope) {
 
-
+            // Ẩn thanh mainSideBar trong khu vực này
+            $rootScope.hideMainSidebar = true;
+            $rootScope.fullHeaderActive = true;
+            // Ẩn topMenu - ngược?
+            $rootScope.topMenuActive = true;
+            
             // ***************************************************
             // INITIALIZE
             // ***************************************************

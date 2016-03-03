@@ -16,34 +16,8 @@
     'uk-height-1-1': page_full_height
 }" content-sidebar>
         <top-header></top-header>
-        <!--  <br><br><br><br>
-    <login-buttons></login-buttons>
-    <general-tool-bar></general-tool-bar>
-    <h1> <a href="/phan-loai">Home</a> </h1>
-    <div class="nav">
-        Quản lý: (
-        <a ui-sref="nhoms" ui-sref-active="active">Nhóm</a> |
-        <a ui-sref="chungloais" ui-sref-active="active">Chủng loại</a> |
-        <a ui-sref="loais" ui-sref-active="active">Loại</a> |
-        <a ui-sref="diabans" ui-sref-active="active">Địa bàn</a> |
-        <a ui-sref="donvis" ui-sref-active="active">Đơn vị</a> |
-        <a ui-sref="hangsanxuats" ui-sref-active="active">Hãng sản xuất</a> |
-        <a ui-sref="loaithongsokythuats" ui-sref-active="active">Thông số kỹ thuật</a> |
-        <a ui-sref="modelthietbis" ui-sref-active="active">Model thiết bị</a> |
-        <a ui-sref="quocgias" ui-sref-active="active">Quốc gia</a> |
-        <a ui-sref="thietbis" ui-sref-active="active">Thiết bị</a> ) |
-        <a ui-sref="suachuas" ui-sref-active="active">Kế hoạch sửa chữa</a> |
-        <a ui-sref="thongkes" ui-sref-active="active">Thống kê</a> |
-        <a ui-sref="manage_users" ui-sref-active="active">Admin.Users</a> |
-        <a ui-sref="user_profile" ui-sref-active="active">Profile</a> |
-        <a ui-sref="user_settings" ui-sref-active="active">Settings</a> |
-        <a ui-sref="test_project" ui-sref-active="active">Test</a> |
-        <a ui-sref="user_login" ui-sref-active="active">Đăng nhập</a> |
-        <a ui-sref="settings" ui-sref-active="active">Thiết lập</a> |
-        <a ui-sref="hosoluutrus" ui-sref-active="active">Hồ sơ lưu trữ</a>
-    </div> -->
         <div ui-view ng-class="{ 'uk-height-1-1': page_full_height }"></div>
-        <main-sidebar></main-sidebar>
+        <main-sidebar class="no-animate" ng-hide="$root.hideMainSidebar"></main-sidebar>
         <style-switcher></style-switcher>
     </div>
 </div>

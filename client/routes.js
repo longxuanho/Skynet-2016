@@ -1,3 +1,5 @@
+// Chú ý event 'routeChangeError và ẩn mainSidebar ở một số phần
+
 angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
@@ -276,15 +278,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         // CAUHOIS
         .state('cauhois', {
             url: '/quan-ly/ngan-hang-cau-hoi',
-            template: '<cauhois-main></cauhois-main>'
-        })
-        .state('cauhois.addNew', {
-            url: '/tao-moi',
-            template: '<cauhois-add-new></cauhois-add-new>'
-        })
-        .state('cauhois.list', {
-            url: '/thong-ke',
-            template: '<cauhois-list></cauhois-list>',
+            template: '<cauhois-main></cauhois-main>',
             resolve: {
                 currentUser: ($q) => {
                     if (Meteor.userId() == null) {
@@ -299,6 +293,14 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
                     }
                 }
             }
+        })
+        .state('cauhois.addNew', {
+            url: '/tao-moi',
+            template: '<cauhois-add-new></cauhois-add-new>'
+        })
+        .state('cauhois.list', {
+            url: '/thong-ke',
+            template: '<cauhois-list></cauhois-list>'
         })
         .state('cauhois.update', {
             url: '/cap-nhat/:cauhoiId',
@@ -532,6 +534,9 @@ angular.module('angular-skynet')
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            // Chú ý: chế độ mặc định luôn hiển thị mainSidebar
+            $rootScope.hideMainSidebar = false;
+
             // main search
             $rootScope.mainSearchActive = false;
             // single card

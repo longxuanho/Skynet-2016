@@ -2,9 +2,14 @@ angular.module('angular-skynet').directive('notifyCheckEmail', function() {
     return {
         restrict: 'E',
         templateUrl: 'client/users/notify/notify-check-email.html',
-        controllerAs: 'NotifyCheckEmail',
-        controller: function($scope, $stateParams, $state) {
+        controllerAs: 'vm',
+        controller: function($scope, $stateParams, $state, $rootScope) {
 
+            // Ẩn thanh mainSideBar trong khu vực này
+            $rootScope.hideMainSidebar = true;
+            $rootScope.fullHeaderActive = true;
+            // Ẩn topMenu - ngược?
+            $rootScope.topMenuActive = true;
 
             // ***************************************************
             // INITIALIZE
