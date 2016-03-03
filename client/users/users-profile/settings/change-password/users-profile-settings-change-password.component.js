@@ -8,7 +8,7 @@ angular.module('angular-skynet').directive('usersProfileSettingsChangePassword',
         },
         controller: function($scope, $stateParams, $state, $timeout, skynetHelpers) {
 
-
+            console.log('user: ', $scope.user);
             // ***************************************************
             // INITIALIZE
             // ***************************************************

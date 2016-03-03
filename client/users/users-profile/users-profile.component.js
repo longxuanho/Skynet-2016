@@ -43,6 +43,11 @@ angular.module('angular-skynet').directive('usersProfile', function() {
                 }
             });
 
+            // ***************************************************
+            // SUBSCRIBE
+            // ***************************************************
+
+            $scope.subscribe('users');
 
             // ***************************************************
             // REACTIVE HELPERS

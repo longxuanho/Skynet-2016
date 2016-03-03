@@ -96,7 +96,7 @@
                         </div>
                         <div class="user_heading_avatar">
                             <div class="thumbnail">
-                                <img ng-src="{{user.profile.avatar.url?user.profile.avatar.url:'assets/img/avatars/avatar_01.png'}}" alt="user avatar" ng-click="utils.toggleEditAvatar()" ng-class="{'md-raised':(states.profileState==='profile_about_edit')}" />
+                                <img ng-src="{{user.profile.avatar.url?user.profile.avatar.url:'assets/img/avatars/avatar_01.png'}}" alt="user avatar" ng-click="utils.toggleEditAvatar()" class="md-raised" />
                             </div>
                         </div>
                         <div class="user_heading_content">
@@ -168,11 +168,32 @@
                 </div>
             </div>
             <div class="uk-width-large-3-10">
-                <div class="md-card">
-                    <div class="md-card-content">
-                        <users-profile-update-avatar user="user" states="states"></users-profile-update-avatar>
+                <div class="uk-grid">
+                    <div class="uk-width-large-1-1">
+                        <div class="md-card">
+                            <div class="md-card-toolbar">
+                                <h3 class="md-card-toolbar-heading-text">
+                                    Cập nhật hình đại diện
+                                </h3>
+                            </div>
+                            <div class="md-card-content">
+                                <users-profile-update-avatar user="user" states="states"></users-profile-update-avatar>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="uk-width-large-1-1 uk-margin-medium-top">
+                        <div class="md-card">
+                            <div class="md-card-toolbar">
+                                <h3 class="md-card-toolbar-heading-text">
+                                    Thông tin đăng nhập
+                                </h3>
+                            </div>
+                            <div class="md-card-content">
+                                <users-profile-settings-change-password user="user"></users-profile-settings-change-password>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
