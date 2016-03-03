@@ -52,7 +52,6 @@
                         <ul id="user_profile_tabs" class="uk-tab" data-uk-tab="{connect:'#user_profile_tabs_content', animation:'slide-horizontal'}" data-uk-sticky="{ top: 48, media: 960 }">
                             <li id='user_profile_general' class="uk-active"><a href="#">Hồ sơ</a></li>
                             <li id='user_profile_settings' ><a href="#">Thiết lập</a></li>
-                            <li id='user_profile_mics'><a href="#">Khác</a></li>
                         </ul>
                         <ul id="user_profile_tabs_content" class="uk-switcher uk-margin">
                             <li>
@@ -68,26 +67,6 @@
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <ul class="md-list">
-                                    <li ng-repeat="post in user_data.posts">
-                                        <div class="md-list-content">
-                                            <span class="md-list-heading"><a href="#">{{post.title}}</a></span>
-                                            <div class="uk-margin-small-top">
-                                                <span class="uk-margin-right">
-                                                        <i class="material-icons">&#xE192;</i> <span class="uk-text-muted uk-text-small">{{post.date}}</span>
-                                                </span>
-                                                <span class="uk-margin-right">
-                                                        <i class="material-icons">&#xE0B9;</i> <span class="uk-text-muted uk-text-small">{{post.comments}}</span>
-                                                </span>
-                                                <span class="uk-margin-right">
-                                                        <i class="material-icons">&#xE417;</i> <span class="uk-text-muted uk-text-small">{{post.views}}</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -95,7 +74,7 @@
             <div class="uk-width-large-3-10">
                 <div class="uk-grid">
                     <div class="uk-width-large-1-1">
-                        <div class="md-card">
+                        <div class="md-card md-raised">
                             <div class="md-card-toolbar">
                                 <h3 class="md-card-toolbar-heading-text">
                                     Cập nhật hình đại diện
@@ -107,7 +86,7 @@
                         </div>
                     </div>
                     <div class="uk-width-large-1-1 uk-margin-medium-top">
-                        <div class="md-card">
+                        <div class="md-card md-raised">
                             <div class="md-card-toolbar">
                                 <h3 class="md-card-toolbar-heading-text">
                                     Thông tin đăng nhập
