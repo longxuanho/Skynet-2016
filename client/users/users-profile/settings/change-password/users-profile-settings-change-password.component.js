@@ -6,7 +6,7 @@ angular.module('angular-skynet').directive('usersProfileSettingsChangePassword',
         scope: {
             user: '='
         },
-        controller: function($scope, $stateParams, $state, $timeout, skynetHelpers) {
+        controller: function($scope, $stateParams, $state, $timeout, skynetHelpers, iNotifier) {
 
             console.log('user: ', $scope.user);
             // ***************************************************
@@ -37,10 +37,10 @@ angular.module('angular-skynet').directive('usersProfileSettingsChangePassword',
                         Accounts.changePassword($scope.credentials.oldPassword, $scope.credentials.newPassword, (err) => {
                             if (err) {
                                 $scope.error = err;
-                                toastr.error('Có lỗi xảy ra trong quá trình thay đổi mật khẩu của bạn: ' + err.reason + '.');
+                                iNotifier.error('Có lỗi xảy ra trong quá trình thay đổi mật khẩu của bạn: ' + err.reason + '.');
                                 console.log('Có lỗi khi cập nhật mật khẩu - ', err);
                             } else {
-                                toastr.success('Mật khẩu mới được cập nhật thành công.');
+                                iNotifier.success('Mật khẩu mới được cập nhật thành công.');
                                 $scope.$apply(() => {
                                     $scope.utils.resetCredentials();
                                 });                                
@@ -48,10 +48,10 @@ angular.module('angular-skynet').directive('usersProfileSettingsChangePassword',
                         });
 
                     } else {
-                        toastr.error(error.message);
+                        iNotifier.error(error.message);
                     }
                 } else {
-                    toastr.error(error.message);
+                    iNotifier.error(error.message);
                 }
             };
 
