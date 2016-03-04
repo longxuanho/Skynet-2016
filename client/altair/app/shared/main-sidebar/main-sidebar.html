@@ -4,22 +4,30 @@
 <aside id="sidebar_main" sidebar-primary custom-scrollbar ng-class="{ 'accordion_mode': menuAccordionMode }">
     <div class="sidebar_main_header" ng-if="!fullHeaderActive">
         <div class="sidebar_logo">
-            <a ui-sref="restricted.dashboard" ng-show="!miniSidebarActive"><img ng-src="assets/img/logo_main.png" alt="" add-image-prop /></a>
+            <!-- CASE: PRIMARY SIDEBAR -->
+            
+            <!-- Option 1:   
+                <a ui-sref="restricted.dashboard" ng-show="!miniSidebarActive"><img ng-src="assets/img/logo_main.png" alt="" add-image-prop /></a>
+            -->
+            <!-- Option 2: -->
+            <div class="skynet-logo-main no-animate" ng-show="!miniSidebarActive"></div>
+            
+            <!-- CASE: MINI SIDEBAR -->
+
             <!-- Option 1:         
             <a ui-sref="restricted.dashboard" ng-show="miniSidebarActive"><img ng-src="assets/img/logo_main_small.png" alt="" add-image-prop /></a>
             -->
             <!-- Option 2:
             <div class="skynet-logo-small" ng-show="miniSidebarActive"></div>
             -->
-
             <!-- Option 3: -->
-            <div style="text-align: center;margin:auto;">
+            <div style="text-align: center;margin:auto;" ng-show="miniSidebarActive" class="no-animate">
                 <i class="md-icon material-icons color-primary" style="font-size:32px;margin-top:4px;line-height: 40px!important;height: 40px!important;width: 40px!important;">&#xE8AB;</i>
             </div>
         </div>
-        <div class="sidebar_actions">
+<!--         <div class="sidebar_actions">
             <selectize id="lang_switcher" name="lang_switcher" config='langSwitcherConfig' options='langSwitcherOptions' ng-model="langSwitcherModel"></selectize>
-        </div>
+        </div> -->
     </div>
     <div class="menu_section">
         <ul>

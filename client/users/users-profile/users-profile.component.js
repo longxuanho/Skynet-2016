@@ -5,9 +5,6 @@ angular.module('angular-skynet').directive('usersProfile', function() {
         controllerAs: 'UsersProfile',
         controller: function($scope, $stateParams, $state, $timeout, skynetHelpers, $rootScope, iNotifier) {
 
-            // Ẩn topMenu - ngược?
-            $rootScope.topMenuActive = true;
-
             // ***************************************************
             // INITIALIZE
             // ***************************************************

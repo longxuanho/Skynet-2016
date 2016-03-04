@@ -65,6 +65,7 @@ angular.module('angular-skynet').directive('usersProfileUpdateAvatar', function(
                 if (_.isEmpty(err)) {
 
                     // $scope.utils.buildUserAvatar();
+                    
                     // Cập nhật avatar vào profile
                     $scope.user.profile.avatar = {
                         keyId: $scope.userAvatar._id,
