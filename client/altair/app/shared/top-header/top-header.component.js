@@ -74,6 +74,11 @@ angular.module('angular-skynet').directive('topHeader', function() {
                 }, 280)
             });
 
+            // ***************************************************
+            // SUBSCRIBES
+            // ***************************************************
+
+            $scope.subscribe('users');
 
             // ***************************************************
             // REACTIVE HELPERS

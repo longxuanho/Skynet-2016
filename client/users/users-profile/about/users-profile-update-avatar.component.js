@@ -64,27 +64,41 @@ angular.module('angular-skynet').directive('usersProfileUpdateAvatar', function(
                 let err = $scope.utils.validateUser();
                 if (_.isEmpty(err)) {
 
-                    $scope.utils.buildUserAvatar();
-                    Meteor.users.update({
-                        _id: $stateParams.userId
-                    }, {
-                        $set: {
-                            'profile.avatar': $scope.user.profile.avatar
-                        }
-                    }, (error) => {
-                        if (error) {
-                            iNotifier.error('Không thể cập nhật hình đại diện của bạn của bạn. ' + error.message + '.');
-                            console.log('Có lỗi xảy ra trong quá trình cập nhật avatar ', error);
-                        } else {
-                            iNotifier.success('Hình đại diện của bạn đã được cập nhật thành công.');
-                            $scope.userAvatar = {};
-                            progressbar.addClass("uk-hidden");
-                            $scope.$apply(() => {
-                                $scope.onEditAvatar = false;
-                                $scope.finishUploading = false;
-                            });
-                        }
-                    });
+                    // $scope.utils.buildUserAvatar();
+                    // Cập nhật avatar vào profile
+                    $scope.user.profile.avatar = {
+                        keyId: $scope.userAvatar._id,
+                    };
+                    let url = $scope.userAvatar.url();
+                    // Delay 01s trước khi cập nhật để có thông tin về url
+                    $timeout(() => {
+                        if (url)
+                            $scope.user.profile.avatar.url = url;
+
+                        Meteor.users.update({
+                            _id: $stateParams.userId
+                        }, {
+                            $set: {
+                                'profile.avatar': $scope.user.profile.avatar
+                            }
+                        }, (error) => {
+                            if (error) {
+                                iNotifier.error('Không thể cập nhật hình đại diện của bạn của bạn. ' + error.message + '.');
+                                console.log('Có lỗi xảy ra trong quá trình cập nhật avatar ', error);
+                            } else {
+                                iNotifier.success('Hình đại diện của bạn đã được cập nhật thành công.');
+                                $scope.userAvatar = {};
+                                progressbar.addClass("uk-hidden");
+                                $scope.$apply(() => {
+                                    $scope.onEditAvatar = false;
+                                    $scope.finishUploading = false;
+                                });
+                            }
+                        });
+
+                    }, 1000);
+
+                    
 
                 } else {
                     iNotifier.error(err.message);
@@ -132,17 +146,14 @@ angular.module('angular-skynet').directive('usersProfileUpdateAvatar', function(
 
                 },
                 buildUserAvatar: function() {
-                    if (!_.isEmpty($scope.userAvatar)) {
-                        $scope.user.profile.avatar = {};
-                        $scope.user.profile.avatar.keyId = $scope.userAvatar._id;
-                        let url = $scope.userAvatar.url();
-                        $timeout(() => {
-                            console.log('avatar url: ', url);
-                            if (url)
-                                $scope.user.profile.avatar.url = $scope.userAvatar.url();
-                        }, 1000);
-                        
-                    }
+                    $scope.user.profile.avatar = {
+                        keyId: $scope.userAvatar._id,
+                    };
+                    let url = $scope.userAvatar.url();
+                    $timeout(() => {
+                        if (url)
+                            $scope.user.profile.avatar.url = url;
+                    }, 1000);
                 },
                 toggleEditAvatar: function() {
                     if ($scope.onEditMode)
