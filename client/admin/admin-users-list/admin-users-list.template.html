@@ -4,8 +4,8 @@
             <div class="md-card md-card-single" single-card>
                 <div class="md-card-toolbar">
                     <div class="md-card-toolbar-actions hidden-print">
-                        <i class="md-icon material-icons" ng-class="{'color-primary': vm.pageOptions.mode==='view'}" ng-click="vm.pageOptions.mode='view'">&#xE88F;</i>
-                        <i class="md-icon material-icons" ng-class="{'uk-text-warning': vm.pageOptions.mode==='action'}" ng-click="vm.pageOptions.mode='action'">&#xE86F;</i>
+                        <i class="md-icon material-icons" ng-class="{'color-primary': pageOptions.mode==='view'}" ng-click="pageOptions.mode='view'">&#xE88F;</i>
+                        <i class="md-icon material-icons" ng-class="{'uk-text-warning': pageOptions.mode==='action'}" ng-click="pageOptions.mode='action'">&#xE86F;</i>
                         <i class="md-icon material-icons">&#xE5CD;</i>
                     </div>
                     <h3 class="md-card-toolbar-heading-text large">
@@ -13,18 +13,30 @@
                     </h3>
                 </div>
                 <div class="md-card-content padding-reset">
-                    <div class="no-animate" ng-if="vm.pageOptions.mode==='view'">
+                    <div class="no-animate" ng-if="pageOptions.mode==='blank'">
+                        <div class="uk-grid">
+                            <div class="uk-width-medium-1-1 uk-margin-medium-top uk-text-center uk-margin-left">
+                                <blockquote style="font:400 14px/1.42857143 Roboto,sans-serif;font-style: italic;">
+                                    <p>
+                                        Không có thông tin người dùng để hiển thị.
+                                    </p>
+                                </blockquote>                               
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="no-animate" ng-if="pageOptions.mode==='view'">
                         <h3 class="full_width_in_card heading_c">
                             Thông tin chung
                         </h3>
                         <div class="uk-grid uk-margin-small-left uk-margin-small-right">
                             <div class="uk-width-small-1-1 uk-width-medium-1-2">
                                 <div class="uk-text-center">
-                                    <img class="md-card-head-avatar" src="assets/img/avatars/avatar_11_tn.png" alt=""/>
+                                    <img class="md-card-head-avatar" ng-src="{{pageOptions.userSelected.profile.avatar.url ? pageOptions.userSelected.profile.avatar.url : user_data.avatar}}" alt=""/>
                                 </div>
                                 <h3 class="md-card-head-text uk-text-center">
-                                    Long Hồ
-                                    <span class="uk-text-truncate">longxuanho@gmail.com</span>
+                                    {{pageOptions.userSelected.profile.name}}
+                                    <span class="uk-text-truncate">{{pageOptions.userSelected.emails[0].address}}</span>
                                 </h3>                                
                             </div>
                             <div class="uk-width-small-1-1 uk-width-medium-1-2">
@@ -32,25 +44,25 @@
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Tổ chức</span>
-                                            <span class="uk-text-small uk-text-muted">Tổng Cty Tân Cảng Sài Gòn</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.profile.organization}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Đơn vị</span>
-                                            <span class="uk-text-small uk-text-muted uk-text-truncate">P. Kỹ thuật - Vật tư</span>
+                                            <span class="uk-text-small uk-text-muted uk-text-truncate">{{pageOptions.userSelected.profile.department}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Giới tính</span>
-                                            <span class="uk-text-small uk-text-muted">Nam</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.profile.gender}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Ngày sinh</span>
-                                            <span class="uk-text-small uk-text-muted">04/02/1990</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.profile.birthday | displayDate:'calendar'}}</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -66,19 +78,19 @@
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Email đăng ký</span>
-                                            <span class="uk-text-small uk-text-muted">longxuanho@gmail.com</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.emails[0].address}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Email công việc</span>
-                                            <span class="uk-text-small uk-text-muted uk-text-truncate">longhx@saigonnewport.com.vn</span>
+                                            <span class="uk-text-small uk-text-muted uk-text-truncate">{{pageOptions.userSelected.profile.email_work}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Số điện thoại</span>
-                                            <span class="uk-text-small uk-text-muted">(0942)-592.421</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.profile.phone}}</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -93,25 +105,25 @@
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Ngày tạo</span>
-                                            <span class="uk-text-small uk-text-muted">19/02/2015</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.createdAt | displayDate:'calendar'}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Kết nối tới tài khoản</span>
-                                            <span class="uk-text-small uk-text-muted">Online</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.status.online ? 'Online' : (pageOptions.userSelected.status.idle ? 'Idle' : 'Offline')}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Trạng thái</span>
-                                            <span class="uk-text-small uk-text-muted uk-text-truncate">Đã kích hoạt</span>
+                                            <span class="uk-text-small uk-text-muted uk-text-truncate">{{pageOptions.userSelected.emails[0].verified ? 'Đã kích hoạt' : 'Chưa kích hoạt'}}</span>
                                         </div>
                                     </li>                                    
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Phân quyền</span>
-                                            <span class="uk-text-small uk-text-muted">sky-project: [admin, ktvt, manager]</span>
+                                            <span class="uk-text-small uk-text-muted">{{utils.printRoles(pageOptions.userSelected)}}</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -126,33 +138,33 @@
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Thời gian đăng nhập</span>
-                                            <span class="uk-text-small uk-text-muted">Hôm nay lúc 5:44 CH</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.status.lastLogin.date | displayDate:'calendar'}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Địa chỉ IP</span>
-                                            <span class="uk-text-small uk-text-muted uk-text-truncate">127.0.0.1</span>
+                                            <span class="uk-text-small uk-text-muted uk-text-truncate">{{pageOptions.userSelected.status.lastLogin.ipAddr}}</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content">
                                             <span class="md-list-heading">Thông tin trình duyệt</span>
-                                            <span class="uk-text-small uk-text-muted">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.75 Safari/537.36</span>
+                                            <span class="uk-text-small uk-text-muted">{{pageOptions.userSelected.status.lastLogin.userAgent}}</span>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="no-animate" ng-if="vm.pageOptions.mode==='action'">
+                    <div class="no-animate" ng-if="pageOptions.mode==='action'">
                         <h3 class="full_width_in_card heading_c">
                             Các thiết lập người dùng
                         </h3>
                         <div class="uk-grid uk-margin-left uk-margin-right">
                             <div class="uk-width-small-1-1 uk-width-medium-1-2">
                                 <div class="uk-text-center">
-                                    <img class="md-card-head-avatar" src="assets/img/avatars/avatar_11_tn.png" alt=""/>
+                                    <img class="md-card-head-avatar" ng-src="{{pageOptions.userSelected.profile.avatar.url ? pageOptions.userSelected.profile.avatar.url : user_data.avatar}}" alt=""/>
                                 </div>
                                 <h3 class="md-card-head-text uk-text-center">
                                     Long Hồ
@@ -163,22 +175,22 @@
                                 <ul class="md-list">
                                     <li>
                                         <div class="md-list-content uk-text-center">
-                                            <a class="md-btn md-btn-flat" style="width:100%;">Gửi email kích hoạt</a>
+                                            <a class="md-btn md-btn-flat" style="width:100%;" data-uk-modal="{target: '#modal_admin_users_verify_email'}">Gửi email kích hoạt</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content uk-text-center">
-                                            <a class="md-btn md-btn-flat" style="width:100%;">Reset mật khẩu</a>
+                                            <a class="md-btn md-btn-flat" style="width:100%;" data-uk-modal="{target: '#modal_admin_users_reset_password'}">Reset mật khẩu</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content uk-text-center">
-                                            <a class="md-btn md-btn-flat" style="width:100%;">Thiết lập phân quyền</a>
+                                            <a class="md-btn md-btn-flat" style="width:100%;" data-uk-modal="{target: '#modal_admin_users_set_roles'}">Thiết lập phân quyền</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="md-list-content uk-text-center">
-                                           <a class="md-btn md-btn-flat uk-text-warning" style="width:100%;">Đóng tài khoản</a>
+                                           <a class="md-btn md-btn-flat uk-text-warning" style="width:100%;" data-uk-modal="{target: '#modal_admin_users_remove_user'}">Đóng tài khoản</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -198,29 +210,30 @@
         <div class="uk-width-large-3-10 uk-visible-large">
             <div class="md-list-outside-wrapper" custom-scrollbar list-outside>
                 <ul class="md-list md-list-addon md-list-outside">
-                    <li ng-repeat="user in chat_users">
-                        <div class="md-card-dropdown md-list-action-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
-                            <i class="md-icon material-icons">&#xE5D4;</i>
-                            <div class="uk-dropdown uk-dropdown-small">
-                                <ul class="uk-nav">
-                                    <li><a href="#">Add to chat</a></li>
-                                    <li><a href="#" class="uk-text-danger">Remove</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="md-list-addon-element">
-                            <span class="element-status element-status-danger" ng-if="user.status == 'offline'"></span>
-                            <span class="element-status element-status-success" ng-if="user.status == 'online'"></span>
-                            <span class="element-status element-status-warning" ng-if="user.status == 'afk'"></span>
-                            <img class="md-user-image md-list-addon-avatar" ng-src="{{user.avatar}}" alt=""/>
-                        </div>
-                        <div class="md-list-content">
-                            <div class="md-list-action-placeholder"></div>
-                            <span class="md-list-heading">{{user.name}}</span>
-                            <span class="uk-text-small uk-text-muted uk-text-truncate">{{user.description}}</span>
-                        </div>
-                    </li>
-                </ul>
+            <li ng-repeat="user in myUsers" ng-class="{'md-list-item-active': pageOptions.userSelected._id === user._id}" ng-click="utils.selectUser(user)">
+                <div class="md-card-dropdown md-list-action-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
+                    <i class="md-icon material-icons">&#xE5D4;</i>
+                    <div class="uk-dropdown uk-dropdown-small">
+                        <ul class="uk-nav">
+                            <li><a href="#">Thông tin</a></li>
+                            <li><a href="#" class="uk-text-warning">Cập nhật</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="md-list-addon-element">
+                    <span class="element-status" ng-class="{'element-status-success': user.status.online, 'element-status-warning': (!user.status.online) && (user.status.idle), 'element-status-danger': (!user.status.online) && (!user.status.idle)}"></span>
+                    <img class="md-user-image md-list-addon-avatar" ng-src="{{user.profile.avatar.url ? user.profile.avatar.url : user_data.avatar}}" alt=""/>
+                </div>
+                <div class="md-list-content">
+                    <span class="md-list-heading">{{(user.profile.name) ? user.profile.name : user.emails[0].address }}</span>
+                    <span class="uk-text-small uk-text-muted">
+                        <span class="uk-text-small uk-text-muted">
+                            {{(user.profile.department) ? user.profile.department : 'From Sky with Love' }}
+                        </span>
+                    </span>
+                </div>
+            </li>
+        </ul>
             </div>
         </div>
     </div>
@@ -229,28 +242,35 @@
 <div id="sidebar_secondary" sidebar-secondary toggle-hidden="large" custom-scrollbar>
     <div class="sidebar_secondary_wrapper uk-margin-remove">
         <ul class="md-list md-list-addon md-list-outside">
-            <li ng-repeat="user in chat_users">
+            <li ng-repeat="user in myUsers">
                 <div class="md-card-dropdown md-list-action-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
                     <i class="md-icon material-icons">&#xE5D4;</i>
                     <div class="uk-dropdown uk-dropdown-small">
                         <ul class="uk-nav">
-                            <li><a href="#">Add to chat</a></li>
-                            <li><a href="#" class="uk-text-danger">Remove</a></li>
+                            <li><a href="#">Thông tin</a></li>
+                            <li><a href="#" class="uk-text-warning">Cập nhật</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="md-list-addon-element">
-                    <span class="element-status element-status-danger" ng-if="user.status == 'offline'"></span>
-                    <span class="element-status element-status-success" ng-if="user.status == 'online'"></span>
-                    <span class="element-status element-status-warning" ng-if="user.status == 'afk'"></span>
-                    <img class="md-user-image md-list-addon-avatar" ng-src="{{user.avatar}}" alt=""/>
+                    <span class="element-status" ng-class="{'element-status-success': user.status.online, 'element-status-warning': (!user.status.online) && (user.status.idle), 'element-status-danger': (!user.status.online) && (!user.status.idle)}"></span>
+                    <img class="md-user-image md-list-addon-avatar" ng-src="{{user.profile.avatar.url ? user.profile.avatar.url : user_data.avatar}}" alt=""/>
                 </div>
                 <div class="md-list-content">
-                    <div class="md-list-action-placeholder"></div>
-                    <span class="md-list-heading">{{user.name}}</span>
-                    <span class="uk-text-small uk-text-muted uk-text-truncate">{{user.description}}</span>
+                    <span class="md-list-heading">{{(user.profile.name) ? user.profile.name : user.emails[0].address }}</span>
+                    <span class="uk-text-small uk-text-muted">
+                        <span class="uk-text-small uk-text-muted">
+                            {{(user.profile.department) ? user.profile.department : 'From Sky with Love' }}  
+                        </span>
+                    </span>
                 </div>
             </li>
         </ul>
     </div>
 </div>
+
+<!-- MODALS -->
+<admin-users-modal-remove-user source="pageOptions.userSelected"></admin-users-modal-remove-user>
+<admin-users-modal-reset-password source="pageOptions.userSelected"></admin-users-modal-reset-password>
+<admin-users-modal-set-roles source="pageOptions.userSelected"></admin-users-modal-set-roles>
+<admin-users-modal-verify-email source="pageOptions.userSelected"></admin-users-modal-verify-email>

@@ -10,6 +10,9 @@ Meteor.users.before.insert(function(userId, doc) {
 
 Meteor.users.before.update(function(userId, doc, fieldNames, modifier, options) {
     if (modifier) {
+        if (doc.profile)
+            doc.profile.search_field = doc._id + ' : ' + doc.username + ' : ' + doc.emails[0].address + ' : ' + doc.profile.name;
+        
         if (doc.profile && doc.profile.avatar && modifier.$set && _.has(modifier.$set, 'profile.avatar')) {
             console.log('removing old avatar... ', doc.profile.avatar.keyId);
             Images.remove({
@@ -49,6 +52,8 @@ Meteor.publish("users_single", function(id) {
     });
 });
 
+
+
 Meteor.publish("userStatus", function(options, searchString, searchBy) {
 
     if (searchString == null)
@@ -61,7 +66,8 @@ Meteor.publish("userStatus", function(options, searchString, searchBy) {
         emails: 1,
         profile: 1,
         status: 1,
-        roles: 1
+        roles: 1,
+        createdAt: 1
     }
 
     var query = {};
@@ -71,14 +77,6 @@ Meteor.publish("userStatus", function(options, searchString, searchBy) {
     };
 
     query[searchBy] = regex;
-
-    Counts.publish(this, 'numberOfUsersTotal', Meteor.users.find({}), {
-        noReady: true
-    });
-
-    Counts.publish(this, 'numberOfUsers', Meteor.users.find(query), {
-        noReady: true
-    });
 
     return Meteor.users.find(query, options);
 });

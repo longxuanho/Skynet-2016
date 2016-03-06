@@ -33,9 +33,6 @@ angular.module('angular-skynet').directive('adminMain', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            $scope.subscribe('users');
-            $scope.subscribe('usersettings');
-
 
             // ***************************************************
             // METHODS
