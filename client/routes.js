@@ -306,6 +306,15 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/cap-nhat/:cauhoiId',
             template: '<cauhois-update></cauhois-update>'
         })
+        // ADMIN
+        .state('admin', {
+            url: '/admin/quan-ly',
+            template: '<admin-main></admin-main>',
+        })
+        .state('admin.users_list', {
+            url: '/users',
+            template: '<admin-users-list></admin-users-list>',
+        })
         // SUACHUAS
         .state('suachuas', {
             url: '/quan-ly/sua-chua-thiet-bi',
@@ -401,6 +410,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
                 }
             }
         })
+
         .state('manage_users', {
             url: '/quan-ly/users',
             templateUrl: 'client/users/views/users-list.html',
