@@ -2,77 +2,97 @@ angular.module('angular-skynet').directive('adminUsersModalRemoveUser', function
     return {
         restrict: 'E',
         templateUrl: 'client/admin/admin-modals/admin-users-modal-remove-user.html',
+        controllerAs: 'vm',
         scope: {
             source: '='
         },
-        controller: function($scope, $stateParams, $rootScope, skynetHelpers, $state, iNotifier, $timeout) {
-
+        bindToController: true,
+        controller: function($scope, $rootScope, skynetHelpers, $state, $timeout, $reactive, skynetDictionary, iNotifier, $timeout) {
             
+            $reactive(this).attach($scope);
+
             // ***************************************************
             // INITIALIZE
             // ***************************************************
 
-            $scope._helpers = skynetHelpers.helpers;
-            
-            $scope.confirmCode = '';
+            // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
+            let vm = this;
+
+            vm._helpers = skynetHelpers.helpers;
+
+            vm.modalOptions = {
+                confirmUserCode: '',
+                isOnAction: false
+            };
 
             // ***************************************************
             // UTILS
             // ***************************************************
 
-            $scope.utils = {
-                validateConfirmCode: function() {
-                    let error = {};
-                    if ($scope.confirmCode !== $scope.source._id) {
-                        error.message = "Mã xác nhận không hợp lệ. Xin vui lòng thử lại.";
-                        return error;
-                    }
-                    return;
-                },
-                removeCauHoi: function(cauhoi) {
-                    let err = this.validateConfirmCode();
-
+            vm.utils = {
+                removeUserAccount: function() {
+                    let err = vm._helpers.validateUser('can_delete_admin_users');
                     if (_.isEmpty(err)) {
-                        err = $scope._helpers.validateUser('can_delete_cau_hoi');
+                        err = vm.utils.validateModalForm();
                         if (_.isEmpty(err)) {
 
-                            CauHois.remove({
-                                _id: cauhoi._id
-                            }, (error) => {
-                                if (!error) {
-                                    this.goToListPageAndNotify('Câu hỏi mã "' + cauhoi._id + '" đã được gỡ bỏ khỏi hệ thống.');
-                                }
-                                else {
-                                    iNotifier.error(error.message);
+                            vm.modalOptions.isOnAction = true;
+
+                            Meteor.call('deleteUser', vm.source._id, (error) => {
+                                if (error) {
+                                    iNotifier.error('Có lỗi xảy ra trong quá trình xóa tài khoản người dùng. Thông điệp phản hồi từ server: ' + error.message + '.');
                                     $scope.$apply(() => {
-                                        $scope.confirmCode = '';
+                                        vm.modalOptions.isOnAction = false;
+                                    });
+                                } else {
+                                    iNotifier.warning('Tài khoản người dùng đã được gỡ bỏ khỏi hệ thống.');
+                                    $scope.$apply(() => {
+                                        vm.modalOptions.isOnAction = false;
+                                        vm.utils.clearModalForm();
+                                        $timeout(() => {
+                                            vm.utils.closeModal();
+                                        }, 1000);
                                     });
                                 }
-                            });                            
+                            });
 
                         } else {
-                            iNotifier.error(err.message);
+                            iNotifier.error(err.message);                            
                         }
                     } else {
                         iNotifier.error(err.message);
+
                     }
                 },
-                goToListPageAndNotify: function(message) {
-                    this.closeModal();
-                    $timeout(()=>{
-                        $state.go('cauhois.list');
-                    }, 600);
-                    $timeout(()=>{
-                        iNotifier.warning(message);
-                    }, 2500);         
+                clearModalForm: function() {
+                    vm.modalOptions.confirmUserCode = '';
+                    vm.modalOptions.confirmAdminCode = '';
+                },
+                validateModalForm: function() {
+                    let error = {};
+                    if (vm.modalOptions.confirmUserCode !== vm.source._id)
+                        error.message = "Mã xác nhận người dùng không khớp. Xin vui lòng thử lại sau.";
+                    if (vm.source._id === Meteor.userId())
+                        error.message = "Bạn không thể đóng tài khoản của chính mình.";
+                    if (vm.modalOptions.confirmAdminCode !== (Meteor.userId() + ':longlongbk' ))
+                        error.message = "Mã xác nhận người quản trị không khớp. Xin vui lòng thử lại sau.";
+
+                    return error;
                 },
                 closeModal: function() {
-                    let modal = UIkit.modal("#modal_thietbis_xoa_cau_hoi");
+                    let modal = UIkit.modal("#modal_admin_users_remove_user");
                     if (modal.isActive()) {
                         modal.hide();
                     }
                 }
             }
+
+            // ***************************************************
+            // WATCHERS
+            // ***************************************************
+
+
+            
         }
     }
 });

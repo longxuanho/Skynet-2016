@@ -20,73 +20,61 @@ angular.module('angular-skynet').directive('adminUsersModalVerifyEmail', functio
 
             vm._helpers = skynetHelpers.helpers;
 
-            vm._helpers.initNewSuaChuaParams(vm);
             vm.modalOptions = {
-                errorMessage: 'This is an error',
+                confirmUserCode: '',
+                isOnSendingEmail: false
             };
-
-            vm.modalData = {
-                vi_tris: []
-            }
-
-            let myAlert = $('.newsuachua_alert');
-            myAlert.hide();
 
             // ***************************************************
             // UTILS
             // ***************************************************
 
             vm.utils = {
-                resetSuaChua: function() {
-                    vm._helpers.initNewSuaChuaParams(vm);
-                },
-                showModalAlert: function(message) {
-                    vm.modalOptions.errorMessage = message;
-                    myAlert.slideDown();
-                    $timeout(() => {
-                        myAlert.slideUp();
-                    }, 3000);
-                },
-                addNewSuaChua: function() {
-                    let err = vm._helpers.validateUser('can_upsert_sua_chua');
+                sendVerificationEmail: function() {
+                    let err = vm._helpers.validateUser('can_update_admin_users');
                     if (_.isEmpty(err)) {
-                        err = vm._helpers.validateSuaChuaForm(vm.newSuaChua);
+                        err = vm.utils.validateModalForm();
                         if (_.isEmpty(err)) {
 
-                            vm._helpers.buildNewSuaChua(vm.newSuaChua);
-                            SuaChuas.insert(vm.newSuaChua, (error, result) => {
+                            vm.modalOptions.isOnSendingEmail = true;
+
+                            Meteor.call('sendVerificationEmail', vm.source._id, (error) => {
                                 if (error) {
-                                    // iNotifier.error('Không thể tạo mới dữ liệu về lượt sửa chữa này. ' + error.message + '.');
-                                    this.showModalAlert('Không thể tạo mới dữ liệu về lượt sửa chữa này. ' + error.message + '.');
-                                } else {
-                                    $scope.$apply( () => {
-                                        vm.utils.resetSuaChua();
-                                        this.showModalAlert('Dữ liệu về lượt sửa chữa được tạo mới thành công.');
+                                    iNotifier.error('Có lỗi xảy ra trong quá trình gửi mail kích hoạt. Thông điệp phản hồi từ server: ' + error.message + '.');
+                                    $scope.$apply(() => {
+                                        vm.modalOptions.isOnSendingEmail = false;
                                     });
-                                    // iNotifier.success('Dữ liệu về lượt sửa chữa được tạo mới thành công.');
+                                } else {
+                                    iNotifier.success('Email chứa token kích hoạt tài khoản đã được gửi tới người dùng thành công.');
+                                    $scope.$apply(() => {
+                                        vm.modalOptions.isOnSendingEmail = false;
+                                        vm.utils.clearModalForm();
+                                        $timeout(() => {
+                                            vm.utils.closeModal();
+                                        }, 1000);
+                                    });
                                 }
                             });
 
                         } else {
-                            // iNotifier.error(err.message);
-                            this.showModalAlert(err.message);
+                            iNotifier.error(err.message);                            
                         }
                     } else {
-                        // iNotifier.error(err.message);
-                        this.showModalAlert(err.message);
+                        iNotifier.error(err.message);
+
                     }
                 },
-                resetCascadeDropdown: function(selector) {
-                    $(selector).data("kendoDropDownList").value({});
+                clearModalForm: function() {
+                    vm.modalOptions.confirmUserCode = '';
                 },
-                goToEditPage: function() {
-                    this.closeModal();
-                    $timeout(()=>{
-                        $state.go('cauhois.update', {cauhoiId: $scope.source._id});
-                    }, 600);          
+                validateModalForm: function() {
+                    let error = {};
+                    if (vm.modalOptions.confirmUserCode !== vm.source._id)
+                        error.message = "Mã xác nhận người dùng không khớp. Xin vui lòng thử lại sau.";
+                    return error;
                 },
                 closeModal: function() {
-                    let modal = UIkit.modal("#modal_suachuas_add_new");
+                    let modal = UIkit.modal("#modal_admin_users_verify_email");
                     if (modal.isActive()) {
                         modal.hide();
                     }
@@ -97,34 +85,8 @@ angular.module('angular-skynet').directive('adminUsersModalVerifyEmail', functio
             // WATCHERS
             // ***************************************************
 
-            // $rootScope.$watch('main_theme', (newVal) => {
-            //     $scope.utils.accentColor = _.findWhere($scope._data.general.themes, {
-            //         name: newVal
-            //     }).color_accent;
-            // });
 
-            $scope.$watch('vm.newSuaChua.dia_diem.khu_vuc.ma', (newVal) => {
-                if (newVal) {
-                    // Tính toán các vị trí còn trống và loại bỏ các vị trí đã được sử dụng trong danh sách
-                    // 1. Tìm các vị trí đã được sử dụng
-                    let originals = SuaChuas.find({                    
-                        'trang_thai.ma': 'dang_sua_chua' ,
-                        'dia_diem.khu_vuc.ma': newVal
-                    }).fetch();
-                    if (originals.length) {
-                        let occupieds = [];
-                        _.each(originals, (item) => {
-                            // Mảng occupieds chứa các vị trí đã được chiếm dụng
-                            occupieds.push(item.dia_diem.vi_tri);       
-                        });
-                        // 2. Loại bỏ các mảng này khỏi danh sách khả dụng
-                        vm.modalData.vi_tris = _.difference(vm.dictionary.vi_tris[newVal], occupieds);
-
-                    } else
-                        // Trường hợp chưa có vị trí bị chiếm dụng, trả về tất cả.
-                        vm.modalData.vi_tris = angular.copy(vm.dictionary.vi_tris[newVal]);
-                }
-            });
+            
         }
     }
 });

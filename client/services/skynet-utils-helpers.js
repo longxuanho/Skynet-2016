@@ -1921,6 +1921,14 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             let error = {};
             if (Meteor.userId()) {
                 switch (condition) {
+                    case 'can_update_admin_users':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_delete_admin_users':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
                     case 'can_upsert_nhom':
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';

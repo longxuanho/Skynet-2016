@@ -3,7 +3,7 @@ angular.module('angular-skynet').directive('usersResetPassword', function() {
         restrict: 'E',
         templateUrl: 'client/users/users-reset-password/users-reset-password.html',
         controllerAs: 'UsersResetPassword',
-        controller: function($scope, $stateParams, $state, skynetHelpers, $timeout) {
+        controller: function($scope, $stateParams, $state, skynetHelpers, $timeout, iNotifier) {
 
 
             // ***************************************************
@@ -31,7 +31,7 @@ angular.module('angular-skynet').directive('usersResetPassword', function() {
                     Accounts.resetPassword($stateParams.token, $scope.credentials.newPassword, (err) => {
                         if (err) {
                             $scope.error = err;
-                            toastr.error('Có lỗi xảy ra trong quá trình reset mật khẩu của bạn: ' + err.reason + '.');
+                            iNotifier.error('Có lỗi xảy ra trong quá trình reset mật khẩu của bạn: ' + err.reason + '.');
                             $scope.$apply(() => {
                                 $scope.resetState = 'failed';
                             });
@@ -40,14 +40,14 @@ angular.module('angular-skynet').directive('usersResetPassword', function() {
                                 $scope.resetState = 'ok';
                                 $timeout(() => {
                                     $state.go($scope._data.states.master);
-                                    toastr.success('Reset mật khẩu thành công.');
+                                    iNotifier.success('Reset mật khẩu thành công.');
                                 }, 4000);
                             });
                         }
                     });
 
                 } else {
-                    toastr.error(error.message);
+                    iNotifier.error(error.message);
                 }
 
             }

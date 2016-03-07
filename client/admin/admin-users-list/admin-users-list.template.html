@@ -167,8 +167,8 @@
                                     <img class="md-card-head-avatar" ng-src="{{pageOptions.userSelected.profile.avatar.url ? pageOptions.userSelected.profile.avatar.url : user_data.avatar}}" alt=""/>
                                 </div>
                                 <h3 class="md-card-head-text uk-text-center">
-                                    Long Hồ
-                                    <span class="uk-text-truncate">longxuanho@gmail.com</span>
+                                    {{pageOptions.userSelected.profile.name}}
+                                    <span class="uk-text-truncate">{{pageOptions.userSelected.emails[0].address}}</span>
                                 </h3>                                
                             </div>
                             <div class="uk-width-small-1-1 uk-width-medium-1-2">
@@ -198,7 +198,7 @@
                             <div class="uk-width-medium-1-1 uk-margin-medium-top">
                                 <blockquote style="font:400 14px/1.42857143 Roboto,sans-serif;font-style: italic;">
                                     <p>
-                                        Bạn đang dự định thay đổi các thiết lập đối với tài khoản người dùng có mã số: Ilfkkd23oiookj. Lưu ý này các thay đổi này sẽ có tác động tới toàn hệ thống. Xin hãy cân nhắc kỹ trước khi đưa ra bất cứ quyết định nào.
+                                        Bạn đang dự định thay đổi các thiết lập đối với tài khoản người dùng có mã số: {{pageOptions.userSelected._id}}. Lưu ý này các thay đổi này sẽ có tác động tới toàn hệ thống. Xin hãy cân nhắc kỹ trước khi đưa ra bất cứ quyết định nào.
                                     </p>
                                 </blockquote>                               
                             </div>

@@ -95,17 +95,16 @@ Meteor.methods({
      * @param {String} group Company to update permissions for
      */
     deleteUser: function(targetUserId) {
-        var loggedInUser = Meteor.user();
 
-        if (targetUserId === Meteor.userId())
+        if (targetUserId === this.userId)
             throw new Meteor.Error(403, "Bạn không thể xóa tài khoản của chính mình!");
 
         if (Roles.userIsInRole(targetUserId, ['admin'], 'sky-project')) {
             throw new Meteor.Error(403, "Không thể xóa một user với quyền admin!");
         }
 
-        if (!loggedInUser ||
-            !Roles.userIsInRole(loggedInUser, ['manage-users', 'support-staff'], 'sky-project')) {
+        if (!this.userId ||
+            !Roles.userIsInRole(this.userId, ['admin', 'manage-users', 'support-staff'], 'sky-project')) {
             throw new Meteor.Error(403, "Bạn không đủ quyền hạn để xóa user này!");
         }
 
@@ -125,6 +124,38 @@ Meteor.methods({
                 console.log("Số lượng tài khoản bị gỡ bỏ: " + result);
             }
         });
+    },
+
+    sendVerificationEmail: function(targetUserId) {
+
+        if (!this.userId)
+            throw new Meteor.Error(403, "Người dùng chưa đăng nhập!");
+
+        if (!Roles.userIsInRole(this.userId, ['admin', 'super-manager'], 'sky-project'))
+            throw new Meteor.Error(403, "Bạn không đủ quyền để thực hiện tác vụ này!");
+
+        if (!targetUserId)
+            throw new Meteor.Error(403, "Người dùng không tồn tại!");
+ 
+        Accounts.sendVerificationEmail(targetUserId);
+        
+        console.log('verification email sended!');
+    },
+
+    sendResetPasswordEmail: function(userId) {
+
+        if (!this.userId)
+            throw new Meteor.Error(403, "Người dùng chưa đăng nhập!");
+
+        if (!Roles.userIsInRole(this.userId, ['admin', 'super-manager'], 'sky-project'))
+            throw new Meteor.Error(403, "Bạn không đủ quyền để thực hiện tác vụ này!");
+
+        if (!userId)
+            throw new Meteor.Error(403, "Người dùng không tồn tại!");
+ 
+        Accounts.sendResetPasswordEmail(userId);
+        
+        console.log('reset password email sended!');
     },
 
     /**
@@ -154,15 +185,27 @@ Meteor.methods({
     },
 
     forceResetUserPassword: function(userId, newPassword) {
-        var loggedInUser = Meteor.user();
 
-        if (!loggedInUser)
+        if (!this.userId)
             throw new Meteor.Error(403, "Người dùng chưa đăng nhập!");
 
-        if (!Roles.userIsInRole(loggedInUser, ['admin'], 'sky-project'))
-            throw new Meteor.Error(403, "Bạn không đủ thẩm quyền reset mật khẩu này!");
+        if (!Roles.userIsInRole(this.userId, ['admin'], 'sky-project'))
+            throw new Meteor.Error(403, "Bạn không đủ quyền để thực hiện tác vụ này!");
 
+        if (!userId)
+            throw new Meteor.Error(403, "Người dùng không tồn tại!");
+ 
         Accounts.setPassword(userId, newPassword);
+
+        // var loggedInUser = Meteor.user();
+
+        // if (!loggedInUser)
+        //     throw new Meteor.Error(403, "Người dùng chưa đăng nhập!");
+
+        // if (!Roles.userIsInRole(loggedInUser, ['admin'], 'sky-project'))
+        //     throw new Meteor.Error(403, "Bạn không đủ thẩm quyền reset mật khẩu này!");
+
+        // Accounts.setPassword(userId, newPassword);
         console.log('Reset mật khẩu thành công.');
     },
 
