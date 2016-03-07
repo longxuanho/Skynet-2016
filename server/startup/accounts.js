@@ -1,6 +1,7 @@
 Meteor.startup(function() {
 
     process.env.MAIL_URL = Meteor.settings.private.data.mailgun.key;
+    SSR.compileTemplate('verifyEmail', Assets.getText('templates/verify-email.html'));
 
     // Configures "reset password account" email link
     Accounts.urls.resetPassword = function(token){
@@ -22,16 +23,28 @@ Meteor.startup(function() {
         loginExpirationInDays: 7
     });
 
-
+    
+    // let emailData = {
+    //     name: "Doug Funny",
+    //     favoriteRestaurant: "Honker Burger",
+    //     bestFriend: "Skeeter Valentine"
+    // };
 
     Accounts.emailTemplates.siteName = "Skynet Project";
     Accounts.emailTemplates.from = "Skynet <no-reply@skynet.com>";
     Accounts.emailTemplates.verifyEmail.subject = function(user) {
-        return "From Sky with Love"
+        return "Kích hoạt tài khoản của bạn tại Skynet"
     };
-    Accounts.emailTemplates.verifyEmail.text = function(user, url) {
-        return "\n\nChào mừng bạn đến với hành trình Skynet. Cùng nhau, hãy chung tay xây dựng một tương lai mới!" + "\n\nĐể bắt đầu, hãy kích hoạt tài khoản của bạn bằng liên kết dưới đây:\n\n" + url;
-    };
+    Accounts.emailTemplates.verifyEmail.html = function(user, url) {
+        let emailData = {
+            verifyUrl: url
+        };
+        return SSR.render('verifyEmail', emailData);
+    }
+    // Accounts.emailTemplates.verifyEmail.text = function(user, url) {
+    //     return "\n\nChào mừng bạn đến với hành trình Skynet. Cùng nhau, hãy chung tay xây dựng một tương lai mới!" + "\n\nĐể bắt đầu, hãy kích hoạt tài khoản của bạn bằng liên kết dưới đây:\n\n" + url;
+    // };
+
     Accounts.emailTemplates.resetPassword.subject = function(user) {
         return "Thông tin khôi phục mật khẩu từ Skynet"
     };
