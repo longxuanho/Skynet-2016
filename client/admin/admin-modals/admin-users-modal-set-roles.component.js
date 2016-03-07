@@ -52,8 +52,8 @@ angular.module('angular-skynet').directive('adminUsersModalSetRoles', function()
                         if (_.isEmpty(err)) {
 
                             vm.modalOptions.isOnAction = true;
-
-                            let rolesAction = vm.utils.processRolesArr(vm.source.roles['sky-project'], vm.modalOptions.roles);
+                            let rolesBefore = (vm.source.roles && vm.source.roles['sky-project']) ? vm.source.roles['sky-project'] : [];
+                            let rolesAction = vm.utils.processRolesArr(rolesBefore, vm.modalOptions.roles);
                             if (rolesAction['add'].length || rolesAction['remove'].length) {
 
                                 Meteor.call('updateRoles', vm.source._id, rolesAction, 'sky-project', (error) => {

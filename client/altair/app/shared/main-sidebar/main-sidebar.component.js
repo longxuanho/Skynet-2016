@@ -88,14 +88,24 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
             // menu entries
             $scope.sections = [{
                 id: 0,
-                title: 'Dashboard',
+                title: 'Bảng thông báo',
                 icon: '&#xE871;',
                 link: 'restricted.dashboard'
             }, {
                 id: 1,
-                title: 'Mailbox',
-                icon: '&#xE158;',
-                link: 'restricted.pages.mailbox'
+                title: 'Xưởng sửa chữa',
+                icon: '&#xE869;',
+                link: 'suachuas.list'
+            }, {
+                id: 2,
+                title: 'Ngân hàng câu hỏi',
+                icon: '&#xE1B2;',
+                link: 'cauhois.list'
+            },  {
+                id: 3,
+                title: 'Quản lý người dùng',
+                icon: '&#xE87C;',
+                link: 'admin.users_list'
             }, 
             // {
             //     id: 2,

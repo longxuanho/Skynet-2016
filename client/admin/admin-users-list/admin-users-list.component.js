@@ -18,6 +18,7 @@ angular.module('angular-skynet').directive('adminUsersList', function() {
 
             $rootScope.page_full_height = true;
             $rootScope.headerDoubleHeightActive = true;
+            $rootScope.topMenuActive = true;
 
             $rootScope.searchText = '';
             $rootScope.searchBy = 'profile.search_field';

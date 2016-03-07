@@ -2034,7 +2034,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_delete_cau_hoi':
-                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', "quanly_cauhois"], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_upsert_sua_chua':
