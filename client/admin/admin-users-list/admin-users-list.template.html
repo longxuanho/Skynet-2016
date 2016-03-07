@@ -3,10 +3,10 @@
         <div class="uk-width-large-7-10">
             <div class="md-card md-card-single" single-card>
                 <div class="md-card-toolbar">
-                    <div class="md-card-toolbar-actions hidden-print">
-                        <i class="md-icon material-icons" ng-class="{'color-primary': pageOptions.mode==='view'}" ng-click="pageOptions.mode='view'">&#xE88F;</i>
-                        <i class="md-icon material-icons" ng-class="{'uk-text-warning': pageOptions.mode==='action'}" ng-click="pageOptions.mode='action'">&#xE86F;</i>
-                        <i class="md-icon material-icons">&#xE5CD;</i>
+                    <div class="md-card-toolbar-actions hidden-print no-animate" ng-show="pageOptions.mode!=='blank'">
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-primary': pageOptions.mode==='view'}" ng-click="pageOptions.mode='view'">&#xE88F;</i>
+                        <i class="md-icon material-icons no-animate" ng-class="{'uk-text-warning': pageOptions.mode==='action'}" ng-click="pageOptions.mode='action'">&#xE86F;</i>
+                        <i class="md-icon material-icons no-animate" ng-click="pageOptions.mode='blank'" >&#xE5CD;</i>
                     </div>
                     <h3 class="md-card-toolbar-heading-text large">
                         <span class="uk-text-muted">Quản lý Users</span>
@@ -15,10 +15,10 @@
                 <div class="md-card-content padding-reset">
                     <div class="no-animate" ng-if="pageOptions.mode==='blank'">
                         <div class="uk-grid">
-                            <div class="uk-width-medium-1-1 uk-margin-medium-top uk-text-center uk-margin-left">
+                            <div class="uk-width-medium-3-4 uk-margin-medium-top uk-margin-left uk-margin-right">
                                 <blockquote style="font:400 14px/1.42857143 Roboto,sans-serif;font-style: italic;">
                                     <p>
-                                        Không có thông tin người dùng để hiển thị.
+                                        Vui lòng click chọn người dùng từ danh sách liệt kê phía phải để xem thông tin chi tiết hoặc cập nhật thông tin cho tài khoản người dùng.
                                     </p>
                                 </blockquote>                               
                             </div>
@@ -214,9 +214,9 @@
                 <div class="md-card-dropdown md-list-action-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
                     <i class="md-icon material-icons">&#xE5D4;</i>
                     <div class="uk-dropdown uk-dropdown-small">
-                        <ul class="uk-nav">
-                            <li><a href="#">Thông tin</a></li>
-                            <li><a href="#" class="uk-text-warning">Cập nhật</a></li>
+                        <ul class="uk-nav uk-dropdown-close">
+                            <li><a href="#" ng-click="utils.dropdownSelectUser(user, 'view')">Thông tin</a></li>
+                            <li><a href="#" class="uk-text-warning" ng-click="utils.dropdownSelectUser(user, 'action')">Cập nhật</a></li>
                         </ul>
                     </div>
                 </div>
@@ -246,9 +246,9 @@
                 <div class="md-card-dropdown md-list-action-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
                     <i class="md-icon material-icons">&#xE5D4;</i>
                     <div class="uk-dropdown uk-dropdown-small">
-                        <ul class="uk-nav">
-                            <li><a href="#">Thông tin</a></li>
-                            <li><a href="#" class="uk-text-warning">Cập nhật</a></li>
+                        <ul class="uk-nav uk-dropdown-close">
+                            <li><a href="#" ng-click="utils.dropdownSelectUser(user, 'view')">Thông tin</a></li>
+                            <li><a href="#" class="uk-text-warning" ng-click="utils.dropdownSelectUser(user, 'action')">Cập nhật</a></li>
                         </ul>
                     </div>
                 </div>

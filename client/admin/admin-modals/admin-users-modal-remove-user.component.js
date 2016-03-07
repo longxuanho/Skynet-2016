@@ -22,6 +22,7 @@ angular.module('angular-skynet').directive('adminUsersModalRemoveUser', function
 
             vm.modalOptions = {
                 confirmUserCode: '',
+                confirmAdminCode: '',
                 isOnAction: false
             };
 

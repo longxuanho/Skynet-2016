@@ -166,21 +166,26 @@ Meteor.methods({
      * @param {String} group Company to update permissions for
      */
     updateRoles: function(targetUserId, roles, group) {
-        var loggedInUser = Meteor.user();
+        // Object roles gồm 2 mảng: add và remove
+        if (_.isArray(roles['add']) && _.isArray(roles['remove']) && group) {
 
-        if (_.contains(roles, 'admin'))
-            throw new Meteor.Error(403, "Admin không thể thay đổi vai trò của mình cũng như không thể cấp quyền admin cho người khác .");
+            if (!targetUserId)
+                throw new Meteor.Error(403, "Không có thông tin về Id người dùng.");
 
-        if (_.contains(roles, 'super-manager'))
-            throw new Meteor.Error(403, "Không thể cấp quyền super-manager cho người khác .");
+            if (_.contains(roles['add'], 'admin') || _.contains(roles['remove'], 'admin'))
+                throw new Meteor.Error(403, "Admin không thể thay đổi vai trò của mình cũng như không thể cấp quyền admin cho người khác .");
 
-        if (!loggedInUser ||
-            !Roles.userIsInRole(loggedInUser, ['manage-users', 'support-staff'], 'sky-project')) {
-            throw new Meteor.Error(403, "Bạn không đủ thẩm quyền cập nhật user này!");
+            if (!this.userId ||
+                !Roles.userIsInRole(this.userId, ['manage-users', 'support-staff'], 'sky-project')) {
+                throw new Meteor.Error(403, "Bạn không đủ thẩm quyền cập nhật user này!");
+            }
+            if (roles['add'].length)
+                Roles.addUsersToRoles(targetUserId, roles['add'], group);
+            if (roles['remove'].length)
+                Roles.removeUsersFromRoles(targetUserId, roles['remove'], group);
+
+            console.log('modify roles - done!');
         }
-
-        Roles.setUserRoles(targetUserId, roles, group);
-
         // do other actions required when a user is updated...
     },
 
@@ -197,15 +202,6 @@ Meteor.methods({
  
         Accounts.setPassword(userId, newPassword);
 
-        // var loggedInUser = Meteor.user();
-
-        // if (!loggedInUser)
-        //     throw new Meteor.Error(403, "Người dùng chưa đăng nhập!");
-
-        // if (!Roles.userIsInRole(loggedInUser, ['admin'], 'sky-project'))
-        //     throw new Meteor.Error(403, "Bạn không đủ thẩm quyền reset mật khẩu này!");
-
-        // Accounts.setPassword(userId, newPassword);
         console.log('Reset mật khẩu thành công.');
     },
 
