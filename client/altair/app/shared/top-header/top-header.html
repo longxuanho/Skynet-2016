@@ -2,7 +2,8 @@
     <header id="header_main">
         <div class="header_main_content">
             <nav class="uk-navbar">
-                <div class="main_logo_top" ng-if="topMenuActive || fullHeaderActive">
+                <!-- Chú ý thêm điều kiện miniSidebarActive để hiển thị logo -->
+                <div class="main_logo_top" ng-if="topMenuActive || fullHeaderActive || miniSidebarActive">
                     <!-- <a ui-sref="restricted.dashboard"><img ng-src="assets/img/logo_main_white.png" alt="" add-image-prop/></a> -->
                     <a ui-sref="restricted.dashboard"><img ng-src="assets/img/main-logo/skynet-white.png" alt="" add-image-prop/></a>
                 </div>
@@ -10,6 +11,9 @@
                 <sidebar-primary-toggle></sidebar-primary-toggle>
                 <!-- secondary sidebar switch -->
                 <sidebar-secondary-toggle ng-class="{ 'uk-hidden-large': secondarySidebarHiddenLarge }"></sidebar-secondary-toggle>
+                
+                <!-- Ẩn Top Dropdown feature tới khi có thời gian code -->
+                <!--
                 <div id="menu_top_dropdown" class="uk-float-left uk-hidden-small" ng-hide="topMenuActive">
                     <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}" >
                         <a href="#" class="top_menu_toggle"><i class="material-icons md-24">&#xE8F0;</i></a>
@@ -57,6 +61,7 @@
                         </div>
                     </div>
                 </div>
+                -->
                 <div class="uk-navbar-flip">
                     <ul class="uk-navbar-nav user_actions">
                         <li><a href="#" class="user_action_icon" full-screen-toggle><i class="material-icons md-24 md-light">&#xE5D0;</i></a></li>

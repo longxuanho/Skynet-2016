@@ -15,7 +15,7 @@
     'error_page': $state.includes('error'),
     'uk-height-1-1': page_full_height
 }" content-sidebar>
-        <top-header></top-header>
+        <top-header class="no-animate" ng-hide="$root.hideMainHeader"></top-header>
         <div ui-view ng-class="{ 'uk-height-1-1': page_full_height }"></div>
         <main-sidebar class="no-animate" ng-hide="$root.hideMainSidebar"></main-sidebar>
         <style-switcher></style-switcher>

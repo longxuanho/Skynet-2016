@@ -310,6 +310,20 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         .state('admin', {
             url: '/admin/quan-ly',
             template: '<admin-main></admin-main>',
+            resolve: {
+                currentUser: ($q) => {
+                    if (Meteor.userId() == null) {
+                        return $q.reject('AUTH_REQUIRED');
+                    } else if (!Meteor.user().emails[0].verified) {
+                        return $q.reject('AUTH_NOT_VERIFIED');
+                    } if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project')) {
+                        // Không đủ quyền xem nội dung câu hỏi
+                        return $q.reject('AUTH_NOT_AUTHORIZED');
+                    } else {
+                        return $q.resolve();
+                    }
+                }
+            }
         })
         .state('admin.users_list', {
             url: '/users',
@@ -544,8 +558,9 @@ angular.module('angular-skynet')
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            // Chú ý: chế độ mặc định luôn hiển thị mainSidebar
+            // Chú ý: chế độ mặc định luôn hiển thị mainSidebar và mainHeader
             $rootScope.hideMainSidebar = false;
+            $rootScope.hideMainHeader = false;
 
             // main search
             $rootScope.mainSearchActive = false;

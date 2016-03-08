@@ -88,22 +88,22 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
             // menu entries
             $scope.sections = [{
                 id: 0,
-                title: 'Bảng thông báo',
+                title: 'Bảng tin',
                 icon: '&#xE871;',
                 link: 'restricted.dashboard'
             }, {
                 id: 1,
-                title: 'Xưởng sửa chữa',
+                title: 'Sửa chữa',
                 icon: '&#xE869;',
                 link: 'suachuas.list'
             }, {
                 id: 2,
-                title: 'Ngân hàng câu hỏi',
+                title: 'Câu hỏi',
                 icon: '&#xE1B2;',
                 link: 'cauhois.list'
             },  {
                 id: 3,
-                title: 'Quản lý người dùng',
+                title: 'Người dùng',
                 icon: '&#xE87C;',
                 link: 'admin.users_list'
             }, 

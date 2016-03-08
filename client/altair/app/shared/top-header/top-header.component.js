@@ -3,7 +3,7 @@ angular.module('angular-skynet').directive('topHeader', function() {
         restrict: 'E',
         templateUrl: 'client/altair/app/shared/top-header/top-header.html',
         controllerAs: 'TopHeader',
-        controller: function($scope, skynetHelpers, $timeout, $window, $state) {
+        controller: function($scope, skynetHelpers, $timeout, $window, $state, iNotifier) {
 
             // ***************************************************
             // INITIALIZE
@@ -104,10 +104,10 @@ angular.module('angular-skynet').directive('topHeader', function() {
                     Accounts.logout((err) => {
                         if (err) {
                             $scope.error = err;
-                            toastr.error("Có lỗi xảy ra khi đang thực hiện đăng xuất tài khoản của bạn. Xin vui lòng thử lại sau.");
+                            iNotifier.error("Có lỗi xảy ra khi đang thực hiện đăng xuất tài khoản của bạn. Xin vui lòng thử lại sau.");
                             console.log('Có lỗi khi đăng nhập: ', err);
                         } else {
-                            toastr.success("Bye : )");
+                            iNotifier.success("Bye : )");
                             $state.go($scope._data.states.login);
                         }
                     });

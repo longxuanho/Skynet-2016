@@ -3,12 +3,14 @@ angular.module('angular-skynet').directive('login', function() {
         restrict: 'E',
         templateUrl: 'client/users/login/login.html',
         controllerAs: 'Login',
-        controller: function($scope, $stateParams, skynetHelpers, $state, $rootScope, utils, iNotifier) {
+        controller: function($scope, $stateParams, skynetHelpers, $state, $rootScope, utils, iNotifier, $timeout) {
 
 
             // ***************************************************
             // INITIALIZE
             // ***************************************************
+
+            $rootScope.hideMainHeader = true;
 
             $scope._helpers = skynetHelpers.helpers;
             $scope._data = skynetHelpers.data;
@@ -100,8 +102,10 @@ angular.module('angular-skynet').directive('login', function() {
                             $scope.loginState = 'idle';
                         });
                     } else {
-                        iNotifier.success("Đăng nhập thành công!");
                         $state.go($scope._data.states.master);
+                        $timeout(() => {
+                            iNotifier.success("Đăng nhập thành công!");
+                        }, 2000);
                     }
                 });
             };

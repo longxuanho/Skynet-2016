@@ -1,4 +1,4 @@
-/* main sidebar */
+/* Chú ý thay đổi background size header của main sidebar và sidebar mini*/
 
 #sidebar_main {
     .border-box();
@@ -165,8 +165,17 @@
         height: @header_main_height + @top_bar_height + 1;
         border-bottom: 1px solid @border_color;
         margin-bottom: 20px;
-        .retina_image('../img/sidebar_head_bg.png', '../img/sidebar_head_bg@2x.png', 310px, 310px);
-        background-position: -20px -124px;
+        .retina_image('assets/img/main-logo/skynet-main-logo.png', 'assets/img/main-logo/skynet-main-logo.png', 310px, 310px);
+        // .retina_image('../img/sidebar_head_bg.png', '../img/sidebar_head_bg@2x.png', 310px, 310px);
+        // background-position: -20px -124px;
+        
+        // background-size: 85% 85%;
+        // background-position: 30px 15px;
+
+        /* Chú ý thay đổi background size header */ 
+        background-size: 297px 110px;
+        background-position: 30px 0px;
+
         .sidebar_logo {
             height: @header_main_height;
             line-height: @header_main_height;
@@ -329,7 +338,10 @@
         transform: none;
         left: 0;
         .sidebar_main_header {
-            background-position: 0 0;
+            /* Chú ý thay đổi background size header */
+            background-position: 50px 0;
+            // background-position: 0 0;
+
             .sidebar_logo a {
                 margin-left: 0;
                 text-align: center;
