@@ -63,7 +63,7 @@ Meteor.startup(function() {
     // };
 
     reCAPTCHA.config({
-        privatekey: '6LeePBoTAAAAAPxXPUnhcCTspYQzRvutsADJMXKz'
+        privatekey: Meteor.settings.private.data.recaptcha.private
     });
 
 });

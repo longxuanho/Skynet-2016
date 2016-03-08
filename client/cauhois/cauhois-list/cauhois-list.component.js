@@ -137,6 +137,8 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     vm.pageOptions.filters.nhomsFilterSource = _.sortBy(vm.dictionary.nhom_cau_hois, (item) => {
                         return item.order;
                     });
+                    // Thêm filter 'Tất cả
+                    vm.pageOptions.filters.nhomsFilterSource.unshift({ma: '', ten_ngan: "Tất cả"});
 
                     // Hiển thị tất cả các item trên Top Bar
                     _.each(vm.pageOptions.filters.nhomsFilterSource, (item) => {
