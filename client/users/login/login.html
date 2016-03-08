@@ -13,6 +13,7 @@
                     <label for="login_password">Mật khẩu</label>
                     <input class="md-input" type="password" id="login_password" ng-model="credentials.password" md-input />
                 </div>
+
                 <div class="uk-margin-medium-top" ng-show="loginState==='idle'">
                     <input type="submit" value="Đăng nhập" class="md-btn md-btn-primary md-btn-block md-btn-large" >
                 </div>
@@ -46,6 +47,7 @@
                     <label for="login_email_reset">Địa chỉ email của bạn</label>
                     <input class="md-input" type="text" id="login_email_reset" ng-model="resetPasswordCredentials.email" md-input />
                 </div>
+
                 <div class="uk-margin-medium-top" ng-show="loginState==='idle'">
                     <input type="submit" value="Reset" class="md-btn md-btn-primary md-btn-block md-btn-large" >
                 </div>
@@ -76,6 +78,12 @@
                     <label for="register_username">Tên người dùng</label>
                     <input class="md-input" type="text" id="register_username" ng-model="newCredentials.profile.name" md-input />
                 </div>
+
+                <!-- Google reCAPTCHA --> 
+                <div class="uk-width-medium-1-1 uk-margin-medium-top">
+                    <g-recaptchar></g-recaptchar>
+                </div>                
+
                 <div class="uk-margin-medium-top" ng-show="loginState==='idle'">
                     <input type="submit" value="Đăng ký" class="md-btn md-btn-primary md-btn-block md-btn-large">
                 </div>

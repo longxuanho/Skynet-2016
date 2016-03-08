@@ -22,6 +22,7 @@ angularui:angular-ui-router@0.2.15
 angularui:ui-calendar@1.0.1
 angularutils:pagination@0.9.1_2
 autoupdate@1.2.4
+ayue:recaptcha@2.0.1
 babel-compiler@5.8.24_1
 babel-runtime@0.1.4
 base64@1.0.4
@@ -74,6 +75,7 @@ fastclick@1.0.7
 geojson-utils@1.0.4
 gfk:mailgun-api@1.1.0
 google@1.1.7
+handlebars@1.0.4
 hatachino1:autosize@0.0.1
 hatachino1:bez@0.0.1
 hatachino1:jsdiff@0.0.1

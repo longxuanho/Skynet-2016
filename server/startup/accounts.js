@@ -62,4 +62,8 @@ Meteor.startup(function() {
     //     return "Dear " + user.profile.name + ",\n\nChúng tôi đã nhận được yêu cầu cung cấp mật khẩu mới cho tài khoản của bạn tại Skynet. Nếu bạn không muốn reset lại mật khẩu hoặc không phải là người đưa ra yêu cầu, xin vui lòng bỏ qua email này. Ngược lại, hãy kích hoạt liên kết dưới đây:\n\n" + url;
     // };
 
+    reCAPTCHA.config({
+        privatekey: '6LeePBoTAAAAAPxXPUnhcCTspYQzRvutsADJMXKz'
+    });
+
 });

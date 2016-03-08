@@ -5,6 +5,7 @@ angular.module('angular-skynet').directive('login', function() {
         controllerAs: 'Login',
         controller: function($scope, $stateParams, skynetHelpers, $state, $rootScope, utils, iNotifier, $timeout) {
 
+            
 
             // ***************************************************
             // INITIALIZE
@@ -114,20 +115,36 @@ angular.module('angular-skynet').directive('login', function() {
                 $scope.loginState = 'onRegistering';
                 let error = $scope.utils.validateRegisterForm();
                 if (_.isEmpty(error)) {
-                    Accounts.createUser($scope.newCredentials, (err) => {
-                        if (err) {
-                            iNotifier.error("Không thể khởi tạo người dùng này. Xin vui lòng thử lại sau. ", err.reason);
-                            console.log('Có lỗi khi khởi tạo người dùng mới: ', err);
+
+                    // get the captcha data from Google
+                    let recaptchaResponse = grecaptcha.getResponse();
+                    
+                    Meteor.call('verifyReCaptcha', recaptchaResponse, function(error, result) {
+                        if (error) {
+                            iNotifier.error('Xác nhận CAPTCHA thất bại. Thông điệp phản hồi từ sever: ' + error.reason);
                             $scope.$apply(() => {
                                 $scope.loginState = 'idle';
                             });
                         } else {
-                            iNotifier.success("Một email kích hoạt tài khoản đã được gửi tới địa chỉ hộp thư của bạn.");
-                            $state.go($scope._data.states.notifyCheckEmail);
+                            console.log('Mã CAPTCHA được xác nhận thành công!');
+                            Accounts.createUser($scope.newCredentials, (err) => {
+                                if (err) {
+                                    iNotifier.error("Không thể khởi tạo người dùng này. Xin vui lòng thử lại sau. ", err.reason);
+                                    console.log('Có lỗi khi khởi tạo người dùng mới: ', err);
+                                    $scope.$apply(() => {
+                                        $scope.loginState = 'idle';
+                                    });
+                                } else {
+                                    iNotifier.success("Một email kích hoạt tài khoản đã được gửi tới địa chỉ hộp thư của bạn.");
+                                    $state.go($scope._data.states.notifyCheckEmail);
+                                }
+                            });
                         }
                     });
+                    
                 } else {
                     iNotifier.error(error.message);
+                    $scope.loginState = 'idle';
                 }
             };
 
@@ -135,18 +152,30 @@ angular.module('angular-skynet').directive('login', function() {
                 $scope.loginState = 'onResetPassword';
                 let error = $scope.utils.validateResetPasswordForm();
                 if (_.isEmpty(error)) {
-                    Accounts.forgotPassword($scope.resetPasswordCredentials, (err) => {
-                        if (err) {
-                            iNotifier.error('Có lỗi xảy ra trong quá trình reset mật khẩu: ' + err.reason + '.');
-                            console.log('Có lỗi khi reset mật khẩu: ', err);
-                            $scope.$apply(() => {
-                                $scope.loginState = 'idle';
-                            });
-                        } else {
-                            iNotifier.success('Một email chứa thông tin reset mật khẩu đã được gửi tới địa chỉ hộp thư của bạn.');
-                            $state.go($scope._data.states.notifyResetMatKhau);
-                        }
-                    });
+                    
+                    if (error) {
+                        iNotifier.error('Xác nhận CAPTCHA thất bại. Thông điệp phản hồi từ sever: ' + error.reason);
+                        $scope.$apply(() => {
+                            $scope.loginState = 'idle';
+                        });
+                    } else {
+                        console.log('Xác thực CAPTCHA thành công!');
+                        Accounts.forgotPassword($scope.resetPasswordCredentials, (err) => {
+                            if (err) {
+                                iNotifier.error('Có lỗi xảy ra trong quá trình reset mật khẩu: ' + err.reason + '.');
+                                console.log('Có lỗi khi reset mật khẩu: ', err);
+                                $scope.$apply(() => {
+                                    $scope.loginState = 'idle';
+                                });
+                            } else {
+                                $state.go($scope._data.states.notifyResetMatKhau);
+                                $timeout(() => {                                
+                                    iNotifier.success('Một email chứa thông tin reset mật khẩu đã được gửi tới địa chỉ hộp thư của bạn.');
+                                }, 1000);
+                            }
+                        });
+                    }
+
                 } else {
                     iNotifier.error(error.message);
                 }
@@ -173,6 +202,8 @@ angular.module('angular-skynet').directive('login', function() {
                 $event.preventDefault();
                 utils.card_show_hide($login_card, undefined, password_reset_show, undefined);
             };
+
+            
 
 
             // ***************************************************

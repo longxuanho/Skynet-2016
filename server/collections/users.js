@@ -217,5 +217,20 @@ Meteor.methods({
         } else {
             return false;
         }
+    }, 
+
+    verifyReCaptcha: function(recaptchaResponse) {
+
+        var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(recaptchaResponse, this.connection.clientAddress);
+
+        if (!verifyCaptchaResponse.success) {
+            console.log('Xác nhận reCAPTCHA thất bại!', verifyCaptchaResponse);
+            throw new Meteor.Error(422, verifyCaptchaResponse.error);
+        } else
+            console.log('Xác nhận reCAPTCHA thành công!');
+
+        //do stuff with your formData
+
+        return true;
     }
 })
