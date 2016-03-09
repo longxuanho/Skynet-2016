@@ -22,9 +22,13 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                 
             };
 
-            vm.pageReactiveData = {
-                
-            };
+            vm.pageData = {
+                suachuasRaw: [],
+                suachuasDataSource: new kendo.data.DataSource({
+                    data: [],
+                    group: { field: 'phan_loai.loai_sua_chua.ten' }
+                })
+            }
 
 
 
@@ -79,21 +83,11 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
 
             $scope.messages = messages;
 
-            var $mailbox = $('#mailbox');
-
-            // select message
-            $mailbox
-                .on('ifChanged', '.select_message', function() {
-                    $(this).is(':checked') ? $(this).closest('li').addClass('md-card-list-item-selected') : $(this).closest('li').removeClass('md-card-list-item-selected');
-            });
-
-            // select all messages
-            $('#mailbox_select_all').on('ifChanged',function() {
-                var $this = $(this);
-                $mailbox.find('.select_message').each(function() {
-                    $this.is(':checked') ? $(this).iCheck('check') : $(this).iCheck('uncheck');
-                })
-            });
+            var $mailbox = $('#mailbox'),
+                $split_view_btn = $("#mailbox_list_split"),
+                $combined_view_btn = $("#mailbox_list_combined"),
+                $msg_list = $mailbox.find(".md-card-list"),
+                anim_duration = 250;
 
             // show message details
             $mailbox.on('click', '.md-card-list ul > li', function(e) {
@@ -180,11 +174,19 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
 
             vm.helpers({
                 suachuas: () => {
+                    vm.pageData.suachuasDataSource.data(SuaChuas.find({
+                        'trang_thai.ma': 'dang_sua_chua'
+                    }).fetch());
+                    vm.pageData.suachuasDataSource.fetch(function(){
+                        vm.pageData.suachuasRaw = vm.pageData.suachuasDataSource.view();
+                    });     
+                    console.log('dataRaw: ', vm.pageData.suachuasRaw)               
                     return SuaChuas.find({
                         'trang_thai.ma': 'dang_sua_chua'
                     });
                 }
             });
+
 
             // ***************************************************
             // METHODS
@@ -213,6 +215,67 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                 accentColor: _.findWhere(vm._data.general.themes, {
                     name: $rootScope.main_theme
                 }).color_accent,
+                combineListView: function() {
+                    $combined_view_btn.velocity("transition.expandOut", {
+                        duration: anim_duration,
+                        easing: variables.easing_swiftOut,
+                        begin: function () {
+                            $mailbox.addClass("md-card-list-combined").find(".md-card-list-header").not(".md-card-list-header-combined").velocity("transition.expandOut", {
+                                duration: anim_duration,
+                                easing: variables.easing_swiftOut,
+                                begin: function () {
+                                    $msg_list.each(function (i) {
+                                        0 != i && $(this).velocity({
+                                            marginTop: "0"
+                                        }, {
+                                            duration: anim_duration + 200,
+                                            easing: variables.easing_swiftOut
+                                        })
+                                    })
+                                },
+                                complete: function () {
+                                    $mailbox.find(".md-card-list-header-combined").velocity("transition.expandIn", {
+                                        duration: anim_duration,
+                                        easing: variables.easing_swiftOut
+                                    })
+                                }
+                            })
+                        },
+                        complete: function () {
+                            $split_view_btn.velocity("transition.expandIn", {
+                                duration: anim_duration,
+                                easing: variables.easing_swiftOut
+                            })
+                        }
+                    });
+                },
+                splitListView: function() {
+                    $split_view_btn.velocity("transition.expandOut", {
+                        duration: anim_duration,
+                        easing: variables.easing_swiftOut,
+                        begin: function () {
+                            var i = $mailbox.find(".md-card-list"),
+                                t = i.length;
+                            $mailbox.find(".md-card-list-header-combined").velocity("transition.expandOut", {
+                                duration: anim_duration,
+                                easing: variables.easing_swiftOut
+                            }), i.reverse().each(function (i) {
+                                i != t - 1 && $(this).velocity("reverse", {
+                                    duration: anim_duration + 200,
+                                    easing: variables.easing_swiftOut
+                                })
+                            }), setTimeout(function () {
+                                $mailbox.removeClass("md-card-list-combined"), $(".md-card-list-header").not(".md-card-list-header-combined").show().velocity("reverse")
+                            }, 500)
+                        },
+                        complete: function () {
+                            $combined_view_btn.velocity("transition.expandIn", {
+                                duration: anim_duration,
+                                easing: variables.easing_swiftOut
+                            })
+                        }
+                    })
+                }
             };
 
             // ***************************************************
