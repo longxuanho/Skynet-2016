@@ -19,75 +19,53 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
             vm._helpers = skynetHelpers.helpers;
 
             vm.pageOptions = {
-                
+                groupBy: {
+                    selectedId: 'phan_loai.loai_sua_chua.ten',            
+                    source: [
+                        {
+                            ma: 'phan_loai.loai_sua_chua.ten',
+                            ten: 'Loại sửa chữa'    
+                        }, {
+                            ma: 'dia_diem.khu_vuc.ten',
+                            ten: 'Khu vực'
+                        }, {
+                            ma: 'phan_loai.loai_tb.ten',
+                            ten: 'Nhóm phương tiện'
+                        }
+                    ]
+                },
+                logSelectedId: 'phan_loai.loai_sua_chua.ten'
             };
 
             vm.pageData = {
                 suachuasRaw: [],
                 suachuasDataSource: new kendo.data.DataSource({
                     data: [],
-                    group: { field: 'phan_loai.loai_sua_chua.ten' }
-                })
+                    aggregate: [
+                        { field: '_id', aggregate: 'count' }
+                    ],
+                    group: { 
+                        field: 'phan_loai.loai_sua_chua.ten',
+                        aggregates: [
+                            { field: '_id', aggregate: "count" }
+                        ]
+                    },
+                    sort: { field: 'metadata.ngay_tao', dir: 'desc' }
+                }),
+                statistics: {}
             }
-
-
-
-            let messages = [
-                {
-                    "id": 1,
-                    "sender_avatar": "",
-                    "sender": "Elyse Swift",
-                    "email": "lelah.keeling@romaguera.org",
-                    "title": "Eaque ab fuga corrupti ut enim tempora dolorem.",
-                    "content": "Quod rerum et dolores neque animi et magni ex hic rerum qui omnis minima aliquam iusto deleniti consectetur fuga et nihil voluptatem magni qui corrupti animi dolores facilis nulla voluptatem dolore aut doloremque adipisci sunt aut ut deleniti dolores sunt quaerat dolorum facere autem deserunt possimus dolorum consequatur est quidem sint velit nihil aut et voluptates maxime labore recusandae ullam veniam vero eos harum ipsam eos necessitatibus quia esse soluta in nisi sapiente occaecati cumque quam ut hic assumenda error repudiandae et repellat praesentium autem ipsam et consectetur illum rerum perferendis mollitia nihil possimus dignissimos ut aut vel facilis illum voluptatum magni aliquam quia dolores sequi sapiente totam in tempore harum veniam enim vero odit.",
-                    "date": "12.08.2016",
-                    "sender_color": "cyan",
-                    "verified": true
-                },
-                {
-                    "id": 2,
-                    "sender_avatar": "",
-                    "sender": "Claudia Deckow",
-                    "email": "pasquale57@hotmail.com",
-                    "title": "Similique quos ea architecto repellendus dolorum unde quis.",
-                    "content": "Magnam animi exercitationem repellendus facere minima maxime voluptatem iusto doloribus enim perspiciatis non ducimus fuga quas dolor odio voluptate facere ipsum incidunt earum a necessitatibus in iusto repudiandae ad sed sed dolorem dolor quod quos doloribus sint minima ut reprehenderit consectetur qui voluptatem odio dicta aut rem sunt rem nostrum molestias voluptatem ducimus expedita reprehenderit doloremque animi consequatur eum iste nihil natus natus asperiores commodi neque minus accusantium illum sit quo ab modi incidunt in omnis iusto iusto laboriosam mollitia et consequatur maiores qui error blanditiis aut ut dolorem quis nulla et nulla dolore.",
-                    "date": "12.08.2016",
-                    "sender_color": "green",
-                    "verified": true
-                },
-                {
-                    "id": 3,
-                    "sender_avatar": "assets\/img\/avatars\/avatar_05_tn.png",
-                    "sender": "Alanna Wisozk",
-                    "email": "anabelle74@gmail.com",
-                    "title": "Autem provident quia ad suscipit rerum error quibusdam dignissimos et est provident totam non ex.",
-                    "content": "Quisquam et doloribus necessitatibus maxime saepe saepe aut quisquam ut velit et alias omnis excepturi nostrum culpa consequatur consequatur voluptas vitae repellendus ut placeat impedit dolorem natus impedit eligendi sint a blanditiis voluptatum magnam facilis aspernatur aut fugit culpa corporis dolor deserunt et non veritatis vero fugiat cupiditate et ea et aut fugiat ratione accusamus qui temporibus a aspernatur voluptates minima magni sequi voluptate laudantium ad quis dolorum et deserunt ad quaerat qui neque saepe praesentium et ea necessitatibus placeat nesciunt nam voluptatibus voluptates illum aut ipsa voluptas eum nisi ratione ex ut dolore doloremque velit aut dignissimos pariatur dolor earum voluptatem sint debitis voluptate eos eligendi eum incidunt adipisci nihil possimus est in voluptas natus ut in unde aliquid quia placeat velit minima autem.",
-                    "date": "12.08.2016",
-                    "sender_color": "green",
-                    "verified": true
-                },
-                {
-                    "id": 4,
-                    "sender_avatar": "assets\/img\/avatars\/avatar_10_tn.png",
-                    "sender": "Noble Mitchell",
-                    "email": "feil.braden@yahoo.com",
-                    "title": "Perspiciatis et eum rerum sit.",
-                    "content": "Exercitationem ad est dolorum tenetur sint voluptatem sit labore velit ea inventore in dolore exercitationem eum consectetur maiores est consequatur corrupti sint corrupti eligendi harum id voluptatibus beatae veniam laborum enim vitae molestias qui fugit qui porro beatae ut sed ut labore nesciunt nostrum fuga iure iure est quo accusamus sit necessitatibus ut quia cupiditate dolorem delectus et adipisci dolorum nisi rerum est iure facere vitae ab deleniti natus aliquid aperiam minus eligendi aut rerum suscipit aperiam.",
-                    "date": "12.08.2016",
-                    "sender_color": "grey",
-                    "verified": false
-                }
-            ];
 
             $rootScope.toBarActive = true;
 
-            $scope.messages = messages;
-
-            var $mailbox = $('#mailbox'),
+            let $mailbox = $('#mailbox'),
                 $split_view_btn = $("#mailbox_list_split"),
                 $combined_view_btn = $("#mailbox_list_combined"),
-                $msg_list = $mailbox.find(".md-card-list"),
                 anim_duration = 250;
+
+            $mailbox.hasClass("md-card-list-combined") ? $combined_view_btn.click() : $split_view_btn.hide()
+            
+            // Quan trọng: Gán hàm reverse cho jQuery
+            jQuery.fn.reverse = [].reverse;
 
             // show message details
             $mailbox.on('click', '.md-card-list ul > li', function(e) {
@@ -179,8 +157,8 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                     }).fetch());
                     vm.pageData.suachuasDataSource.fetch(function(){
                         vm.pageData.suachuasRaw = vm.pageData.suachuasDataSource.view();
-                    });     
-                    console.log('dataRaw: ', vm.pageData.suachuasRaw)               
+                        vm.pageData.statistics = vm.pageData.suachuasDataSource.aggregates();
+                    });
                     return SuaChuas.find({
                         'trang_thai.ma': 'dang_sua_chua'
                     });
@@ -192,18 +170,72 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
             // METHODS
             // ***************************************************
             vm.test = function() {
-                $scope.messages.push(
+                vm.pageData.suachuasDataSource.pushCreate(
                     {
-                        "id": 5,
-                        "sender_avatar": "",
-                        "sender": "Long Test",
-                        "email": "lelah.keeling@romaguera.org",
-                        "title": "Eaque ab fuga corrupti ut enim tempora dolorem.",
-                        "content": "Quod rerum et dolores neque animi et magni ex hic rerum qui omnis minima aliquam iusto deleniti consectetur fuga et nihil voluptatem magni qui corrupti animi dolores facilis nulla voluptatem dolore aut doloremque adipisci sunt aut ut deleniti dolores sunt quaerat dolorum facere autem deserunt possimus dolorum consequatur est quidem sint velit nihil aut et voluptates maxime labore recusandae ullam veniam vero eos harum ipsam eos necessitatibus quia esse soluta in nisi sapiente occaecati cumque quam ut hic assumenda error repudiandae et repellat praesentium autem ipsam et consectetur illum rerum perferendis mollitia nihil possimus dignissimos ut aut vel facilis illum voluptatum magni aliquam quia dolores sequi sapiente totam in tempore harum veniam enim vero odit.",
-                        "date": "12.08.2016",
-                        "sender_color": "cyan",
-                        "verified": true
-                });
+                        "_id" : "fRT9hunQL8YCS4uY7",
+                        "phan_loai" : {
+                            "nhom_tb" : {
+                                "ten" : "Xe - máy",
+                                "ma" : "xe_may"
+                            },
+                            "loai_tb" : {
+                                "ten" : "Xe bus nội bộ",
+                                "ma" : "xe_bus_noi_bo"
+                            },
+                            "loai_sua_chua" : {
+                                "ten" : "Đại tu phương tiện",
+                                "ma" : "dai_tu"
+                            }
+                        },
+                        "ma_tb" : {
+                            "ma_tb" : "TEST"
+                        },
+                        "dia_diem" : {
+                            "dia_diem" : "Nhà xưởng sửa chữa",
+                            "khu_vuc" : {
+                                "ten" : "Khu C",
+                                "ma" : "zone_c"
+                            },
+                            "vi_tri" : "C04"
+                        },
+                        "noi_dung" : {
+                            "noi_dung" : "Hỏng ống xả, gãy bu lông ca bin"
+                        },
+                        "thoi_gian" : {
+                            "bat_dau" : new Date(),
+                            "sua_chua_du_kien" : 1,
+                            "ket_thuc_du_kien" : new Date()
+                        },
+                        "thong_ke" : {
+                            "thoi_gian" : {
+                                "ngay_bat_dau" : "2016-03-02",
+                                "thang_sua_chua" : "03",
+                                "nam_sua_chua" : "2016"
+                            },
+                            "tags_field" : "Cần gạt nước, Bình nhiên liệu"
+                        },
+                        "tags" : [ 
+                            "Cần gạt nước", 
+                            "Bình nhiên liệu"
+                        ],
+                        "trang_thai" : {
+                            "ten" : "Đang sửa chữa",
+                            "ma" : "dang_sua_chua"
+                        },
+                        "isPublic" : true,
+                        "isArchived" : false,
+                        "metadata" : {
+                            "ngay_tao" : new Date(),
+                            "nguoi_tao" : "Ai3PeP5nbk2mxEr55",
+                            "nguoi_tao_email" : "longxuanho@admin.io",
+                            "nguoi_tao_field" : "Long Hồ:longxuanho@admin.io",
+                            "nguoi_tao_name" : "Long Hồ"
+                        }
+                    });
+                    vm.pageData.suachuasDataSource.fetch(function(){
+                        vm.pageData.suachuasRaw = vm.pageData.suachuasDataSource.view();
+                        vm.pageData.statistics = vm.pageData.suachuasDataSource.aggregates();
+                    });
             }
 
 
@@ -215,7 +247,15 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                 accentColor: _.findWhere(vm._data.general.themes, {
                     name: $rootScope.main_theme
                 }).color_accent,
+                setGroupById: function(id) {
+                    vm.pageOptions.groupBy.selectedId = id;
+                },
                 combineListView: function() {
+                    let $mailbox = $('#mailbox'),
+                        $split_view_btn = $("#mailbox_list_split"),
+                        $combined_view_btn = $("#mailbox_list_combined"),
+                        $msg_list = $mailbox.find(".md-card-list");
+                    
                     $combined_view_btn.velocity("transition.expandOut", {
                         duration: anim_duration,
                         easing: variables.easing_swiftOut,
@@ -245,11 +285,22 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                             $split_view_btn.velocity("transition.expandIn", {
                                 duration: anim_duration,
                                 easing: variables.easing_swiftOut
-                            })
+                            });
+                            // Lưu giá trị nhóm trước đó và nhóm dataSource về một nguồn duy nhất, đồng thời kích hoạt Watcher với vm.pageOptions.groupBy.selectedId
+                            // vm.pageOptions.groupBy.logSelectedId = vm.pageOptions.groupBy.selectedId;
+                            // vm.pageOptions.groupBy.selectedId = 'phan_loai.nhom_tb.ten';
                         }
                     });
                 },
                 splitListView: function() {
+                    // Trở về giá trị của group trước đó, đồng thời kích hoạt Watcher với vm.pageOptions.groupBy.selectedId
+                    // vm.pageOptions.groupBy.selectedId = vm.pageOptions.groupBy.logSelectedId;
+
+                    let $mailbox = $('#mailbox'),
+                        $split_view_btn = $("#mailbox_list_split"),
+                        $combined_view_btn = $("#mailbox_list_combined"),
+                        $msg_list = $mailbox.find(".md-card-list");
+
                     $split_view_btn.velocity("transition.expandOut", {
                         duration: anim_duration,
                         easing: variables.easing_swiftOut,
@@ -259,14 +310,16 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                             $mailbox.find(".md-card-list-header-combined").velocity("transition.expandOut", {
                                 duration: anim_duration,
                                 easing: variables.easing_swiftOut
-                            }), i.reverse().each(function (i) {
+                            });
+                            i.reverse().each(function (i) {
                                 i != t - 1 && $(this).velocity("reverse", {
                                     duration: anim_duration + 200,
                                     easing: variables.easing_swiftOut
                                 })
-                            }), setTimeout(function () {
+                            });
+                            setTimeout(function () {
                                 $mailbox.removeClass("md-card-list-combined"), $(".md-card-list-header").not(".md-card-list-header-combined").show().velocity("reverse")
-                            }, 500)
+                            }, 500);
                         },
                         complete: function () {
                             $combined_view_btn.velocity("transition.expandIn", {
@@ -286,6 +339,21 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                 vm.utils.accentColor = _.findWhere(vm._data.general.themes, {
                     name: newVal
                 }).color_accent;
+            });
+
+            $scope.$watch('vm.pageOptions.groupBy.selectedId', (newVal) => {
+                if (newVal) {
+                    vm.pageData.suachuasDataSource.group({
+                        field: newVal,
+                        aggregates: [
+                            { field: '_id', aggregate: "count" }
+                        ]
+                    });
+                    vm.pageData.suachuasDataSource.fetch(function(){
+                        vm.pageData.suachuasRaw = vm.pageData.suachuasDataSource.view();
+                        vm.pageData.statistics = vm.pageData.suachuasDataSource.aggregates();
+                    });
+                }
             });
 
         }
