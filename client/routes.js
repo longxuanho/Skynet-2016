@@ -4,6 +4,15 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
     $locationProvider.html5Mode(true);
 
     $stateProvider
+        // DASHBOARD
+        .state('dashboard', {
+            url: '/bang-tin',
+            template: '<dashboard-main></dashboard-main>'
+        })
+        .state('dashboard.suachuas', {
+            url: '/sua-chua-thiet-bi',
+            template: '<dashboard-suachuas></dashboard-suachuas>'
+        })
         // NHOMS
         .state('nhoms', {
             url: '/quan-ly/nhom',

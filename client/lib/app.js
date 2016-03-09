@@ -14,12 +14,6 @@ var skynetApp = angular.module('angular-skynet', [
   	'ngImgCrop',
   	'angular-meteor.auth']);
 
-skynetApp.constant('variables', {
-    header__main_height: 48,
-    easing_swiftOut: [ 0.4,0,0.2,1 ],
-    bez_easing_swiftOut: $.bez([ 0.4,0,0.2,1 ])
-});
-
 skynetApp.config(function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([
         'self',

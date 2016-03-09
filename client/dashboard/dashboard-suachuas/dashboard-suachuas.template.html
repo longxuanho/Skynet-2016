@@ -1,0 +1,121 @@
+<div id="top_bar" top-bar>
+    <div class="md-top-bar">
+        <div class="uk-width-large-8-10 uk-container-center">
+            <div class="uk-clearfix">
+                <div class="md-top-bar-actions-left">
+                    <div class="md-top-bar-checkbox">
+                        <input type="checkbox" id="mailbox_select_all" ng-model="select_all_messages" icheck />
+                    </div>
+                </div>
+                <div class="md-top-bar-actions-right">
+                    <div class="md-top-bar-icons">
+                        <i id="mailbox_list_split" class=" md-icon material-icons">&#xE8EE;</i>
+                        <i id="mailbox_list_combined" class="md-icon material-icons">&#xE8F2;</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="md-card-list-wrapper" id="mailbox">
+    <div class="uk-width-large-8-10 uk-container-center">
+    <button ng-click="vm.test()">Test</button>
+        <div class="md-card-list">
+            <div class="md-card-list-header heading_list">Sửa chữa nhỏ</div>
+            <div class="md-card-list-header md-card-list-header-combined heading_list" style="display: none">Tất cả</div>
+            <ul class="hierarchical_slide" hierarchical-slide>
+                <li ng-repeat="suachua in vm.suachuas" on-last-repeat>
+                    <div class="md-card-list-item-menu" data-uk-dropdown="{mode:'click',pos:'bottom-right'}">
+                        <a href="#" class="md-icon material-icons">&#xE5D4;</a>
+                        <div class="uk-dropdown uk-dropdown-small">
+                            <ul class="uk-nav">
+                                <li><a href="#"><i class="material-icons">&#xE15E;</i> Reply</a></li>
+                                <li><a href="#"><i class="material-icons">&#xE149;</i> Archive</a></li>
+                                <li><a href="#"><i class="material-icons">&#xE872;</i> Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <span class="md-card-list-item-date">{{suachua.thoi_gian.bat_dau | displayDate:fromNow }}</span>
+                    <div class="md-card-list-item-avatar-wrapper">
+                        <span class="md-card-list-item-avatar md-bg-{{item.sender_color}}-600">{{suachua.dia_diem.khu_vuc.ma | lastCharacter}}</span>
+                    </div>
+                    <div class="md-card-list-item-modified-dukien">
+                        <span>DK: {{suachua.thoi_gian.sua_chua_du_kien}} giờ</span>
+                    </div>
+                    <div class="md-card-list-item-modified-loaitb">
+                        <span>{{suachua.phan_loai.loai_tb.ten}}</span>
+                    </div>
+                    <div class="md-card-list-item-modified-matb">
+                        <span>{{suachua.ma_tb.ma_tb}}</span>
+                    </div>                    
+                    
+                    <div class="md-card-list-item-subject">
+                        <div class="md-card-list-item-sender-small">
+                            <span>{{suachua.ma_tb.ma_tb}}</span>
+                        </div>
+                        <span>{{suachua.noi_dung.noi_dung}}</span>
+                    </div>
+                    <div class="md-card-list-item-content-wrapper">
+                        <div class="md-card-list-item-content">
+                            {{item.content}}
+                        </div>
+                        <form class="md-card-list-item-reply">
+                            <label for="mailbox_reply_{{$index}}">Reply to <span>{{item.sender}}</span></label>
+                            <textarea class="md-input md-input-full" id="mailbox_reply_{{$index}}" cols="30" rows="4" md-input ng-model="item_reply"></textarea>
+                            <button class="md-btn md-btn-flat md-btn-flat-primary">Send</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="md-card-list">
+            <div class="md-card-list-header heading_list">Sửa chữa lớn</div>
+            <div class="md-card-list-header md-card-list-header-combined heading_list" style="display: none">Tất cả</div>
+            <ul class="hierarchical_slide" hierarchical-slide>
+                <li ng-repeat="message in messages" on-last-repeat>
+                    <div class="md-card-list-item-menu" data-uk-dropdown="{mode:'click',pos:'bottom-right'}">
+                        <a href="#" class="md-icon material-icons">&#xE5D4;</a>
+                        <div class="uk-dropdown uk-dropdown-small">
+                            <ul class="uk-nav">
+                                <li><a href="#"><i class="material-icons">&#xE15E;</i> Reply</a></li>
+                                <li><a href="#"><i class="material-icons">&#xE149;</i> Archive</a></li>
+                                <li><a href="#"><i class="material-icons">&#xE872;</i> Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <span class="md-card-list-item-date">{{message.date | momentDate:'MM-DD-YYYY':'DD MMM' }}</span>
+                    <div class="md-card-list-item-select">
+                        <input type="checkbox" class="select_message" icheck ng-model="messsage_select" />
+                    </div>
+                    <div class="md-card-list-item-avatar-wrapper">
+                        <img ng-src="{{message.sender_avatar}}" class="md-card-list-item-avatar" alt="" ng-if="message.sender_avatar"/>
+                        <span class="md-card-list-item-avatar md-bg-{{message.sender_color}}-600" ng-if="!message.sender_avatar">{{message.sender | initials}}</span>
+                    </div>
+                    <div class="md-card-list-item-sender">
+                        <span ng-if="message.verified">{{message.sender}}</span>
+                        <span ng-if="!message.verified">{{message.email}}</span>
+                    </div>
+                    <div class="md-card-list-item-subject">
+                        <div class="md-card-list-item-sender-small">
+                            <span ng-if="message.verified">{{message.sender}}</span>
+                            <span ng-if="!message.verified">{{message.email}}</span>
+                        </div>
+                        <span>{{message.title}}</span>
+                    </div>
+                    <div class="md-card-list-item-content-wrapper">
+                        <div class="md-card-list-item-content">
+                            {{message.content}}
+                        </div>
+                        <form class="md-card-list-item-reply">
+                            <label for="mailbox_reply_{{$index}}">Reply to <span>{{message.sender}}</span></label>
+                            <textarea class="md-input md-input-full" id="mailbox_reply_{{$index}}" cols="30" rows="4" md-input ng-model="message_reply"></textarea>
+                            <button class="md-btn md-btn-flat md-btn-flat-primary">Send</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

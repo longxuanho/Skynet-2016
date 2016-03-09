@@ -7,6 +7,8 @@ angular.module('angular-skynet').filter('displayDate', function() {
                 return moment(date).calendar();
             if (type === 'standard')
                 return moment(date).format('L');
+            if (type === 'fromNow')
+                return moment(date).fromNow();
             return moment(date).fromNow();
             
 

@@ -82,6 +82,49 @@ pre {
     }
 }
 
+.md-card-list-wrapper {
+    .md-card-list {
+        .md-card-list-item-modified {
+            &-matb {
+                float: left;
+                padding: 0 8px;
+                width: 120px;
+                line-height: 34px;
+                > span {
+                    .truncate_line();
+                }
+                @media @screen_xlarge_max {
+                    display: none;
+                }
+            }
+            &-loaitb {
+                float: left;
+                padding: 0 8px;
+                width: 140px;
+                line-height: 34px;
+                > span {
+                    .truncate_line();
+                }
+                @media @screen_xlarge_max {
+                    display: none;
+                }
+            }
+            &-dukien {
+                float: left;
+                padding: 0 8px;
+                width: 100px;
+                line-height: 34px;
+                > span {
+                    .truncate_line();
+                }
+                @media @screen_xlarge_max {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
 .default_theme {
     .skynet-logo-small {
         margin: 8px auto;
