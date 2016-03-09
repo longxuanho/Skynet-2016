@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
         templateUrl: 'client/dashboard/dashboard-suachuas/dashboard-suachuas.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, variables, $timeout) {
+        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, variables, $timeout) {
 
             $reactive(this).attach($scope);
 
@@ -146,6 +146,8 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                 ]
             });
 
+            $scope.subscribe('suachualogs');
+
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
@@ -162,9 +164,24 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                     return SuaChuas.find({
                         'trang_thai.ma': 'dang_sua_chua'
                     });
-                }
+                },
+                // logs: () => {
+                //     // Tìm bản ghi log cuối cùng trên hệ thống
+                //     console.log('new action: ', SuaChuaLogs.findOne({}, {sort:{_id:-1}})); 
+                // }
             });
 
+            ddpEvents.addListener('suachuasChageEvent', function(message) {
+                console.log('event fired!');
+                if ($state && $state.$current.name==='dashboard.suachuas') {
+                    console.log('to this!', message);
+                    if (message.action==='insert')
+                        iNotifier.info('Thiết bị mã số ' + message.data.ma_tb.ma_tb + ' đã được đưa vào sửa chữa tại ô ' + message.data.dia_diem.vi_tri + '.');
+                    if (message.action==='update')
+                        iNotifier.success('Thiết bị mã số ' + message.data.ma_tb.ma_tb + ' tại ô ' + message.data.dia_diem.vi_tri + ' đã được sửa chữa xong.');
+                }
+            });
+            
 
             // ***************************************************
             // METHODS

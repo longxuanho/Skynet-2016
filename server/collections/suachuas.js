@@ -35,11 +35,25 @@ SuaChuas.allow({
     }
 });
 
-
 // ***************************************************
 // COLLECTION HOOKS
 // ***************************************************
 
+SuaChuas.after.insert(function (userId, doc) {
+    ddpEvents.emit('suachuasChageEvent', { 
+        action: 'insert',
+        data: doc
+    });
+});
+
+SuaChuas.after.update(function (userId, doc) {
+    if (this.previous.trang_thai.ma !== doc.trang_thai.ma) {
+        ddpEvents.emit('suachuasChageEvent', { 
+            action: 'update',
+            data: doc
+        });
+    }
+});
 
 // ***************************************************
 // PUBLISH / SUBSCRIBE
@@ -96,4 +110,8 @@ Meteor.publish("suachuas", function(options, searchString, searchBy, tags) {
     });
 
     return SuaChuas.find(query, options);
+});
+
+Meteor.publish("suachualogs", function(options) {
+    return SuaChuaLogs.find();
 });
