@@ -37,7 +37,7 @@
                     <div class="md-card-list-item-menu">
                         <i class="md-icon material-icons">&#xE5D4;</i>
                     </div>
-                    <span class="md-card-list-item-date">{{suachua.thoi_gian.bat_dau | displayDate:fromNow }}</span>
+                    <span class="md-card-list-item-date">{{suachua.thoi_gian.bat_dau | displayDate:'fromNow' }}</span>
                     <div class="md-card-list-item-avatar-wrapper">
                         <span class="md-card-list-item-avatar suachua-{{suachua.dia_diem.khu_vuc.ma}}">{{suachua.dia_diem.khu_vuc.ma | lastCharacter}}</span>
                     </div>
@@ -83,8 +83,8 @@
                                         <li>
                                             <div class="md-list-content">
                                                 <span class="md-list-heading">Thời gian</span>
-                                                <span class="uk-text-small uk-text-muted">Bắt đầu lúc 14:00 ngày 10/3/2016</span>
                                                 <span class="uk-text-small uk-text-muted">Dự kiến sửa chữa trong {{suachua.thoi_gian.sua_chua_du_kien}} giờ</span>
+                                                <span class="uk-text-small uk-text-muted">Bắt đầu lúc {{suachua.thoi_gian.bat_dau | displayDate: 'HH:mm A'}} ngày {{suachua.thoi_gian.bat_dau | displayDate: 'dddd, DD/MM/YYYY'}}</span>                                                
                                             </div>
                                         </li>
                                         <li ng-if="suachua.thong_ke.tags_field">

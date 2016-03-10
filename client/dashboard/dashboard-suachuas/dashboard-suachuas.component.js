@@ -138,17 +138,7 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            $scope.subscribe('suachuas', () => {
-                return [{
-                        limit: parseInt($scope.getReactively('perPage')),
-                        skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage'))
-                    },
-                    $rootScope.getReactively('searchText'),
-                    $rootScope.getReactively('searchBy')
-                ]
-            });
-
-            $scope.subscribe('suachualogs');
+            $scope.subscribe('suachuas');
 
             // ***************************************************
             // REACTIVE HELPERS
