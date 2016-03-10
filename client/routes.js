@@ -25,7 +25,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         })
         .state('dashboard.suachuas', {
             url: '/sua-chua-thiet-bi',
-            template: '<dashboard-suachuas></dashboard-suachuas>'
+            template: '<dashboard-suachuas-main></dashboard-suachuas-main>'
         })
         // NHOMS
         .state('nhoms', {

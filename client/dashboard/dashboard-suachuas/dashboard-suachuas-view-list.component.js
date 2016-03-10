@@ -1,9 +1,10 @@
-angular.module('angular-skynet').directive('dashboardSuachuas', function() {
+angular.module('angular-skynet').directive('dashboardSuachuasViewList', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/dashboard/dashboard-suachuas/dashboard-suachuas.template.html',
+        templateUrl: 'client/dashboard/dashboard-suachuas/dashboard-suachuas-view-list.template.html',
         controllerAs: 'vm',
         bindToController: true,
+
         controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, variables, $timeout) {
 
             $reactive(this).attach($scope);
@@ -186,9 +187,6 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
             // ***************************************************
 
             vm.utils = {
-                accentColor: _.findWhere(vm._data.general.themes, {
-                    name: $rootScope.main_theme
-                }).color_accent,
                 setGroupById: function(id) {
                     vm.pageOptions.groupBy.selectedId = id;
                 },
@@ -272,12 +270,6 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
-
-            $rootScope.$watch('main_theme', (newVal) => {
-                vm.utils.accentColor = _.findWhere(vm._data.general.themes, {
-                    name: newVal
-                }).color_accent;
-            });
 
             $scope.$watch('vm.pageOptions.groupBy.selectedId', (newVal) => {
                 if (newVal) {

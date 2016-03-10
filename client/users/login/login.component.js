@@ -102,8 +102,10 @@ angular.module('angular-skynet').directive('login', function() {
                         $scope.$apply(() => {
                             $scope.loginState = 'idle';
                         });
-                    } else {
-                        $state.go($scope._data.states.master);
+                    } else {                        
+                        $scope.$apply(() => {
+                            $state.go($scope._data.states.master);
+                        });
                         $timeout(() => {
                             iNotifier.success("Đăng nhập thành công!");
                         }, 2000);
