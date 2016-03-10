@@ -34,15 +34,8 @@
             <ul class="hierarchical_slide" hierarchical-slide>
                 
                 <li ng-repeat="suachua in group.items" on-last-repeat>
-                    <div class="md-card-list-item-menu" data-uk-dropdown="{mode:'click',pos:'bottom-right'}">
-                        <a href="#" class="md-icon material-icons">&#xE5D4;</a>
-                        <div class="uk-dropdown uk-dropdown-small">
-                            <ul class="uk-nav">
-                                <li><a href="#"><i class="material-icons">&#xE15E;</i> Reply</a></li>
-                                <li><a href="#"><i class="material-icons">&#xE149;</i> Archive</a></li>
-                                <li><a href="#"><i class="material-icons">&#xE872;</i> Delete</a></li>
-                            </ul>
-                        </div>
+                    <div class="md-card-list-item-menu">
+                        <i class="md-icon material-icons">&#xE5D4;</i>
                     </div>
                     <span class="md-card-list-item-date">{{suachua.thoi_gian.bat_dau | displayDate:fromNow }}</span>
                     <div class="md-card-list-item-avatar-wrapper">
@@ -66,13 +59,56 @@
                     </div>
                     <div class="md-card-list-item-content-wrapper">
                         <div class="md-card-list-item-content">
-                            {{item.content}}
+                            <div class="uk-grid uk-margin-small-left uk-margin-small-right uk-margin-bottom">
+                                <div class="uk-width-small-1-1">
+                                    <ul class="md-list">
+                                        <li>
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading">Thông tin thiết bị</span>
+                                                <span class="uk-text-small uk-text-muted">{{suachua.ma_tb.ma_tb}} : {{suachua.phan_loai.loai_tb.ten}}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading">Vị trí sửa chữa</span>
+                                                <span class="uk-text-small uk-text-muted uk-text-truncate">{{suachua.dia_diem.khu_vuc.ten}} : {{suachua.dia_diem.vi_tri}}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading">Nội dung sửa chữa</span>
+                                                <span class="uk-text-small uk-text-muted">{{suachua.phan_loai.loai_sua_chua.ten}} :  {{suachua.noi_dung.noi_dung}}</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading">Thời gian</span>
+                                                <span class="uk-text-small uk-text-muted">Bắt đầu lúc 14:00 ngày 10/3/2016</span>
+                                                <span class="uk-text-small uk-text-muted">Dự kiến sửa chữa trong {{suachua.thoi_gian.sua_chua_du_kien}} giờ</span>
+                                            </div>
+                                        </li>
+                                        <li ng-if="suachua.thong_ke.tags_field">
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading">Gắn thẻ</span>
+                                                <span class="uk-text-small uk-text-muted">{{suachua.thong_ke.tags_field}}</span>
+                                            </div>
+                                        </li>
+                                        <li ng-if="suachua.mo_ta">
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading">Mô tả</span>
+                                                <span class="uk-text-small uk-text-muted">{{suachua.mo_ta}}</span>
+                                            </div>
+                                        </li>
+                                        <li ng-if="suachua.ghi_chu">
+                                            <div class="md-list-content">
+                                                <span class="md-list-heading">Ghi chú</span>
+                                                <span class="uk-text-small uk-text-muted">{{suachua.ghi_chu}}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <form class="md-card-list-item-reply">
-                            <label for="mailbox_reply_{{$index}}">Reply to <span>{{item.sender}}</span></label>
-                            <textarea class="md-input md-input-full" id="mailbox_reply_{{$index}}" cols="30" rows="4" md-input ng-model="item_reply"></textarea>
-                            <button class="md-btn md-btn-flat md-btn-flat-primary">Send</button>
-                        </form>
                     </div>
                 </li>
             </ul>
