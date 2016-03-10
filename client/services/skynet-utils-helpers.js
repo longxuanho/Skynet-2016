@@ -8,7 +8,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
     
     factory.data = {
         states: {
-            master: 'cauhois.list',
+            master: 'dashboard.suachuas',
             login: 'login',
             notifyCheckEmail: 'notify_checkEmail',
             notifyResetMatKhau: 'notify_resetMatKhau'

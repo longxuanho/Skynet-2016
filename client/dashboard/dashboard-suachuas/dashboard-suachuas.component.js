@@ -20,7 +20,7 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
 
             vm.pageOptions = {
                 groupBy: {
-                    selectedId: 'phan_loai.loai_sua_chua.ten',            
+                    selectedId: 'phan_loai.nhom_tb.ten',            
                     source: [
                         {
                             ma: 'phan_loai.loai_sua_chua.ten',
@@ -30,11 +30,13 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                             ten: 'Khu vực'
                         }, {
                             ma: 'phan_loai.loai_tb.ten',
-                            ten: 'Nhóm phương tiện'
-                        }
+                            ten: 'Loại phương tiện'
+                        }, {
+                            ma: 'phan_loai.nhom_tb.ten',
+                            ten: 'Nhóm thiết bị'
+                        },
                     ]
-                },
-                logSelectedId: 'phan_loai.loai_sua_chua.ten'
+                }
             };
 
             vm.pageData = {
@@ -186,74 +188,7 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
             // ***************************************************
             // METHODS
             // ***************************************************
-            vm.test = function() {
-                vm.pageData.suachuasDataSource.pushCreate(
-                    {
-                        "_id" : "fRT9hunQL8YCS4uY7",
-                        "phan_loai" : {
-                            "nhom_tb" : {
-                                "ten" : "Xe - máy",
-                                "ma" : "xe_may"
-                            },
-                            "loai_tb" : {
-                                "ten" : "Xe bus nội bộ",
-                                "ma" : "xe_bus_noi_bo"
-                            },
-                            "loai_sua_chua" : {
-                                "ten" : "Đại tu phương tiện",
-                                "ma" : "dai_tu"
-                            }
-                        },
-                        "ma_tb" : {
-                            "ma_tb" : "TEST"
-                        },
-                        "dia_diem" : {
-                            "dia_diem" : "Nhà xưởng sửa chữa",
-                            "khu_vuc" : {
-                                "ten" : "Khu C",
-                                "ma" : "zone_c"
-                            },
-                            "vi_tri" : "C04"
-                        },
-                        "noi_dung" : {
-                            "noi_dung" : "Hỏng ống xả, gãy bu lông ca bin"
-                        },
-                        "thoi_gian" : {
-                            "bat_dau" : new Date(),
-                            "sua_chua_du_kien" : 1,
-                            "ket_thuc_du_kien" : new Date()
-                        },
-                        "thong_ke" : {
-                            "thoi_gian" : {
-                                "ngay_bat_dau" : "2016-03-02",
-                                "thang_sua_chua" : "03",
-                                "nam_sua_chua" : "2016"
-                            },
-                            "tags_field" : "Cần gạt nước, Bình nhiên liệu"
-                        },
-                        "tags" : [ 
-                            "Cần gạt nước", 
-                            "Bình nhiên liệu"
-                        ],
-                        "trang_thai" : {
-                            "ten" : "Đang sửa chữa",
-                            "ma" : "dang_sua_chua"
-                        },
-                        "isPublic" : true,
-                        "isArchived" : false,
-                        "metadata" : {
-                            "ngay_tao" : new Date(),
-                            "nguoi_tao" : "Ai3PeP5nbk2mxEr55",
-                            "nguoi_tao_email" : "longxuanho@admin.io",
-                            "nguoi_tao_field" : "Long Hồ:longxuanho@admin.io",
-                            "nguoi_tao_name" : "Long Hồ"
-                        }
-                    });
-                    vm.pageData.suachuasDataSource.fetch(function(){
-                        vm.pageData.suachuasRaw = vm.pageData.suachuasDataSource.view();
-                        vm.pageData.statistics = vm.pageData.suachuasDataSource.aggregates();
-                    });
-            }
+            
 
 
             // ***************************************************
@@ -303,15 +238,11 @@ angular.module('angular-skynet').directive('dashboardSuachuas', function() {
                                 duration: anim_duration,
                                 easing: variables.easing_swiftOut
                             });
-                            // Lưu giá trị nhóm trước đó và nhóm dataSource về một nguồn duy nhất, đồng thời kích hoạt Watcher với vm.pageOptions.groupBy.selectedId
-                            // vm.pageOptions.groupBy.logSelectedId = vm.pageOptions.groupBy.selectedId;
-                            // vm.pageOptions.groupBy.selectedId = 'phan_loai.nhom_tb.ten';
                         }
                     });
                 },
                 splitListView: function() {
-                    // Trở về giá trị của group trước đó, đồng thời kích hoạt Watcher với vm.pageOptions.groupBy.selectedId
-                    // vm.pageOptions.groupBy.selectedId = vm.pageOptions.groupBy.logSelectedId;
+
 
                     let $mailbox = $('#mailbox'),
                         $split_view_btn = $("#mailbox_list_split"),
