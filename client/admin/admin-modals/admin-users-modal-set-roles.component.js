@@ -28,8 +28,10 @@ angular.module('angular-skynet').directive('adminUsersModalSetRoles', function()
                 data: {
                 	availableRoles: {
                 		'sky-project': [
-                			'quanly_cauhois',
-                			'xem_cauhois',
+                			'quanly-cauhois',
+                            'xem-cauhois',
+                            'quanly-suachuas',
+                			'support-suachuas',
                 			'manage-users',
                 			'super-manager',
                 			'admin'

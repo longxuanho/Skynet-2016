@@ -2026,23 +2026,27 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_view_cau_hoi':
-                        if (!Roles.userIsInRole(Meteor.userId(), ["admin", "super-manager", "quanly_cauhois", "xem_cauhois"], 'sky-project'))
+                        if (!Roles.userIsInRole(Meteor.userId(), ["admin", "super-manager", "quanly-cauhois", "xem-cauhois"], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_upsert_cau_hoi':
-                        if (!Roles.userIsInRole(Meteor.userId(), ["admin", "super-manager", "quanly_cauhois"], 'sky-project'))
+                        if (!Roles.userIsInRole(Meteor.userId(), ["admin", "super-manager", "quanly-cauhois"], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_delete_cau_hoi':
-                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', "quanly_cauhois"], 'sky-project'))
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'quanly-cauhois'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_view_sua_chua':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'quanly-suachuas', 'xem-suachuas'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_upsert_sua_chua':
-                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'manager', 'manager-xemay', 'manager-tbn'], 'sky-project'))
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'quanly-suachuas', 'support-suachuas'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_delete_sua_chua':
-                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'manager', 'manager-xemay', 'manager-tbn'], 'sky-project'))
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'quanly-suachuas'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_upsert_nhan_su':

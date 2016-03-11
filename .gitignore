@@ -1,1 +1,4 @@
+package.json
 settings.json
+settings-development.json
+settings-production.json
