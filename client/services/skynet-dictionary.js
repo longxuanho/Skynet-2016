@@ -193,36 +193,42 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                                 "ten_ngan": "An toàn",
                                 "ten": "An toàn và Quy định",
                                 "mo_ta": "Các câu hỏi về ATLĐ và các Quy định trong quá trình vận hành của TCT",
+                                "icon": "&#xE8E8;",
                                 "order": 4
                             }, {
                                 "ma": "cum_chi_tiet",
                                 "ten_ngan": "Cụm CT",
                                 "ten": "Các cụm chi tiết",
                                 "mo_ta": "Các câu hỏi về các cụm chi tiết của phương tiện",
+                                "icon": "&#xE8B8;",
                                 "order": 1
                             }, {
                                 "ma": "dien_co_so",
                                 "ten_ngan": "Điện cơ sở",
                                 "ten": "Điện cơ sở",
                                 "mo_ta": "Các câu hỏi về kiến thức cơ sở chuyên ngành Điện",
+                                "icon": "&#xE90F;",
                                 "order": 5
                             }, {
                                 "ma": "kiem_tra_bao_duong",
                                 "ten_ngan": "KT - BD",
                                 "ten": "Kiểm tra - Bảo dưỡng",
                                 "mo_ta": "Các câu hỏi về kiểm tra phương tiện và bảo dưỡng",
+                                "icon": "&#xE065;",  //&#xE14F; ;
                                 "order": 3
                             }, {
                                 "ma": "tong_quat",
                                 "ten_ngan": "Tổng quát",
                                 "ten": "Kiến thức tổng quát",
                                 "mo_ta": "Các câu hỏi về hàng hóa - phương tiện - kỹ thuật cơ bản",
+                                "icon": "&#xE616;", //"&#xE065;",
                                 "order": 0
                             }, {
                                 "ma": "van_hanh",
                                 "ten_ngan": "Vận hành",
                                 "ten": "Kỹ năng vận hành",
                                 "mo_ta": "Các câu hỏi về kỹ năng vận hành phương tiện",
+                                "icon": "&#xE637;", //&#xE0DA;
                                 "order": 2
                             } 
                         ],
@@ -584,13 +590,12 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
             trang_thais: [
                 {
                     "ten": "Đang sửa chữa",
+                    "ten_ngan": "Đang SC",
                     "ma": "dang_sua_chua"
                 }, {
                     "ten": "Hoàn thành",
+                    "ten_ngan": "Hoàn thành",
                     "ma": "hoan_thanh"
-                }, {
-                    "ten": "Ngừng sửa chữa",
-                    "ma": "ngung_sua_chua"
                 }
             ]
         }

@@ -75,6 +75,9 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 groupable: {
                     enabled: true,
                     showFooter: false,
+                    messages: {
+                      empty: "Kéo/thả để nhóm theo nội dung được chọn"
+                    }
                 },
                 height: null,
                 mobile: "",
@@ -415,6 +418,9 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 groupable: {
                     enabled: true,
                     showFooter: false,
+                    messages: {
+                      empty: "Kéo/thả để nhóm theo nội dung được chọn"
+                    }
                 },
                 height: null,
                 mobile: "",
@@ -677,6 +683,9 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 groupable: {
                     enabled: true,
                     showFooter: false,
+                    messages: {
+                      empty: "Kéo/thả để nhóm theo nội dung được chọn"
+                    }
                 },
                 navigatable: false,
                 noRecords: false,
@@ -964,6 +973,9 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 groupable: {
                     enabled: true,
                     showFooter: false,
+                    messages: {
+                      empty: "Kéo/thả để nhóm theo nội dung được chọn"
+                    }
                 },
                 height: null,
                 mobile: "",
