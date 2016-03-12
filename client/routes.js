@@ -546,7 +546,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
     //     template: '<resetpw></resetpw>'
     // });
 
-    $urlRouterProvider.otherwise("/parties");
+    $urlRouterProvider.otherwise("/bang-tin/sua-chua-thiet-bi");
 });
 
 

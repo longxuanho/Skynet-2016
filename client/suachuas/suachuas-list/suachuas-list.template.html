@@ -26,7 +26,14 @@
 			
             <br/>
 
-            <kendo-grid
+            <div class="uk-grid uk-margin-top no-animate" ng-show="!vm.numOfSuaChuas">
+               <div style="margin:auto;">
+                    <img style="border-radius: 50%;" src="assets/img/skynet/suachuas.list_empty.png">
+                    <div class="heading_list uk-margin-top uk-text-center">Không có dữ liệu sửa chữa được hiển thị.</div>
+                </div>
+            </div>
+            <div class="no-animate" ng-show="vm.numOfSuaChuas">
+            <kendo-grid class="no-animate"
                 id="myGrid"
                 k-data-source="vm.gridData.kGrid.kData.dataSource"
                 k-columns="vm.gridData.kGrid.kOptions.columns"
@@ -50,6 +57,8 @@
                 k-ng-delay = "vm.gridData.kGrid.kData.dataSource"        
                 >
             </kendo-grid>
+            </div>
+            
 		</div>
     </div>
 </div>

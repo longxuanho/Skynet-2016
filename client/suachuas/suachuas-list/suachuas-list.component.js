@@ -193,6 +193,9 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                     return SuaChuas.find({
                         'trang_thai.ma': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
+                },
+                numOfSuaChuas: () => {
+                  return Counts.get('numberOfSuaChuas');
                 }
             });
 

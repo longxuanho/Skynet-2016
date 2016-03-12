@@ -101,6 +101,10 @@ Meteor.publish("cauhois", function(options, searchString, searchBy, tags, loaitb
             }]
         }];
 
+        Counts.publish(this, 'numberOfCauHois', CauHois.find(query), {
+            noReady: true
+        });
+
         return CauHois.find(query, options);
     }
     return;    

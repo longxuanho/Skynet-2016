@@ -183,6 +183,9 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     return CauHois.find({
                         'phan_loai.nhom_cau_hoi.ma': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
+                },
+                numOfCauHois: () => {
+                  return Counts.get('numberOfCauHois');
                 }
             });
 
