@@ -20,7 +20,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="timeline_item">
+                    <div class="timeline_item uk-hidden-small">
                         <div class="timeline_icon background-color-primary"><i class="material-icons">&#xE85D;</i></div>
                         <div class="timeline_date">
                             <span>Giới hạn dữ liệu</span>
@@ -66,7 +66,7 @@
                         <div class="timeline_date">
                             <span style="cursor: pointer;" ng-click="vm.utils.setLimitFocus('#limit_multi_bac_this')">Bậc thi</span>
                         </div>
-                        <div class="timeline_content">
+                        <div class="timeline_content" ng-click="$event.stopPropagation();">
                             <select kendo-multi-select id="limit_multi_bac_this"
                                 k-data-source="vm.dictionary.bac_this"
                                 k-filter="'contains'"
@@ -88,7 +88,7 @@
                             <span class="md-list-heading">{{(user.profile.name) ? user.profile.name : user.emails[0].address }}</span>
                             <span class="uk-text-small uk-text-muted">
                                 <span class="uk-text-small uk-text-muted">
-                                    Lorem ipsumm...
+                                    {{(user.profile.department) ? user.profile.department : 'From Sky with Love' }}
                                 </span>
                             </span>
                         </div>
@@ -96,67 +96,43 @@
                 </ul>
             </li>
             <li>
-                <h4 class="heading_c uk-margin-small-bottom uk-margin-top">General Settings</h4>
-                <ul class="md-list">
-                    <li>
-                        <div class="md-list-content">
-                            <div class="uk-float-right">
-                                <input type="checkbox" class="switchery switchery-small" ui-switch id="settings_site_online" name="settings_site_online" ng-model="vm.sSidebar.site_online" />
+                <div ng-show="vm.sidebarOptions.settings_tab.mode === 'main'">
+                    <h4 class="heading_c uk-margin-small-bottom uk-margin-top">Chọn nguồn dữ liệu</h4>
+                    <ul class="md-list">
+                        <li>
+                            <div class="uk-form-stacked">
+                                <label>Ngành kỹ thuật</label>
+                                <select kendo-drop-down-list style="width: 100%;"
+                                    k-ng-model="vm.newCauHoi.phan_loai.nhom_cau_hoi"
+                                    k-data-text-field="'ten'" 
+                                    k-data-value-field="'ma'"
+                                    k-index="-1"
+                                    k-data-source="vm.dictionary.nhom_tbs">
+                                </select>
                             </div>
-                            <span class="md-list-heading">Site Online</span>
-                            <span class="uk-text-muted uk-text-small">Lorem ipsum dolor sit amet&hellip;</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="md-list-content">
-                            <div class="uk-float-right">
-                                <input type="checkbox" class="switchery switchery-small" ui-switch id="settings_seo" name="settings_seo" ng-model="vm.sSidebar.seo" />
+                        </li>
+                    </ul>
+                    <hr class="md-hr">
+                    <h4 class="heading_c uk-margin-small-bottom uk-margin-top">Thiết lập nguồn</h4>
+                    <ul class="md-list">
+                        <li>
+                            <div class="md-list-content uk-text-warning">
+                                <a class="md-btn md-btn-flat" style="width:100%;" data-uk-modal="{target: '#modal_admin_users_verify_email'}">Loại thiết bị</a>
                             </div>
-                            <span class="md-list-heading">Search Engine Friendly URLs</span>
-                            <span class="uk-text-muted uk-text-small">Lorem ipsum dolor sit amet&hellip;</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="md-list-content">
-                            <div class="uk-float-right">
-                                <input type="checkbox" class="switchery switchery-small" ui-switch id="settings_url_rewrite" name="settings_url_rewrite" ng-model="vm.sSidebar.url_rewrite" />
+                        </li>
+                        <li>
+                            <div class="md-list-content uk-text-warning">
+                                <a class="md-btn md-btn-flat" style="width:100%;" ng-click="vm.sidebarOptions.settings_tab.mode = 'manage_tags'">Thẻ dấu (Tag)</a>
                             </div>
-                            <span class="md-list-heading">Use URL rewriting</span>
-                            <span class="uk-text-muted uk-text-small">Lorem ipsum dolor sit amet&hellip;</span>
-                        </div>
-                    </li>
-                </ul>
-                <hr class="md-hr">
-                <h4 class="heading_c uk-margin-small-bottom uk-margin-top">Other Settings</h4>
-                <ul class="md-list">
-                    <li>
-                        <div class="md-list-content">
-                            <div class="uk-float-right">
-                                <input type="checkbox" class="switchery switchery-small" ui-switch color="#7cb342" id="settings_top_bar" name="settings_top_bar" ng-model="vm.sSidebar.top_bar" />
+                        </li>
+                        <li>
+                            <div class="md-list-content uk-text-warning">
+                                <a class="md-btn md-btn-flat" style="width:100%;" data-uk-modal="{target: '#modal_admin_users_reset_password'}">Bộ đề thi</a>
                             </div>
-                            <span class="md-list-heading">Top Bar Enabled</span>
-                            <span class="uk-text-muted uk-text-small">Lorem ipsum dolor sit amet&hellip;</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="md-list-content">
-                            <div class="uk-float-right">
-                                <input type="checkbox" class="switchery switchery-small" ui-switch color="#7cb342" id="settings_api" name="settings_api" ng-model="vm.sSidebar.api" />
-                            </div>
-                            <span class="md-list-heading">Api Enabled</span>
-                            <span class="uk-text-muted uk-text-small">Lorem ipsum dolor sit amet&hellip;</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="md-list-content">
-                            <div class="uk-float-right">
-                                <input type="checkbox" class="switchery switchery-small" ui-switch color="#d32f2f" id="settings_minify_static" name="settings_minify_static" ng-model="vm.sSidebar.minify_assets" />
-                            </div>
-                            <span class="md-list-heading">Minify JS files automatically</span>
-                            <span class="uk-text-muted uk-text-small">Lorem ipsum dolor sit amet&hellip;</span>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
+                <cauhois-sidebar-manage-tags options="vm.sidebarOptions.settings_tab" dictionary="vm.dictionary" ng-if="vm.sidebarOptions.settings_tab.mode === 'manage_tags'"></cauhois-sidebar-manage-tags>
             </li>
         </ul>
     </div>

@@ -24,6 +24,13 @@ angular.module('angular-skynet').directive('cauhoiSidebar', function() {
                 top_bar: true,
                 minify_assets: true
             };
+
+            vm.sidebarOptions = {
+                settings_tab: {
+                    // Các chế độ: main, manage_tags, manage_loaitbs
+                    mode: 'main'
+                }
+            }
             
             // ***************************************************
             // METHODS
@@ -35,6 +42,7 @@ angular.module('angular-skynet').directive('cauhoiSidebar', function() {
             // ***************************************************
 
             $scope.subscribe('userStatus');
+            $scope.subscribe('datahelpers');
 
             // ***************************************************
             // UTILS

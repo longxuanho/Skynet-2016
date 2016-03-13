@@ -358,6 +358,9 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                 }, {
                     "ten": "Xe - máy",
                     "ma": "xe_may"
+                }, {
+                    "ten": "Tàu thuyền",
+                    "ma": "tau_thuyen"
                 }
             ],
             "loai_tbs": [

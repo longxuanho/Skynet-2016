@@ -1,15 +1,16 @@
-angular.module('angular-skynet').directive('suachuasModalDetails', function() {
+angular.module('angular-skynet').directive('cauhoisSidebarManageTags', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/suachuas/suachuas-modals/suachuas-modal-details.html',
+        templateUrl: 'client/directives/skynet/cauhoiSidebar/cauhois-sidebar-manage-tags.template.html',
         controllerAs: 'vm',
-        scope: {
-        	id: '=',
-            dictionary: '='
-        },
         bindToController: true,
+        scope: {
+            nhomtbs: '=',
+        	dictionary: '=',
+            options: '='
+        },
         controller: function($scope, $rootScope, skynetHelpers, $state, $timeout, $reactive, skynetDictionary, iNotifier) {
-            
+
             $reactive(this).attach($scope);
 
             // ***************************************************
@@ -22,7 +23,30 @@ angular.module('angular-skynet').directive('suachuasModalDetails', function() {
             vm._helpers = skynetHelpers.helpers;
 
             vm.modalOptions = {
-                errorMessage: 'This is an error'
+                kOptions: {
+                    dataSource: [
+                        { productName: "Tea", category: "Beverages" },
+                        { productName: "Coffee", category: "Beverages" },
+                        { productName: "Ham", category: "Food" },
+                        { productName: "Bread", category: "Food" }
+                    ],
+                    columns: [
+                        { field: "productName" },
+                        { field: "category" }
+                    ]
+                    // dataSource: new kendo.data.DataSource({
+                    //     data: [],
+                    //     pageSize: 10
+                    // }),
+                    // columns: [
+                    //     {
+                    //         field: "data.value.group",
+                    //         title: "Phân loại"
+                    //     }, {
+                    //         field: "data.value.ten",
+                    //         title: "Tên"
+                    //     }]                    
+                }
             }
 
             let myAlert = $('.suachua_alert');
@@ -33,18 +57,23 @@ angular.module('angular-skynet').directive('suachuasModalDetails', function() {
             // ***************************************************
 
             vm.helpers({
-                source: () => {
-                    vm.master = SuaChuas.findOne({
-                        _id: vm.getReactively('id')
-                    });
-                    // Cập nhật thời gian kết thúc
-                    if (!_.isEmpty(vm.master)) {
-                        let result = angular.copy(vm.master);
-                        result.thoi_gian.ket_thuc = new Date();
-                        return result;
-                    }                    
-                    // return (!_.isEmpty(vm.master)) ? result : {};                 
-                }
+                // datahelpers: () => {
+                //     let data = DataHelpers.find({
+                //         'section': 'cauhois',
+                //         'field': 'tags',
+                //         'data.subject': vm.nhomtbs.ten
+                //     }).fetch();
+                //     try {
+                //         vm.modalOptions.kOptions.dataSource.data(data);
+                //     } catch (error) {
+                //         console.log("Error: ", error);
+                //     }
+                //     return DataHelpers.find({
+                //         'section': 'cauhois',
+                //         'field': 'tags',
+                //         'data.subject': vm.nhomtbs.ten 
+                //     });
+                // }
             });
 
             // ***************************************************
@@ -120,7 +149,7 @@ angular.module('angular-skynet').directive('suachuasModalDetails', function() {
                     }, 600);          
                 },
                 closeModal: function() {
-                    let modal = UIkit.modal("#modal_suachuas_details");
+                    let modal = UIkit.modal("#modal_cauhois_sidebar_manage_suachuas");
                     if (modal.isActive()) {
                         modal.hide();
                     }
@@ -131,6 +160,7 @@ angular.module('angular-skynet').directive('suachuasModalDetails', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
+
         }
     }
 });
