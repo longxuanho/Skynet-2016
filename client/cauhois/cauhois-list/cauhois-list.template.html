@@ -10,7 +10,7 @@
                 <div class="uk-clearfix">
                     <div class="md-top-bar-actions-right">
                         <div class="md-top-bar-icons" data-uk-dropdown="{pos:'bottom-right'}">
-                            <i class="md-icon material-icons" ng-click="vm.utils.splitListView()">&#xE5D4;</i>
+                            <i class="md-icon material-icons">&#xE5D4;</i>
                             <div class="uk-dropdown uk-dropdown-small">
                                 <ul class="uk-nav uk-dropdown-close">
                                     <li ng-repeat="nhom in vm.pageOptions.filters.nhomsFilterSource" ng-click="vm.utils.setFilterByNhomId(nhom.ma)"><a href="#" ng-class="{'color-primary': nhom.ma===vm.pageOptions.filters.filterNhomId}">{{nhom.ten_ngan}} <i class="material-icons" ng-show="nhom.ma===vm.pageOptions.filters.filterNhomId;" ng-class="{'color-primary': nhom.ma===vm.pageOptions.filters.filterNhomId}">&#xE5CA;</i></a></li>

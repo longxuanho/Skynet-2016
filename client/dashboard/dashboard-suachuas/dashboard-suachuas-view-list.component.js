@@ -25,16 +25,20 @@ angular.module('angular-skynet').directive('dashboardSuachuasViewList', function
                     source: [
                         {
                             ma: 'phan_loai.loai_sua_chua.ten',
-                            ten: 'Loại sửa chữa'    
+                            ten: 'Loại sửa chữa',
+                            ten_ngan: 'Loại SC'   
                         }, {
                             ma: 'dia_diem.khu_vuc.ten',
-                            ten: 'Khu vực'
+                            ten: 'Khu vực',
+                            ten_ngan: 'K.vực'
                         }, {
                             ma: 'phan_loai.loai_tb.ten',
-                            ten: 'Loại phương tiện'
+                            ten: 'Loại phương tiện',
+                            ten_ngan: 'Loại PT'
                         }, {
                             ma: 'phan_loai.nhom_tb.ten',
-                            ten: 'Nhóm thiết bị'
+                            ten: 'Nhóm thiết bị',
+                            ten_ngan: 'Nhóm TB'
                         },
                     ]
                 }

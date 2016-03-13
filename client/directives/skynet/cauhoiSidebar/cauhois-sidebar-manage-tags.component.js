@@ -21,6 +21,8 @@ angular.module('angular-skynet').directive('cauhoisSidebarManageTags', function(
             let vm = this;
 
             vm._helpers = skynetHelpers.helpers;
+            vm._helpers.initNewDataHelperParams(vm, 'cauhois', 'tags', 'thiet_bi_nang');
+            console.log('init: ', vm.newDataHelper);
 
             vm.modalOptions = {
                 kOptions: {
@@ -87,73 +89,62 @@ angular.module('angular-skynet').directive('cauhoisSidebarManageTags', function(
             // ***************************************************
 
             vm.utils = {
-                // accentColor: _.findWhere($scope._data.general.themes, {
-                //     name: $rootScope.main_theme
-                // }).color_accent,
-                resetSuaChua: function() {
-                    angular.copy(vm.master, vm.source);
-                    // Cập nhật thời gian kết thúc
-                    vm.source.thoi_gian.ket_thuc = new Date();
-                },
-                saveSuaChua: function() {
-
-                    let err = vm._helpers.validateUser('can_upsert_sua_chua');
+                addDataHelper: () => {
+                    let err = vm._helpers.validateUser('can_upsert_datahelpers');
                     if (_.isEmpty(err)) {
-                        err = vm._helpers.validateSuaChuaForm(vm.source);
+                        err = vm._helpers.validateDataHelperForm(vm.newDataHelper);
                         if (_.isEmpty(err)) {
 
-                            vm._helpers.buildSuaChua(vm.source);
-                            SuaChuas.update({
+                            vm._helpers.buildNewDataHelper(vm.newDataHelper);
+                            DataHelpers.insert(vm.newDataHelper, (error, result) => {
+                                if (error) {
+                                    iNotifier.error('Không thể tạo mới dữ liệu này. ' + error.message + '.');
+                                } else {
+                                    $scope.$apply( () => {
+                                        vm._helpers.initNewDataHelperParams(vm, 'cauhois', 'tags', 'thiet_bi_nang');
+                                    });                        
+                                    iNotifier.success('Dữ liệu được tạo mới thành công.');
+                                }
+                            });
+
+                        } else {
+                            iNotifier.error(err.message);
+                        }
+                    } else {
+                        iNotifier.error(err.message);
+                    }
+                },
+                resetDataHelper: function() {
+                    angular.copy(vm.master, vm.source);
+                },
+                saveDataHelper: function() {
+                    let err = vm._helpers.validateUser('can_upsert_datahelpers');
+                    if (_.isEmpty(err)) {
+                        err = vm._helpers.validateDataHelperForm(vm.source);
+                        if (_.isEmpty(err)) {
+
+                            vm._helpers.buildDataHelper(vm.source);
+                            DataHelpers.update({
                                 _id: vm.id
                             }, {
                                 $set: {
-                                    'trang_thai': vm.source.trang_thai,
-                                    'tags': vm.source.tags,
-                                    'thoi_gian.ket_thuc': vm.source.thoi_gian.ket_thuc,
-                                    'thong_ke': vm.source.thong_ke, 
-                                    'metadata.ngay_cap_nhat_cuoi': vm.source.metadata.ngay_cap_nhat_cuoi,
-                                    'metadata.nguoi_cap_nhat_cuoi': vm.source.metadata.nguoi_cap_nhat_cuoi,
-                                    'metadata.nguoi_cap_nhat_cuoi_name': vm.source.metadata.nguoi_cap_nhat_cuoi_name,
-                                    'metadata.nguoi_cap_nhat_cuoi_email': vm.source.metadata.nguoi_cap_nhat_cuoi_email,
-                                    'metadata.nguoi_cap_nhat_cuoi_field': vm.source.metadata.nguoi_cap_nhat_cuoi_field
+                                    'data': vm.source.data
                                 }
                             }, (error) => {
                                 if (error) {
-                                    this.showModalAlert('Không thể cập nhật sửa chữa này. ' + error.message + '.');
+                                    iNotifier.error('Không thể cập nhật dữ liệu này. ' + error.message + '.');
                                 } else {
-                                    iNotifier.success('Sửa chữa được cập nhật thành công.');
-                                    this.closeModal();
+                                    iNotifier.success('Dữ liệu được cập nhật thành công.');
                                 }
                             });
                         } else {
-                            this.showModalAlert(err.message);
+                            iNotifier.error(err.message);
                         }
                     } else {
-                        this.showModalAlert(err.message);
+                        iNotifier.error(err.message);
                     }
                 },
-                showModalAlert: function(message) {
-                    vm.modalOptions.errorMessage = message;
-                    myAlert.slideDown();
-                    $timeout(() => {
-                        myAlert.slideUp();
-                    }, 3000);
-                },
-                isEditable: function() {
-                    return _.isEmpty($scope._helpers.validateUser('can_upsert_cau_hoi'));
-                },
-                goToEditPage: function() {
-                    this.closeModal();
-                    $timeout(()=>{
-                        $state.go('cauhois.update', {cauhoiId: $scope.source._id});
-                    }, 600);          
-                },
-                closeModal: function() {
-                    let modal = UIkit.modal("#modal_cauhois_sidebar_manage_suachuas");
-                    if (modal.isActive()) {
-                        modal.hide();
-                    }
-                }
+                
             }
 
 

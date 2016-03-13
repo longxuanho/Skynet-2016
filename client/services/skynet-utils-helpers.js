@@ -1553,6 +1553,61 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         },
 
         // ***************************************************
+        // HELPERS - DATAHELPERS
+        // ***************************************************
+
+        initNewDataHelperParams: function(scope, section, field, subject) {
+            if (section === 'cauhois') {
+                scope.newDataHelper = {
+                    // Các giá trị cho phép: cauhois, suachuas, ...
+                    section: 'cauhois',
+                    // Các giá trị cho phép: nhom_tbs, loai_tbs, tags, bac_this, ...
+                    field: field,
+                    data: {
+                         // Các giá trị cho phép: thiet_bi_nang, xe_may, tau_thuyen, tram_nguon, tat_ca
+                        subject: subject,
+                        group: 'Nội dung',
+                        text: ''
+                    }
+                };
+            }            
+        },
+
+        validateDataHelperForm: function(datahelper, section) {
+            let error = {};
+            if (!datahelper.section) {
+                error.message = "Chưa có thông tin về phân lớp section.";
+                return error;
+            }
+            if (!datahelper.field) {
+                error.message = "Chưa có thông tin về phân lớp field.";
+                return error;
+            }
+            if (!datahelper.data.subject) {
+                error.message = "Chưa có thông tin về data subject.";
+                return error;
+            }
+            if (section==='cauhois') {
+                if (!datahelper.data.value.group) {
+                    error.message = "Xin hãy chắc rằng giá trị bạn nhập vào hợp lệ. Chưa có thông tin về trường group.";
+                    return error;
+                }
+                if (!datahelper.data.value.text) {
+                    error.message = "Xin hãy chắc rằng giá trị bạn nhập vào hợp lệ. Chưa có thông tin về trường text.";
+                    return error;
+                }
+            }          
+
+            return;
+        },
+
+        buildDataHelper: function() {
+        },
+
+        buildNewDataHelper: function() {    
+        },
+
+        // ***************************************************
         // HELPERS - SUACHUAS
         // ***************************************************
 
@@ -1926,6 +1981,14 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
                     case 'can_delete_admin_users':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_upsert_datahelpers':
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
+                            error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                        break;
+                    case 'can_delete_datahelpers':
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
                             error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                         break;
