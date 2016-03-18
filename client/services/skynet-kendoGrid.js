@@ -666,9 +666,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     delimeter: "\t"
                 },
                 autoBind: true,
-                columnMenu: {
-                    sortable: false
-                },
+                columnMenu: false,
                 columnResizeHandleWidth: 3,
                 editable: false,
                 excel: {
@@ -721,7 +719,32 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     mode: "single",
                     allowUnsort: true
                 },
-                toolbar: ["excel", "pdf"]               
+                toolbar: ["excel", "pdf"],
+                filterMenuInit: function(e) {
+                    if (_.contains([
+                            "phan_loai.nhom_cau_hoi.ten",
+                            "_id",
+                            "phan_loai.nhom_cau_hoi.ten_ngan",
+                            "phan_loai.nhom_cau_hoi.ten",
+                            "fields.loai_tb",
+                            "phan_loai.muc_do.ten",
+                            "noi_dung.tieu_de",
+                            "fields.tags",
+                            "fields.bac_thi",
+                            "ghi_chu",
+                            "mo_ta",
+                            "metadata.nguoi_cap_nhat_cuoi_name",
+                            "metadata.nguoi_cap_nhat_cuoi_email",
+                            "fields.lua_chons.A",
+                            "fields.lua_chons.B",
+                            "fields.lua_chons.C",
+                            "fields.lua_chons.D"
+                        ], e.field)) {
+                        let firstValueDropDown = e.container.find("select:eq(0)").data("kendoDropDownList");
+                        firstValueDropDown.value("contains");
+                        firstValueDropDown.trigger("change");
+                    }
+                }             
             },
             availableColumns: [{
                 field: "_id",
@@ -754,7 +777,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 type: "string",
                 width: "140px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "#= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "#= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "phan_loai.muc_do.ten",
                 title: "Mức độ",
@@ -769,7 +793,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 type: "string",
                 width: "330px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Nội dung: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Nội dung: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "noi_dung.thong_ke.numOfLuaChons",
                 title: "Lựa chọn",
@@ -779,7 +804,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     style: "text-align: center;"
                 },
                 aggregates: ["count"],
-                groupHeaderTemplate: "Số lựa chọn: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Số lựa chọn: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "noi_dung.thong_ke.numOfCorrectAnswers",
                 title: "SL câu đúng",
@@ -789,7 +815,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     style: "text-align: center;"
                 },
                 aggregates: ["count"],
-                groupHeaderTemplate: "Số đáp án đúng: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Số đáp án đúng: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "noi_dung.thong_ke.numOfUrlHinhAnhs",
                 title: "Hình ảnh",
@@ -799,7 +826,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     style: "text-align: center;"
                 },
                 aggregates: ["count"],
-                groupHeaderTemplate: "Hình ảnh: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Hình ảnh: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "fields.correctAnswer",
                 title: "Đáp án",
@@ -809,21 +837,24 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     style: "text-align: center;"
                 },
                 aggregates: ["count"],
-                groupHeaderTemplate: "Đáp án đúng: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Đáp án đúng: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "fields.tags",
                 title: "Thẻ dấu",
                 type: "string",
                 width: "200px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Thẻ: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Thẻ: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "fields.bac_thi",
                 title: "Bậc thi",
                 type: "string",
                 width: "100px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Bậc thi: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Bậc thi: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "ghi_chu",
                 title: "Ghi chú",
@@ -843,7 +874,8 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 format: "{0: yyyy-MM-dd}",
                 width: "160px",
                 aggregates: ["count"],
-                groupHeaderTemplate: "Ngày tạo: #= value # (#= count# câu hỏi)"
+                groupHeaderTemplate: "Ngày tạo: #= value # (#= count# câu hỏi)",
+                hidden: false
             }, {
                 field: "metadata.ngay_cap_nhat_cuoi",
                 title: "Ngày CN cuối (D)",
