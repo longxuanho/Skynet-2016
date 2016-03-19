@@ -392,7 +392,164 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 },
 
                 // Menu: Cấu hình -> Chọn cấu hình
+                menu_config_loadConfig: {
+                    loadUserConfig: function(id, from) {
+                        vm.data.kGrid = $(vm.data.selector).data("kendoGrid");
+
+                        let config = {};                        
+                        if (from == 'skynet')
+                            config = _.findWhere(vm.data.sMenu.config.skynetGridSettings, {_id: id});
+                        else 
+                            config = _.findWhere(vm.data.sMenu.config.userGridSettings, {_id: id});
+
+                        console.log('loaded config: (new)', config);
+                        
+
+                        if (!_.isEmpty(config)) {
+                            // Load cấu hình options
+                            vm.data.kGrid.setOptions(config.gia_tri.kGridOptions);
+                            // Load cấu hình dataSource
+                            $scope.kGridDataSource.filter(config.gia_tri.kDataSource.filter);
+                            $scope.kGridDataSource.group(config.gia_tri.kDataSource.group);
+                            $scope.kGridDataSource.aggregate(config.gia_tri.kDataSource.aggregate);
+                            $scope.kGridDataSource.pageSize(config.gia_tri.kDataSource.pageSize);
+                            $scope.kGridDataSource.sort(config.gia_tri.kDataSource.sort);
+                        }
+                    }
+                },
+
+                // Menu: Cấu hình -> Chọn cấu hình
                 menu_config_manageConfig: {
+                    // $("kGridUserConfig").data("kendoGrid");
+                    kGridUserConfigOptions: {
+                        dataSource: kendo.data.DataSource.create({
+                            data: vm.data.sMenu.config.userGridSettings,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        'ten': {
+                                            type: 'string'
+                                        },
+                                        'order': {
+                                            type: 'number'
+                                        },
+                                        'metadata.ngay_tao': {
+                                            type: 'date'
+                                        }
+                                    }
+                                }
+                            }
+                        }),
+                        sortable: true,
+                        pageable: false,
+                        selectable: 'row',
+                        change: function(e) {
+                            let selectedItem = this.dataItem(this.select()[0]);
+                            // Khi người dùng chọn một hàng mới -> load vào selectedConfig
+                            if (selectedItem) {
+                                if (_.isEmpty(vm.utils.menu_config_manageConfig.modalOptions.selectedConfig)) {
+                                    vm.utils.menu_config_manageConfig.modalOptions.selectedConfig = angular.copy(selectedItem);
+                                } else {
+                                    // Trường hợp người dùng click lại một lần nữa để bỏ chọn và thoát chế độ update nếu có
+                                    if (vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id === selectedItem._id) {
+                                        this.clearSelection();
+                                        vm.utils.menu_config_manageConfig.modalOptions.selectedConfig = {};
+                                        vm.utils.menu_config_manageConfig.modalOptions.mode = '';
+                                    }
+                                    else
+                                        vm.utils.menu_config_manageConfig.modalOptions.selectedConfig = angular.copy(selectedItem);
+                                }
+                            }
+                        },
+                        columns: [{
+                            field: "ten",
+                            title: "Tên cấu hình",
+                            width: "120px",
+
+                        },{
+                            field: "order",
+                            title: "Mức ưu tiên",
+                            width: "60px",
+                            attributes: {
+                                style: "text-align: right;"
+                            }
+                        },{
+                            field: "metadata.ngay_tao",
+                            title: "Ngày tạo",
+                            width: "80px",
+                            format: "{0: yyyy-MM-dd}"
+                            // format: "{0: yyyy-MM-dd (hh:mm tt)}"
+                        }]
+                    },
+                    modalOptions: {
+                        mode: '',
+                        selectedConfig: {} 
+                    },
+                    closeModal: () => {
+                        let modal = UIkit.modal("#modal_menu_configs_manage");
+                        if (modal.isActive()) {
+                            // Reset các giá trị về mặc định
+                            vm.utils.menu_config_manageConfig.modalOptions.mode = '';
+                            modal.hide();
+                        }
+                    },
+                    validateBeforeUpdate: function(source) {
+                        let error = {};
+                        if (!Meteor.userId())
+                            error.message = "Bạn cần đăng nhập để sử dụng chức năng này.";
+                        if (!source.ten)
+                            error.message = "Thông tin về tên cấu hình là bắt buộc.";
+                        return error;
+                    },
+                    buildBeforeUpdate: function(source) {
+                        let user = Meteor.user();
+                        if (Roles.userIsInRole(user._id, ['admin'], 'sky-project'))
+                            source.isPublic = this.modalOptions.selectedConfig.isPublic;
+                        else 
+                            source.isPublic = false;
+                        source.metadata.ngay_cap_nhat_cuoi = new Date();
+                        source.metadata.nguoi_cap_nhat_cuoi = user._id;
+                        source.metadata.nguoi_cap_nhat_cuoi_email = user.emails[0].address;
+                        if (user.profile && user.profile.name)
+                            source.metadata.nguoi_cap_nhat_cuoi_name = user.profile.name;
+                    },  
+                    cancelUpdate: function() {
+                        this.modalOptions.mode = '';
+                        this.modalOptions.selectedConfig = {};
+                        $("#kGridUserConfig").data("kendoGrid").clearSelection();
+                    },
+                    update: function() {
+                        let err = this.validateBeforeUpdate(this.modalOptions.selectedConfig);
+                        if (_.isEmpty(err)) {
+                            this.buildBeforeUpdate(this.modalOptions.selectedConfig);
+                            console.log('build before update: (new)', this.modalOptions.selectedConfig);
+                            UserSettings.update({
+                                _id: this.modalOptions.selectedConfig._id
+                            }, {
+                                $set: {
+                                    ten: this.modalOptions.selectedConfig.ten,
+                                    order: this.modalOptions.selectedConfig.order,
+                                    'metadata.ngay_cap_nhat_cuoi': this.modalOptions.selectedConfig.metadata.ngay_cap_nhat_cuoi,
+                                    'metadata.nguoi_cap_nhat_cuoi': this.modalOptions.selectedConfig.metadata.nguoi_cap_nhat_cuoi,
+                                    'metadata.nguoi_cap_nhat_cuoi_name': this.modalOptions.selectedConfig.metadata.nguoi_cap_nhat_cuoi_name,
+                                    'metadata.nguoi_cap_nhat_cuoi_email': this.modalOptions.selectedConfig.metadata.nguoi_cap_nhat_cuoi_email,
+                                }
+                            }, (error) => {
+                                if (error) {
+                                    iNotifier.error('Có lỗi xảy ra khi cập nhật cấu hình này. ' + error.message + '.');
+                                } else {
+                                    iNotifier.success('Cấu hình ngưòi dùng được cập nhật thành công.');
+
+                                    $scope.$apply(() => {
+                                        this.modalOptions.mode = '';
+                                        this.modalOptions.selectedConfig = {};
+                                    });                                    
+                                }
+                            });
+                        } else {
+                            iNotifier.error(err.message);
+                        }
+                    },
                     // Cập nhật menu config item qua vm.helpers
                     updateMenuOnUserConfigs: function(settings) {                    
                         // Tách các config thành các config của người dùng và của Skynet (isPublic=true)
@@ -409,21 +566,19 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                                         _id: item._id,
                                         ten: item.ten,
                                         order: item.order,
-                                        gia_tri: JSON.parse(item.gia_tri)
+                                        gia_tri: JSON.parse(item.gia_tri),
+                                        metadata: item.metadata
                                     }
                                 });
-                                // $scope.UserConfigSettings = _.map(userSettings, (item) => {
-                                //     return {
-                                //         _id: item._id,
-                                //         ten: item.ten,
-                                //         order: item.order,
-                                //         gia_tri: JSON.parse(item.gia_tri)
-                                //     }
-                                // });
                                 console.log('Parsed UserSettings (New): ', vm.data.sMenu.config.userGridSettings);
+                                
+                                // Cập nhật dataSource của grid quản lý config
+                                vm.utils.menu_config_manageConfig.kGridUserConfigOptions.dataSource.data(vm.data.sMenu.config.userGridSettings);
+
+                                // Cập nhật menu
                                 let newUserConfigItems = _.map(vm.data.sMenu.config.userGridSettings, (item) => {
                                     return {
-                                        text: '<span ng-click="vm.utils.menu_config_manageConfig.loadUserConfig(\'' + item._id + '\')">' + item.ten + '</span> <span ng-show="menuOptions.currentConfig._id===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
+                                        text: '<span ng-click="vm.utils.menu_config_loadConfig.loadUserConfig(\'' + item._id + '\')">' + item.ten + '</span> <span ng-show="menuOptions.currentConfig._id===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
                                         encoded: false
                                     }
                                 });
@@ -460,34 +615,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                                 $scope.kendoMenu.dataSource[2].items[0].items[1].items = null;
                             }                      
                         }    
-                    },
-                    loadUserConfig: function(id, from) {
-                        let config = {};
-                        
-                        if (from == 'skynet')
-                            config = _.findWhere(vm.data.sMenu.config.skynetGridSettings, {_id: id});
-                        else 
-                            config = _.findWhere(vm.data.sMenu.config.userGridSettings, {_id: id});
-
-                        console.log('loaded config: (new)', config);
-                        
-                        // if (!_.isEmpty(config)) {
-                        //     vm.setOptions {
-
-                        //     }
-                        //     $scope.menuOptions.currentConfig = angular.copy(config);
-                        //     $scope.gridData.kGrid.kOptions = angular.copy($scope.menuOptions.currentConfig.gia_tri.kGridOptions);
-                        //     this.loadUserConfigOnDataSource($scope.menuOptions.currentConfig.gia_tri.kDataSource);
-                        // }
-                    },
-                    loadUserConfigOnDataSource: function(config) {
-                        $scope.gridData.kGrid.kData.dataSource.aggregate = angular.copy(config.aggregate);
-                        $scope.gridData.kGrid.kData.dataSource.batch = config.batch;
-                        $scope.gridData.kGrid.kData.dataSource.filter = angular.copy(config.filter);
-                        $scope.gridData.kGrid.kData.dataSource.group = angular.copy(config.group);
-                        $scope.gridData.kGrid.kData.dataSource.pageSize = config.pageSize;
-                        $scope.gridData.kGrid.kData.dataSource.schema =  angular.copy(config.schema);
-                        $scope.gridData.kGrid.kData.dataSource.sort = angular.copy(config.sort);
                     }
                 },
 
@@ -511,16 +638,28 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     },
                     buildGridConfig: function(config) {
                         let user = Meteor.user();
+                        
                         config.user = {
                             keyId: user._id,
                             email: user.emails[0].address,
                             profileName: user.profile.name
                         };
                         config.phan_loai = $scope.cloudConfigDataName;
+                        
+                        // Build metadata
                         config.metadata = {
-                            ngay_tao: new Date()
+                            ngay_tao: new Date(),
+                            nguoi_tao: user._id,
+                            nguoi_tao_email: user.emails[0].address
                         }
+                        config.metadata.nguoi_tao_field = '';
+                        if (user.profile && user.profile.name) {
+                            config.metadata.nguoi_tao_name = user.profile.name;
+                            config.metadata.nguoi_tao_field += config.metadata.nguoi_tao_name;
+                        }
+                        config.metadata.nguoi_tao_field += ':' + user.emails[0].address;
 
+                        // Chỉ có admin mới có thể tạo các trường public
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
                             config.isPublic = false;
 
@@ -675,13 +814,20 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     };
                     config.phan_loai = $scope.cloudConfigDataName;
                     config.metadata = {
-                        ngay_tao: new Date()
+                        ngay_tao: new Date(),
                     }
+                    config.metadata.nguoi_tao_field = '';
+                    if (Meteor.user().profile && Meteor.user().profile.name) {
+                        config.metadata.nguoi_tao_name = Meteor.user().profile.name;
+                        config.metadata.nguoi_tao_field += config.metadata.nguoi_tao_name;
+                    }
+                    config.metadata.nguoi_tao_field += ':' + Meteor.user().emails[0].address;
 
+                    // Chỉ có admin mới có thể tạo các trường public
                     if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
                         config.isPublic = false;
 
-                    let options = $("#myGrid").data("kendoGrid").getOptions();
+                    let options = vm.data.kGrid.getOptions();
                     config.gia_tri = JSON.stringify({
                         kGridOptions: _.omit(options, 'dataSource'),
                         kDataSource: _.omit(options.dataSource, 'data')
@@ -807,8 +953,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 }
             }
 
-            // $scope.utils.initColumnStatus();
-            $scope.utils.initNewKendoGridConfig($scope.menuOptions.newConfig);
+            vm.utils.menu_config_createNew.initNewKendoGridConfig($scope.menuOptions.newConfig);
 
 
             // ***************************************************
@@ -836,7 +981,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         }
                     }).fetch();
                     if (!_.isEmpty(settings)) {
-                        // $scope.utils.updateMenuOnUserConfigs(settings);
                         vm.utils.menu_config_manageConfig.updateMenuOnUserConfigs(settings);
                     }
                     return UserSettings.find();
