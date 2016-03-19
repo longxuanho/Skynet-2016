@@ -45,9 +45,12 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     },
                     sortableStatus: {
                         current: {}
+                    },
+                    toolbarStatus: {
+                        isDisplayToolbar: true,
+                        current: {}
                     }
-                },
-                
+                },                
             }
 
             $scope.columnStatus = [];
@@ -103,7 +106,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         text: "Lọc và sắp xếp"
                     }, {
                         // text: "<span ng-hide='gridData.kGrid.kOptions.toolbar'>Hiện Toolbar</span><span ng-show='gridData.kGrid.kOptions.toolbar'>Ẩn Toolbar</span>",
-                        text: "Thanh Toolbar <span ng-show='gridData.kGrid.kOptions.toolbar' class='k-icon k-si-tick'></span>",
+                        text: "Thanh Toolbar <span ng-show='vm.data.sMenu.toolbarStatus.isDisplayToolbar' class='k-icon k-si-tick'></span>",
                         encoded: false
                     }]
                 }, {
@@ -156,7 +159,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         UIkit.modal("#modal_menu_features_filterAndSort").show();
                         break;
                     case "Thanh Toolbar ":
-                        $scope.utils.toggleToolbar();
+                        vm.utils.menu_features_toolbar.readStatus();
+                        vm.utils.menu_features_toolbar.toggleToolbar();
+                        // $scope.utils.toggleToolbar();
                         break;
                     case "Lưu cấu hình hiện tại":
                         UIkit.modal("#modal_menu_configs_saveCurrent").show();
@@ -238,8 +243,29 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             sortable: vm.data.sMenu.sortableStatus.current
                         });
                     }
-                }
+                },
 
+                // Menu: Chức năng -> Thanh Toolbar
+                menu_features_toolbar: {
+                    readStatus: () => {
+                        vm.data.sMenu.toolbarStatus.current = vm.data.kGrid.getOptions().toolbar;
+                        vm.data.sMenu.toolbarStatus.isDisplayToolbar = vm.data.sMenu.toolbarStatus.current ? true : false;
+                    },
+                    toggleToolbar: () => {
+                        // Nếu từ trạng thái hidden -> show và ngược lại
+                        if (!vm.data.sMenu.toolbarStatus.isDisplayToolbar) {
+                            vm.data.kGrid.setOptions({
+                                toolbar: ["excel", "pdf"]
+                            });
+                        } else {
+                            vm.data.kGrid.setOptions({
+                                toolbar: false
+                            });
+                        }
+                        // Cập nhật trạng thái isDisplayToolbar
+                        vm.data.sMenu.toolbarStatus.isDisplayToolbar = !vm.data.sMenu.toolbarStatus.isDisplayToolbar;
+                    }
+                }
             }
             $scope.utils = {
                 menu_data_columns: function() {},
