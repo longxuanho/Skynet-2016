@@ -162,17 +162,17 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                         "nhom_tbs": [
                             {
                                 "ma": "thiet_bi_nang",
-                                "ten": "Thiết bị nâng"
-                            }, {
-                                "ma": "tau_thuyen",
-                                "ten": "Tàu thuyền"
-                            }, {
-                                "ma": "tram_nguon",
-                                "ten": "Trạm nguồn"
+                                "ten": "Thiết bị nâng",
+                                "order": 1
                             }, {
                                 "ma": "xe_may",
-                                "ten": "Xe máy"
-                            }
+                                "ten": "Xe - Máy",
+                                "order": 2
+                            }, {
+                                "ma": "tau_thuyen",
+                                "ten": "Tàu thuyền",
+                                "order": 3
+                            } 
                         ],
                         "loai_tbs": {
                             "thiet_bi_nang": [

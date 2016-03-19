@@ -58,7 +58,7 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 searchBacthis: []
             };
 
-            // LOAD LOCAL DATA
+            // Thử load dữ liệu local chho cấu hình của thanh Topbar (nếu có)
             try {
                 let localData = JSON.parse(localStorage.getItem(vm.pageOptions.localConfigDataName));
                 if (!_.isEmpty(localData)) {
@@ -68,9 +68,8 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
                     vm.pageOptions.isDisplayTopBar = _.has(localData, 'isDisplayTopBar') ? localData.isDisplayTopBar : true;
                     vm.pageOptions.topBarHeight = (localData.topBarHeight) ? localData.topBarHeight : 'x1';
-                    vm.pageOptions.isDisplayFullWidthGrid = _.has(localData, 'isDisplayFullWidthGrid') ? localData.isDisplayFullWidthGrid : true;
                     vm.pageOptions.filters.filterNhomId = (localData.filters.filterNhomId) ? localData.filters.filterNhomId : '';
-                    vm.pageOptions.filters.nhomsFilterActiveIds = (localData.filters.nhomsFilterActiveIds) ? angular.copy(localData.filters.nhomsFilterActiveIds) : [];
+                    vm.pageOptions.filters.nhomsFilterSource = (localData.filters.nhomsFilterSource) ? angular.copy(localData.filters.nhomsFilterSource) : [];
                 }        
             }
             catch(err) {
@@ -134,16 +133,16 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 },
                 buildNhomsFilterSource: function() {
                     
-                    vm.pageOptions.filters.nhomsFilterSource = _.sortBy(vm.dictionary.nhom_cau_hois, (item) => {
+                    vm.pageOptions.filters.nhomsFilterSource = _.sortBy(vm.dictionary.nhom_tbs, (item) => {
                         return item.order;
                     });
                     // Thêm filter 'Tất cả
-                    vm.pageOptions.filters.nhomsFilterSource.unshift({ma: '', ten_ngan: "Tất cả"});
+                    vm.pageOptions.filters.nhomsFilterSource.unshift({ma: '', ten: "Tất cả"});
 
-                    // Hiển thị tất cả các item trên Top Bar
+                    // Thêm trường isActive - true nếu hiển thị trên topbar, false nếu bị ẩn trên topbar
                     _.each(vm.pageOptions.filters.nhomsFilterSource, (item) => {
                         item.isActive = true
-                    })
+                    });
 
                     console.log('buildNhomsFilterSource: ', vm.pageOptions.filters.nhomsFilterSource);
                 }
@@ -174,14 +173,14 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm.helpers({
                 cauhois: () => {
-                    let data = vm.pageOptions.filters.filterNhomId ? CauHois.find({'phan_loai.nhom_cau_hoi.ma': vm.pageOptions.filters.filterNhomId}).fetch() : CauHois.find({}).fetch();
+                    let data = vm.pageOptions.filters.filterNhomId ? CauHois.find({'phan_loai.nhom_tb.ma': vm.pageOptions.filters.filterNhomId}).fetch() : CauHois.find({}).fetch();
                     try {
                         vm.gridData.kGrid.kOptions.dataSource.data(data);
                     } catch (error) {
                         console.log("Error: ", error);
                     }
                     return CauHois.find({
-                        'phan_loai.nhom_cau_hoi.ma': vm.getReactively('pageOptions.filters.filterNhomId')
+                        'phan_loai.nhom_tb.ma': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
                 },
                 numOfCauHois: () => {

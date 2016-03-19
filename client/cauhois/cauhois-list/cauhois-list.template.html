@@ -3,7 +3,7 @@
         <div class="uk-width-large-8-10 uk-container-center">
             <ul class="top_bar_nav uk-hidden-small" id="snippets_grid_filter">
                 <li ng-repeat="nhom in vm.pageOptions.filters.nhomsFilterSource" ng-show="nhom.isActive" ng-class="{'uk-active': nhom.ma===vm.pageOptions.filters.filterNhomId}" ng-click="vm.utils.setFilterByNhomId(nhom.ma)">
-                    <a href="#">{{ nhom.ten_ngan }}</a>
+                    <a href="#">{{ nhom.ten }}</a>
                 </li>
             </ul>
             <div class="top_bar_nav uk-visible-small" id="snippets_grid_filter_small">
@@ -13,7 +13,7 @@
                             <i class="md-icon material-icons">&#xE5D4;</i>
                             <div class="uk-dropdown uk-dropdown-small">
                                 <ul class="uk-nav uk-dropdown-close">
-                                    <li ng-repeat="nhom in vm.pageOptions.filters.nhomsFilterSource" ng-click="vm.utils.setFilterByNhomId(nhom.ma)"><a href="#" ng-class="{'color-primary': nhom.ma===vm.pageOptions.filters.filterNhomId}">{{nhom.ten_ngan}} <i class="material-icons" ng-show="nhom.ma===vm.pageOptions.filters.filterNhomId;" ng-class="{'color-primary': nhom.ma===vm.pageOptions.filters.filterNhomId}">&#xE5CA;</i></a></li>
+                                    <li ng-repeat="nhom in vm.pageOptions.filters.nhomsFilterSource" ng-click="vm.utils.setFilterByNhomId(nhom.ma)"><a href="#" ng-class="{'color-primary': nhom.ma===vm.pageOptions.filters.filterNhomId}">{{nhom.ten}} <span ng-show="nhom.ma===vm.pageOptions.filters.filterNhomId" class='k-icon k-si-tick' ng-class="{'color-primary': nhom.ma===vm.pageOptions.filters.filterNhomId}"></span></a></li>
                                 </ul>
                             </div>
                         </div>

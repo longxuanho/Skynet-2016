@@ -112,7 +112,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     items: [{
                         text: "Các cột dữ liệu",
                     }, {
-                        text: "Giới hạn dữ liệu",
+                        text: "Thanh dữ liệu"
                     }, {
                         text: "Xuất dữ liệu Excel",
                     }, {
@@ -159,6 +159,14 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 vm.data.kGrid = $(vm.data.selector).data("kendoGrid");
 
                 switch (textContent) {
+                    case "Các cột dữ liệu":
+                        vm.utils.menu_data_columns.readStatus();                      
+                        UIkit.modal("#modal_menu_data_columns").show();
+                        break;
+                    case "Thanh dữ liệu":
+                        // vm.utils.menu_data_topbar.readStatus();
+                        UIkit.modal("#modal_menu_data_topbar").show();
+                        break;
                     case "Xuất dữ liệu Excel":
                         vm.utils.menu_data_saveAsExcel.readStatus();
                         UIkit.modal("#modal_menu_data_saveAsExcel").show();
@@ -166,11 +174,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     case "Xuất dữ liệu PDF":
                         vm.utils.menu_data_saveAsPdf.readStatus();
                         UIkit.modal("#modal_menu_data_saveAsPdf").show();
-                        break;
-                    case "Các cột dữ liệu":
-                        vm.utils.menu_data_columns.readStatus();                      
-                        UIkit.modal("#modal_menu_data_columns").show();
-                        break;
+                        break;                    
                     case "Phân trang":
                         vm.utils.menu_features_paging.readStatus();
                         UIkit.modal("#modal_menu_features_paging").show();
@@ -186,7 +190,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     case "Thanh Toolbar ":
                         vm.utils.menu_features_toolbar.readStatus();
                         vm.utils.menu_features_toolbar.toggleToolbar();
-                        // $scope.utils.toggleToolbar();
                         break;
                     case "Lưu cấu hình hiện tại":
                         UIkit.modal("#modal_menu_configs_saveCurrent").show();
@@ -236,6 +239,32 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         });
                         vm.utils.menu_data_columns.readStatus();
                     }   
+                },
+
+                // Menu: Dữ liệu -> Thanh dữ liệu
+                menu_data_topbar: {
+                    setFilterNhomId: function(e) {
+                        $scope.pageOptions.filters.filterNhomId = e.sender._old;
+                    },
+                    // TO SET DATA: localStorage.setItem(fileNamToSaveLocal, JSON.stringify(config_data_range));
+                    // TO REMOVE DATA: localStorage.removeItem('notification_style')
+                    // TO GET DATA: $scope.notificationStyle = localStorage.getItem("notification_style");
+                    saveConfigToLocalDevice: function() {
+                        let config_data_range = {
+                            isDisplayTopBar: $scope.pageOptions.isDisplayTopBar,
+                            topBarHeight: $scope.pageOptions.topBarHeight,
+                            filters: {
+                                filterNhomId: $scope.pageOptions.filters.filterNhomId,
+                                nhomsFilterSource: $scope.pageOptions.filters.nhomsFilterSource
+                            }                        
+                        }
+                        console.log('local data to save: ', config_data_range);
+                        localStorage.setItem($scope.localConfigDataName, JSON.stringify(config_data_range));                    
+                        iNotifier.success('Thiết lập về truy vấn dữ liệu đã được lưu lại trên thiết bị của bạn.');                     
+                        
+                        // Reset lại check box 'Lưu các thiết lập này trên thiết bị của tôi'
+                        $scope.menuOptions.isSaveDataLimitToLocalDevice = false;
+                    },
                 },
                 
                 // Menu: Dữ liệu -> Xuất dữ liệu Excel
@@ -345,6 +374,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         vm.data.sMenu.status.toolbar.isDisplayToolbar = !vm.data.sMenu.status.toolbar.isDisplayToolbar;
                     }
                 }
+
+                
+
             }
             $scope.utils = {
                 menu_data_columns: function() {},
@@ -446,36 +478,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     $scope.gridData.kGrid.kData.dataSource.pageSize = config.pageSize;
                     $scope.gridData.kGrid.kData.dataSource.schema =  angular.copy(config.schema);
                     $scope.gridData.kGrid.kData.dataSource.sort = angular.copy(config.sort);
-                },
-                saveAsExcel: function() {
-                    if (!$scope.gridData.kGrid.kOptions.excel.fileName)
-                        $scope.gridData.kGrid.kOptions.excel.fileName = 'From Sky with Love.xlsx';
-                    let grid = $("#myGrid").data("kendoGrid");
-                    // grid.bind("excelExport", function(e) {
-                    //     iNotifier.success('Dữ liệu được trích xuất theo định dạng Excel.');
-                    // });
-                    grid.saveAsExcel();
-                },
-                saveAsPdf: function() {
-                    if (!$scope.gridData.kGrid.kOptions.pdf.fileName)
-                        $scope.gridData.kGrid.kOptions.pdf.fileName = 'From Sky with Love.pdf';
-                    let grid = $("#myGrid").data("kendoGrid");
-                    grid.bind("pdfExport", function(e) {
-                        e.promise
-                            .progress(function(e) {
-                                console.log(kendo.format("{0:P} complete", e.progress));
-                            })
-                            .done(function() {
-                                console.log("Trích xuất dữ liệu thành công!");
-                            });
-                    });
-                    grid.saveAsPDF();
-                },
-                toggleToolbar: function() {
-                    if (!$scope.gridData.kGrid.kOptions.toolbar)
-                        $scope.gridData.kGrid.kOptions.toolbar = ["excel", "pdf"];
-                    else
-                        $scope.gridData.kGrid.kOptions.toolbar = false;
                 },
                 initNewKendoGridConfig: function(config) {
                     config.ten = '',
@@ -598,18 +600,18 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     $scope.menuOptions.currentConfig = {};
                 },
                 saveDataConfigToLocalDevice: function() {
-                    $scope.pageOptions.filters.nhomsFilterActiveIds = [];
+                    $scope.pageOptions.filters.nhomsFilterSource = [];
                     _.each($scope.pageOptions.filters.nhomsFilterSource, (item) => {
                         if (item.isActive)
-                            $scope.pageOptions.filters.nhomsFilterActiveIds.push(item._id);
-                    }); 
+                            $scope.pageOptions.filters.nhomsFilterSource.push(item._id);
+                    });
                     let config_data_range = {
                         isDisplayTopBar: $scope.pageOptions.isDisplayTopBar,
                         isDisplayFullWidthGrid: $scope.pageOptions.isDisplayFullWidthGrid,
                         topBarHeight: $scope.pageOptions.topBarHeight,
                         filters: {
                             filterNhomId: $scope.pageOptions.filters.filterNhomId,
-                            nhomsFilterActiveIds: $scope.pageOptions.filters.nhomsFilterActiveIds
+                            nhomsFilterSource: $scope.pageOptions.filters.nhomsFilterSource
                         }                        
                     }
                     console.log('local data to save: ', config_data_range);
@@ -676,76 +678,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
-
-            $scope.$watch('menuOptions.isPageable', (newVal) => {
-                if (newVal == false) {
-                    $scope.pageable_master = angular.copy($scope.gridData.kGrid.kOptions.pageable);
-                    console.log('master, ', $scope.pageable_master)
-                    $scope.gridData.kGrid.kOptions.pageable = false;
-                } else {
-                    $scope.gridData.kGrid.kOptions.pageable = angular.copy($scope.pageable_master);
-                    console.log('resolve, ', $scope.gridData.kGrid.kOptions.pageable)
-                }
-            });
-
-            $scope.$watch('menuOptions.isSortable', (newVal) => {
-                if (newVal == false) {
-                    $scope.sortable_master = angular.copy($scope.gridData.kGrid.kOptions.sortable);
-                    $scope.gridData.kGrid.kOptions.sortable = false;
-                } else {
-                    $scope.gridData.kGrid.kOptions.sortable = angular.copy($scope.sortable_master);
-                }
-            });
-
-            $scope.$watch('menuOptions.isSortable_MultipleMode', (newVal) => {
-                if ($scope.menuOptions.isSortable)
-                    $scope.gridData.kGrid.kOptions.sortable.mode = (newVal) ? "multiple" : "single";
-            });
-
-            $scope.$watch('menuOptions.isFilterable', (newVal) => {
-                if (newVal == false) {
-                    $scope.filterable_master = angular.copy($scope.gridData.kGrid.kOptions.filterable);
-                    $scope.gridData.kGrid.kOptions.filterable = false;
-                } else {
-                    $scope.gridData.kGrid.kOptions.filterable = angular.copy($scope.filterable_master);
-                }
-            });
-
-            $scope.$watch('menuOptions.isSelectable', (newVal) => {
-                if (newVal == false) {
-                    $scope.selectable_master = $scope.gridData.kGrid.kOptions.selectable;
-                    $scope.gridData.kGrid.kOptions.selectable = false;
-                } else {
-                    $scope.gridData.kGrid.kOptions.selectable = $scope.selectable_master;
-                }
-            });
-
-            $scope.$watch('menuOptions.isAllowCopy', (newVal) => {
-                if (newVal == false) {
-                    $scope.allowCopy_master = angular.copy($scope.gridData.kGrid.kOptions.allowCopy);
-                    $scope.gridData.kGrid.kOptions.allowCopy = false;
-                } else {
-                    $scope.gridData.kGrid.kOptions.allowCopy = angular.copy($scope.allowCopy_master);
-                }
-            });
-
-            $scope.$watch('menuOptions.isGroupable', (newVal) => {
-                if (newVal == false) {
-                    $scope.groupable_master = angular.copy($scope.gridData.kGrid.kOptions.groupable);
-                    $scope.gridData.kGrid.kOptions.groupable = false;
-                } else {
-                    $scope.gridData.kGrid.kOptions.groupable = angular.copy($scope.groupable_master);
-                }
-            });
-
-            $scope.$watch('menuOptions.isScrollable', (newVal) => {
-                if (newVal == false) {
-                    $scope.scrollable_master = angular.copy($scope.gridData.kGrid.kOptions.scrollable);
-                    $scope.gridData.kGrid.kOptions.scrollable = false;
-                } else {
-                    $scope.gridData.kGrid.kOptions.scrollable = angular.copy($scope.scrollable_master);
-                }
-            });
 
 
         }
