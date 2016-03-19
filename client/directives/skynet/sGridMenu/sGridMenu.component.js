@@ -12,14 +12,29 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
         },
         controllerAs: 'vm',
 
-        controller: function($scope, $rootScope, iNotifier, skynetKendoGrid, $auth) {
+        controller: function($scope, $rootScope, iNotifier, skynetKendoGrid, $auth, $reactive) {
+
+            $reactive(this).attach($scope);
 
             // ***************************************************
             // INITIALIZE
             // ***************************************************
 
+             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
+            let vm = this;
+            
             // $scope.kData = skynetKendoGrid.thietbis.data;
             // $scope.kHelpers = skynetKendoGrid.thietbis.helpers;
+
+            vm.data = {
+                selector: '#myGrid',
+                kGrid: {},
+                kGridOptions: {},
+                columnStatus: {
+                    master: [],
+                    current: []
+                }
+            }
 
             $scope.columnStatus = [];
             $scope.UserConfigSettings = [];
@@ -102,6 +117,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             // ***************************************************
             $scope.onSelect = function(e) {
                 let textContent = e.item.textContent;
+                vm.data.kGrid = $(vm.data.selector).data("kendoGrid");
 
                 switch (textContent) {
                     case "Thiết lập chung":
@@ -114,6 +130,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         UIkit.modal("#modal_menu_data_saveAsPdf").show();
                         break;
                     case "Các cột dữ liệu":
+                        vm.utils.readColumnStatus();                      
                         UIkit.modal("#modal_menu_display_columns").show();
                         break;
                     case "Phân trang":
@@ -146,6 +163,31 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             // ***************************************************
             // UTILS
             // ***************************************************
+            vm.utils = {
+                readColumnStatus: () => {
+                    // Tạo bản sao lưu dữ liệu để đối chiếu                
+                    vm.data.columnStatus.master = _.map(vm.data.kGrid.getOptions().columns, (item) => {
+                        return {
+                            field: item.field,
+                            title: item.title,
+                            isActive: !item.hidden,
+                            locked: item.locked
+                        }
+                    });
+                    vm.data.columnStatus.current = angular.copy(vm.data.columnStatus.master);
+                },
+                updateColumnStatus: () => {
+                    _.each(vm.data.columnStatus.current, (item, index) => {
+                        if (item.isActive !== vm.data.columnStatus.master[index].isActive) {
+                            // Nếu giá trị từ true -> false: Ẩn cột và ngược lại
+                            if (item.isActive)
+                                vm.data.kGrid.showColumn(item.field)
+                            else
+                                vm.data.kGrid.hideColumn(item.field)
+                        }
+                    });
+                }
+            }
             $scope.utils = {
                 menu_display_columns: function() {},
                 initColumnStatus: function() {
@@ -157,6 +199,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     });
                 },
                 updateColumnStatus: function() {
+
                     let activeColumns = _.pluck(_.filter($scope.columnStatus, (item) => {
                         return item.isActive;
                     }), 'field');
