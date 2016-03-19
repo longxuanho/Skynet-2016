@@ -1,4 +1,4 @@
-angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope) {
+angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope, iNotifier) {
 
     let factory = {
         thietbis: {},
@@ -734,7 +734,13 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                         firstValueDropDown.value("contains");
                         firstValueDropDown.trigger("change");
                     }
-                }             
+                },
+                excelExport: function(e) {
+                    iNotifier.success('Dữ liệu đã được trích xuất dưới định dạng Excel.');
+                },
+                pdfExport: function(e) {
+                    iNotifier.success('Dữ liệu đã được trích xuất dưới định dạng Pdf thành công.');
+                }              
             },
             availableColumns: [{
                 field: "_id",

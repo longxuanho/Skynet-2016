@@ -37,30 +37,36 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             master: [],
                             current: []
                         },
-                        pageable: {
-                            pageSize: 5,
+                        excel: {
                             current: {}
                         },
                         filterable: {
                             current: {}
                         },
-                        sortable: {
+                        groupable: {
+                            current: {}
+                        },
+                        pageable: {
+                            pageSize: 5,
+                            current: {}
+                        },
+                        pdf: {
+                            current: {}
+                        },
+                        reorderable: {
+                            current: true
+                        },
+                        resizable: {
+                            current: true
+                        },                        
+                        scrollable: {
                             current: {}
                         },
                         selectable: {
                             current: 'row'
-                        },
-                        groupable: {
+                        },                       
+                        sortable: {
                             current: {}
-                        },
-                        scrollable: {
-                            current: {}
-                        },
-                        resizable: {
-                            current: true
-                        },
-                        reorderable: {
-                            current: true
                         },
                         toolbar: {
                             isDisplayToolbar: true,
@@ -154,9 +160,11 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
 
                 switch (textContent) {
                     case "Xuất dữ liệu Excel":
+                        vm.utils.menu_data_saveAsExcel.readStatus();
                         UIkit.modal("#modal_menu_data_saveAsExcel").show();
                         break;
                     case "Xuất dữ liệu PDF":
+                        vm.utils.menu_data_saveAsPdf.readStatus();
                         UIkit.modal("#modal_menu_data_saveAsPdf").show();
                         break;
                     case "Các cột dữ liệu":
@@ -202,7 +210,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             // UTILS
             // ***************************************************
             vm.utils = {
-                // Menu: Chức năng -> Các cột dữ liệu
+                // Menu: Dữ liệu -> Các cột dữ liệu
                 menu_data_columns: {
                     readStatus: () => {
                         // Tạo bản sao lưu dữ liệu để đối chiếu                
@@ -230,6 +238,36 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     }   
                 },
                 
+                // Menu: Dữ liệu -> Xuất dữ liệu Excel
+                menu_data_saveAsExcel: {
+                    readStatus: () => {
+                        vm.data.sMenu.status.excel.current = vm.data.kGrid.getOptions().excel;
+                    },
+                    saveAsExcel: () => {
+                        vm.data.sMenu.status.excel.current.fileName = vm.data.sMenu.status.excel.current.fileName ? vm.data.sMenu.status.excel.current.fileName : 'From Sky with Love.xlsx';
+                        
+                        vm.data.kGrid.setOptions({
+                            excel: vm.data.sMenu.status.excel.current
+                        });
+                        vm.data.kGrid.saveAsExcel();
+                    }
+                },
+
+                // Menu: Dữ liệu -> Xuất dữ liệu Pdf
+                menu_data_saveAsPdf: {
+                    readStatus: () => {
+                        vm.data.sMenu.status.pdf.current = vm.data.kGrid.getOptions().pdf;
+                    },
+                    saveAsPdf: () => {
+                        vm.data.sMenu.status.pdf.current.fileName = vm.data.sMenu.status.pdf.current.fileName ? vm.data.sMenu.status.pdf.current.fileName : 'From Sky with Love.pdf';
+                        
+                        vm.data.kGrid.setOptions({
+                            pdf: vm.data.sMenu.status.pdf.current
+                        });
+                        vm.data.kGrid.saveAsPDF();
+                    }
+                },
+
                 // Menu: Chức năng -> Phân trang
                 menu_features_paging: {
                     readStatus: () => {
@@ -259,6 +297,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             filterable: vm.data.sMenu.status.filterable.current,
                             sortable: vm.data.sMenu.status.sortable.current
                         });
+                        vm.utils.menu_features_filterAndSort.readStatus();
                     }
                 },
 
@@ -274,7 +313,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         vm.data.sMenu.status.scrollable.current = options.scrollable;
                     },
                     updateStatus: () => {
-                        console.log('process command...')
                         vm.data.kGrid.setOptions({
                             selectable: vm.data.sMenu.status.selectable.current,
                             groupable: vm.data.sMenu.status.groupable.current,
@@ -282,7 +320,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             reorderable: vm.data.sMenu.status.reorderable.current,
                             scrollable: vm.data.sMenu.status.scrollable.current
                         });
-
+                        vm.utils.menu_features_generalSettings.readStatus();
                     }
                 },
 
@@ -413,9 +451,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     if (!$scope.gridData.kGrid.kOptions.excel.fileName)
                         $scope.gridData.kGrid.kOptions.excel.fileName = 'From Sky with Love.xlsx';
                     let grid = $("#myGrid").data("kendoGrid");
-                    grid.bind("excelExport", function(e) {
-                        iNotifier.success('Dữ liệu được trích xuất theo định dạng Excel.');
-                    });
+                    // grid.bind("excelExport", function(e) {
+                    //     iNotifier.success('Dữ liệu được trích xuất theo định dạng Excel.');
+                    // });
                     grid.saveAsExcel();
                 },
                 saveAsPdf: function() {
