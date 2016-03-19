@@ -650,17 +650,6 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                     columns: []
                 }
             },
-            defaultColumns: [
-                'phan_loai.nhom_cau_hoi.ten',
-                'fields.loai_tb',
-                'noi_dung.tieu_de',
-                'noi_dung.thong_ke.numOfLuaChons',
-                'noi_dung.thong_ke.numOfUrlHinhAnhs',
-                'fields.correctAnswer',
-                'fields.tags',                
-                'fields.bac_thi',
-                'fields.ngay_tao'
-            ],
             defaultOptions: {
                 allowCopy: {
                     delimeter: "\t"
@@ -688,6 +677,7 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope)
                 navigatable: false,
                 noRecords: false,
                 pageable: {
+                    pageSize: 2,
                     refresh: false,
                     pageSizes: false,
                     info: true,

@@ -29,6 +29,7 @@
     	<div class="uk-container-center" ng-class="{'uk-width-large-8-10': !vm.pageOptions.isDisplayFullWidthGrid, 'uk-width-large-1-1': vm.pageOptions.isDisplayFullWidthGrid}">
             
             <s-grid-menu
+                k-grid-data-source="vm.gridData.kGrid.kOptions.dataSource"
                 grid-data="vm.gridData"
                 page-options="vm.pageOptions"
                 k-data="vm._kData"
