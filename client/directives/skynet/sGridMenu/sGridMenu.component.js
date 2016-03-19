@@ -32,24 +32,41 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 selector: '#myGrid',
                 kGrid: {},
                 sMenu: {
-                    columnStatus: {
-                        master: [],
-                        current: []
-                    },
-                    pageableStatus: {
-                        pageSize: 5,
-                        current: {}
-                    },
-                    filterableStatus: {
-                        current: {}
-                    },
-                    sortableStatus: {
-                        current: {}
-                    },
-                    toolbarStatus: {
-                        isDisplayToolbar: true,
-                        current: {}
-                    }
+                    status: {
+                        columns: {
+                            master: [],
+                            current: []
+                        },
+                        pageable: {
+                            pageSize: 5,
+                            current: {}
+                        },
+                        filterable: {
+                            current: {}
+                        },
+                        sortable: {
+                            current: {}
+                        },
+                        selectable: {
+                            current: 'row'
+                        },
+                        groupable: {
+                            current: {}
+                        },
+                        scrollable: {
+                            current: {}
+                        },
+                        resizable: {
+                            current: true
+                        },
+                        reorderable: {
+                            current: true
+                        },
+                        toolbar: {
+                            isDisplayToolbar: true,
+                            current: {}
+                        }
+                    }                    
                 },                
             }
 
@@ -87,9 +104,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 dataSource: [{
                     text: "Dữ liệu",
                     items: [{
-                        text: "Thiết lập chung",
-                        encoded: false
-                    }, {
                         text: "Các cột dữ liệu",
                     }, {
                         text: "Giới hạn dữ liệu",
@@ -105,8 +119,10 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     }, {
                         text: "Lọc và sắp xếp"
                     }, {
+                        text: "Thao tác dữ liệu"
+                    }, {
                         // text: "<span ng-hide='gridData.kGrid.kOptions.toolbar'>Hiện Toolbar</span><span ng-show='gridData.kGrid.kOptions.toolbar'>Ẩn Toolbar</span>",
-                        text: "Thanh Toolbar <span ng-show='vm.data.sMenu.toolbarStatus.isDisplayToolbar' class='k-icon k-si-tick'></span>",
+                        text: "Thanh Toolbar <span ng-show='vm.data.sMenu.status.toolbar.isDisplayToolbar' class='k-icon k-si-tick'></span>",
                         encoded: false
                     }]
                 }, {
@@ -137,9 +153,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 vm.data.kGrid = $(vm.data.selector).data("kendoGrid");
 
                 switch (textContent) {
-                    case "Thiết lập chung":
-                        UIkit.modal("#modal_menu_data_generalSettings").show();
-                        break;
                     case "Xuất dữ liệu Excel":
                         UIkit.modal("#modal_menu_data_saveAsExcel").show();
                         break;
@@ -157,6 +170,10 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     case "Lọc và sắp xếp":
                         vm.utils.menu_features_filterAndSort.readStatus();
                         UIkit.modal("#modal_menu_features_filterAndSort").show();
+                        break;
+                    case "Thao tác dữ liệu":
+                        vm.utils.menu_features_generalSettings.readStatus();
+                        UIkit.modal("#modal_menu_features_generalSettings").show();
                         break;
                     case "Thanh Toolbar ":
                         vm.utils.menu_features_toolbar.readStatus();
@@ -189,7 +206,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 menu_data_columns: {
                     readStatus: () => {
                         // Tạo bản sao lưu dữ liệu để đối chiếu                
-                        vm.data.sMenu.columnStatus.master = _.map(vm.data.kGrid.getOptions().columns, (item) => {
+                        vm.data.sMenu.status.columns.master = _.map(vm.data.kGrid.getOptions().columns, (item) => {
                             return {
                                 field: item.field,
                                 title: item.title,
@@ -197,11 +214,11 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                                 locked: item.locked
                             }
                         });
-                        vm.data.sMenu.columnStatus.current = angular.copy(vm.data.sMenu.columnStatus.master);
+                        vm.data.sMenu.status.columns.current = angular.copy(vm.data.sMenu.status.columns.master);
                     },
                     updateStatus: () => {
-                        _.each(vm.data.sMenu.columnStatus.current, (item, index) => {
-                            if (item.isActive !== vm.data.sMenu.columnStatus.master[index].isActive) {
+                        _.each(vm.data.sMenu.status.columns.current, (item, index) => {
+                            if (item.isActive !== vm.data.sMenu.status.columns.master[index].isActive) {
                                 // Nếu giá trị từ true -> false: Ẩn cột và ngược lại
                                 if (item.isActive)
                                     vm.data.kGrid.showColumn(item.field)
@@ -216,16 +233,16 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 // Menu: Chức năng -> Phân trang
                 menu_features_paging: {
                     readStatus: () => {
-                        vm.data.sMenu.pageableStatus.current = vm.data.kGrid.getOptions().pageable;
-                        vm.data.sMenu.pageableStatus.pageSize = $scope.kGridDataSource.pageSize();
+                        vm.data.sMenu.status.pageable.current = vm.data.kGrid.getOptions().pageable;
+                        vm.data.sMenu.status.pageable.pageSize = $scope.kGridDataSource.pageSize();
                     },
                     updateStatus: () => {
                         vm.data.kGrid.setOptions({
-                            pageable: vm.data.sMenu.pageableStatus.current
+                            pageable: vm.data.sMenu.status.pageable.current
                         });
                         // Nếu người dùng thay đổi số mục hiển thị mỗi trang -> cập nhật thay đổi này
-                        if (vm.data.sMenu.pageableStatus.pageSize !== $scope.kGridDataSource.pageSize())
-                            $scope.kGridDataSource.pageSize(vm.data.sMenu.pageableStatus.pageSize);
+                        if (vm.data.sMenu.status.pageable.pageSize !== $scope.kGridDataSource.pageSize())
+                            $scope.kGridDataSource.pageSize(vm.data.sMenu.status.pageable.pageSize);
                         
                         vm.utils.menu_features_paging.readStatus();
                     },
@@ -234,26 +251,50 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 // Menu: Chức năng -> Lọc và sắp xếp
                 menu_features_filterAndSort: {
                     readStatus: () => {
-                        vm.data.sMenu.filterableStatus.current = vm.data.kGrid.getOptions().filterable;
-                        vm.data.sMenu.sortableStatus.current = vm.data.kGrid.getOptions().sortable;
+                        vm.data.sMenu.status.filterable.current = vm.data.kGrid.getOptions().filterable;
+                        vm.data.sMenu.status.sortable.current = vm.data.kGrid.getOptions().sortable;
                     },
                     updateStatus: () => {
                         vm.data.kGrid.setOptions({
-                            filterable: vm.data.sMenu.filterableStatus.current,
-                            sortable: vm.data.sMenu.sortableStatus.current
+                            filterable: vm.data.sMenu.status.filterable.current,
+                            sortable: vm.data.sMenu.status.sortable.current
                         });
+                    }
+                },
+
+                // Menu: Chức năng -> Thao tác dữ liệu
+                menu_features_generalSettings: {
+                    readStatus: () => {
+                        let options = vm.data.kGrid.getOptions();
+                        
+                        vm.data.sMenu.status.selectable.current = options.selectable;                        
+                        vm.data.sMenu.status.groupable.current = options.groupable;                      
+                        vm.data.sMenu.status.resizable.current = options.resizable;
+                        vm.data.sMenu.status.reorderable.current = options.reorderable;
+                        vm.data.sMenu.status.scrollable.current = options.scrollable;
+                    },
+                    updateStatus: () => {
+                        console.log('process command...')
+                        vm.data.kGrid.setOptions({
+                            selectable: vm.data.sMenu.status.selectable.current,
+                            groupable: vm.data.sMenu.status.groupable.current,
+                            resizable: vm.data.sMenu.status.resizable.current,
+                            reorderable: vm.data.sMenu.status.reorderable.current,
+                            scrollable: vm.data.sMenu.status.scrollable.current
+                        });
+
                     }
                 },
 
                 // Menu: Chức năng -> Thanh Toolbar
                 menu_features_toolbar: {
                     readStatus: () => {
-                        vm.data.sMenu.toolbarStatus.current = vm.data.kGrid.getOptions().toolbar;
-                        vm.data.sMenu.toolbarStatus.isDisplayToolbar = vm.data.sMenu.toolbarStatus.current ? true : false;
+                        vm.data.sMenu.status.toolbar.current = vm.data.kGrid.getOptions().toolbar;
+                        vm.data.sMenu.status.toolbar.isDisplayToolbar = vm.data.sMenu.status.toolbar.current ? true : false;
                     },
                     toggleToolbar: () => {
                         // Nếu từ trạng thái hidden -> show và ngược lại
-                        if (!vm.data.sMenu.toolbarStatus.isDisplayToolbar) {
+                        if (!vm.data.sMenu.status.toolbar.isDisplayToolbar) {
                             vm.data.kGrid.setOptions({
                                 toolbar: ["excel", "pdf"]
                             });
@@ -263,7 +304,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             });
                         }
                         // Cập nhật trạng thái isDisplayToolbar
-                        vm.data.sMenu.toolbarStatus.isDisplayToolbar = !vm.data.sMenu.toolbarStatus.isDisplayToolbar;
+                        vm.data.sMenu.status.toolbar.isDisplayToolbar = !vm.data.sMenu.status.toolbar.isDisplayToolbar;
                     }
                 }
             }
