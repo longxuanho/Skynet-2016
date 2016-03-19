@@ -89,8 +89,8 @@
         </div>
         <div class="uk-modal-footer uk-text-right">
             <button type="button" class="md-btn md-btn-flat uk-modal-close">Đóng</button>
-            <button type="button" class="md-btn md-btn-flat no-animate" ng-click="utils.resetDataConfigToLocalDevice()" ng-hide="menuOptions.isSaveDataLimitToLocalDevice">Reset</button>
-            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary no-animate" ng-click="utils.saveDataConfigToLocalDevice()" ng-show="menuOptions.isSaveDataLimitToLocalDevice">Lưu thiết lập</button>
+            <button type="button" class="md-btn md-btn-flat no-animate" ng-click="vm.utils.menu_data_topbar.resetConfigToLocalDevice()" ng-hide="menuOptions.isSaveDataLimitToLocalDevice">Reset</button>
+            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary no-animate" ng-click="vm.utils.menu_data_topbar.saveConfigToLocalDevice()" ng-show="menuOptions.isSaveDataLimitToLocalDevice">Lưu thiết lập</button>
         </div>
     </div>
 </div>
@@ -187,7 +187,6 @@
             <div class="uk-width-medium-1-1 uk-margin-small-top" ng-show="vm.data.sMenu.status.pdf.current.paperSize!=='auto'">
                 Khổ giấy:
             </div>
-            {{vm.data.sMenu.status.pdf.current}}
             <div class="uk-width-medium-1-1 uk-margin-small-top" ng-show="vm.data.sMenu.status.pdf.current.paperSize!=='auto'">
                 <span class="icheck-inline uk-margin-left" style="margin:0;">
                     <input id="radio_menu_data_data_saveAsPdf_landscape" type="radio" icheck ng-model="vm.data.sMenu.status.pdf.current.landscape" value="true" ng-value="true"/>

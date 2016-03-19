@@ -58,27 +58,6 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 searchBacthis: []
             };
 
-            // Thử load dữ liệu local chho cấu hình của thanh Topbar (nếu có)
-            try {
-                let localData = JSON.parse(localStorage.getItem(vm.pageOptions.localConfigDataName));
-                if (!_.isEmpty(localData)) {
-                    console.log('data preload from cache: ', localData)
-            
-                    vm.pageOptions.localData = angular.copy(localData);
-
-                    vm.pageOptions.isDisplayTopBar = _.has(localData, 'isDisplayTopBar') ? localData.isDisplayTopBar : true;
-                    vm.pageOptions.topBarHeight = (localData.topBarHeight) ? localData.topBarHeight : 'x1';
-                    vm.pageOptions.filters.filterNhomId = (localData.filters.filterNhomId) ? localData.filters.filterNhomId : '';
-                    vm.pageOptions.filters.nhomsFilterSource = (localData.filters.nhomsFilterSource) ? angular.copy(localData.filters.nhomsFilterSource) : [];
-                }        
-            }
-            catch(err) {
-                iNotifier.error('Có lỗi xảy ra với cấu hình dữ liệu mà bạn đã lưu trên thiết bị này. Vui lòng reset theo các bước sau: Từ Menu > Dữ liệu > Giới hạn dữ liệu > Reset.');
-            }
-
-            console.log('data load from cache: ', vm.pageOptions)
-
-
             kendo.pdf.defineFont({
                 "Roboto": "/assets/fonts/DejaVuSans.ttf",
                 "Roboto|Bold": "/assets/fonts/DejaVuSans-Bold.ttf",
@@ -145,10 +124,35 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     });
 
                     console.log('buildNhomsFilterSource: ', vm.pageOptions.filters.nhomsFilterSource);
+                },
+                loadNhomsFilterSourceFromLocal: function() {
+                    // Thử load dữ liệu local cho cấu hình của thanh Topbar (nếu có)
+                    try {
+                        let localData = JSON.parse(localStorage.getItem(vm.pageOptions.localConfigDataName));
+                        if (!_.isEmpty(localData)) {
+                            console.log('data preload from cache: ', localData)
+                    
+                            vm.pageOptions.localData = angular.copy(localData);
+
+                            vm.pageOptions.isDisplayTopBar = _.has(localData, 'isDisplayTopBar') ? localData.isDisplayTopBar : true;
+                            vm.pageOptions.topBarHeight = (localData.topBarHeight) ? localData.topBarHeight : 'x1';
+                            vm.pageOptions.filters.filterNhomId = (localData.filters.filterNhomId) ? localData.filters.filterNhomId : '';
+                            vm.pageOptions.filters.nhomsFilterSource = (localData.filters.nhomsFilterSource) ? angular.copy(localData.filters.nhomsFilterSource) : [];
+                        } else {
+                            // Nếu chưa có dữ liệu cho topbar được lưu từ trước đó, tạo dữ liệu mới cho topbar
+                            vm.utils.buildNhomsFilterSource();
+                        }        
+                    }
+                    catch(err) {
+                        // Nếu dữ liệu không tương thích, tạo dữ liệu mới cho topbar
+                        vm.utils.buildNhomsFilterSource();
+                        iNotifier.error('Có lỗi xảy ra với cấu hình dữ liệu mà bạn đã lưu trên thiết bị này. Vui lòng reset theo các bước sau: Từ Menu > Dữ liệu > Thanh dữ liệu > Reset.');
+                    }
+                    console.log('data load from cache: ', vm.pageOptions);
                 }
             }
 
-            vm.utils.buildNhomsFilterSource();
+            vm.utils.loadNhomsFilterSourceFromLocal();
 
             // ***************************************************
             // SUBSCRIBE

@@ -265,6 +265,16 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         // Reset lại check box 'Lưu các thiết lập này trên thiết bị của tôi'
                         $scope.menuOptions.isSaveDataLimitToLocalDevice = false;
                     },
+                    resetConfigToLocalDevice: function() {
+                        localStorage.removeItem($scope.localConfigDataName);
+                        _.each($scope.pageOptions.filters.nhomsFilterSource, (item) => {
+                            item.isActive = true;
+                        });
+                        $scope.pageOptions.filters.filterNhomId = '';
+                        $scope.pageOptions.isDisplayTopBar = true;
+                        $scope.pageOptions.topBarHeight = 'x1';
+                        iNotifier.info('Các thiết lập về truy vấn dữ liệu trên thiết bị của bạn đã được đưa về mặc định.');
+                    }
                 },
                 
                 // Menu: Dữ liệu -> Xuất dữ liệu Excel
