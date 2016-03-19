@@ -280,89 +280,89 @@
 </div>
 
 <!-- CÁC CỘT HIỂN THỊ -->
-<div class="uk-modal" id="modal_menu_display_columns">
+<div class="uk-modal" id="modal_menu_data_columns">
     <div class="uk-modal-dialog">
         <div class="uk-modal-header">
             <h3 class="uk-modal-title">Thiết lập cột dữ liệu</h3>
         </div>
         <p>
-            Để thêm/bớt các cột dữ liệu hiển thị trong bảng tổng hợp, xin vui lòng tích chọn vào các cột được hiển thị, và bỏ chọn ở các cột không được hiển thị trong danh sách liệt kê dưới đây.
+            Để thêm/bớt các cột dữ liệu hiển thị trong bảng, xin vui lòng tích chọn vào các cột được hiển thị, và bỏ chọn ở các cột không được hiển thị trong danh sách liệt kê dưới đây.
         </p>
-        <div class="uk-grid" ng-cloak>
-            <div class="uk-width-medium-1-1 uk-margin-left" ng-repeat="item in vm.data.sMenu.columnStatus.current">
+        <div class="uk-grid uk-margin-left" ng-cloak>
+            <div class="uk-width-medium-1-1" ng-repeat="item in vm.data.sMenu.columnStatus.current">
                 <span class="icheck-inline">
-                    <input id="cb_menu_display_columns_{{item.field}}" class="iCheckInput" type="checkbox" icheck ng-model="item.isActive"/>
-                    <label for="cb_menu_display_columns_{{item.field}}" class="inline-label">{{item.title}}</label>
+                    <input id="cb_menu_data_columns_{{item.field}}" class="iCheckInput" type="checkbox" icheck ng-model="item.isActive"/>
+                    <label for="cb_menu_data_columns_{{item.field}}" class="inline-label">{{item.title}}</label>
                 </span>
             </div>
         </div>
         <div class="uk-modal-footer uk-text-right">
             <button type="button" class="md-btn md-btn-flat uk-modal-close">Đóng</button>
-            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary" ng-click="vm.utils.menu_display_columns.updateColumnStatus()">Tiếp tục</button>
+            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary" ng-click="vm.utils.menu_data_columns.updateStatus()">Thực hiện</button>
         </div>
     </div>
 </div>
 
 <!-- PHÂN TRANG -->
-<div class="uk-modal" id="modal_menu_display_paging">
+<div class="uk-modal" id="modal_menu_features_paging">
     <div class="uk-modal-dialog">
         <div class="uk-modal-header">
             <h3 class="uk-modal-title">Thiết lập phân trang</h3>
         </div>
         <p>Các thiết lập về phân trang cho bảng dữ liệu được thay đổi tại đây. Lưu ý rằng các thay đổi này chỉ khả dụng khi bạn đã kích hoạt tính năng cho phép phân trang.</p>
-        <div class="uk-grid">
+        <div class="uk-grid uk-margin-left">
             <div class="uk-width-small-1-2 uk-width-medium-1-2 uk-width-large-1-3">
                 <div class="uk-form-stacked">
-                    <label for="cauhoi_phanloai_bacthi">Số mục mỗi trang</label>
-                    <input kendo-numeric-text-box k-min="0" k-max="100" k-format="'n0'" k-ng-model="vm.data.sMenu.pageableStatus.pageSize" style="width: 100%;" />
+                    <label for="cb_menu_features_paging_pageSize">Số mục mỗi trang</label>
+                    <input kendo-numeric-text-box k-min="0" k-max="100" k-format="'n0'" k-ng-model="vm.data.sMenu.pageableStatus.pageSize" style="width: 100%;" id="cb_menu_features_paging_pageSize"/>
                 </div>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-top">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.numeric"/>
-                    <label class="inline-label">Nút điều hướng dạng số</label>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.numeric" id="cb_menu_features_paging_numeric"/>
+                    <label class="inline-label" for="cb_menu_features_paging_numeric">Nút điều hướng dạng số</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.previousNext"/>
-                    <label class="inline-label">Các nút điều hướng cơ bản</label>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.previousNext" id="cb_menu_features_paging_previousNext"/>
+                    <label class="inline-label" for="cb_menu_features_paging_previousNext">Các nút điều hướng cơ bản</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.input"/>
-                    <label class="inline-label">Nhập số trang để điều hướng</label>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.input" id="cb_menu_features_paging_input"/>
+                    <label class="inline-label" for="cb_menu_features_paging_input">Nhập số trang để điều hướng</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.refresh"/>
-                    <label for="checkbox_demo_inline_1" class="inline-label">Hiện nút làm mới dữ liệu</label>
+                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.refresh" id="cb_menu_features_paging_refresh"/>
+                    <label for="cb_menu_features_paging_refresh" class="inline-label">Hiện nút làm mới dữ liệu</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.pageSizes"/>
-                    <label class="inline-label">Tùy biến số mục mỗi trang</label>
+                    <input id="cb_menu_features_paging_pageSizes" class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.pageSizes"/>
+                    <label for="cb_menu_features_paging_pageSizes" class="inline-label">Tùy biến số mục mỗi trang</label>
                 </span>
             </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.info"/>
-                    <label for="checkbox_demo_inline_1" class="inline-label">Hiện thông tin phân trang dữ liệu</label>
+                    <input id="cb_menu_features_paging_info" class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.pageableStatus.current.info"/>
+                    <label for="cb_menu_features_paging_info" class="inline-label">Hiện thông tin phân trang dữ liệu</label>
                 </span>
             </div>           
         </div>
         <div class="uk-modal-footer uk-text-right">
             <button type="button" class="md-btn md-btn-flat uk-modal-close">Đóng</button>
-            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary" ng-click="vm.utils.menu_display_paging.updatePageableStatus()">Tiếp tục</button>
+            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary" ng-click="vm.utils.menu_features_paging.updateStatus()">Thực hiện</button>
         </div>
     </div>
 </div>
 
 <!-- LỌC VÀ SẮP XẾP -->
-<div class="uk-modal" id="modal_menu_display_filterAndSort">
+<div class="uk-modal" id="modal_menu_features_filterAndSort">
     <div class="uk-modal-dialog">
         <div class="uk-modal-header">
             <h3 class="uk-modal-title">Lọc &amp; Sắp xếp</h3>
@@ -370,50 +370,47 @@
         <p>
             Tại đây bạn có thể thay đổi các thông tin cấu hình của bảng dữ liệu, bao gồm các tùy chọn cho bộ lọc dữ liệu và sắp xếp.
         </p>
-        <div class="uk-grid">
+        <div class="uk-grid uk-margin-left">
+            <div class="uk-width-medium-1-1">
+                Sắp xếp:
+            </div>
+            <div class="uk-width-medium-1-1">
+                <span class="icheck-inline" style="margin:0;">
+                    <input id="radio_menu_feautures_sort_mode_single" type="radio" icheck ng-model="vm.data.sMenu.sortableStatus.current.mode" value="'single'" ng-value="'single'"/>
+                    <label for="radio_menu_feautures_sort_mode_single" class="inline-label">Một tầng</label>
+                </span>
+                <span class="icheck-inline uk-margin-left" style="margin:0;">
+                    <input  id="radio_menu_feautures_sort_mode_multiple" type="radio" icheck ng-model="vm.data.sMenu.sortableStatus.current.mode" value="'multiple'" ng-value="'multiple'"/>
+                    <label for="radio_menu_feautures_sort_mode_multiple" class="inline-label">Nhiều tầng</label>
+                </span>
+            </div>
+            <div class="uk-width-medium-1-1 uk-margin-top">
+                Lọc dữ liệu:
+            </div>
+            <div class="uk-width-medium-1-1">
+                <span class="icheck-inline" style="margin:0;">
+                    <input id="radio_menu_feautures_filter_mode_menu" type="radio" icheck ng-model="vm.data.sMenu.filterableStatus.current.mode" value="'menu'" ng-value="'menu'"/>
+                    <label for="radio_menu_feautures_filter_mode_menu" class="inline-label">Theo menu</label>
+                </span>
+                <span class="icheck-inline uk-margin-left" style="margin:0;">
+                    <input  id="radio_menu_feautures_filter_mode_row" type="radio" icheck ng-model="vm.data.sMenu.filterableStatus.current.mode" value="'row'" ng-value="'row'"/>
+                    <label for="radio_menu_feautures_filter_mode_row" class="inline-label">Theo hàng mới</label>
+                </span>
+                <span class="icheck-inline uk-margin-left" style="margin:0;">
+                    <input id="radio_menu_feautures_filter_mode_both" type="radio" icheck ng-model="vm.data.sMenu.filterableStatus.current.mode" value="'menu, row'" ng-value="'menu, row'"/>
+                    <label for="radio_menu_feautures_filter_mode_both" class="inline-label">Cả hai</label>
+                </span>
+            </div>
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline">
-                    <input id="cb_display_filterAndSort_isSortable" class="iCheckInput" type="checkbox" icheck ng-model="menuOptions.isSortable"/>
-                    <label for="cb_display_filterAndSort_isSortable" class="inline-label">Cho phép sắp xếp</label>
-                </span>
-            </div>
-
-            <div class="uk-width-medium-1-1" ng-show="menuOptions.isSortable">
-                <span class="icheck-inline">
-                    <input id="cb_display_filterAndSort_multipleMode" class="iCheckInput" type="checkbox" icheck ng-model="menuOptions.isSortable_MultipleMode"/>
-                    <label for="cb_display_filterAndSort_multipleMode" class="inline-label">Sắp xếp nhiều tầng</label>
-                </span>
-            </div>
-            <div class="uk-width-medium-1-1 uk-margin-medium-top">
-                <span class="icheck-inline">
-                    <input id="cb_display_filterAndSort_isFilterable" class="iCheckInput" type="checkbox" icheck ng-model="menuOptions.isFilterable"/>
-                    <label for="cb_display_filterAndSort_isFilterable" class="inline-label">Cho phép lọc dữ liệu</label>
-                </span>
-            </div>
-            <div class="uk-width-medium-1-1" ng-show="menuOptions.isFilterable">
-                <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isFilterable_mode_menu" type="radio" icheck ng-model="gridData.kGrid.kOptions.filterable.mode" value="'menu'" ng-value="'menu'"/>
-                    <label for="radio_isFilterable_mode_menu" class="inline-label">Theo menu</label>
-                </span>
-                <span class="icheck-inline" style="margin:0;">
-                    <input  id="radio_isFilterable_mode_row" type="radio" icheck ng-model="gridData.kGrid.kOptions.filterable.mode" value="'row'" ng-value="'row'"/>
-                    <label for="radio_isFilterable_mode_row" class="inline-label">Theo hàng mới</label>
-                </span>
-                <span class="icheck-inline" style="margin:0;">
-                    <input id="radio_isFilterable_mode_both" type="radio" icheck ng-model="gridData.kGrid.kOptions.filterable.mode" value="'menu, row'" ng-value="'menu, row'"/>
-                    <label for="radio_isFilterable_mode_both" class="inline-label">Cả hai</label>
-                </span>
-            </div>
-            <div class="uk-width-medium-1-1" ng-show="menuOptions.isFilterable">
-                <span class="icheck-inline">
-                    <input id="cb_display_filterAndSort_extra" class="iCheckInput" type="checkbox" icheck ng-model="gridData.kGrid.kOptions.filterable.extra"/>
-                    <label for="cb_display_filterAndSort_extra" class="inline-label">Kết hợp nhiều điều kiện</label>
+                    <input id="cb_menu_feautures_filter_extra" class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.filterableStatus.current.extra"/>
+                    <label for="cb_menu_feautures_filter_extra" class="inline-label">Kết hợp nhiều điều kiện</label>
                 </span>
             </div>   
         </div>
         <div class="uk-modal-footer uk-text-right">
-            <button type="button" class="md-btn md-btn-flat uk-modal-close">Close</button>
-            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary">Action</button>
+            <button type="button" class="md-btn md-btn-flat uk-modal-close">Đóng</button>
+            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary" ng-click="vm.utils.menu_features_filterAndSort.updateStatus()">Thực hiện</button>
         </div>
     </div>
 </div>
