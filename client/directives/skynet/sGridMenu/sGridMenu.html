@@ -438,10 +438,15 @@
             <div class="uk-width-medium-1-1">
                 <div class="uk-clearfix">
                     <div class="uk-float-right">
-                        <i class="md-icon material-icons no-animate" ng-class="{'color-primary': vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id, 'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-click="vm.utils.menu_config_manageConfig.modalOptions.mode='update'" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode===''">&#xE254;</i>
+                        <!-- UPDATE MODE -->
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-primary': vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id, 'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-click="vm.utils.menu_config_manageConfig.setMode('update')" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode===''">&#xE254;</i>
                         <i class="md-icon material-icons no-animate"  ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode==='update'" ng-click="vm.utils.menu_config_manageConfig.update()">&#xE161;</i>
                         <i class="md-icon material-icons no-animate" ng-class="{'color-primary': pageOptions.mode==='view'}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode==='update'" ng-click="vm.utils.menu_config_manageConfig.cancelUpdate()">&#xE14C;</i>
-                        <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode===''">&#xE872;</i>
+
+                        <!-- REMOVE MODE -->
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode===''" ng-click="vm.utils.menu_config_manageConfig.setMode('remove')">&#xE872;</i>
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode==='remove'" ng-click="vm.utils.menu_config_manageConfig.removeConfig(vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id)">&#xE16C;</i>
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode==='remove'" ng-click="vm.utils.menu_config_manageConfig.cancelRemove()">&#xE5C9;</i>
                     </div>                
                 </div>
             </div>
@@ -457,7 +462,7 @@
                     <input type="number" class="md-input" ng-model="vm.utils.menu_config_manageConfig.modalOptions.selectedConfig.order" md-input />
                 </div>
             </div>
-            <div class="uk-width-medium-1-1 uk-margin-medium-top">
+            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-if="vm.utils.menu_config_manageConfig.modalOptions.isModalActive">
                 <!--{{vm.utils.menu_config_manageConfig.modalOptions.selectedConfig}}-->
                 <kendo-grid k-options="vm.utils.menu_config_manageConfig.kGridUserConfigOptions" id="kGridUserConfig">
                 </kendo-grid>

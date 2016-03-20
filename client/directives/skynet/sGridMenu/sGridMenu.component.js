@@ -3,18 +3,15 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
         restrict: 'E',
         templateUrl: 'client/directives/skynet/sGridMenu/sGridMenu.html',
         scope: {
-            gridData: '=',
             pageOptions: '=',
             kGridDataSource: '=',
-            kData: '=',
-            kHelpers: '=',
             localConfigDataName: '=',
             cloudConfigDataName: '=' 
         },
         controllerAs: 'vm',
         // bindToController: true,
 
-        controller: function($scope, $rootScope, iNotifier, skynetKendoGrid, $auth, $reactive) {
+        controller: function($scope, $rootScope, iNotifier, skynetKendoGrid, $auth, $reactive, skynetKendoGrid) {
 
             $reactive(this).attach($scope);
 
@@ -26,7 +23,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             let vm = this;
             
             // $scope.kData = skynetKendoGrid.thietbis.data;
-            // $scope.kHelpers = skynetKendoGrid.thietbis.helpers;
+            vm._kHelpers = skynetKendoGrid.cauhois.helpers;
 
             vm.data = {
                 selector: '#myGrid',
@@ -80,32 +77,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 },                
             }
 
-            $scope.columnStatus = [];
-            $scope.UserConfigSettings = [];
-            $scope.SkynetConfigSettings = [];
-
-            $scope.pageable_master = angular.copy($scope.gridData.kGrid.kOptions.pageable);
-            $scope.sortable_master = angular.copy($scope.gridData.kGrid.kOptions.sortable);
-            $scope.filterable_master = angular.copy($scope.gridData.kGrid.kOptions.filterable);
-            $scope.selectable_master = $scope.gridData.kGrid.kOptions.selectable;
-            $scope.allowCopy_master = angular.copy($scope.gridData.kGrid.kOptions.allowCopy);
-            $scope.groupable_master = angular.copy($scope.gridData.kGrid.kOptions.groupable);
-            $scope.scrollable_master = angular.copy($scope.gridData.kGrid.kOptions.scrollable);
-
-            $scope.menuOptions = {
-                isPageable: $scope.gridData.kGrid.kOptions.pageable ? true : false,
-                isSelectable: $scope.gridData.kGrid.kOptions.selectable ? true : false,
-                isAllowCopy: $scope.gridData.kGrid.kOptions.allowCopy ? true : false,
-                isSortable: $scope.gridData.kGrid.kOptions.sortable ? true : false,
-                isSortable_MultipleMode: false,
-                isFilterable: $scope.gridData.kGrid.kOptions.filterable ? true : false,
-                isFilterable_mode: $scope.gridData.kGrid.kOptions.filterable.mode,
-                isGroupable: $scope.gridData.kGrid.kOptions.groupable ? true : false,
-                isScrollable: $scope.gridData.kGrid.kOptions.scrollable ? true : false,
-                
+            $scope.menuOptions = {                
                 // Chứa thông tin mới về cấu hình tạo bởi user hoặc admin
                 newConfig: {},
-                currentConfig: {},
                 isSaveDataLimitToLocalDevice: false,
             };
 
@@ -201,17 +175,18 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         UIkit.modal("#modal_menu_configs_saveCurrent").show();
                         break;
                     case "Quản lý cấu hình":
+                        // Quá trình sử dụng modal 'Quản lý cấu hình', ta phải dùng thêm 1 grid. Vì tần suất sử dụng modal này ít,
+                        // nên ta sử dụng ng-if để giới hạn thời điểm khi grid này được render. Sử dụng flag
+                        // 'vm.utils.menu_config_manageConfig.modalOptions.isModalActive' để kích hoạt.
+                        // Cờ này chỉ sử dụng để bật 1 lần duy nhất tại đây.
+                        vm.utils.menu_config_manageConfig.modalOptions.isModalActive = true;
                         UIkit.modal("#modal_menu_configs_manage").show();
                         break;
                     case "Trở về mặc định":
-                        $scope.utils.resetToDefaultConfig();
-                        break;
-                    case "Giới hạn dữ liệu":
-                        console.log('Fired!!');
-                        UIkit.modal("#modal_menu_data_limitDataRange").show();                        
+                        vm.utils.menu_config_resetToDefault.resetToDefaultConfig();
                         break;        
                 }
-                console.log("Selected: ", e);
+                // console.log("Selected: ", e);
             }
 
 
@@ -413,8 +388,27 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             $scope.kGridDataSource.group(config.gia_tri.kDataSource.group);
                             $scope.kGridDataSource.aggregate(config.gia_tri.kDataSource.aggregate);
                             $scope.kGridDataSource.pageSize(config.gia_tri.kDataSource.pageSize);
-                            $scope.kGridDataSource.sort(config.gia_tri.kDataSource.sort);
+                            if (config.gia_tri.kDataSource.sort)
+                                $scope.kGridDataSource.sort(config.gia_tri.kDataSource.sort);
+                            else 
+                                $scope.kGridDataSource.sort([]);
                         }
+                    }
+                },
+
+                // Menu: Cấu hình -> Trở về mặc định
+                menu_config_resetToDefault: {
+                    resetToDefaultConfig: function() {
+                        let options = _.omit(vm._kHelpers.initDefaultOptions(), 'dataSource');
+                        console.log('options default: ', options);
+                        // Set options
+                        vm.data.kGrid.setOptions(options);
+                        // Reset cấu hình dataSource
+                        $scope.kGridDataSource.filter([]);
+                        $scope.kGridDataSource.group([]);
+                        $scope.kGridDataSource.aggregate([]);
+                        $scope.kGridDataSource.pageSize(5);
+                        $scope.kGridDataSource.sort([]);
                     }
                 },
 
@@ -482,8 +476,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         }]
                     },
                     modalOptions: {
+                        isModalActive: false,
                         mode: '',
-                        selectedConfig: {} 
+                        selectedConfig: {}
                     },
                     closeModal: () => {
                         let modal = UIkit.modal("#modal_menu_configs_manage");
@@ -492,6 +487,10 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             vm.utils.menu_config_manageConfig.modalOptions.mode = '';
                             modal.hide();
                         }
+                    },
+                    setMode: function(mode) {
+                        if (!_.isEmpty(this.modalOptions.selectedConfig))
+                            this.modalOptions.mode = mode;
                     },
                     validateBeforeUpdate: function(source) {
                         let error = {};
@@ -550,6 +549,19 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             iNotifier.error(err.message);
                         }
                     },
+                    cancelRemove: function() {
+                        this.modalOptions.mode = '';
+
+                        // Bỏ chọn cấu hình hiện tại
+                        this.modalOptions.selectedConfig = {};
+                        $("#kGridUserConfig").data("kendoGrid").clearSelection();
+                    },
+                    removeConfig: function(id) {
+                        if (id)
+                            UserSettings.remove({_id: id});
+                        this.cancelRemove();
+                    },
+                    
                     // Cập nhật menu config item qua vm.helpers
                     updateMenuOnUserConfigs: function(settings) {                    
                         // Tách các config thành các config của người dùng và của Skynet (isPublic=true)
@@ -686,270 +698,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             iNotifier.error(err.message);
                         }
                     }
-                }
-            }
-            $scope.utils = {
-                // menu_data_columns: function() {},
-                // initColumnStatus: function() {
-                //     let activeColumnFields = _.pluck($scope.gridData.kGrid.kOptions.columns, 'field');
-
-                //     $scope.columnStatus = _.map($scope.kData.config.availableColumns, (item) => {
-                //         item.isActive = _.contains(activeColumnFields, item.field);
-                //         return item;
-                //     });
-                // },
-                // updateStatus: function() {
-
-                //     let activeColumns = _.pluck(_.filter($scope.columnStatus, (item) => {
-                //         return item.isActive;
-                //     }), 'field');
-
-                //     $scope.gridData.kGrid.kOptions.columns = $scope.kHelpers.buildGridColumns(activeColumns);
-                //     $scope.gridData.kGrid.kData.dataSource.schema.model = $scope.kHelpers.buildGridSchemaModel(activeColumns);
-                // },
-                updateMenuOnUserConfigs: function(settings) {
-                    
-                    let newUserConfigItems = [],
-                        newSkynetConfigItems = [];
-
-                    if (settings.length) {
-                        let userSettings = _.where(settings, {'isPublic': false}),
-                        skynetSettings = _.where(settings, {'isPublic': true});
-                        
-                        if (userSettings.length) {
-                            $scope.UserConfigSettings = _.map(userSettings, (item) => {
-                                return {
-                                    _id: item._id,
-                                    ten: item.ten,
-                                    order: item.order,
-                                    gia_tri: JSON.parse(item.gia_tri)
-                                }
-                            });
-                            console.log('Parsed UserSettings: ', $scope.UserConfigSettings);
-                            let newUserConfigItems = _.map($scope.UserConfigSettings, (item) => {
-                                return {
-                                    text: '<span ng-click="utils.loadUserConfig(\'' + item._id + '\')">' + item.ten + '</span> <span ng-show="menuOptions.currentConfig._id===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
-                                    encoded: false
-                                }
-                            });
-                            
-                            // NEED MODIFY HERE!!!
-                            $scope.kendoMenu.dataSource[2].items[0].items[0].items = newUserConfigItems;
-
-                        } else {
-                            $scope.UserConfigSettings = [];
-                            $scope.kendoMenu.dataSource[2].items[0].items[0].items = null;
-                        }
-                        if (skynetSettings.length) {
-                            $scope.SkynetConfigSettings = _.map(skynetSettings, (item) => {
-                                return {
-                                    _id: item._id,
-                                    ten: item.ten,
-                                    order: item.order,
-                                    gia_tri: JSON.parse(item.gia_tri)
-                                }
-                            });
-                            console.log('Parsed SkynetSettings: ', $scope.SkynetConfigSettings);
-                            let newSkynetConfigItems = _.map($scope.SkynetConfigSettings, (item) => {
-                                return {
-                                    text: '<span ng-click="utils.loadUserConfig(\'' + item._id + '\', \'skynet\')">' + item.ten + '</span> <span ng-show="menuOptions.currentConfig._id===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
-                                    encoded: false
-                                }
-                            });
-
-                            // NEED MODIFY HERE!!!
-                            $scope.kendoMenu.dataSource[2].items[0].items[1].items = newSkynetConfigItems;
-
-                        }  else {
-                            $scope.SkynetConfigSettings = [];
-                            $scope.kendoMenu.dataSource[2].items[0].items[1].items = null;
-                        }                      
-                    }    
-                },
-                loadUserConfig: function(id, from) {
-                    let config = {};
-                    
-                    if (from == 'skynet')
-                        config = _.findWhere($scope.SkynetConfigSettings, {_id: id});
-                    else 
-                        config = _.findWhere($scope.UserConfigSettings, {_id: id});
-                    
-                    if (!_.isEmpty(config)) {
-                        $scope.menuOptions.currentConfig = angular.copy(config);
-                        $scope.gridData.kGrid.kOptions = angular.copy($scope.menuOptions.currentConfig.gia_tri.kGridOptions);
-                        this.loadUserConfigOnDataSource($scope.menuOptions.currentConfig.gia_tri.kDataSource);
-                    }
-                },
-                loadUserConfigOnDataSource: function(config) {
-                    $scope.gridData.kGrid.kData.dataSource.aggregate = angular.copy(config.aggregate);
-                    $scope.gridData.kGrid.kData.dataSource.batch = config.batch;
-                    $scope.gridData.kGrid.kData.dataSource.filter = angular.copy(config.filter);
-                    $scope.gridData.kGrid.kData.dataSource.group = angular.copy(config.group);
-                    $scope.gridData.kGrid.kData.dataSource.pageSize = config.pageSize;
-                    $scope.gridData.kGrid.kData.dataSource.schema =  angular.copy(config.schema);
-                    $scope.gridData.kGrid.kData.dataSource.sort = angular.copy(config.sort);
-                },
-                initNewKendoGridConfig: function(config) {
-                    config.ten = '',
-                        config.order = 10,
-                        config.user = {},
-                        config.phan_loai = $scope.cloudConfigDataName,
-                        config.isPublic = false,
-                        config.metadata = {}
-                },
-                validateKendoGridConfig: function(config) {
-                    let error = {};
-                    if (!Meteor.userId())
-                        error.message = "Bạn cần đăng nhập để sử dụng chức năng này.";
-                    if (!config.ten)
-                        error.message = "Bạn cần nhập tên cấu hình mới trước khi lưu.";
-                    return error;
-                },
-                buildKendoGridConfig: function(config) {
-                    let user = Meteor.user();
-                    config.user = {
-                        keyId: user._id,
-                        email: user.emails[0].address,
-                        profileName: user.profile.name
-                    };
-                    config.phan_loai = $scope.cloudConfigDataName;
-                    config.metadata = {
-                        ngay_tao: new Date(),
-                    }
-                    config.metadata.nguoi_tao_field = '';
-                    if (Meteor.user().profile && Meteor.user().profile.name) {
-                        config.metadata.nguoi_tao_name = Meteor.user().profile.name;
-                        config.metadata.nguoi_tao_field += config.metadata.nguoi_tao_name;
-                    }
-                    config.metadata.nguoi_tao_field += ':' + Meteor.user().emails[0].address;
-
-                    // Chỉ có admin mới có thể tạo các trường public
-                    if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
-                        config.isPublic = false;
-
-                    let options = vm.data.kGrid.getOptions();
-                    config.gia_tri = JSON.stringify({
-                        kGridOptions: _.omit(options, 'dataSource'),
-                        kDataSource: _.omit(options.dataSource, 'data')
-                    });
-                },
-                saveKendoGridConfig: function() {
-                    let err = this.validateKendoGridConfig($scope.menuOptions.newConfig);
-                    if (_.isEmpty(err)) {
-                        this.buildKendoGridConfig($scope.menuOptions.newConfig);
-                        console.log('build: ', $scope.menuOptions.newConfig);
-                        UserSettings.insert($scope.menuOptions.newConfig, (err, result) => {
-                            if (err) {
-                                iNotifier.error('Không thể tạo mới cấu hình này. ' + err.message + '.');
-                            } else {
-                                this.initNewKendoGridConfig($scope.menuOptions.newConfig);
-                                iNotifier.success('Cấu hình của bạn đã được lưu trữ thành công.');
-                            }
-                        });
-                    } else {
-                        iNotifier.error(err.message);
-                    }
-                },
-                manageUserConfig: {
-                    isOnEditMode: false,
-                    selectedConfig: {},
-                    removeConfig: function(id) {
-                        UserSettings.remove({_id: id});
-                        // let settings = UserSettings.find({
-                        //     $or: [{
-                        //        $and: [{
-                        //             'user.keyId': Meteor.userId()
-                        //         }, {
-                        //             phan_loai: $scope.cloudConfigDataName
-                        //         }] 
-                        //     }, {
-                        //         $and: [{
-                        //             'isPublic': true
-                        //         }, {
-                        //             phan_loai: $scope.cloudConfigDataName
-                        //         }]
-                        //     }]                        
-                        // }, {
-                        //     sort: {
-                        //         'order': 1
-                        //     }
-                        // }).fetch();
-                        // $scope.utils.updateMenuOnUserConfigs(settings);
-                    },
-                    editConfig: function(id) {
-                        this.isOnEditMode = true;
-                        this.selectedConfig = UserSettings.findOne({_id: id});
-                    },
-                    saveConfig: function(id) {
-                        if (id === this.selectedConfig._id) {
-                            let setObj = {
-                                ten: this.selectedConfig.ten,
-                                order: this.selectedConfig.order,
-                                'metadata.ngay_cap_nhat_cuoi': new Date()
-                            };
-
-                            if (Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project'))
-                                setObj.isPublic = this.selectedConfig.isPublic;
-
-                            UserSettings.update({
-                                _id: id
-                            }, {
-                                $set: setObj
-                            }, (error) => {
-                                if (error) {
-                                    iNotifier.error('Không thể cập nhật cấu hình này. ' + error.message + '.');
-                                } else {
-                                    $scope.$apply(() => {
-                                        this.isOnEditMode = false;
-                                        this.selectedConfig = {}; 
-                                    });                                    
-                                }
-                            });
-                        }                            
-                    },
-                },
-                setFilterNhomId: function(e) {
-                    $scope.pageOptions.filters.filterNhomId = e.sender._old;
-                },
-                resetToDefaultConfig: function() {
-                    $scope.gridData.kGrid.kOptions = angular.copy($scope.kHelpers.initDefaultOptions());
-                    $scope.kHelpers.initDefaultDataSource($scope.gridData.kGrid.kData.dataSource);
-                    $scope.menuOptions.currentConfig = {};
-                },
-                saveDataConfigToLocalDevice: function() {
-                    $scope.pageOptions.filters.nhomsFilterSource = [];
-                    _.each($scope.pageOptions.filters.nhomsFilterSource, (item) => {
-                        if (item.isActive)
-                            $scope.pageOptions.filters.nhomsFilterSource.push(item._id);
-                    });
-                    let config_data_range = {
-                        isDisplayTopBar: $scope.pageOptions.isDisplayTopBar,
-                        isDisplayFullWidthGrid: $scope.pageOptions.isDisplayFullWidthGrid,
-                        topBarHeight: $scope.pageOptions.topBarHeight,
-                        filters: {
-                            filterNhomId: $scope.pageOptions.filters.filterNhomId,
-                            nhomsFilterSource: $scope.pageOptions.filters.nhomsFilterSource
-                        }                        
-                    }
-                    console.log('local data to save: ', config_data_range);
-                    localStorage.setItem($scope.localConfigDataName, JSON.stringify(config_data_range));                    
-                    iNotifier.success('Thiết lập về truy vấn dữ liệu đã được lưu lại trên thiết bị của bạn.');
-                    
-                    // TO SET DATA: localStorage.setItem(fileNamToSaveLocal, JSON.stringify(config_data_range));
-                    // TO REMOVE DATA: localStorage.removeItem('notification_style')
-                    // TO GET DATA: $scope.notificationStyle = localStorage.getItem("notification_style");
-
-                    $scope.menuOptions.isSaveDataLimitToLocalDevice = false;
-                },
-                resetDataConfigToLocalDevice: function() {
-                    localStorage.removeItem($scope.localConfigDataName);
-                    _.each($scope.pageOptions.filters.nhomsFilterSource, (item) => {
-                        item.isActive = true;
-                    });
-                    $scope.pageOptions.filters.filterNhomId = '';
-                    $scope.pageOptions.isDisplayTopBar = true;
-                    $scope.pageOptions.topBarHeight = 'x1';
-                    iNotifier.info('Các thiết lập về truy vấn dữ liệu trên thiết bị của bạn đã được đưa về mặc định.');
                 }
             }
 
