@@ -1,11 +1,11 @@
-<div class="md-card" ng-class="{'topbar-double-height': pageOptions.topBarHeight=='x2', 'below-hidden-topbar': !pageOptions.isDisplayTopBar}">
+<div class="md-card" ng-class="{'topbar-double-height': vm.pageOptions.topBarHeight=='x2', 'below-hidden-topbar': !vm.pageOptions.isDisplayTopBar}">
     <div class="md-card-content">
         <ul id="menu" 
             kendo-menu
-            k-data-source="kendoMenu.dataSource"
+            k-data-source="vm.kendoMenu.dataSource"
             k-orientation="'horizontal'"
-            k-on-select="onSelect(kendoEvent)"
-            k-rebind="kendoMenu">
+            k-on-select="vm.onSelect(kendoEvent)"
+            k-rebind="vm.kendoMenu">
         </ul>
     </div>
 </div>
@@ -49,48 +49,48 @@
         <div class="uk-grid">
             <div class="uk-width-medium-1-1">
                 <span class="icheck-inline uk-margin-left">
-                    <input id="cb_menu_data_limitDataRange_isDisplayTopBar" class="iCheckInput" type="checkbox" icheck ng-model="pageOptions.isDisplayTopBar"/>
+                    <input id="cb_menu_data_limitDataRange_isDisplayTopBar" class="iCheckInput" type="checkbox" icheck ng-model="vm.pageOptions.isDisplayTopBar"/>
                     <label for="cb_menu_data_limitDataRange_isDisplayTopBar" class="inline-label">Hiển thị thanh dữ liệu</label>
                 </span>
             </div>
-            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-show="pageOptions.isDisplayTopBar">
+            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-show="vm.pageOptions.isDisplayTopBar">
                 <div class="uk-form-stacked uk-margin-left">
                     <label>Kích thước:</label>                
-                    <select kendo-drop-down-list ng-model="pageOptions.topBarHeight">
+                    <select kendo-drop-down-list ng-model="vm.pageOptions.topBarHeight">
                         <option value='x1'>Chiều cao x1</option>
                         <option value='x2'>Chiều cao x2</option>
                     </select>
                 </div>
             </div>
-            <div class="uk-width-medium-1-1 uk-margin-small-top" ng-show="pageOptions.isDisplayTopBar">
+            <div class="uk-width-medium-1-1 uk-margin-small-top" ng-show="vm.pageOptions.isDisplayTopBar">
                 <div class="uk-form-stacked uk-margin-left">
                     <label>Giới hạn dữ liệu theo:</label>
-                    <select kendo-drop-down-list k-value="pageOptions.filters.filterNhomId" k-data-text-field="'ten'" k-data-value-field="'ma'" k-data-source="pageOptions.filters.nhomsFilterSource" k-readonly="true" k-on-change="vm.utils.menu_data_topbar.setFilterNhomId(kendoEvent)">
+                    <select kendo-drop-down-list k-value="vm.pageOptions.filters.filterNhomId" k-data-text-field="'ten'" k-data-value-field="'ma'" k-data-source="vm.pageOptions.filters.nhomsFilterSource" k-readonly="true" k-on-change="vm.utils.menu_data_topbar.setFilterNhomId(kendoEvent)">
                     </select>
                 </div>
             </div>
             
             
-            <div class="uk-width-medium-1-1 uk-margin-medium-top uk-margin-left" ng-show="pageOptions.isDisplayTopBar">
+            <div class="uk-width-medium-1-1 uk-margin-medium-top uk-margin-left" ng-show="vm.pageOptions.isDisplayTopBar">
                 Các mục hiển thị trên thanh dữ liệu:
             </div>
-            <div class="uk-width-medium-1-3" ng-repeat="nhom in pageOptions.filters.nhomsFilterSource" ng-show="pageOptions.isDisplayTopBar"> 
+            <div class="uk-width-medium-1-3" ng-repeat="nhom in vm.pageOptions.filters.nhomsFilterSource" ng-show="vm.pageOptions.isDisplayTopBar"> 
                 <span class="icheck-inline uk-margin-left">
                     <input id="cb_menu_data_limitDataRange_filterNhomId_{{nhom.ma}}" class="iCheckInput" type="checkbox" icheck ng-model="nhom.isActive"/>
                     <label for="cb_menu_data_limitDataRange_filterNhomId_{{nhom.ma}}" class="inline-label">{{nhom.ten}}</label>
                 </span>
             </div>
-            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-show="pageOptions.isDisplayTopBar">
+            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-show="vm.pageOptions.isDisplayTopBar">
                 <span class="icheck-inline  uk-margin-left">
-                    <input id="cb_menu_data_limitDataRange_isSaveToLocalDevice" class="iCheckInput" type="checkbox" icheck ng-model="menuOptions.isSaveDataLimitToLocalDevice"/>
+                    <input id="cb_menu_data_limitDataRange_isSaveToLocalDevice" class="iCheckInput" type="checkbox" icheck ng-model="vm.menuOptions.isSaveDataLimitToLocalDevice"/>
                     <label for="cb_menu_data_limitDataRange_isSaveToLocalDevice" class="inline-label">Lưu các thiết lập này trên thiết bị của tôi</label>
                 </span>
             </div>         
         </div>
         <div class="uk-modal-footer uk-text-right">
             <button type="button" class="md-btn md-btn-flat uk-modal-close">Đóng</button>
-            <button type="button" class="md-btn md-btn-flat no-animate" ng-click="vm.utils.menu_data_topbar.resetConfigToLocalDevice()" ng-hide="menuOptions.isSaveDataLimitToLocalDevice">Reset</button>
-            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary no-animate" ng-click="vm.utils.menu_data_topbar.saveConfigToLocalDevice()" ng-show="menuOptions.isSaveDataLimitToLocalDevice">Lưu thiết lập</button>
+            <button type="button" class="md-btn md-btn-flat no-animate" ng-click="vm.utils.menu_data_topbar.resetConfigToLocalDevice()" ng-hide="vm.menuOptions.isSaveDataLimitToLocalDevice">Reset</button>
+            <button type="button" class="md-btn md-btn-flat md-btn-flat-primary no-animate" ng-click="vm.utils.menu_data_topbar.saveConfigToLocalDevice()" ng-show="vm.menuOptions.isSaveDataLimitToLocalDevice">Lưu thiết lập</button>
         </div>
     </div>
 </div>
@@ -358,7 +358,7 @@
                     <label for="cb_menu_data_generalSettings_groupable" class="inline-label">Kéo thả để nhóm dữ liệu</label>
                 </span>
             </div>
-            <div class="uk-width-medium-1-1" ng-show="menuOptions.isGroupable">
+            <div class="uk-width-medium-1-1" ng-show="vm.menuOptions.isGroupable">
                 <span class="icheck-inline uk-margin-left">
                     <input id="cb_menu_data_generalSettings_groupable_showFooter" class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.status.groupable.current.showFooter"/>
                     <label for="cb_menu_data_generalSettings_groupable_showFooter" class="inline-label">Hiện các thống kê theo nội dung được nhóm</label>
@@ -367,7 +367,7 @@
             <div class="uk-width-medium-1-1 uk-margin-medium-top">
                 Cuộn trang:
             </div>
-            <div class="uk-width-medium-1-1" ng-show="menuOptions.isScrollable">
+            <div class="uk-width-medium-1-1" ng-show="vm.menuOptions.isScrollable">
                 <span class="icheck-inline uk-margin-left">
                     <input id="cb_menu_data_generalSettings_scrollable_virtual" class="iCheckInput" type="checkbox" icheck ng-model="vm.data.sMenu.status.scrollable.current.virtual"/>
                     <label for="cb_menu_data_generalSettings_scrollable_virtual" class="inline-label">Sử dụng ảo hóa để cuộn trang</label>
@@ -407,17 +407,17 @@
             <div class="uk-width-medium-2-3 uk-margin-small-top">
                 <div class="uk-form-row">
                     <label>Tên cấu hình</label>
-                    <input type="text" class="md-input label-fixed" ng-model="menuOptions.newConfig.ten" md-input />
+                    <input type="text" class="md-input label-fixed" ng-model="vm.menuOptions.newConfig.ten" md-input />
                 </div>
             </div>
             <div class="uk-width-medium-1-3 uk-margin-small-top">
                 <div class="uk-form-row">
                     <label>Mức ưu tiên</label>
-                    <input type="number" class="md-input label-fixed" ng-model="menuOptions.newConfig.order" md-input />
+                    <input type="number" class="md-input label-fixed" ng-model="vm.menuOptions.newConfig.order" md-input />
                 </div>
             </div> 
-            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-show="isAdmin">
-                <input type="checkbox" icheck ng-model="menuOptions.newConfig.isPublic"/> Đồng bộ tới tất cả người dùng
+            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-show="vm.isAdmin">
+                <input type="checkbox" icheck ng-model="vm.menuOptions.newConfig.isPublic"/> Đồng bộ tới tất cả người dùng
             </div>           
         </div>
         <div class="uk-modal-footer uk-text-right">
@@ -441,7 +441,7 @@
                         <!-- UPDATE MODE -->
                         <i class="md-icon material-icons no-animate" ng-class="{'color-primary': vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id, 'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-click="vm.utils.menu_config_manageConfig.setMode('update')" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode===''">&#xE254;</i>
                         <i class="md-icon material-icons no-animate"  ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode==='update'" ng-click="vm.utils.menu_config_manageConfig.update()">&#xE161;</i>
-                        <i class="md-icon material-icons no-animate" ng-class="{'color-primary': pageOptions.mode==='view'}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode==='update'" ng-click="vm.utils.menu_config_manageConfig.cancelUpdate()">&#xE14C;</i>
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-primary': vm.pageOptions.mode==='view'}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode==='update'" ng-click="vm.utils.menu_config_manageConfig.cancelUpdate()">&#xE14C;</i>
 
                         <!-- REMOVE MODE -->
                         <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.utils.menu_config_manageConfig.modalOptions.selectedConfig._id}" ng-show="vm.utils.menu_config_manageConfig.modalOptions.mode===''" ng-click="vm.utils.menu_config_manageConfig.setMode('remove')">&#xE872;</i>
@@ -463,49 +463,8 @@
                 </div>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-if="vm.utils.menu_config_manageConfig.modalOptions.isModalActive">
-                <!--{{vm.utils.menu_config_manageConfig.modalOptions.selectedConfig}}-->
                 <kendo-grid k-options="vm.utils.menu_config_manageConfig.kGridUserConfigOptions" id="kGridUserConfig">
                 </kendo-grid>
-                <!--
-                <table class="uk-table">
-                    <thead>
-                    <tr>
-                        <th class="uk-width-4-10">TIÊU ĐỀ</th>
-                        <th class="uk-width-3-10 uk-text-right">MỨC ƯU TIÊN</th>
-                        <th class="uk-width-3-10 uk-text-right">TÁC VỤ</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in vm.data.sMenu.config.userGridSettings">
-                            <td>
-                                <span class="uk-form-row no-animate" ng-hide="utils.manageUserConfig.isOnEditMode&&(utils.manageUserConfig.selectedConfig._id===item._id)" ng-class="{'uk-text-primary': item._id===menuOptions.currentConfig._id}">
-                                    {{item.ten}} 
-                                </span>
-                                <div class="no-animate" ng-show="utils.manageUserConfig.isOnEditMode&&(utils.manageUserConfig.selectedConfig._id===item._id)">
-                                    <input type="text" class="md-input label-fixed" ng-model="utils.manageUserConfig.selectedConfig.ten" md-input />
-                                </div>
-                            </td>
-                            <td class="uk-text-right">
-                                <span class="uk-form-row no-animate" ng-hide="utils.manageUserConfig.isOnEditMode&&(utils.manageUserConfig.selectedConfig._id===item._id)">
-                                    {{item.order}}
-                                </span>
-                                <div class="no-animate" ng-show="utils.manageUserConfig.isOnEditMode&&(utils.manageUserConfig.selectedConfig._id===item._id)">
-                                    <input type="number" class="md-input label-fixed" ng-model="utils.manageUserConfig.selectedConfig.order" md-input />
-                                </div>
-                            </td>
-                            <td class="uk-text-right">
-
-                                <i class="md-icon material-icons no-animate" ng-hide="utils.manageUserConfig.isOnEditMode&&(utils.manageUserConfig.selectedConfig._id===item._id)" ng-click="utils.manageUserConfig.editConfig(item._id)">&#xE254;</i>
-
-                                <i class="md-icon material-icons no-animate" ng-show="utils.manageUserConfig.isOnEditMode&&(utils.manageUserConfig.selectedConfig._id===item._id)" ng-click="utils.manageUserConfig.saveConfig(item._id)">&#xE876;</i>
-
-                                <i class="md-icon material-icons no-animate" ng-hide="utils.manageUserConfig.isOnEditMode" ng-click="utils.manageUserConfig.removeConfig(item._id)">&#xE872;</i>
-                            </td>
-                        </tr> 
-                        <tr ng-if="!UserConfigSettings.length"><td>Chưa có cấu hình để hiển thị</td><td></td><td></td></tr>                      
-                    </tbody>
-                </table>
-                -->
             </div>
         </div>
         <div class="uk-modal-footer uk-text-right">

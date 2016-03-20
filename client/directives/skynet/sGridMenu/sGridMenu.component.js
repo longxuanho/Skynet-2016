@@ -9,7 +9,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             cloudConfigDataName: '=' 
         },
         controllerAs: 'vm',
-        // bindToController: true,
+        bindToController: true,
 
         controller: function($scope, $rootScope, iNotifier, skynetKendoGrid, $auth, $reactive, skynetKendoGrid) {
 
@@ -22,7 +22,6 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
              // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;
             
-            // $scope.kData = skynetKendoGrid.thietbis.data;
             vm._kHelpers = skynetKendoGrid.cauhois.helpers;
 
             vm.data = {
@@ -77,15 +76,17 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 },                
             }
 
-            $scope.menuOptions = {                
+            vm.menuOptions = {                
                 // Chứa thông tin mới về cấu hình tạo bởi user hoặc admin
                 newConfig: {},
+                // Chứa thông tinh về id cấu hình hiện tại -> hiển thị dấu tích nhỏ bên cạnh cấu hình được chọn
+                currentConfigId: '',
                 isSaveDataLimitToLocalDevice: false,
             };
 
-            $scope.currentUser = Meteor.user();
+            // $scope.currentUser = Meteor.user();
 
-            $scope.kendoMenu = {
+            vm.kendoMenu = {
                 // CAUTION: NHỚ CẬP NHẬT LẠI HÀM UTILS.updateMenuOnUserConfigs() TRƯỚC KHI ĐỔI VỊ TRÍ CÁC MỤC TRONG MENU!
                 dataSource: [{
                     text: "Dữ liệu",
@@ -134,7 +135,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             // ***************************************************
             // METHODS
             // ***************************************************
-            $scope.onSelect = function(e) {
+            vm.onSelect = function(e) {
                 let textContent = e.item.textContent;
                 vm.data.kGrid = $(vm.data.selector).data("kendoGrid");
 
@@ -225,35 +226,35 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 // Menu: Dữ liệu -> Thanh dữ liệu
                 menu_data_topbar: {
                     setFilterNhomId: function(e) {
-                        $scope.pageOptions.filters.filterNhomId = e.sender._old;
+                        vm.pageOptions.filters.filterNhomId = e.sender._old;
                     },
                     // TO SET DATA: localStorage.setItem(fileNamToSaveLocal, JSON.stringify(config_data_range));
                     // TO REMOVE DATA: localStorage.removeItem('notification_style')
                     // TO GET DATA: $scope.notificationStyle = localStorage.getItem("notification_style");
                     saveConfigToLocalDevice: function() {
                         let config_data_range = {
-                            isDisplayTopBar: $scope.pageOptions.isDisplayTopBar,
-                            topBarHeight: $scope.pageOptions.topBarHeight,
+                            isDisplayTopBar: vm.pageOptions.isDisplayTopBar,
+                            topBarHeight: vm.pageOptions.topBarHeight,
                             filters: {
-                                filterNhomId: $scope.pageOptions.filters.filterNhomId,
-                                nhomsFilterSource: $scope.pageOptions.filters.nhomsFilterSource
+                                filterNhomId: vm.pageOptions.filters.filterNhomId,
+                                nhomsFilterSource: vm.pageOptions.filters.nhomsFilterSource
                             }                        
                         }
                         console.log('local data to save: ', config_data_range);
-                        localStorage.setItem($scope.localConfigDataName, JSON.stringify(config_data_range));                    
+                        localStorage.setItem(vm.localConfigDataName, JSON.stringify(config_data_range));                    
                         iNotifier.success('Thiết lập về truy vấn dữ liệu đã được lưu lại trên thiết bị của bạn.');                     
                         
                         // Reset lại check box 'Lưu các thiết lập này trên thiết bị của tôi'
-                        $scope.menuOptions.isSaveDataLimitToLocalDevice = false;
+                        vm.menuOptions.isSaveDataLimitToLocalDevice = false;
                     },
                     resetConfigToLocalDevice: function() {
-                        localStorage.removeItem($scope.localConfigDataName);
-                        _.each($scope.pageOptions.filters.nhomsFilterSource, (item) => {
+                        localStorage.removeItem(vm.localConfigDataName);
+                        _.each(vm.pageOptions.filters.nhomsFilterSource, (item) => {
                             item.isActive = true;
                         });
-                        $scope.pageOptions.filters.filterNhomId = '';
-                        $scope.pageOptions.isDisplayTopBar = true;
-                        $scope.pageOptions.topBarHeight = 'x1';
+                        vm.pageOptions.filters.filterNhomId = '';
+                        vm.pageOptions.isDisplayTopBar = true;
+                        vm.pageOptions.topBarHeight = 'x1';
                         iNotifier.info('Các thiết lập về truy vấn dữ liệu trên thiết bị của bạn đã được đưa về mặc định.');
                     }
                 },
@@ -292,15 +293,15 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 menu_features_paging: {
                     readStatus: () => {
                         vm.data.sMenu.status.pageable.current = vm.data.kGrid.getOptions().pageable;
-                        vm.data.sMenu.status.pageable.pageSize = $scope.kGridDataSource.pageSize();
+                        vm.data.sMenu.status.pageable.pageSize = vm.kGridDataSource.pageSize();
                     },
                     updateStatus: () => {
                         vm.data.kGrid.setOptions({
                             pageable: vm.data.sMenu.status.pageable.current
                         });
                         // Nếu người dùng thay đổi số mục hiển thị mỗi trang -> cập nhật thay đổi này
-                        if (vm.data.sMenu.status.pageable.pageSize !== $scope.kGridDataSource.pageSize())
-                            $scope.kGridDataSource.pageSize(vm.data.sMenu.status.pageable.pageSize);
+                        if (vm.data.sMenu.status.pageable.pageSize !== vm.kGridDataSource.pageSize())
+                            vm.kGridDataSource.pageSize(vm.data.sMenu.status.pageable.pageSize);
                         
                         vm.utils.menu_features_paging.readStatus();
                     },
@@ -384,14 +385,17 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             // Load cấu hình options
                             vm.data.kGrid.setOptions(config.gia_tri.kGridOptions);
                             // Load cấu hình dataSource
-                            $scope.kGridDataSource.filter(config.gia_tri.kDataSource.filter);
-                            $scope.kGridDataSource.group(config.gia_tri.kDataSource.group);
-                            $scope.kGridDataSource.aggregate(config.gia_tri.kDataSource.aggregate);
-                            $scope.kGridDataSource.pageSize(config.gia_tri.kDataSource.pageSize);
+                            vm.kGridDataSource.filter(config.gia_tri.kDataSource.filter);
+                            vm.kGridDataSource.group(config.gia_tri.kDataSource.group);
+                            vm.kGridDataSource.aggregate(config.gia_tri.kDataSource.aggregate);
+                            vm.kGridDataSource.pageSize(config.gia_tri.kDataSource.pageSize);
                             if (config.gia_tri.kDataSource.sort)
-                                $scope.kGridDataSource.sort(config.gia_tri.kDataSource.sort);
+                                vm.kGridDataSource.sort(config.gia_tri.kDataSource.sort);
                             else 
-                                $scope.kGridDataSource.sort([]);
+                                vm.kGridDataSource.sort([]);
+
+                            // Sau khi load cấu hình, đặt lại giá trị currentConfigId để hiển thị dấu tích nhỏ bên cạnh cấu hình được chọn
+                            vm.menuOptions.currentConfigId = config._id;
                         }
                     }
                 },
@@ -404,11 +408,11 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         // Set options
                         vm.data.kGrid.setOptions(options);
                         // Reset cấu hình dataSource
-                        $scope.kGridDataSource.filter([]);
-                        $scope.kGridDataSource.group([]);
-                        $scope.kGridDataSource.aggregate([]);
-                        $scope.kGridDataSource.pageSize(5);
-                        $scope.kGridDataSource.sort([]);
+                        vm.kGridDataSource.filter([]);
+                        vm.kGridDataSource.group([]);
+                        vm.kGridDataSource.aggregate([]);
+                        vm.kGridDataSource.pageSize(5);
+                        vm.kGridDataSource.sort([]);
                     }
                 },
 
@@ -429,11 +433,16 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                                         },
                                         'metadata.ngay_tao': {
                                             type: 'date'
+                                        },
+                                        'user.keyId': {
+                                            type: 'string'
                                         }
                                     }
                                 }
                             }
                         }),
+                        // Có thể dùng template ở đây hoặc dùng columns.template
+                        // rowTemplate: '<tr data-uid="#= uid #"><td>#: ten #</td><td style="text-align: right;">#: order #</td><td>#: kendo.toString(metadata.ngay_tao, "yyyy-MM-dd") #</td></tr>',
                         sortable: true,
                         pageable: false,
                         selectable: 'row',
@@ -459,15 +468,15 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             field: "ten",
                             title: "Tên cấu hình",
                             width: "120px",
-
-                        },{
+                            // template: "<span ng-class=\"{'color-primary': #: user.keyId # === vm.currentUser._id}\">#: ten #</span>"
+                        }, {
                             field: "order",
                             title: "Mức ưu tiên",
                             width: "60px",
                             attributes: {
                                 style: "text-align: right;"
                             }
-                        },{
+                        }, {
                             field: "metadata.ngay_tao",
                             title: "Ngày tạo",
                             width: "80px",
@@ -569,7 +578,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             newSkynetConfigItems = [];
 
                         if (settings.length) {
-                            let userSettings = _.where(settings, {'isPublic': false}),
+                            let userSettings = _.filter(settings, (item) => {
+                                return item.user.keyId === Meteor.userId();
+                            }),
                                 skynetSettings = _.where(settings, {'isPublic': true});
                             
                             if (userSettings.length) {
@@ -590,17 +601,17 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                                 // Cập nhật menu
                                 let newUserConfigItems = _.map(vm.data.sMenu.config.userGridSettings, (item) => {
                                     return {
-                                        text: '<span ng-click="vm.utils.menu_config_loadConfig.loadUserConfig(\'' + item._id + '\')">' + item.ten + '</span> <span ng-show="menuOptions.currentConfig._id===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
+                                        text: '<span ng-click="vm.utils.menu_config_loadConfig.loadUserConfig(\'' + item._id + '\')">' + item.ten + '</span> <span ng-show="vm.menuOptions.currentConfigId===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
                                         encoded: false
                                     }
                                 });
                                 
                                 // NEED MODIFY HERE!!!
-                                $scope.kendoMenu.dataSource[2].items[0].items[0].items = newUserConfigItems;
+                                vm.kendoMenu.dataSource[2].items[0].items[0].items = newUserConfigItems;
 
                             } else {
                                 vm.data.sMenu.config.userGridSettings = [];
-                                $scope.kendoMenu.dataSource[2].items[0].items[0].items = null;
+                                vm.kendoMenu.dataSource[2].items[0].items[0].items = null;
                             }
                             if (skynetSettings.length) {
                                 vm.data.sMenu.config.skynetGridSettings = _.map(skynetSettings, (item) => {
@@ -614,17 +625,17 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                                 console.log('Parsed SkynetSettings: (New)', vm.data.sMenu.config.skynetGridSettings);
                                 let newSkynetConfigItems = _.map(vm.data.sMenu.config.skynetGridSettings, (item) => {
                                     return {
-                                        text: '<span ng-click="vm.utils.menu_config_manageConfig.loadUserConfig(\'' + item._id + '\', \'skynet\')">' + item.ten + '</span> <span ng-show="menuOptions.currentConfig._id===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
+                                        text: '<span ng-click="vm.utils.menu_config_loadConfig.loadUserConfig(\'' + item._id + '\', \'skynet\')">' + item.ten + '</span> <span ng-show="vm.menuOptions.currentConfigId===\'' + item._id + '\'"><span class="k-icon k-si-tick"></span></span>',
                                         encoded: false
                                     }
                                 });
 
                                 // NEED MODIFY HERE!!!
-                                $scope.kendoMenu.dataSource[2].items[0].items[1].items = newSkynetConfigItems;
+                                vm.kendoMenu.dataSource[2].items[0].items[1].items = newSkynetConfigItems;
 
                             }  else {
                                 vm.data.sMenu.config.skynetGridSettings = [];
-                                $scope.kendoMenu.dataSource[2].items[0].items[1].items = null;
+                                vm.kendoMenu.dataSource[2].items[0].items[1].items = null;
                             }                      
                         }    
                     }
@@ -636,7 +647,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         config.ten = '',
                             config.order = 10,
                             config.user = {},
-                            config.phan_loai = $scope.cloudConfigDataName,
+                            config.phan_loai = vm.cloudConfigDataName,
                             config.isPublic = false,
                             config.metadata = {}
                     },
@@ -656,7 +667,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                             email: user.emails[0].address,
                             profileName: user.profile.name
                         };
-                        config.phan_loai = $scope.cloudConfigDataName;
+                        config.phan_loai = vm.cloudConfigDataName;
                         
                         // Build metadata
                         config.metadata = {
@@ -682,15 +693,15 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         });
                     },
                     saveGridConfig: function() {
-                        let err = this.validateGridConfig($scope.menuOptions.newConfig);
+                        let err = this.validateGridConfig(vm.menuOptions.newConfig);
                         if (_.isEmpty(err)) {
-                            this.buildGridConfig($scope.menuOptions.newConfig);
-                            console.log('build: (new)', $scope.menuOptions.newConfig);
-                            UserSettings.insert($scope.menuOptions.newConfig, (err, result) => {
+                            this.buildGridConfig(vm.menuOptions.newConfig);
+                            console.log('build: (new)', vm.menuOptions.newConfig);
+                            UserSettings.insert(vm.menuOptions.newConfig, (err, result) => {
                                 if (err) {
                                     iNotifier.error('Không thể tạo mới cấu hình này. ' + err.message + '.');
                                 } else {
-                                    this.initNewKendoGridConfig($scope.menuOptions.newConfig);
+                                    this.initNewKendoGridConfig(vm.menuOptions.newConfig);
                                     iNotifier.success('Cấu hình của bạn đã được lưu trữ thành công.');
                                 }
                             });
@@ -701,31 +712,31 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 }
             }
 
-            vm.utils.menu_config_createNew.initNewKendoGridConfig($scope.menuOptions.newConfig);
+            vm.utils.menu_config_createNew.initNewKendoGridConfig(vm.menuOptions.newConfig);
 
 
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
-            $scope.helpers({
+            vm.helpers({
                 userSettings: () => {
                     let settings = UserSettings.find({
                         $or: [{
                            $and: [{
                                 'user.keyId': Meteor.userId()
                             }, {
-                                phan_loai: $scope.cloudConfigDataName
+                                phan_loai: vm.cloudConfigDataName
                             }] 
                         }, {
                             $and: [{
                                 'isPublic': true
                             }, {
-                                phan_loai: $scope.cloudConfigDataName
+                                phan_loai: vm.cloudConfigDataName
                             }]
                         }]                        
                     }, {
                         sort: {
-                            'order': 1
+                            'order': -1
                         }
                     }).fetch();
                     if (!_.isEmpty(settings)) {
@@ -735,6 +746,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 },
                 isAdmin: () => {
                     return Roles.userIsInRole(Meteor.userId(), ['admin'], 'sky-project');
+                },
+                currentUser: () => {
+                    return Meteor.user();
                 }
             });
 
