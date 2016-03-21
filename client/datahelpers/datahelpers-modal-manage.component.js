@@ -1,7 +1,7 @@
-angular.module('angular-skynet').directive('cauhoisModalManageTags', function() {
+angular.module('angular-skynet').directive('datahelpersModalManage', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/cauhois/cauhois-modals/cauhois-modal-manage-tags.html',
+        templateUrl: 'client/datahelpers/datahelpers-modal-manage.html',
         controllerAs: 'vm',
         scope: {
         	// Chứa các thông tin về cấu hình cho modal
@@ -172,12 +172,21 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
 	                                    }
 	                                }
 	                            }
-	                        }
+	                        },
+                            page: 1,
+                            pageSize: 8
 	                    }),
 	                    // Có thể dùng template ở đây hoặc dùng columns.template
                         // rowTemplate: '<tr data-uid="#= uid #"><td>#: ten #</td><td style="text-align: right;">#: order #</td><td>#: kendo.toString(metadata.ngay_tao, "yyyy-MM-dd") #</td></tr>',
                         sortable: true,
-                        pageable: false,
+                        pageable: {
+                            input: false,
+                            numeric: true,
+                            buttonCount: 5,
+                            previousNext: false,
+                            info: true
+                        },
+                        filterable: false,
                         selectable: 'row',
                         change: function(e) {
                             let selected = this.dataItem(this.select()[0]);
@@ -259,8 +268,7 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                 			'container.text': 1
                 		}
                 	}).fetch();
-                	if (data.length)
-                		vm.utils.manage.kGridOptions.dataSource.data(data);
+                	vm.utils.manage.kGridOptions.dataSource.data(data);
                 	return DataHelpers.find()
                 }
             });

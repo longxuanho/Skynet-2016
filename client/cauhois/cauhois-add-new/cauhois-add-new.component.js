@@ -67,12 +67,16 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
 
             vm.pageReactiveData = {
                 cauhois: [],
-                tags: {
-                    data: vm.dictionary.tags,
-                    sort: { field: 'ten', dir: 'asc' },
-                    group: { field: 'group' }
-
-                }
+                // tags: {
+                //     data: vm.dictionary.tags,
+                //     sort: { field: 'ten', dir: 'asc' },
+                //     group: { field: 'group' }
+                // },
+                tags: kendo.data.DataSource.create({
+                        data: [],
+                        group: { field: 'container.group' }
+                    }),
+                loai_tbs: []
             }
 
             // ***************************************************
@@ -90,6 +94,25 @@ angular.module('angular-skynet').directive('cauhoisAddNew', function() {
                     vm.pageReactiveData.cauhois = CauHois.find().fetch();
                     // vm.pageReactiveData.dictionary.options.dataSource = CauHois.find().fetch();
                     return CauHois.find();
+                },
+                loai_tbs: () => {
+                    vm.pageReactiveData.loai_tbs = DataHelpers.find({
+                        subject: 'cauhois',
+                        category: 'loai_tbs'
+                    }, {
+                        sort: {
+                            'container.text': 1
+                        }
+                    }).fetch();
+                    vm.pageReactiveData.tags.data(DataHelpers.find({
+                        subject: 'cauhois',
+                        category: 'tags'
+                    }, {
+                        sort: {
+                            'container.text': 1
+                        }
+                    }).fetch());
+                    return DataHelpers.find();
                 }
             });
 

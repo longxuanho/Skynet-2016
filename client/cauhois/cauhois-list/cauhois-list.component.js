@@ -68,15 +68,35 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                         columns: [{
                             field: 'container.ref',
                             title: "Nhóm tham chiếu",
-                            width: "100px",                            
+                            width: "100px",
+                            filterable: {
+                                cell: {
+                                    operator: "contains",
+                                    showOperators: false,
+                                    suggestionOperator: "contains"
+                                }
+                            }                           
                         }, {
                             field: 'container.group',
                             title: "Nhóm nội dung",
                             width: "100px",
+                            filterable: {
+                                cell: {
+                                    operator: "contains",
+                                    showOperators: false,
+                                    suggestionOperator: "contains"
+                                }
+                            } 
                         }, {
                             field: 'container.text',
                             title: "Tên Tag",
                             width: "120px",
+                            filterable: {
+                                cell: {
+                                    operator: "contains",
+                                    showOperators: false
+                                }
+                            } 
                         }],
                         // Danh sách các trường nhập liệu sẽ được render ở template html
                         renderFields: {
@@ -99,6 +119,59 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                                 field: 'text',
                                 label: "Tên Tag",
                                 textValidation: 'Chưa có thông tin về tên Tag.',
+                            },
+                            order: {
+                                isActive: false,
+                            },                            
+                            value: {
+                                isActive: false,
+                            }
+                        }
+                    },
+                    loai_tbs: {
+                        modalHeader: 'Quản lý Danh sách Loại thiết bị',
+                        subject: 'cauhois',
+                        category: 'loai_tbs',
+                        // Các trường thông tin được sử dụng với kGridManager
+                        columns: [{
+                            field: 'container.ref',
+                            title: "Nhóm tham chiếu",
+                            width: "100px",
+                            filterable: {
+                                cell: {
+                                    operator: "contains",
+                                    showOperators: false,
+                                    suggestionOperator: "contains"
+                                }
+                            }                            
+                        }, {
+                            field: 'container.text',
+                            title: "Tên loại TB",
+                            width: "120px",
+                            filterable: {
+                                cell: {
+                                    operator: "contains",
+                                    showOperators: false
+                                }
+                            } 
+                        }],
+                        // Danh sách các trường nhập liệu sẽ được render ở template html
+                        renderFields: {
+                            ref: {
+                                isActive: true,
+                                field: 'ref',
+                                label: "Nhóm tham chiếu",
+                                textValidation: 'Chưa có thông tin về nhóm tham chiếu của Loại thiết bị.',
+                                recommended: ['Thiết bị nâng', 'Xe - Máy', 'Tàu thuyền']
+                            },
+                            group: {
+                                isActive: false
+                            },
+                            text: {
+                                isActive: true,
+                                field: 'text',
+                                label: "Tên Loại TB",
+                                textValidation: 'Chưa có thông tin về tên Loại thiết bị.',
                             },
                             order: {
                                 isActive: false,

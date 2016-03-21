@@ -55,9 +55,13 @@
 </div>
 
 <cauhois-modal-details source="vm.pageOptions.selected.cauhoi"></cauhois-modal-details>
-<cauhois-modal-manage-tags k-data-helper-options="vm.kDataHelpers.options.tags">
+<datahelpers-modal-manage k-data-helper-options="vm.kDataHelpers.options.tags">
     <p>Các tag hay thẻ dấu được dùng để gắn cho câu hỏi với nội dung phù hợp, hỗ trợ người dùng tìm kiếm nhanh các nhóm câu hỏi có cùng nội dung được quản lý theo tag.</p>
-</cauhois-modal-manage-tags>
+</datahelpers-modal-manage>
+
+<datahelpers-modal-manage k-data-helper-options="vm.kDataHelpers.options.loai_tbs">
+    <p>Các nội dung về loại thiết bị được gắn với câu hỏi phù hợp, hỗ trợ người dùng tìm kiếm nhanh các nhóm câu hỏi có nội dung được quản lý theo loại thiết bị.</p>
+</datahelpers-modal-manage>
 
 <div class="md-fab-wrapper">
     <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='cauhois_createNew'" ui-sref="cauhois.addNew">
