@@ -58,6 +58,59 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                 searchBacthis: []
             };
 
+            vm.kDataHelpers = {
+                options: {
+                    tags: {
+                        modalHeader: 'Quản lý Tag câu hỏi',
+                        subject: 'cauhois',
+                        category: 'tags',
+                        // Các trường thông tin được sử dụng với kGridManager
+                        columns: [{
+                            field: 'container.ref',
+                            title: "Nhóm tham chiếu",
+                            width: "100px",                            
+                        }, {
+                            field: 'container.group',
+                            title: "Nhóm nội dung",
+                            width: "100px",
+                        }, {
+                            field: 'container.text',
+                            title: "Tên Tag",
+                            width: "120px",
+                        }],
+                        // Danh sách các trường nhập liệu sẽ được render ở template html
+                        renderFields: {
+                            ref: {
+                                isActive: true,
+                                field: 'ref',
+                                label: "Nhóm tham chiếu",
+                                textValidation: 'Chưa có thông tin về nhóm tham chiếu của Tag.',
+                                recommended: ['Thiết bị nâng', 'Xe - Máy', 'Tàu thuyền']
+                            },
+                            group: {
+                                isActive: true,
+                                field: 'group',
+                                label: "Nhóm nội dung",
+                                textValidation: 'Chưa có thông tin về nhóm nội dung của Tag.',
+                                recommended: ['Nội dung', 'Cụm CT']
+                            },
+                            text: {
+                                isActive: true,
+                                field: 'text',
+                                label: "Tên Tag",
+                                textValidation: 'Chưa có thông tin về tên Tag.',
+                            },
+                            order: {
+                                isActive: false,
+                            },                            
+                            value: {
+                                isActive: false,
+                            }
+                        }
+                    }
+                }
+            }
+
             kendo.pdf.defineFont({
                 "Roboto": "/assets/fonts/DejaVuSans.ttf",
                 "Roboto|Bold": "/assets/fonts/DejaVuSans-Bold.ttf",

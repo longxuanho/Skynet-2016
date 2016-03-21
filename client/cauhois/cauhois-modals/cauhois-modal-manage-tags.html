@@ -1,9 +1,11 @@
-<div class="uk-modal" id="modal_cauhois_manage_tags">
+<div class="uk-modal" id="{{vm.modalOptions.modalId}}">
     <div class="uk-modal-dialog">
         <div class="uk-modal-header">
-            <h3 class="uk-modal-title">Quản lý Tag câu hỏi</h3>
+            <h3 class="uk-modal-title">{{vm.modalOptions.modalHeader}}</h3>
         </div>
-        <p>Các tag hay thẻ dấu được dùng để gắn cho câu hỏi với nội dung phù hợp, hỗ trợ người dùng tìm kiếm nhanh các nhóm câu hỏi có cùng nội dung được quản lý theo tag.</p>
+        <div ng-transclude>
+            <!-- Các mô tả về chức năng của modal được đặt tại đây -->
+        </div>
         <div class="uk-grid">
             <div class="uk-width-medium-1-1">
                 <div class="uk-clearfix">
@@ -29,33 +31,40 @@
                     </div>                
                 </div>
             </div>
-                        
+
             <!-- CREATE NEW FORM -->
             <div class="uk-width-medium-1-1" ng-show="vm.modalOptions.mode==='createNew'">
                 <div class="uk-grid">
-                    <div class="uk-width-medium-1-3" ng-show="true">
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.ref.isActive">
                         <div class="uk-form-stacked uk-margin-medium-top">
-                            <label>Nhóm tham chiếu</label>
-                            <select kendo-drop-down-list style="width: 100%;" ng-model="vm.modalOptions.newItem.container.ref">
-                                <option>Thiết bị nâng</option>
-                                <option>Xe - Máy</option>
-                                <option>Tàu thuyền</option>
+                            <label>{{vm.kDataHelperOptions.renderFields.ref.label}}</label>
+                            <select kendo-drop-down-list style="width: 100%;" k-data-source="vm.kDataHelperOptions.renderFields.ref.recommended" ng-model="vm.modalOptions.newItem.container.ref">
                             </select>
                         </div>
                     </div>
-                    <div class="uk-width-medium-1-3" ng-show="true">
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.group.isActive">
                         <div class="uk-form-stacked uk-margin-medium-top">
-                            <label>Nhóm nội dung</label>
-                            <select kendo-drop-down-list style="width: 100%;" ng-model="vm.modalOptions.newItem.container.group">
-                                <option>Nội dung</option>
-                                <option>Cụm CT</option>
+                            <label>{{vm.kDataHelperOptions.renderFields.group.label}}</label>
+                            <select kendo-drop-down-list style="width: 100%;" k-data-source="vm.kDataHelperOptions.renderFields.group.recommended" ng-model="vm.modalOptions.newItem.container.group">
                             </select>
                         </div>
                     </div>
-                    <div class="uk-width-medium-1-3" ng-show="true">
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.text.isActive">
                         <div class="uk-form-stacked uk-margin-medium-top">
-                            <label>Tên tag</label>
+                            <label>{{vm.kDataHelperOptions.renderFields.text.label}}</label>
                             <input type="text" class="k-textbox" ng-model="vm.modalOptions.newItem.container.text" style="width:100%;"/>
+                        </div>
+                    </div>
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.value.isActive">
+                        <div class="uk-form-stacked uk-margin-medium-top">
+                            <label>{{vm.kDataHelperOptions.renderFields.value.label}}</label>
+                            <input type="text" class="k-textbox" ng-model="vm.modalOptions.newItem.container.value" style="width:100%;"/>
+                        </div>
+                    </div>
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.value.isActive">
+                        <div class="uk-form-stacked uk-margin-medium-top">
+                            <label>{{vm.kDataHelperOptions.renderFields.order.label}}</label>
+                            <input kendo-numeric-text-box k-ng-model="vm.modalOptions.newItem.container.order" style="width: 100%;" />
                         </div>
                     </div>
                 </div>
@@ -64,29 +73,36 @@
             <!-- UPDATE FORM -->
             <div class="uk-width-medium-1-1" ng-show="vm.modalOptions.mode==='update'">
                 <div class="uk-grid">
-                    <div class="uk-width-medium-1-3" ng-show="true">
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.ref.isActive">
                         <div class="uk-form-stacked uk-margin-medium-top">
-                            <label>Nhóm tham chiếu</label>
-                            <select kendo-drop-down-list style="width: 100%;" ng-model="vm.modalOptions.selectedItem.container.ref">
-                                <option>Thiết bị nâng</option>
-                                <option>Xe - Máy</option>
-                                <option>Tàu thuyền</option>
+                            <label>{{vm.kDataHelperOptions.renderFields.ref.label}}</label>
+                            <select kendo-drop-down-list style="width: 100%;" k-data-source="vm.kDataHelperOptions.renderFields.ref.recommended" ng-model="vm.modalOptions.selectedItem.container.ref">
                             </select>
                         </div>
                     </div>
-                    <div class="uk-width-medium-1-3" ng-show="true">
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.group.isActive">
                         <div class="uk-form-stacked uk-margin-medium-top">
-                            <label>Nhóm nội dung</label>
-                            <select kendo-drop-down-list style="width: 100%;" ng-model="vm.modalOptions.selectedItem.container.group">
-                                <option>Nội dung</option>
-                                <option>Cụm CT</option>
+                            <label>{{vm.kDataHelperOptions.renderFields.group.label}}</label>
+                            <select kendo-drop-down-list style="width: 100%;" k-data-source="vm.kDataHelperOptions.renderFields.group.recommended" ng-model="vm.modalOptions.selectedItem.container.group">
                             </select>
                         </div>
                     </div>
-                    <div class="uk-width-medium-1-3" ng-show="true">
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.text.isActive">
                         <div class="uk-form-stacked uk-margin-medium-top">
-                            <label>Tên tag</label>
+                            <label>{{vm.kDataHelperOptions.renderFields.text.label}}</label>
                             <input type="text" class="k-textbox" ng-model="vm.modalOptions.selectedItem.container.text" style="width:100%;"/>
+                        </div>
+                    </div>
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.value.isActive">
+                        <div class="uk-form-stacked uk-margin-medium-top">
+                            <label>{{vm.kDataHelperOptions.renderFields.value.label}}</label>
+                            <input type="text" class="k-textbox" ng-model="vm.modalOptions.selectedItem.container.value" style="width:100%;"/>
+                        </div>
+                    </div>
+                    <div class="uk-width-medium-1-3" ng-if="vm.kDataHelperOptions.renderFields.value.isActive">
+                        <div class="uk-form-stacked uk-margin-medium-top">
+                            <label>{{vm.kDataHelperOptions.renderFields.order.label}}</label>
+                            <input kendo-numeric-text-box k-ng-model="vm.modalOptions.selectedItem.container.order" style="width: 100%;" />
                         </div>
                     </div>
                 </div>
@@ -94,7 +110,7 @@
 
             <!-- GRID -->
             <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-if="vm.modalOptions.isModalActive">
-                <kendo-grid k-options="vm.utils.manage.kGridOptions" id="kGridManageTags">
+                <kendo-grid k-options="vm.utils.manage.kGridOptions" id="{{vm.modalOptions.gridId}}">
                 </kendo-grid>
             </div>
         </div>

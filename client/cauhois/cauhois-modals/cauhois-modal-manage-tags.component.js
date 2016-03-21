@@ -4,8 +4,10 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
         templateUrl: 'client/cauhois/cauhois-modals/cauhois-modal-manage-tags.html',
         controllerAs: 'vm',
         scope: {
-             
+        	// Chứa các thông tin về cấu hình cho modal
+            kDataHelperOptions: '='
         },
+        transclude: true,
         bindToController: true,
         controller: function($scope, $reactive, skynetHelpers, iNotifier) {
         	
@@ -20,21 +22,21 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
 
             vm._helpers = skynetHelpers.helpers;
             vm.modalOptions = {
-            	modalSelector: '#modal_cauhois_manage_tags',
-            	gridSelector: '#kGridManageTags',
+            	modalHeader: vm.kDataHelperOptions.modalHeader,
+            	modalId: 'modal_manage_' + vm.kDataHelperOptions.subject + '_' + vm.kDataHelperOptions.category,	
+            	gridId: 'kGridManage_' + vm.kDataHelperOptions.subject + '_' + vm.kDataHelperOptions.category,
             	isModalActive : false,
             	mode: '',
             	selectedItem: {},
             	newItem: {
-            		subject: 'cauhois',
-            		category: 'tags',
+            		subject: vm.kDataHelperOptions.subject,
+            		category: vm.kDataHelperOptions.category,
             		container: {},
             		isPublic: true,
             		isArchived: false,
             		metadata: {}
             	}
             };
-        	// vm._kHelpers = skynetKendoGrid.cauhois.helpers;
 
         	// ***************************************************
             // UTILS
@@ -43,31 +45,14 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
             vm.utils = {
             	create_new: {
             		init: function(item) {
-            			item.subject = 'cauhois';
-            			item.category = 'tags'
+            			item.subject = vm.kDataHelperOptions.subject;
+            			item.category = vm.kDataHelperOptions.category;
             			item.container = {};                       
 
                         // Mọi người đều có thể truy cập bảng tags
                         item.isPublic = true;
                         item.isArchived = false;
                         item.metadata = {}
-                    },
-                    validate: function(item) {
-                        let error = {};
-                        if (!Meteor.userId())
-                            error.message = "Bạn cần đăng nhập để sử dụng chức năng này.";
-                        // if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
-                        //      error.message = "Bạn không đủ quyền hạn để sử dụng chức năng này.";
-                        
-                        if (!item.subject)
-                            error.message = "Chưa có thông tin về trường Subject.";
-                        if (!item.category)
-                            error.message = "Chưa có thông tin về trường Category.";
-                        if (!item.container.text)
-                            error.message = "Chưa có thông tin về tên thẻ dấu.";
-                        if (!item.container.group)
-                            error.message = "Thẻ dấu mới chưa được phân loại.";
-                        return error;
                     },
                     build: function(item) {
                         // Build metadata
@@ -78,7 +63,7 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                     	vm.utils.manage.clearSelection();
                     },
                     insert: function() {
-                        let err = this.validate(vm.modalOptions.newItem);
+                        let err = vm.utils.manage.validateForm(vm.modalOptions.newItem);
                         if (_.isEmpty(err)) {
                             this.build(vm.modalOptions.newItem);
                             console.log('build: (new)', vm.modalOptions.newItem);
@@ -98,17 +83,15 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                     }
             	},
             	update: {
-            		validate: function(source) {
-            		},
             		build: function(source) {
-            			vm._helpers.buildMetadata('build', item.metadata);
+            			vm._helpers.buildMetadata('build', source.metadata);
                     },
                     cancel: function() {
                         vm.modalOptions.mode = '';
                         vm.utils.manage.clearSelection();
                     },
                     update: function() {
-                        let err = this.validate(vm.modalOptions.selectedItem);
+                        let err = vm.utils.manage.validateForm(vm.modalOptions.selectedItem);
                         if (_.isEmpty(err)) {
                             this.build(vm.modalOptions.selectedItem);
                             console.log('build before update: (new)', vm.modalOptions.selectedItem);
@@ -144,6 +127,28 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                     }
             	},
             	manage: {
+            		validateForm: function(source) {
+            			let error = {};
+                        
+                        if (!Meteor.userId())
+                            error.message = "Bạn cần đăng nhập để sử dụng chức năng này.";
+                        
+                        if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
+                             error.message = "Bạn không đủ quyền hạn để sử dụng chức năng này.";                        
+                        
+                        if (!source.subject)
+                            error.message = "Chưa có thông tin về trường Subject.";
+                        if (!source.category)
+                            error.message = "Chưa có thông tin về trường Category.";
+                        
+                        _.each(vm.kDataHelperOptions.renderFields, (item) => {
+                        	if (item.isActive)
+                        		if (!source['container'][item.field])
+                        			error.message = item.textValidation;
+                        });
+                        
+                        return error;
+            		},
             		kGridOptions: {
 	                    dataSource: kendo.data.DataSource.create({
 	                        data: [],
@@ -158,6 +163,12 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
 	                                    },
 	                                    'container.text': {
 	                                        type: 'string'
+	                                    },
+	                                    'container.order': {
+	                                    	type: 'number'
+	                                    },
+	                                    'container.value': {
+	                                    	type: 'string'
 	                                    }
 	                                }
 	                            }
@@ -187,24 +198,11 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                                 }
                             }
                         },
-                        columns: [{
-                            field: 'container.ref',
-                            title: "Nhóm tham chiếu",
-                            width: "100px",
-                            // template: "<span ng-class=\"{'color-primary': #: user.keyId # === vm.currentUser._id}\">#: ten #</span>"
-                        }, {
-                            field: 'container.group',
-                            title: "Nhóm nội dung",
-                            width: "100px"
-                        }, {
-                            field: 'container.text',
-                            title: "Thẻ dấu",
-                            width: "120px"
-                        }]
+                        columns: angular.copy(vm.kDataHelperOptions.columns)
                     },
                     clearSelection: function() {
                     	vm.modalOptions.selectedItem = {};
-                        $(vm.modalOptions.gridSelector).data("kendoGrid").clearSelection();
+                        $('#' + vm.modalOptions.gridId).data("kendoGrid").clearSelection();
                     }
             	},
             	remove: {
@@ -214,9 +212,9 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                         vm.utils.manage.clearSelection();
                     },
                     remove: function(id) {
-                        // Viết lại code phần remove
                         if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager'], 'sky-project'))
                             error.message = "Bạn không đủ quyền hạn để sử dụng chức năng này.";
+
                         else {
                         	if (id) {
                         		let text = vm.modalOptions.selectedItem.container.text;
@@ -224,7 +222,7 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
 	                                _id: id
 	                            }, (error) => {
 	                                if (!error)
-	                                    iNotifier.info('Dữ liệu về tag "' + text + '" đã được xóa khỏi hệ thống.');
+	                                    iNotifier.info('Dữ liệu "' + text + '" đã được xóa khỏi hệ thống.');
 	                                else
 	                                    iNotifier.error(error.message);
 	                            });
@@ -236,7 +234,7 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                     },
             	},
             	closeModal: () => {
-                    let modal = UIkit.modal(vm.modalOptions.modalSelector);
+                    let modal = UIkit.modal('#' + vm.modalOptions.modalId);
                     if (modal.isActive()) {
                         // Reset các giá trị về mặc định
                         vm.modalOptions.mode = '';
@@ -254,14 +252,13 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
             vm.helpers({
                 datahelpers: () => {
                 	let data = DataHelpers.find({
-                		subject: 'cauhois',
-                		category: 'tags'
+                		subject: vm.kDataHelperOptions.subject,
+                		category: vm.kDataHelperOptions.category
                 	}, {
                 		sort: {
-                			'data.text': 1
+                			'container.text': 1
                 		}
                 	}).fetch();
-                	console.log('fetch data: ', data);
                 	if (data.length)
                 		vm.utils.manage.kGridOptions.dataSource.data(data);
                 	return DataHelpers.find()
