@@ -44,6 +44,34 @@ DataHelpers.allow({
 // PUBLISH / SUBSCRIBE
 // ***************************************************
 
-Meteor.publish("datahelpers", function() {
-    return DataHelpers.find({});
+Meteor.publish("datahelpers", function(options, subject) {
+    
+    if (options == null)
+        options = {};
+
+    let query = {};
+
+    if (subject)
+        query['subject'] = subject;
+
+    query['$or'] = [{
+        '$and': [{
+            'isPublic': true
+        }, {
+            'isPublic': {
+                '$exists': true
+            }
+        }]
+    }, {
+        '$and': [{
+            'metadata.nguoi_tao': this.userId
+        }, {
+            'metadata.nguoi_tao': {
+                '$exists': true
+            }
+        }]
+    }];
+
+    return DataHelpers.find(query, options);
+
 });

@@ -39,6 +39,7 @@ angular.module('angular-skynet').directive('cauhoisMain', function() {
 
             $scope.subscribe('users');
             $scope.subscribe('usersettings');
+            $scope.subscribe('datahelpers');
 
 
             // ***************************************************
