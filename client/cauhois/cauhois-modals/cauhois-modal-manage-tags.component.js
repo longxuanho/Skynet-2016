@@ -101,6 +101,7 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
             		validate: function(source) {
             		},
             		build: function(source) {
+            			vm._helpers.buildMetadata('build', item.metadata);
                     },
                     cancel: function() {
                         vm.modalOptions.mode = '';
@@ -115,7 +116,11 @@ angular.module('angular-skynet').directive('cauhoisModalManageTags', function() 
                                 _id: vm.modalOptions.selectedItem._id
                             }, {
                                 $set: {
-                                	'container': vm.modalOptions.selectedItem.container,
+                                	'container.ref': vm.modalOptions.selectedItem.container.ref,
+                                	'container.group': vm.modalOptions.selectedItem.container.group,
+                                	'container.order': vm.modalOptions.selectedItem.container.order,
+                                	'container.text': vm.modalOptions.selectedItem.container.text,
+                                	'container.value': vm.modalOptions.selectedItem.container.value,
                                     'metadata.ngay_cap_nhat_cuoi': vm.modalOptions.selectedItem.metadata.ngay_cap_nhat_cuoi,
                                     'metadata.nguoi_cap_nhat_cuoi': vm.modalOptions.selectedItem.metadata.nguoi_cap_nhat_cuoi,
                                     'metadata.nguoi_cap_nhat_cuoi_name': vm.modalOptions.selectedItem.metadata.nguoi_cap_nhat_cuoi_name,
