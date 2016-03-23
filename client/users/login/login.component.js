@@ -3,9 +3,7 @@ angular.module('angular-skynet').directive('login', function() {
         restrict: 'E',
         templateUrl: 'client/users/login/login.html',
         controllerAs: 'Login',
-        controller: function($scope, $stateParams, skynetHelpers, $state, $rootScope, utils, iNotifier, $timeout) {
-
-            
+        controller: function($scope, $stateParams, skynetHelpers, $state, $rootScope, utils, iNotifier, $timeout) {        
 
             // ***************************************************
             // INITIALIZE
@@ -16,6 +14,11 @@ angular.module('angular-skynet').directive('login', function() {
             $scope._helpers = skynetHelpers.helpers;
             $scope._data = skynetHelpers.data;
             $scope.loginState = 'idle';
+
+            // Trường hợp người dùng đã login -> redirect tới trang chính
+            if (Meteor.userId()) {
+                $state.go($scope._data.states.master);
+            }   
 
             $scope.credentials = {
                 email: '',

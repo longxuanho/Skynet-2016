@@ -70,8 +70,9 @@ angular.module('angular-skynet').directive('usersProfileUpdateAvatar', function(
                     $scope.user.profile.avatar = {
                         keyId: $scope.userAvatar._id,
                     };
-                    let url = $scope.userAvatar.url();
-                    // Delay 01s trước khi cập nhật để có thông tin về url
+                    let url = $scope.userAvatar.url({brokenIsFine: true});
+                    console.log('Đường dẫn tới hình ảnh: ', url, $scope.userAvatar);
+                    // Delay 05s trước khi cập nhật để có thông tin về url
                     $timeout(() => {
                         if (url)
                             $scope.user.profile.avatar.url = url;
@@ -97,10 +98,7 @@ angular.module('angular-skynet').directive('usersProfileUpdateAvatar', function(
                             }
                         });
 
-                    }, 1000);
-
-                    
-
+                    }, 2000);       
                 } else {
                     iNotifier.error(err.message);
                 }

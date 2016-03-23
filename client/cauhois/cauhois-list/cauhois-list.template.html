@@ -35,6 +35,7 @@
                 cloud-config-data-name="vm.pageOptions.cloudConfigDataName"
             >
             </s-grid-menu>
+
 			
             <br/>
 
@@ -44,12 +45,19 @@
                     <div class="heading_list uk-margin-top uk-text-center">Không có dữ liệu câu hỏi được hiển thị.</div>
                 </div>
             </div>
+            <!-- GRID -->
             <div ng-show="vm.numOfCauHois">
-            <div id="myGrid" kendo-grid
-                k-options="vm.gridData.kGrid.kOptions"       
-            >
+                <div id="myGrid" kendo-grid k-options="vm.gridData.kGrid.kOptions">
+                    <div k-detail-template>
+                        <ul style="list-style-type:none;">
+                            <li ng-repeat="item in dataItem.noi_dung.lua_chons track by $index"><span ng-class="{'color-primary': item.isCorrect}">{{$index | displayNumberAsAlphabelt}}. {{item.tieu_de}}</span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            </div>
+
+            <!-- WINDOWS -->
+            
 		</div>
     </div>
 </div>
