@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
         templateUrl: 'client/cauhois/cauhois-windows/cauhois-window.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $rootScope, $reactive, $timeout) {
+        controller: function($scope, $rootScope, $reactive, $timeout, skynetHelpers) {
 
             $reactive(this).attach($scope);
 
@@ -15,6 +15,8 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;
 
+            vm._helpers = skynetHelpers.helpers;            
+            vm._helpers.initNewCauHoiParams(vm);
             
             vm.paragraph = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
             vm.farm = function() {
@@ -28,52 +30,52 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             }, 1000);
             
             
-            // vm._helpers.initNewCauHoiParams(vm);
+            vm._helpers.initNewCauHoiParams(vm);
             // vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
-            // vm.windowOptions = {
-            //     limit: {
-            //         numOfLuaChonsMax: 6,
-            //         numOfLuaChonsMin: 2,
-            //         numOfUrlHinhAnhsMax: 4,
-            //         numOfUrlHinhAnhsMin: 1
-            //     },
-            //     able: {
-            //         addNumOfLuaChons: true,
-            //         decreaseNumOfLuaChons: true,
-            //         addNumOfUrlHinhAnhs: false,
-            //         decreaseNumOfUrlHinhAnhs: false
-            //     },
-            //     template: {
-            //         flags: {
-            //             isLockSectionPhanLoai: false,
-            //             isLockSectionTags: false,
-            //             isLockSectionGhiChu: false
-            //         },
-            //         phan_loai: {
-            //             nhom_cau_hoi: {},
-            //             muc_do: {},
-            //             nhom_tb: {},
-            //             loai_tb: []
-            //         },
-            //         tags: [],
-            //         ghi_chu: {
-            //             mo_ta: '',
-            //             ghi_chu: ''
-            //         }
-            //     },
-            //     props: {
-            //         isDiffViewLink: true,
-            //         isDiffViewResult: false,
-            //         isHasImages: false,
-            //         lightBoxImageSrc: '',
-            //         currentSection: 'phan_loai',
+            vm.windowOptions = {
+                limit: {
+                    numOfLuaChonsMax: 6,
+                    numOfLuaChonsMin: 2,
+                    numOfUrlHinhAnhsMax: 4,
+                    numOfUrlHinhAnhsMin: 1
+                },
+                able: {
+                    addNumOfLuaChons: true,
+                    decreaseNumOfLuaChons: true,
+                    addNumOfUrlHinhAnhs: false,
+                    decreaseNumOfUrlHinhAnhs: false
+                },
+                template: {
+                    flags: {
+                        isLockSectionPhanLoai: false,
+                        isLockSectionTags: false,
+                        isLockSectionGhiChu: false
+                    },
+                    phan_loai: {
+                        nhom_cau_hoi: {},
+                        muc_do: {},
+                        nhom_tb: {},
+                        loai_tb: []
+                    },
+                    tags: [],
+                    ghi_chu: {
+                        mo_ta: '',
+                        ghi_chu: ''
+                    }
+                },
+                props: {
+                    isDiffViewLink: true,
+                    isDiffViewResult: false,
+                    isHasImages: false,
+                    lightBoxImageSrc: '',
+                    currentSection: 'phan_loai',
 
-            //     },
-            //     input: {
-            //         diffViewSearch: ''
-            //     }
-            // };
+                },
+                input: {
+                    diffViewSearch: ''
+                }
+            };
 
             // vm.pageReactiveData = {
             //     cauhois: [],

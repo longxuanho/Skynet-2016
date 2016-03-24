@@ -10,8 +10,38 @@
     <div class="uk-accordion uk-margin-bottom" data-uk-accordion id="cauhois_window_main_panel">
         <h3 class="uk-accordion-title" id="accordion_du_lieu">Dữ liệu câu hỏi</h3>
         <div class="uk-accordion-content">
-            <button ng-click="vm.farm()">Add Class</button>
-            {{vm.paragraph}}
+<!--             <div class="uk-grid"> -->
+                <div class="uk-width-medium-1-1">
+                    <div class="uk-form-row">
+                        <label>Câu hỏi</label>
+                        <textarea cols="30" rows="1" class="md-input" ng-model="vm.newCauHoi.noi_dung.tieu_de" md-input textarea-autosize></textarea>
+                    </div>
+                </div>
+                <div class="uk-width-medium-1-1 uk-clearfix">
+                    <div class="uk-align-medium-right">
+                        Thêm / bớt các lựa chọn:
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.addNumOfLuaChons}" ng-click="vm.utils.addNumOfLuaChons()">&#xE145;</i>
+                        <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !vm.pageOptions.able.decreaseNumOfLuaChons}" ng-click="vm.utils.decreaseNumOfLuaChons()">&#xE15B;</i>
+                    </div>
+                </div>
+                <div class="uk-width-medium-1-1">
+                    <ul class="uk-sortable sortable-handler" id="sortable" data-uk-sortable>
+                        <li ng-repeat="item in vm.newCauHoi.noi_dung.lua_chons | orderBy:'order'" data-index="{{$index}}" class="uk-nestable-item" >
+                            <div class="uk-nestable-panel">
+                                <div style="padding:0;">
+                                    <div style="display:inline-block;max-width:48px;">
+                                        <i class="md-icon-fade material-icons no-animate" ng-class="{'color-primary': item.isCorrect}" ng-click="vm.utils.setCorrectAnswer(item)">&#xE876;</i>
+                                    </div>                                        
+                                    <div style="display:inline-block;width: 85%;">
+                                        {{ $index | displayNumberAsAlphabelt }}.<br/>
+                                        <textarea cols="30" rows="1" class="md-input uk-text-muted uk-text-small" md-input textarea-autosize style="padding-top:0px;line-height: 16px" ng-model="item.tieu_de"></textarea>
+                                    </div>
+                                </div>                                                                                          
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+ <!--            </div> -->
         </div>
         <h3 class="uk-accordion-title" id="accordion_phan_loai">Phân loại</h3>
         <div class="uk-accordion-content">
