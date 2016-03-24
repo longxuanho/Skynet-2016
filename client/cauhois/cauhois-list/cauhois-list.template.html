@@ -35,7 +35,6 @@
                 cloud-config-data-name="vm.pageOptions.cloudConfigDataName"
             >
             </s-grid-menu>
-
 			
             <br/>
 
@@ -57,6 +56,8 @@
                 </div>
             </div>
 
+
+
 		</div>
     </div>
 </div>
@@ -70,14 +71,9 @@
     <p>Các nội dung về loại thiết bị được gắn với câu hỏi phù hợp, hỗ trợ người dùng tìm kiếm nhanh các nhóm câu hỏi có nội dung được quản lý theo loại thiết bị.</p>
 </datahelpers-modal-manage>
 
-<!-- WINDOWS -->
-<div class="customize-color-default">
-    <div kendo-window k-title="'AJAX content'" k-width="500" k-visible="true" ng-if="vm.show" class="uk-padding-remove" id="cauhois_window">
-        <cauhois-window></cauhois-window>
-    </div>
-</div>
 
-<button ng-click="vm.show=true;">Show!</button>
+
+<button ng-click="vm.utils.initWindow()">Show!</button>
 
 <div class="md-fab-wrapper">
     <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='cauhois_createNew'" ui-sref="cauhois.addNew">
@@ -91,6 +87,11 @@
 
 
 <cauhoi-sidebar page-reactive-data="vm.pageReactiveData"></cauhoi-sidebar>
+
+ <!-- WINDOWS -->
+<div kendo-window k-options="vm.pageOptions.data.kWindowOptions" class="uk-padding-remove" id="cauhois_window">
+    <cauhois-window></cauhois-window>
+</div>
 
 
 

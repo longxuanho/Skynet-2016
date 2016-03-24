@@ -23,7 +23,25 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
+            
             vm.pageOptions = {
+                data: {
+                    kWindowOptions: {
+                        title: 'CÂU HỎI MỚI',
+                        width: 400,
+                        visible: true,
+                        actions: [
+                            "Pin",
+                            "Minimize",
+                            "Maximize",
+                            "Close"
+                        ],
+                        position: {
+                            top: 48,
+                            left: 0
+                        }
+                    }
+                },
                 localData: {
                     cauhois_config_data_filter: {}
                 },
@@ -232,6 +250,10 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // ***************************************************
 
             vm.utils = {
+                initWindow: function() {
+                    console.log('init!');
+                    $("#cauhois_window").kendoWindow(vm.pageOptions.data.kWindowOptions);
+                },
                 setFilterByNhomId: function(id) {
                     // Nếu người dùng click vào đúng filter item đã chọn -> bỏ chọn, ngược lại, set filter item
                     vm.pageOptions.filters.filterNhomId = (vm.pageOptions.filters.filterNhomId === id) ? '' : id;

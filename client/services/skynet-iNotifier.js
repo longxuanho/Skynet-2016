@@ -3,16 +3,17 @@ angular.module('angular-skynet').factory('iNotifier', function($rootScope, $wind
 
     var w = angular.element($window)
 
-    factory.success = function(message) {
+    factory.success = function(message, pos) {
         if (_.isObject(message))
             message = message.message;
 
-        if ($rootScope.notificationStyle === 'uikit')
-            this.showUIKitNotify(message, 'success', 5000, '', 'bottom-right');
-            // UIkit.notify(message, {
-            //     status: 'success',
-            //     pos: 'bottom-right'
-            // });
+        if ($rootScope.notificationStyle === 'uikit') {
+            if (!pos)
+                this.showUIKitNotify(message, 'success', 5000, '', 'bottom-right');
+            else {
+                UIkit.notify({ message: message, status: 'success', timeout: 5000, pos: pos });
+            }
+        }
 
         if ($rootScope.notificationStyle === 'toastr')
             toastr.success(message);
@@ -25,12 +26,17 @@ angular.module('angular-skynet').factory('iNotifier', function($rootScope, $wind
         console.log('Success: ', message);
     }
 
-    factory.warning = function(message) {
+    factory.warning = function(message, pos) {
         if (_.isObject(message))
             message = message.message;
-
-        if ($rootScope.notificationStyle === 'uikit')
-            this.showUIKitNotify(message, 'warning', 5000, '', 'bottom-right');
+            
+        if ($rootScope.notificationStyle === 'uikit') {
+            if (!pos)
+                this.showUIKitNotify(message, 'warning', 5000, '', 'bottom-right');
+            else {
+                UIkit.notify({ message: message, status: 'warning', timeout: 5000, pos: pos });
+            }
+        }
 
         if ($rootScope.notificationStyle === 'toastr')
             toastr.warning(message);
@@ -43,12 +49,17 @@ angular.module('angular-skynet').factory('iNotifier', function($rootScope, $wind
         console.log('Warning: ', message);
     }
 
-    factory.error = function(message) {
+    factory.error = function(message, pos) {
         if (_.isObject(message))
             message = message.message;
 
-        if ($rootScope.notificationStyle === 'uikit')
-            this.showUIKitNotify(message, 'danger', 5000, '', 'bottom-right');
+        if ($rootScope.notificationStyle === 'uikit') {
+            if (!pos)
+                this.showUIKitNotify(message, 'danger', 5000, '', 'bottom-right');
+            else {
+                UIkit.notify({ message: message, status: 'danger', timeout: 5000, pos: pos });
+            }
+        }
 
         if ($rootScope.notificationStyle === 'toastr')
             toastr.error(message);
@@ -61,16 +72,17 @@ angular.module('angular-skynet').factory('iNotifier', function($rootScope, $wind
         console.log('Error: ', message);
     }
 
-    factory.info = function(message) {
+    factory.info = function(message, pos) {
         if (_.isObject(message))
             message = message.message;
 
-        if ($rootScope.notificationStyle === 'uikit')
-            this.showUIKitNotify(message, 'info', 5000, '', 'bottom-right');
-            // UIkit.notify(message, {
-            //     status: 'info',
-            //     pos: 'bottom-right'
-            // });
+        if ($rootScope.notificationStyle === 'uikit') {
+            if (!pos)
+                this.showUIKitNotify(message, 'info', 5000, '', 'bottom-right');
+            else {
+                UIkit.notify({ message: message, status: 'info', timeout: 5000, pos: pos });
+            }
+        }
 
         if ($rootScope.notificationStyle === 'toastr')
             toastr.info(message);

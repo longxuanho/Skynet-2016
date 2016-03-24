@@ -261,8 +261,8 @@ angular.module('angular-skynet').directive('datahelpersModalManage', function() 
             vm.helpers({
                 datahelpers: () => {
                 	let data = DataHelpers.find({
-                		subject: vm.kDataHelperOptions.subject,
-                		category: vm.kDataHelperOptions.category
+                		subject: (vm.kDataHelperOptions && vm.kDataHelperOptions.subject) ? vm.kDataHelperOptions.subject : '',
+                		category: (vm.kDataHelperOptions && vm.kDataHelperOptions.category) ? vm.kDataHelperOptions.category : ''
                 	}, {
                 		sort: {
                 			'container.text': 1
