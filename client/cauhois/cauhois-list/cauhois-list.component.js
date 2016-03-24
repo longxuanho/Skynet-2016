@@ -26,20 +26,24 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             
             vm.pageOptions = {
                 data: {
-                    kWindowOptions: {
-                        title: 'CÂU HỎI MỚI',
-                        width: 400,
-                        visible: true,
-                        actions: [
-                            "Pin",
-                            "Minimize",
-                            "Maximize",
-                            "Close"
-                        ],
-                        position: {
-                            top: 48,
-                            left: 0
-                        }
+                    kWindow: {
+                        options: {
+                            title: 'CÂU HỎI MỚI',
+                            width: 400,
+                            visible: true,
+                            actions: [
+                                "Pin",
+                                "Minimize",
+                                "Maximize",
+                                "Close"
+                            ],
+                            position: {
+                                top: 48,
+                                left: 0
+                            }
+                        },
+                        mode: 'createNew',
+                        selectedItem: {}
                     }
                 },
                 localData: {
@@ -228,11 +232,13 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                         if (vm.pageOptions.selected.cauhoi._id === selected._id) {
                             // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
                             vm.pageOptions.selected.cauhoi = {};
+                            vm.pageOptions.data.kWindow.selectedItem = {};
                             vm.pageOptions.fabState = 'cauhois_createNew';                                                                       
                             grid.clearSelection();    
                         } else {
                             vm.pageOptions.fabState = 'cauhois_viewDetails';
                             vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
+                            vm.pageOptions.data.kWindow.selectedItem = angular.copy(vm.pageOptions.selected.cauhoi);
                         }
                     }
                 }
