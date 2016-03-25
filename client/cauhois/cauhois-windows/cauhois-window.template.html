@@ -15,7 +15,7 @@
             <div class="uk-width-medium-1-1">
                 <div class="uk-form-row">
                     <label>Câu hỏi</label>
-                    <textarea cols="30" rows="1" class="md-input" md-input textarea-autosize ng-model="cauhoisWindow.source.noi_dung.tieu_de"></textarea>
+                    <textarea cols="30" rows="3" class="md-input" md-input textarea-autosize ng-model="cauhoisWindow.source.noi_dung.tieu_de"></textarea>
                 </div>
             </div>
             <div class="uk-width-medium-1-1 uk-clearfix">
@@ -101,7 +101,8 @@
                 <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
                     k-data-source="cauhoisWindow.dictionary.loai_tbs[cauhoisWindow.source.phan_loai.nhom_tb.ma]"
                     k-rebind="cauhoisWindow.source.phan_loai.nhom_tb.ma"
-                    k-ng-model="cauhoisWindow.source.phan_loai.loai_tb">
+                    k-ng-model="cauhoisWindow.source.phan_loai.loai_tb"
+                    k-ng-delay="cauhoisWindow.dictionary.loai_tbs[cauhoisWindow.source.phan_loai.nhom_tb.ma]">
                 </select>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-small-top uk-margin-medium-bottom">
@@ -109,7 +110,8 @@
                     <label for="cauhoi_phanloai_bacthi">Bậc thi</label>
                     <select kendo-multi-select id="cauhoi_phanloai_bacthi"
                         k-data-source="cauhoisWindow.dictionary.bac_this"
-                        k-ng-model="cauhoisWindow.source.phan_loai.bac_thi">
+                        k-ng-model="cauhoisWindow.source.phan_loai.bac_thi"
+                        k-ng-delay="cauhoisWindow.dictionary.bac_this.length">
                     </select>
                 </div>
             </div>                                           

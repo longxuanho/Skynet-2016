@@ -23,14 +23,15 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
-            
+            vm.modalLightBox = UIkit.modal("#cauhois_list_lightbox");
+
             vm.pageOptions = {
                 data: {
                     kWindow: {
                         options: {
                             title: 'CÂU HỎI MỚI',
                             width: 400,
-                            visible: true,
+                            visible: false,
                             actions: [
                                 "Pin",
                                 "Minimize",
@@ -40,15 +41,25 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                             position: {
                                 top: 48,
                                 left: 0
+                            },
+                            deactivate: function() {
+                                $scope.$apply(() => {
+                                    vm.pageOptions.data.kWindow.isActive = false;
+                                });                                
                             }
                         },
                         mode: 'createNew',
+                        isActive: false,
                         selectedItem: {}
+                    },
+                    lightbox: {
+                        source: ''
                     }
                 },
                 localData: {
                     cauhois_config_data_filter: {}
                 },
+                isExpandedView: false,
                 isDisplayTopBar: true,
                 isDisplayFullWidthGrid: false,
                 topBarHeight: 'x1',
@@ -246,7 +257,11 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // Security: Chỉ cho phép tạo câu hỏi mới nếu người dùng có đủ thẩm quyền.
             vm.gridData.kGrid.kOptions.dataBound = function(e) {
                 vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
-                // vm.pageOptions.selected.cauhoi = {};
+
+                // Trường hợp isExpandedview được set là true thông qua menu -> expanded View
+                if (vm.pageOptions.isExpandedView) {
+                    this.expandRow(this.tbody.find("tr.k-master-row"));
+                }
             };
 
             
@@ -256,9 +271,11 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // ***************************************************
 
             vm.utils = {
-                initWindow: function() {
-                    console.log('init!');
-                    $("#cauhois_window").kendoWindow(vm.pageOptions.data.kWindowOptions);
+                showModalLightBox: function(src) {
+                    if (src) {
+                        vm.pageOptions.data.lightbox.source = src;
+                        vm.modalLightBox.show();
+                    }
                 },
                 setFilterByNhomId: function(id) {
                     // Nếu người dùng click vào đúng filter item đã chọn -> bỏ chọn, ngược lại, set filter item
@@ -356,7 +373,24 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             // WATCHERS
             // ***************************************************
             
-            
+            // Trường hợp flag pageOptions.isExpandedView được bật từ menu -> grid expand detail view
+            $scope.$watch('vm.pageOptions.isExpandedView', (newVal, oldVal) => {
+                let grid = $("#myGrid").data("kendoGrid");
+                if (newVal) {                    
+                    grid.expandRow(grid.tbody.find("tr.k-master-row"));
+                } else if (oldVal) {
+                    grid.collapseRow(grid.tbody.find("tr.k-master-row"));
+                }
+            });
+
+            $scope.$watch('vm.pageOptions.data.kWindow.isActive', (newVal, oldVal) => {
+                let dialog = $("#cauhois_window").data("kendoWindow");
+                if (newVal) {                    
+                    dialog.open();
+                } else if (oldVal) {
+                    dialog.close();
+                }
+            });
         }
     }
 });

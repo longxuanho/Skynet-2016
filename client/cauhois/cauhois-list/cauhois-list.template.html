@@ -49,15 +49,22 @@
             <div ng-show="vm.numOfCauHois">
                 <div id="myGrid" kendo-grid k-options="vm.gridData.kGrid.kOptions">
                     <div k-detail-template>
-                        <ul style="list-style-type:none;">
-                            <li ng-repeat="item in dataItem.noi_dung.lua_chons track by $index"><span ng-class="{'color-primary': item.isCorrect}">{{$index | displayNumberAsAlphabelt}}. {{item.tieu_de}}</span></li>
+                        <div ng-if="dataItem.noi_dung.isHasImages">
+                            <img class="uk-thumbnail uk-thumbnail-mini" ng-repeat="item in dataItem.noi_dung.url_hinh_anhs" ng-src="{{item}}" ng-click="vm.utils.showModalLightBox(item)">
+                        </div>
+                        <!--  
+                        <div ng-if="dataItem.noi_dung.isHasImages">
+                            <a ng-repeat="item in dataItem.noi_dung.url_hinh_anhs" href="{{item}}" data-uk-lightbox>
+                                <img class="uk-thumbnail uk-thumbnail-mini" ng-src="{{item}}">    
+                            </a>
+                        </div>
+                        -->                        
+                        <ul style="list-style-type:upper-alpha;">
+                            <li ng-repeat="item in dataItem.noi_dung.lua_chons track by $index" ng-class="{'color-primary': item.isCorrect}">{{item.tieu_de}}</li>
                         </ul>
                     </div>
                 </div>
             </div>
-
-
-
 		</div>
     </div>
 </div>
@@ -71,12 +78,13 @@
     <p>Các nội dung về loại thiết bị được gắn với câu hỏi phù hợp, hỗ trợ người dùng tìm kiếm nhanh các nhóm câu hỏi có nội dung được quản lý theo loại thiết bị.</p>
 </datahelpers-modal-manage>
 
-
-
-<button ng-click="vm.utils.initWindow()">Show!</button>
-
 <div class="md-fab-wrapper">
+    <!--
     <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='cauhois_createNew'" ui-sref="cauhois.addNew">
+        <i class="material-icons">&#xE145;</i>
+    </a>
+    -->
+    <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='cauhois_createNew' && !vm.pageOptions.data.kWindow.isActive" ng-click="vm.pageOptions.data.kWindow.isActive = true;">
         <i class="material-icons">&#xE145;</i>
     </a>
     <a class="md-fab md-fab-accent no-animate" ng-show="vm.pageOptions.fabState==='cauhois_viewDetails'" data-uk-modal="{target: '#modal_cauhois_details'}">
@@ -92,6 +100,16 @@
 <div kendo-window k-options="vm.pageOptions.data.kWindow.options" class="uk-padding-remove" id="cauhois_window">
     <cauhois-window k-window-options="vm.pageOptions.data.kWindow"></cauhois-window>
 </div>
+
+<div class="uk-modal" id="cauhois_list_lightbox">
+    <div class="uk-modal-dialog uk-modal-dialog-lightbox">
+        <button type="button" class="uk-modal-close uk-close uk-close-alt"></button>
+        <!-- <img src="{{vm.pageOptions.data.lightbox.source}}" alt=""/> -->
+        <img src=" {{vm.pageOptions.data.lightbox.source}}" alt=""/>
+        <div class="uk-modal-caption">{{vm.pageOptions.data.lightbox.source}}</div>
+    </div>
+</div>
+ 
 
 
 

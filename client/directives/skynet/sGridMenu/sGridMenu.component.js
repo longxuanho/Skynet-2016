@@ -81,7 +81,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                 newConfig: {},
                 // Chứa thông tinh về id cấu hình hiện tại -> hiển thị dấu tích nhỏ bên cạnh cấu hình được chọn
                 currentConfigId: '',
-                isSaveDataLimitToLocalDevice: false,
+                isSaveDataLimitToLocalDevice: false
             };
 
             // $scope.currentUser = Meteor.user();
@@ -110,6 +110,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     }, {
                         // text: "<span ng-hide='gridData.kGrid.kOptions.toolbar'>Hiện Toolbar</span><span ng-show='gridData.kGrid.kOptions.toolbar'>Ẩn Toolbar</span>",
                         text: "Thanh Toolbar <span ng-show='vm.data.sMenu.status.toolbar.isDisplayToolbar' class='k-icon k-si-tick'></span>",
+                        encoded: false
+                    }, {
+                        text: "Soạn thảo <span ng-show='vm.pageOptions.data.kWindow.isActive' class='k-icon k-si-tick'></span>",
                         encoded: false
                     }]
                 }, {
@@ -172,6 +175,9 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         vm.utils.menu_features_toolbar.readStatus();
                         vm.utils.menu_features_toolbar.toggleToolbar();
                         break;
+                    case "Soạn thảo ":
+                        vm.utils.menu_features_compose.toggleWindow();
+                        break;
                     case "Lưu cấu hình hiện tại":
                         UIkit.modal("#modal_menu_configs_saveCurrent").show();
                         break;
@@ -195,6 +201,12 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
             // UTILS
             // ***************************************************
             vm.utils = {
+                // Menu: Utils Buttons
+                menu_utils_buttons: {
+                    setExpandViewMode: function(value) {
+                        vm.pageOptions.isExpandedView = (value) ? true : false;
+                    }
+                },
                 // Menu: Dữ liệu -> Các cột dữ liệu
                 menu_data_columns: {
                     readStatus: () => {
@@ -364,6 +376,13 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         }
                         // Cập nhật trạng thái isDisplayToolbar
                         vm.data.sMenu.status.toolbar.isDisplayToolbar = !vm.data.sMenu.status.toolbar.isDisplayToolbar;
+                    }
+                },
+
+                // Menu: Chức năng -> Soạn thảo
+                menu_features_compose: {
+                    toggleWindow: function() {
+                        vm.pageOptions.data.kWindow.isActive = !vm.pageOptions.data.kWindow.isActive;
                     }
                 },
 
