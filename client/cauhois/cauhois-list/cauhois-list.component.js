@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
         templateUrl: 'client/cauhois/cauhois-list/cauhois-list.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary) {
+        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary, skynetLiveOptions) {
 
             $reactive(this).attach($scope);
 
@@ -26,6 +26,9 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             vm.modalLightBox = UIkit.modal("#cauhois_list_lightbox");
 
             vm.pageOptions = {
+                gridRef: {},
+                // Cờ này dùng để fix bug mất select sau khi render lại grid
+                isSelectFromController: false,
                 data: {
                     kWindow: {
                         options: {
@@ -69,9 +72,7 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
                     nhomsFilterActiveIds: [],
                 },
                 fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '',
-                selected: {
-                    cauhoi: {}
-                },
+                selected: {},
                 localConfigDataName: 'cauhois_config_data_local',
                 cloudConfigDataName: 'cauhois_grid_config_data_skynet'
             };
@@ -227,36 +228,31 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             vm.gridData = {
                 kGrid: {
-                    kOptions: vm._kHelpers.initDefaultOptions()
+                    // kOptions: vm._kHelpers.initDefaultOptions()
+                    kOptions: skynetLiveOptions.cauhois.kendo.options.grids.cauhois_list,
+                    kEvents: {}
                 }
             }
 
             // Quản lý các sự kiện events với kOptions
             // Khi người dùng click chọn một item, nếu item chưa được chọn -> chọn, nếu item đã được chọn trước đó -> bỏ chọn.
-            vm.gridData.kGrid.kOptions.change = function(e) {
-                let grid = $("#myGrid").data("kendoGrid");
-                if (grid.select().length) {
-                    if (vm.gridData.kGrid.kOptions.selectable === 'row') {
-
-                        let selected = grid.dataItem(grid.select());
-                        
-                        if (vm.pageOptions.selected.cauhoi._id === selected._id) {
-                            // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
-                            vm.pageOptions.selected.cauhoi = {};
-                            vm.pageOptions.data.kWindow.selectedItem = {};
-                            vm.pageOptions.fabState = 'cauhois_createNew';                                                                       
-                            grid.clearSelection();    
-                        } else {
-                            vm.pageOptions.fabState = 'cauhois_viewDetails';
-                            vm.pageOptions.selected.cauhoi = grid.dataItem(grid.select());
-                            vm.pageOptions.data.kWindow.selectedItem = angular.copy(vm.pageOptions.selected.cauhoi);
-                        }
+            vm.gridData.kGrid.kEvents.onChange = function(event, data) {
+                if (!_.isEmpty(data)) {
+                    if (vm.gridData.kGrid.kOptions.selectable === 'row') {                        
+                        vm.pageOptions.fabState = 'cauhois_viewDetails';
+                        vm.pageOptions.selected = angular.copy(data);
+                        vm.pageOptions.data.kWindow.selectedItem = angular.copy(vm.pageOptions.selected);
                     }
                 }
             };
             // Security: Chỉ cho phép tạo câu hỏi mới nếu người dùng có đủ thẩm quyền.
-            vm.gridData.kGrid.kOptions.dataBound = function(e) {
+            vm.gridData.kGrid.kEvents.onDataBound = function(event) {
                 vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
+
+                // Fix lỗi mất select sau khi bounding do grid re-render
+                if (!_.isEmpty(vm.pageOptions.selected)) {
+                    vm.pageOptions.gridRef.select(vm.pageOptions.gridRef.tbody.find(">tr[data-uid='" + vm.pageOptions.selected.uid + "']"));
+                };
 
                 // Trường hợp isExpandedview được set là true thông qua menu -> expanded View
                 if (vm.pageOptions.isExpandedView) {
@@ -375,11 +371,10 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             
             // Trường hợp flag pageOptions.isExpandedView được bật từ menu -> grid expand detail view
             $scope.$watch('vm.pageOptions.isExpandedView', (newVal, oldVal) => {
-                let grid = $("#myGrid").data("kendoGrid");
                 if (newVal) {                    
-                    grid.expandRow(grid.tbody.find("tr.k-master-row"));
+                    vm.pageOptions.gridRef.expandRow(vm.pageOptions.gridRef.tbody.find("tr.k-master-row"));
                 } else if (oldVal) {
-                    grid.collapseRow(grid.tbody.find("tr.k-master-row"));
+                    vm.pageOptions.gridRef.collapseRow(vm.pageOptions.gridRef.tbody.find("tr.k-master-row"));
                 }
             });
 

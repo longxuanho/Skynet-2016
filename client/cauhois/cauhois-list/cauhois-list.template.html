@@ -37,17 +37,21 @@
             </s-grid-menu>
 			
             <br/>
-
             <div class="uk-grid uk-margin-top no-animate" ng-show="!vm.numOfCauHois">
                <div style="margin:auto;">
                     <img style="border-radius: 50%;" src="assets/img/skynet/cauhois_empty.png">
-                    <div class="heading_list uk-margin-top uk-text-center">Không có dữ liệu câu hỏi được hiển thị.</div>
+                    <div class="heading_list uk-margin-top uk-text-center">Không có dữ liệu câu hỏi được hiển thị.</div>
                 </div>
             </div>
             
             <!-- GRID -->
             <div ng-show="vm.numOfCauHois">
-                <div id="myGrid" kendo-grid k-options="vm.gridData.kGrid.kOptions">
+                <div    id="myGrid" 
+                        kendo-grid="vm.pageOptions.gridRef"
+                        k-options="vm.gridData.kGrid.kOptions"
+                        k-on-change="vm.gridData.kGrid.kEvents.onChange(kendoEvent, data)"
+                        k-on-data-bound="vm.gridData.kGrid.kEvents.onDataBound(kendoEvent)"
+                        >
                     <div k-detail-template>
                         <div ng-if="dataItem.noi_dung.isHasImages">
                             <img class="uk-thumbnail uk-thumbnail-mini" ng-repeat="item in dataItem.noi_dung.url_hinh_anhs" ng-src="{{item}}" ng-click="vm.utils.showModalLightBox(item)">
@@ -69,7 +73,7 @@
     </div>
 </div>
 
-<cauhois-modal-details source="vm.pageOptions.selected.cauhoi"></cauhois-modal-details>
+<cauhois-modal-details source="vm.pageOptions.selected"></cauhois-modal-details>
 <datahelpers-modal-manage k-data-helper-options="vm.kDataHelpers.options.tags">
     <p>Các tag hay thẻ dấu được dùng để gắn cho câu hỏi với nội dung phù hợp, hỗ trợ người dùng tìm kiếm nhanh các nhóm câu hỏi có cùng nội dung được quản lý theo tag.</p>
 </datahelpers-modal-manage>

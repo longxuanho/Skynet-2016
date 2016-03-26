@@ -101,8 +101,8 @@
                 <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
                     k-data-source="cauhoisWindow.dictionary.loai_tbs[cauhoisWindow.source.phan_loai.nhom_tb.ma]"
                     k-rebind="cauhoisWindow.source.phan_loai.nhom_tb.ma"
-                    k-ng-model="cauhoisWindow.source.phan_loai.loai_tb"
-                    k-ng-delay="cauhoisWindow.dictionary.loai_tbs[cauhoisWindow.source.phan_loai.nhom_tb.ma]">
+                    ng-model="cauhoisWindow.source.phan_loai.loai_tb"
+                >
                 </select>
             </div>
             <div class="uk-width-medium-1-1 uk-margin-small-top uk-margin-medium-bottom">
@@ -110,8 +110,8 @@
                     <label for="cauhoi_phanloai_bacthi">Bậc thi</label>
                     <select kendo-multi-select id="cauhoi_phanloai_bacthi"
                         k-data-source="cauhoisWindow.dictionary.bac_this"
-                        k-ng-model="cauhoisWindow.source.phan_loai.bac_thi"
-                        k-ng-delay="cauhoisWindow.dictionary.bac_this.length">
+                        ng-model="cauhoisWindow.source.phan_loai.bac_thi"
+                    >
                     </select>
                 </div>
             </div>                                           
