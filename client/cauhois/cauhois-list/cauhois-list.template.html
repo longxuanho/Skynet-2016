@@ -51,7 +51,7 @@
                         k-options="vm.gridData.kGrid.kOptions"
                         k-on-change="vm.gridData.kGrid.kEvents.onChange(kendoEvent, data)"
                         k-on-data-bound="vm.gridData.kGrid.kEvents.onDataBound(kendoEvent)"
-                        >
+                >
                     <div k-detail-template>
                         <div ng-if="dataItem.noi_dung.isHasImages">
                             <img class="uk-thumbnail uk-thumbnail-mini" ng-repeat="item in dataItem.noi_dung.url_hinh_anhs" ng-src="{{item}}" ng-click="vm.utils.showModalLightBox(item)">

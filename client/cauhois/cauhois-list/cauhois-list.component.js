@@ -249,15 +249,18 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
             vm.gridData.kGrid.kEvents.onDataBound = function(event) {
                 vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
 
-                // Fix lỗi mất select sau khi bounding do grid re-render
-                if (!_.isEmpty(vm.pageOptions.selected)) {
-                    vm.pageOptions.gridRef.select(vm.pageOptions.gridRef.tbody.find(">tr[data-uid='" + vm.pageOptions.selected.uid + "']"));
-                };
+                if (vm.pageOptions.gridRef.tbody) {
+                    // Fix lỗi mất select sau khi bounding do grid re-render
+                    if (!_.isEmpty(vm.pageOptions.selected)) {
+                        vm.pageOptions.gridRef.select(vm.pageOptions.gridRef.tbody.find(">tr[data-uid='" + vm.pageOptions.selected.uid + "']"));
+                    };
 
-                // Trường hợp isExpandedview được set là true thông qua menu -> expanded View
-                if (vm.pageOptions.isExpandedView) {
-                    this.expandRow(this.tbody.find("tr.k-master-row"));
+                    // Trường hợp isExpandedview được set là true thông qua menu -> expanded View
+                    if (vm.pageOptions.isExpandedView) {
+                        vm.pageOptions.gridRef.expandRow(vm.pageOptions.gridRef.tbody.find("tr.k-master-row"));
+                    }
                 }
+                
             };
 
             
