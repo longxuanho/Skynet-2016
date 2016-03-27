@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisMain', function() {
         templateUrl: 'client/dashboard/dashboard-cauhois/dashboard-cauhois-main.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, variables, $timeout) {
+        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, $timeout) {
 
             $reactive(this).attach($scope);
 
@@ -24,28 +24,13 @@ angular.module('angular-skynet').directive('dashboardCauhoisMain', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            $scope.subscribe('suachuas');
+            $scope.subscribe('cauhois');
 
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
 
             vm.helpers({
-            });
-
-            // ***************************************************
-            // LISTEN EVENTS FROM SERVER
-            // ***************************************************
-
-            ddpEvents.addListener('suachuasChageEvent', function(message) {
-                console.log('event fired!');
-                if ($state && $state.$current.name==='dashboard.suachuas') {
-                    console.log('to this!', message);
-                    if (message.action==='insert')
-                        iNotifier.info('Thiết bị mã số ' + message.data.ma_tb.ma_tb + ' đã được đưa vào sửa chữa tại ô ' + message.data.dia_diem.vi_tri + '.');
-                    if (message.action==='update')
-                        iNotifier.success('Thiết bị mã số ' + message.data.ma_tb.ma_tb + ' tại ô ' + message.data.dia_diem.vi_tri + ' đã được sửa chữa xong.');
-                }
             });
             
 
@@ -63,9 +48,6 @@ angular.module('angular-skynet').directive('dashboardCauhoisMain', function() {
                 // accentColor: _.findWhere(vm._data.general.themes, {
                 //     name: $rootScope.main_theme
                 // }).color_accent,
-                setGroupById: function(id) {
-                    vm.pageOptions.groupBy.selectedId = id;
-                }
             };
 
             // ***************************************************

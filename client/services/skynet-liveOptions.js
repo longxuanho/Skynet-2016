@@ -97,19 +97,37 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
 
     factory.cauhois = {
         kendo: {}
-    }
-
-    factory.cauhois.kendo.dataSource = kendo.data.DataSource.create({
-        data: [],
-        schema: factory.schemas.cauhois,
-        page: 1,
-        pageSize: 8
-    })
+    } 
 
     factory.cauhois.kendo.options = {
+        charts: {
+            dashboard: {
+                dataSource: kendo.data.DataSource.create({
+                    data: [],
+                    aggregate: [
+                        { field: "_id", aggregate: "count" },
+                    ],
+                    schema: factory.schemas.cauhois
+                }),
+                colorPalette: {
+                    donut_nhomtbs_countId: ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4']
+                },
+                resolvedDataSources: {
+                    donut_nhomtbs_countId: kendo.data.DataSource.create({
+                        data: []
+                    })
+                }
+            },
+
+        },
         grids: {
             cauhois_list: {
-                dataSource: factory.cauhois.kendo.dataSource,
+                dataSource: kendo.data.DataSource.create({
+                    data: [],
+                    schema: factory.schemas.cauhois,
+                    page: 1,
+                    pageSize: 8
+                }),
 
                 columns: [
                     {
