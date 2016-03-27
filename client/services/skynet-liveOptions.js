@@ -110,10 +110,14 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     schema: factory.schemas.cauhois
                 }),
                 colorPalette: {
-                    donut_nhomtbs_countId: ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4']
+                    donut_nhomtbs_countId: ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4'],
+                    bar_loaitbs_countId: ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4', '#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4'],
                 },
                 resolvedDataSources: {
                     donut_nhomtbs_countId: kendo.data.DataSource.create({
+                        data: []
+                    }),
+                    bar_loaitbs_countId: kendo.data.DataSource.create({
                         data: []
                     })
                 }

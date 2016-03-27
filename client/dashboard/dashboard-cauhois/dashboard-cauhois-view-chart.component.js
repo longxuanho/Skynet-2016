@@ -55,6 +55,38 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         seriesClick: function (e) {
                             console.log('series clicked: ', e);
                         }
+                    },
+                    bar_loaitbs_countId: {
+                        theme: "material",
+                        title: {
+                            position: "bottom",
+                            text: "Biểu đồ phân bố câu hỏi NGB"
+                        },
+                        legend: {
+                            visible: false
+                        },
+                        seriesDefaults: {
+                            type: "bar"
+                        },
+                        dataSource: vm._kOptions.resolvedDataSources.bar_loaitbs_countId,
+                        series: [{
+                            categoryField: "category",
+                            field: "value",
+                            colorField: "color",
+                            labels: {
+                                visible: true,
+                                background: "transparent",
+                                position: "outsideEnd",
+                                template: "#= value #"
+                            }
+                        }],
+                        tooltip: {
+                            visible: true,
+                            template: "#= category #: #= value # câu hỏi"
+                        },
+                        seriesClick: function (e) {
+                            console.log('series clicked: ', e);
+                        }
                     }
                 }
             };
@@ -75,6 +107,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                 massageDataSource: {
                     massage: function (dataSource) {
                         vm.utils.massageDataSource.resolve_donut_nhomtbs_countId(dataSource);
+                        vm.utils.massageDataSource.resolve_bar_loaitbs_countId(dataSource);
                     },
                     resolve_donut_nhomtbs_countId: function(dataSource) {
                         // Trích xuất dữ liệu cho donut chart - Phân bố câu hỏi theo ngành thi
@@ -95,7 +128,32 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         });
 
                         vm._kOptions.resolvedDataSources.donut_nhomtbs_countId.data(resolved);
-                    }
+                    },
+                    resolve_bar_loaitbs_countId: function(dataSource) {
+                        // Liệt kê tất cả các loại thiết bị khả dụng từ DataHelpers
+                        let loai_tbs = DataHelpers.find({
+                            'subject': 'cauhois',
+                            'category': 'loai_tbs'
+                        }, {
+                            sort: {
+                                'container.ref': 1,
+                                'container.text': 1
+                            }
+                        }).fetch();
+
+                        let resolved = [];
+                        _.each(loai_tbs, (loai_tb, index) => {
+                            dataSource.filter({ field: "fields.loai_tb", operator: "contains", value: loai_tb.container.text });
+                            let view = dataSource.view()[0];
+                            if (view && view.aggregates._id.count)
+                                resolved.push({
+                                    category: loai_tb.container.text,
+                                    value: view.aggregates._id.count,
+                                    color: vm._kOptions.colorPalette.bar_loaitbs_countId[0]
+                                });
+                        });
+                        vm._kOptions.resolvedDataSources.bar_loaitbs_countId.data(resolved);
+                    },
                 }
             };
 

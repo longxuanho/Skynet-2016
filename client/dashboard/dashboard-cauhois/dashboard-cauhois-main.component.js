@@ -25,6 +25,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisMain', function() {
             // ***************************************************
 
             $scope.subscribe('cauhois');
+            $scope.subscribe('datahelpers');
 
             // ***************************************************
             // REACTIVE HELPERS
