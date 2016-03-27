@@ -90,7 +90,13 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                 id: 0,
                 title: 'Bảng tin',
                 icon: '&#xE871;',
-                link: 'dashboard.suachuas'
+                submenu: [{
+                    title: 'Sửa chữa',
+                    link: 'dashboard.suachuas'
+                }, {
+                    title: 'Câu hỏi',
+                    link: 'dashboard.cauhois'
+                }]
             }, {
                 id: 1,
                 title: 'Sửa chữa',
