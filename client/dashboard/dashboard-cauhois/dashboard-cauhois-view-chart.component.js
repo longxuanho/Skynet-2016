@@ -23,9 +23,10 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm.pageOptions = {
                 charts: {
                     donut_nhomtbs_countId: {
+                        theme: "material",
                         title: {
                             position: "bottom",
-                            text: "Share of Internet Population Growth"
+                            text: "Biểu đồ phân bố câu hỏi NGB"
                         },
                         legend: {
                             visible: false
@@ -39,10 +40,20 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             categoryField: "category",
                             field: "value",
                             colorField: "color",
+                            holeSize: 60,
+                            labels: {
+                                visible: true,
+                                background: "transparent",
+                                position: "outsideEnd",
+                                template: "#= category #\n#= value # câu hỏi"
+                            }
                         }],
                         tooltip: {
                             visible: true,
-                            template: "#= category #: #= value # câu hỏi"
+                            template: "#= category #: #= value # câu hỏi (#= kendo.format('{0:P0}', percentage) #)"
+                        },
+                        seriesClick: function (e) {
+                            console.log('series clicked: ', e);
                         }
                     }
                 }

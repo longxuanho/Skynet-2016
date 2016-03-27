@@ -1436,7 +1436,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 error.message = "Chưa có thông tin về nhóm thiết bị.";
                 return error;
             }
-            if (!cauhoi.phan_loai.loai_tb.length) {
+            if (!cauhoi.phan_loai.loai_tb || !cauhoi.phan_loai.loai_tb.length) {
                 error.message = "Chưa có thông tin về loại thiết bị.";
                 return error;
             }
@@ -1477,9 +1477,12 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             cauhoi.noi_dung.thong_ke.numOfUrlHinhAnhs = cauhoi.noi_dung.url_hinh_anhs.length;
 
             // Cập nhật các trường thông tin 
-            cauhoi.fields.tags = cauhoi.tags.join(", ");
-            cauhoi.fields.loai_tb = cauhoi.phan_loai.loai_tb.join(", ");
-            cauhoi.fields.bac_thi = cauhoi.phan_loai.bac_thi.join(", ");
+            if (cauhoi.tags && cauhoi.tags.length)
+                cauhoi.fields.tags = cauhoi.tags.join(", ");
+            if (cauhoi.phan_loai.loai_tb && cauhoi.phan_loai.loai_tb.length)
+                cauhoi.fields.loai_tb = cauhoi.phan_loai.loai_tb.join(", ");
+            if (cauhoi.phan_loai.bac_thi && cauhoi.phan_loai.bac_thi.length)
+                cauhoi.fields.bac_thi = cauhoi.phan_loai.bac_thi.join(", ");
 
             let correct_answers = [],
                 alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -1522,10 +1525,13 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
             newCauHoi.noi_dung.thong_ke.numOfCorrectAnswers = _.where(newCauHoi.noi_dung.lua_chons, {isCorrect: true}).length;
             newCauHoi.noi_dung.thong_ke.numOfUrlHinhAnhs = newCauHoi.noi_dung.url_hinh_anhs.length;
 
-            // Cập nhật các trường thông tin 
-            newCauHoi.fields.tags = newCauHoi.tags.join(", ");
-            newCauHoi.fields.loai_tb = newCauHoi.phan_loai.loai_tb.join(", ");
-            newCauHoi.fields.bac_thi = newCauHoi.phan_loai.bac_thi.join(", ");
+            // Cập nhật các trường thông tin
+            if (newCauHoi.tags && newCauHoi.tags.length)
+                newCauHoi.fields.tags = newCauHoi.tags.join(", ");
+            if (newCauHoi.phan_loai.loai_tb && newCauHoi.phan_loai.loai_tb.length)
+                newCauHoi.fields.loai_tb = newCauHoi.phan_loai.loai_tb.join(", ");
+            if (newCauHoi.phan_loai.bac_thi && newCauHoi.phan_loai.bac_thi.length)
+                newCauHoi.fields.bac_thi = newCauHoi.phan_loai.bac_thi.join(", ");
 
             let correct_answers = [],
                 alphabelts = ['A', 'B', 'C', 'D', 'E', 'F'];

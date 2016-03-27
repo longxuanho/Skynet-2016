@@ -126,7 +126,7 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     data: [],
                     schema: factory.schemas.cauhois,
                     page: 1,
-                    pageSize: 8
+                    pageSize: 5
                 }),
 
                 columns: [

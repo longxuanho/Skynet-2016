@@ -91,24 +91,25 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                 title: 'Bảng tin',
                 icon: '&#xE871;',
                 submenu: [{
+                    title: 'Câu hỏi NGB',
+                    link: 'dashboard.cauhois'
+                }, {
                     title: 'Sửa chữa',
                     link: 'dashboard.suachuas'
-                }, {
-                    title: 'Câu hỏi',
-                    link: 'dashboard.cauhois'
                 }]
             }, {
                 id: 1,
-                title: 'Sửa chữa',
-                icon: '&#xE869;',
-                link: 'suachuas.list'
+                title: 'Quản lý',
+                icon: '&#xE89D;',
+                submenu: [{
+                    title: 'Câu hỏi NGB',
+                    link: 'cauhois.list'
+                }, {
+                    title: 'Sửa chữa',
+                    link: 'suachuas.list'
+                }]
             }, {
                 id: 2,
-                title: 'Câu hỏi',
-                icon: '&#xE1B2;',
-                link: 'cauhois.list'
-            },  {
-                id: 3,
                 title: 'Người dùng',
                 icon: '&#xE87C;',
                 link: 'admin.users_list'

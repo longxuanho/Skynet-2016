@@ -470,7 +470,7 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                         vm.kGridDataSource.filter([]);
                         vm.kGridDataSource.group([]);
                         vm.kGridDataSource.aggregate([]);
-                        vm.kGridDataSource.pageSize(8);
+                        vm.kGridDataSource.pageSize(5);
                         vm.kGridDataSource.sort([]);
                     }
                 },

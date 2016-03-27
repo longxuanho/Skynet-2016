@@ -99,11 +99,15 @@
             <div class="uk-width-medium-1-1 uk-margin-small-top">
                 <label for="cauhoi_phanloai_loaithietbi">Loại TB</label>
                 <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
-                    k-data-source="cauhoisWindow.dictionary.loai_tbs[cauhoisWindow.source.phan_loai.nhom_tb.ma]"
-                    k-rebind="cauhoisWindow.source.phan_loai.nhom_tb.ma"
+                    k-data-source="cauhoisWindow.pageReactiveData.loai_tbs"
+                    k-data-text-field="'container.text'"
+                    k-data-value-field="'container.text'"
                     ng-model="cauhoisWindow.source.phan_loai.loai_tb"
                 >
                 </select>
+            </div>
+
+            <div class="uk-width-medium-1-1 uk-margin-small-top uk-margin-medium-bottom">
             </div>
             <div class="uk-width-medium-1-1 uk-margin-small-top uk-margin-medium-bottom">
                 <div class="uk-form-stacked">

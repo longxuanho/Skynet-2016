@@ -78,7 +78,9 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
                         data: [],
                         group: { field: 'container.group' }
                     }),
-                loai_tbs: []
+                loai_tbs: kendo.data.DataSource.create({
+                    data: []
+                }),
             };
 
             $timeout(() => {
@@ -94,15 +96,16 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             // // ***************************************************
 
             cauhoisWindow.helpers({
-                loai_tbs: () => {
-                    cauhoisWindow.pageReactiveData.loai_tbs = DataHelpers.find({
-                        subject: 'cauhois',
-                        category: 'loai_tbs'
+                datahelpers: () => {
+                    cauhoisWindow.pageReactiveData.loai_tbs.data(DataHelpers.find({
+                        'subject': 'cauhois',
+                        'category': 'loai_tbs',
+                        'container.ref': cauhoisWindow.getReactively('source.phan_loai.nhom_tb.ten')
                     }, {
                         sort: {
                             'container.text': 1
                         }
-                    }).fetch();
+                    }).fetch());
                     cauhoisWindow.pageReactiveData.tags.data(DataHelpers.find({
                         subject: 'cauhois',
                         category: 'tags'
