@@ -1386,8 +1386,6 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                         ten: 'Một đáp án đúng'
                     },
                     nhom_tb: {
-                        ma: "thiet_bi_nang",
-                        ten: "Thiết bị nâng"
                     },
                     loai_tb: [],
                     nhom_cau_hoi: {},

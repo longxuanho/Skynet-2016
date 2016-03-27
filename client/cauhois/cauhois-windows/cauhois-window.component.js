@@ -22,10 +22,10 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             cauhoisWindow._helpers = skynetHelpers.helpers;
             cauhoisWindow.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
-            // if (cauhoisWindow.kWindowOptions.mode === 'createNew') {
-            //     cauhoisWindow._helpers.initNewCauHoiParams(cauhoisWindow);
-            //     cauhoisWindow.source = angular.copy(cauhoisWindow.newCauHoi);
-            // }
+            if (cauhoisWindow.kWindowOptions.mode === 'createNew') {
+                cauhoisWindow._helpers.initNewCauHoiParams(cauhoisWindow);
+                cauhoisWindow.source = angular.copy(cauhoisWindow.newCauHoi);
+            }
 
             cauhoisWindow.pageOptions = {
                 limit: {
@@ -401,10 +401,6 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             // // ***************************************************
             // // WATCHERS
             // // ***************************************************
-
-            // UIkit.on('toggle.uk.accordion', function(event, active, toggle){
-            //     cauhoisWindow.pageOptions.props.currentSection = toggle[0].id || 'accordion_phan_loai';
-            // });
 
             $scope.$watch('cauhoisWindow.kWindowOptions.mode', (newVal) => {
                 if (newVal === 'update') {

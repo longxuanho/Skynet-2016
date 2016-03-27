@@ -1,11 +1,12 @@
-<div class="uk-clearfix">    
+<div class="uk-clearfix {{$root.main_theme}}">    
     <div class="uk-float-right">
         <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='createNew'" ng-click="cauhoisWindow.addNewCauHoi()">&#xE876;</i>
         <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='update'" ng-click="cauhoisWindow.save()">&#xE161;</i>
         <i class="md-icon material-icons no-animate" ng-click="cauhoisWindow.utils.randomizeLuaChonOrder()">&#xE0D7;</i>
-        <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='createNew'" ng-click="cauhoisWindow.utils.resetNewCauHoi()">&#xE5D5;</i>
-        <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='update'" ng-click="cauhoisWindow.reset()">&#xE5D5;</i>
-        <i class="md-icon material-icons no-animate" ng-click="cauhoisWindow.utils.toggleMode()">&#xE86F;</i>
+        <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='createNew'" ng-class="{'uk-text-warning': cauhoisWindow.source.phan_loai.loai_tb === null}" ng-click="cauhoisWindow.utils.resetNewCauHoi()">&#xE5D5;</i>
+        <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='update'" ng-class="{'uk-text-warning': cauhoisWindow.source.phan_loai.loai_tb === null}" ng-click="cauhoisWindow.reset()">&#xE5D5;</i>
+        <i class="md-icon material-icons no-animate color-accent" ng-click="cauhoisWindow.utils.toggleMode()" ng-show="cauhoisWindow.kWindowOptions.mode==='update'">&#xE254;</i>
+        <i class="md-icon material-icons no-animate color-accent" ng-click="cauhoisWindow.utils.toggleMode()" ng-show="cauhoisWindow.kWindowOptions.mode==='createNew'">&#xE03B;</i>
     </div>                 
 </div>
 <div class="md-card-content reset-print">
@@ -45,7 +46,7 @@
         </div>
         <h3 class="uk-accordion-title" id="accordion_phan_loai">Phân loại</h3>
         <div class="uk-accordion-content">
-            <div class="uk-width-medium-1-1 uk-clearfix">
+            <div class="uk-width-medium-1-1 uk-clearfix" ng-show="cauhoisWindow.kWindowOptions.mode === 'createNew'">
                 <div class="uk-align-medium-right">
                     <i class="md-icon material-icons no-animate" ng-click="cauhoisWindow.utils.resetPhanLoaiSection()">&#xE5D5;</i>
                     <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': cauhoisWindow.pageOptions.template.flags.isLockSectionPhanLoai}" ng-click="cauhoisWindow.utils.toggleLockSectionPhanLoai()">{{ (!cauhoisWindow.pageOptions.template.flags.isLockSectionPhanLoai) ? '&#xE898;' : '&#xE899;' }}</i>
@@ -102,6 +103,8 @@
                     k-data-source="cauhoisWindow.pageReactiveData.loai_tbs"
                     k-data-text-field="'container.text'"
                     k-data-value-field="'container.text'"
+                    k-highlight-first="false"
+                    k-ng-delay="cauhoisWindow.source.phan_loai.loai_tb"
                     ng-model="cauhoisWindow.source.phan_loai.loai_tb"
                 >
                 </select>
@@ -122,7 +125,7 @@
         </div>
         <h3 class="uk-accordion-title" id="accordion_phan_loai">Gắn thẻ (Tag)</h3>
         <div class="uk-accordion-content">
-            <div class="uk-width-medium-1-1 uk-clearfix">
+            <div class="uk-width-medium-1-1 uk-clearfix" ng-show="cauhoisWindow.kWindowOptions.mode === 'createNew'">
                 <div class="uk-align-medium-right">                                                  
                     <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !cauhoisWindow.pageOptions.able.decreaseNumOfLuaChons}" ng-click="cauhoisWindow.utils.resetTagSection()">&#xE5D5;</i>
                      <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': cauhoisWindow.pageOptions.template.flags.isLockSectionTags}" ng-click="cauhoisWindow.utils.toggleLockSectionTags()">{{ (!cauhoisWindow.pageOptions.template.flags.isLockSectionTags) ? '&#xE898;' : '&#xE899;' }}</i>
@@ -136,7 +139,8 @@
                     k-highlight-first="false"
                     k-data-text-field="'container.text'"
                     k-data-value-field="'container.text'"
-                    ng-model="cauhoisWindow.source.tags">
+                    ng-model="cauhoisWindow.source.tags"
+                    k-ng-delay="cauhoisWindow.source.tags">
                 </select>
             </div>
         </div>
@@ -146,7 +150,7 @@
                 <div class="uk-align-medium-right">
                     <i class="md-icon material-icons no-animate" ng-class="{'color-fade': ((!cauhoisWindow.pageOptions.able.addNumOfUrlHinhAnhs) || (!cauhoisWindow.pageOptions.props.isHasImages))}" ng-click="cauhoisWindow.utils.addNumOfHinhAnhs()">&#xE145;</i>
                     <i class="md-icon material-icons no-animate" ng-class="{'color-fade': ((!cauhoisWindow.pageOptions.able.decreaseNumOfUrlHinhAnhs) || (!cauhoisWindow.pageOptions.props.isHasImages))}" ng-click="cauhoisWindow.utils.decreaseNumOfHinhAnhs()">&#xE15B;</i>
-                    <i class="md-icon material-icons no-animate" ng-click="cauhoisWindow.utils.resetHinhAnhsSection()">&#xE5D5;</i>
+                    <i class="md-icon material-icons no-animate" ng-click="cauhoisWindow.utils.resetHinhAnhsSection()" ng-show="cauhoisWindow.kWindowOptions.mode === 'createNew'">&#xE5D5;</i>
                 </div>
             </div>
             <div class="uk-width-medium-1-1" ng-class="{'uk-margin-medium-bottom': !cauhoisWindow.pageOptions.props.isHasImages}">
@@ -171,7 +175,7 @@
         </div>
         <h3 class="uk-accordion-title" id="accordion_phan_loai">Ghi chú</h3>
         <div class="uk-accordion-content">
-            <div class="uk-width-medium-1-1 uk-clearfix">
+            <div class="uk-width-medium-1-1 uk-clearfix" ng-show="cauhoisWindow.kWindowOptions.mode === 'createNew'">
                 <div class="uk-align-medium-right">
                     <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !cauhoisWindow.pageOptions.able.decreaseNumOfLuaChons}" ng-click="cauhoisWindow.utils.resetGhiChuSection()">&#xE5D5;</i>
                     <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': cauhoisWindow.pageOptions.template.flags.isLockSectionGhiChu}" ng-click="cauhoisWindow.utils.toggleLockSectionGhiChu()">{{ (!cauhoisWindow.pageOptions.template.flags.isLockSectionGhiChu) ? '&#xE898;' : '&#xE899;' }}</i>

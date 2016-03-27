@@ -60,7 +60,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         theme: "material",
                         title: {
                             position: "bottom",
-                            text: "Biểu đồ phân bố câu hỏi NGB"
+                            text: "Phân bố câu hỏi theo loại PT"
                         },
                         legend: {
                             visible: false
