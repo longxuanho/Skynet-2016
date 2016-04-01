@@ -12,7 +12,8 @@ var skynetApp = angular.module('angular-skynet', [
 	'kendo.directives',
 	'ngFileUpload',
   	'ngImgCrop',
-  	'angular-meteor.auth']);
+  	'angular-meteor.auth',
+    'easypiechart']);
 
 skynetApp.config(function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([

@@ -5,7 +5,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
         controllerAs: 'vm',
         bindToController: true,
 
-        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, skynetLiveOptions, $timeout) {
+        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, skynetLiveOptions, $timeout, variables) {
 
             $reactive(this).attach($scope);
 
@@ -23,7 +23,45 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
 
             // vm.pageOptions.charts.donut_nhomtbs_countId.series[0].data
             vm.pageOptions = {
+                epc: {
+                    cauhois_total: {
+                        barColor:'#03a9f4',
+                        scaleColor: false,
+                        trackColor: '#f5f5f5',
+                        lineWidth: 5,
+                        size: 110,
+                        easing: variables.bez_easing_swiftOut
+                    },
+                    user_status: {
+                        barColor:'#607d8b',
+                        scaleColor: false,
+                        trackColor: '#f5f5f5',
+                        lineWidth: 5,
+                        size: 110,
+                        easing: variables.bez_easing_swiftOut
+                    }
+                },
                 charts: {
+                    small_bar_ratio: {
+                        theme: "material",
+                        seriesDefaults: {
+                            type: "column",
+                            gap: 4,
+                            spacing: 0.8
+                        },
+                        valueAxis: {
+                            labels: {
+                                visible:false
+                            }
+                        },
+                        series: [{
+                                name: "Thực tế",
+                                data: [0.3]
+                            }, {
+                                name: "Phân bố",
+                                data: [1]
+                            }]
+                    },
                     donut_nhomtbs_countId: {
                         theme: "material",
                         title: {
@@ -32,15 +70,12 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         },
                         legend: {
                             visible: true,
-                            position: 'left'
+                            position: 'top'
                         },
                         seriesDefaults: {
                             type: "donut",
                             startAngle: 0
                         },
-                        // dataSource: kendo.data.DataSource.create({
-                        //     data: []
-                        // }),
                         series: [{
                             name: 'inside',                            
                             holeSize: 60,
@@ -65,10 +100,6 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                     },
                     bar_loaitbs_countId: {
                         theme: "material",
-                        title: {
-                            position: "bottom",
-                            text: "Phân bố câu hỏi theo loại PT"
-                        },
                         legend: {
                             visible: false
                         },
@@ -171,7 +202,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                         resolved.push({
                                             category: loaitb.container.text,
                                             value: count,
-                                            color: vm.pageData.loai_tbs[key]['color']
+                                            color: vm.pageData.loai_tbs[key] ? vm.pageData.loai_tbs[key]['color'] : '&#xE7EF;'
                                         });
                                     }
                                 });                                
@@ -197,7 +228,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             resolved.push({
                                 category: view.value,
                                 value: view.aggregates._id.count,
-                                color: vm.pageData.loai_tbs[view.value]['color']
+                                color: vm.pageData.loai_tbs[view.value] ? vm.pageData.loai_tbs[view.value]['color'] : '&#xE7EF;'
                             });
                         });
 
