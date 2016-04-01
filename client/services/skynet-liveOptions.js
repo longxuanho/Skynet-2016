@@ -110,8 +110,12 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     schema: factory.schemas.cauhois
                 }),
                 color: {
-                    palettes: {
-                        default: ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4']
+                    palettes: {                        
+                        'Vitamin C': ['#004358', '#1F8A70', '#BEDB39', '#FFE11A', '#FD7400'],
+                        'Ad Majora - Aspirin C': ['#225378', '#1595A3', '#ACF0F2', '#F2FFE3', '#EB7F00'],
+                        'Blue Mono': ['#B0DAFC', '#7B98B0', '#325B7D', '#4681B0', '#455663', '#B0DAFC'],
+                        'backup': ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4'],
+                        
                     }
                 },
                 colorPalette: {

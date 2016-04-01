@@ -19,7 +19,9 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
             vm._kOptions = skynetLiveOptions.cauhois.kendo.options.charts.dashboard;
-            // vm.pageOptions.charts.bar_loaitbs_countId.dataSource
+            vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
+
+            // vm.pageOptions.charts.donut_nhomtbs_countId.series[0].data
             vm.pageOptions = {
                 charts: {
                     donut_nhomtbs_countId: {
@@ -29,20 +31,23 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             text: "Biểu đồ phân bố câu hỏi NGB"
                         },
                         legend: {
-                            visible: false
+                            visible: true,
+                            position: 'left'
                         },
                         seriesDefaults: {
                             type: "donut",
-                            startAngle: 150
+                            startAngle: 0
                         },
-                        dataSource: kendo.data.DataSource.create({
-                            data: []
-                        }),
+                        // dataSource: kendo.data.DataSource.create({
+                        //     data: []
+                        // }),
                         series: [{
-                            categoryField: "category",
-                            field: "value",
-                            colorField: "color",
+                            name: 'inside',                            
                             holeSize: 60,
+                            data: []
+                        }, {
+                            name: 'outside',
+                            data: [],
                             labels: {
                                 visible: true,
                                 background: "transparent",
@@ -96,8 +101,9 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             };
 
             vm.pageData = {
-                loai_tbs: {}
-            }        
+                loai_tbs: {},
+                nhom_cau_hois: []
+            }      
 
             // ***************************************************
             // SUBSCRIBE
@@ -112,9 +118,8 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                     massage: function (dataSource) {
                         // Bước 1: Xử lý dữ liệu cho đồ thị bar_loaitbs_countId
                         vm.utils.massageDataSource.resolve_bar_loaitbs_countId(dataSource);
-                        // Bước 1: Xử lý dữ liệu cho đồ thị donut_nhomtbs_countId
+                        // Bước 2: Xử lý dữ liệu cho đồ thị donut_nhomtbs_countId
                         vm.utils.massageDataSource.resolve_donut_nhomtbs_countId(dataSource);
-                        
                     },
                     resolve_loaitbs: function() {
                         let rawData = _.groupBy(DataHelpers.find({
@@ -133,10 +138,17 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         // Với mỗi nhóm thiết bị, thêm giá trị màu sắc tham chiếu cho biểu đồ và đưa vào vm.pageData.loai_tbs
                         _.each(keys, (key, index) => {
                             vm.pageData.loai_tbs[key] = {};
-                            vm.pageData.loai_tbs[key]['color'] = vm._kOptions.color.palettes.default[index];
+                            vm.pageData.loai_tbs[key]['color'] = vm._kOptions.color.palettes['Vitamin C'][index];
                             vm.pageData.loai_tbs[key]['data'] = rawData[key];
                         });
                         console.log('vm.pageData: ', vm.pageData);
+                    },
+                    resolve_nhomcauhois: function() {
+                        _.each(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem.nhom_cau_hois, (item, index) => {
+                            vm.pageData.nhom_cau_hois[item.ten] = {
+                                color: vm._kOptions.color.palettes['Blue Mono'][index]
+                            };
+                        });
                     },
                     resolve_bar_loaitbs_countId: function(dataSource) {
                         // Tính toán các số liệu về câu hỏi tương ứng với các bộ đề (chia theo loại thiết bị) - Sử dụng các filters
@@ -172,7 +184,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         }
                     },                    
                     resolve_donut_nhomtbs_countId: function(dataSource) {
-                        // Nhóm dữ liệu theo các nhóm thiết bị và lấy các số liệu thống kê                        
+                        // Nhóm dữ liệu theo các nhóm thiết bị và lấy các số liệu thống kê (Tính toán số liệu cho donut vòng trong)                 
                         dataSource.group({ 
                             field: 'phan_loai.nhom_tb.ten',
                             aggregates: [{ field: "_id", aggregate: "count" }],
@@ -189,13 +201,35 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             });
                         });
 
-                        // Sau khi thống kê xong, reset group.
-                        dataSource.group([]);
+                        vm.pageOptions.charts.donut_nhomtbs_countId.series[1].data = resolved;
 
-                        vm.pageOptions.charts.donut_nhomtbs_countId.dataSource.data(resolved);
+                        // Tính toán các số liệu cho donut vòng ngoài - theo nhóm nội dung
+                        dataSource.group({ 
+                            field: 'phan_loai.nhom_cau_hoi.ten',
+                            aggregates: [{ field: "_id", aggregate: "count" }],
+                        });
+
+                        resolved = [];
+                        views = dataSource.view();
+                        
+                        _.each(views, (view, index) => {
+                            resolved.push({
+                                category: view.value,
+                                value: view.aggregates._id.count,
+                                color: vm.pageData.nhom_cau_hois[view.value]['color']
+                            });
+                        });
+
+                        console.log('test, ', resolved);
+
+                        vm.pageOptions.charts.donut_nhomtbs_countId.series[0].data = resolved;
+                        // Sau khi thống kê xong, reset group.
+                        dataSource.group([]);                        
                     },
                 }
             };
+
+            vm.utils.massageDataSource.resolve_nhomcauhois();
 
             // ***************************************************
             // REACTIVE HELPERS

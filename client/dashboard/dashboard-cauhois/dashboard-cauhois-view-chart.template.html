@@ -23,13 +23,14 @@
             <div class="md-card-content">
                 <div class="uk-grid">
                     <div class="uk-width-medium-1-2">
-                        <div kendo-chart
+                        <div kendo-chart="vm.pageOptions.donutRef" id="donut_nhomtbs_countId"
                             k-options="vm.pageOptions.charts.donut_nhomtbs_countId"
+                            k-rebind="vm.pageOptions.charts.donut_nhomtbs_countId"
                             style="height: 300px;">
                         </div>  
                     </div>
                     <div class="uk-width-medium-1-2">
-                        <div kendo-chart
+                        <div kendo-chart id="bar_loaitbs_countId"
                             k-options="vm.pageOptions.charts.bar_loaitbs_countId"
                             style="height: 300px;">
                         </div>  
