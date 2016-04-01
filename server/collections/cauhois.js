@@ -109,3 +109,17 @@ Meteor.publish("cauhois", function(options, searchString, searchBy, tags, loaitb
     }
     return;    
 });
+
+Meteor.publish("cauhois_statistics", function(section) {
+    if (!section)
+        section = 'ky_thuat';
+    return CauHois.find({
+        'lop.ma': section
+    }, {
+        fields: {
+            _id: 1,
+            phan_loai: 1,
+            fields: 1
+        }
+    });
+});

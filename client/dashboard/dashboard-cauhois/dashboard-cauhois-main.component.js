@@ -24,8 +24,13 @@ angular.module('angular-skynet').directive('dashboardCauhoisMain', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            $scope.subscribe('cauhois');
             $scope.subscribe('datahelpers');
+            $scope.subscribe('cauhois_statistics', () => {
+                return [
+                    'ky_thuat'
+                ]
+            });
+            
 
             // ***************************************************
             // REACTIVE HELPERS

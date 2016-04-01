@@ -19,7 +19,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
             vm._kOptions = skynetLiveOptions.cauhois.kendo.options.charts.dashboard;
-
+            // vm.pageOptions.charts.bar_loaitbs_countId.dataSource
             vm.pageOptions = {
                 charts: {
                     donut_nhomtbs_countId: {
@@ -35,7 +35,9 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             type: "donut",
                             startAngle: 150
                         },
-                        dataSource: vm._kOptions.resolvedDataSources.donut_nhomtbs_countId,
+                        dataSource: kendo.data.DataSource.create({
+                            data: []
+                        }),
                         series: [{
                             categoryField: "category",
                             field: "value",
@@ -68,7 +70,9 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         seriesDefaults: {
                             type: "bar"
                         },
-                        dataSource: vm._kOptions.resolvedDataSources.bar_loaitbs_countId,
+                        dataSource: kendo.data.DataSource.create({
+                            data: []
+                        }),
                         series: [{
                             categoryField: "category",
                             field: "value",
@@ -92,7 +96,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             };
 
             vm.pageData = {
-                
+                loai_tbs: {}
             }        
 
             // ***************************************************
@@ -106,32 +110,14 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm.utils = {
                 massageDataSource: {
                     massage: function (dataSource) {
-                        vm.utils.massageDataSource.resolve_donut_nhomtbs_countId(dataSource);
+                        // Bước 1: Xử lý dữ liệu cho đồ thị bar_loaitbs_countId
                         vm.utils.massageDataSource.resolve_bar_loaitbs_countId(dataSource);
-                    },
-                    resolve_donut_nhomtbs_countId: function(dataSource) {
-                        // Trích xuất dữ liệu cho donut chart - Phân bố câu hỏi theo ngành thi
-                        dataSource.group({ 
-                            field: 'phan_loai.nhom_tb.ten',
-                            aggregates: [{ field: "_id", aggregate: "count" }],
-                        });
-
-                        let views = dataSource.view(),
-                            resolved = [];
+                        // Bước 1: Xử lý dữ liệu cho đồ thị donut_nhomtbs_countId
+                        vm.utils.massageDataSource.resolve_donut_nhomtbs_countId(dataSource);
                         
-                        _.each(views, (view, index) => {
-                            resolved.push({
-                                category: view.value,
-                                value: view.aggregates._id.count,
-                                color: vm._kOptions.colorPalette.donut_nhomtbs_countId[index]
-                            });
-                        });
-
-                        vm._kOptions.resolvedDataSources.donut_nhomtbs_countId.data(resolved);
                     },
-                    resolve_bar_loaitbs_countId: function(dataSource) {
-                        // Liệt kê tất cả các loại thiết bị khả dụng từ DataHelpers
-                        let loai_tbs = DataHelpers.find({
+                    resolve_loaitbs: function() {
+                        let rawData = _.groupBy(DataHelpers.find({
                             'subject': 'cauhois',
                             'category': 'loai_tbs'
                         }, {
@@ -139,20 +125,74 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                 'container.ref': 1,
                                 'container.text': 1
                             }
-                        }).fetch();
-
-                        let resolved = [];
-                        _.each(loai_tbs, (loai_tb, index) => {
-                            dataSource.filter({ field: "fields.loai_tb", operator: "contains", value: loai_tb.container.text });
-                            let view = dataSource.view()[0];
-                            if (view && view.aggregates._id.count)
-                                resolved.push({
-                                    category: loai_tb.container.text,
-                                    value: view.aggregates._id.count,
-                                    color: vm._kOptions.colorPalette.bar_loaitbs_countId[0]
-                                });
+                        }).fetch(), (item) => {
+                            // Nhóm dữ liệu theo nhóm thiết bị
+                            return item.container.ref;
                         });
-                        vm._kOptions.resolvedDataSources.bar_loaitbs_countId.data(resolved);
+                        let keys = _.keys(rawData);
+                        // Với mỗi nhóm thiết bị, thêm giá trị màu sắc tham chiếu cho biểu đồ và đưa vào vm.pageData.loai_tbs
+                        _.each(keys, (key, index) => {
+                            vm.pageData.loai_tbs[key] = {};
+                            vm.pageData.loai_tbs[key]['color'] = vm._kOptions.color.palettes.default[index];
+                            vm.pageData.loai_tbs[key]['data'] = rawData[key];
+                        });
+                        console.log('vm.pageData: ', vm.pageData);
+                    },
+                    resolve_bar_loaitbs_countId: function(dataSource) {
+                        // Tính toán các số liệu về câu hỏi tương ứng với các bộ đề (chia theo loại thiết bị) - Sử dụng các filters
+                        if (!_.isEmpty(vm.pageData.loai_tbs)) {
+                            let resolved = [],
+                                keys = _.keys(vm.pageData.loai_tbs);
+                            // Với mỗi nhóm thiết bị, áp dụng các filter theo nhóm rồi theo loại thiết bị, từ đó tính ra số lượng câu hỏi
+                            _.each(keys, (key) => {
+                                _.each(vm.pageData.loai_tbs[key].data, (loaitb, index) => {
+                                    dataSource.filter({
+                                        logic: "and",
+                                        filters: [
+                                            { field: "phan_loai.nhom_tb.ten", operator: "eq", value: key },
+                                            { field: "fields.loai_tb", operator: "contains", value: loaitb.container.text }
+                                        ]
+                                    });
+                                    let count = dataSource.view().length;
+                                    if (count) {
+                                        // Nếu có câu hỏi trong loại thiết bị này, xuất ra thống kê để hiển trị trên đồ thị
+                                        resolved.push({
+                                            category: loaitb.container.text,
+                                            value: count,
+                                            color: vm.pageData.loai_tbs[key]['color']
+                                        });
+                                    }
+                                });                                
+                            });
+
+                            // Sau khi thống kê xong, reset filter.
+                            dataSource.filter({});
+
+                            vm.pageOptions.charts.bar_loaitbs_countId.dataSource.data(resolved);
+                        }
+                    },                    
+                    resolve_donut_nhomtbs_countId: function(dataSource) {
+                        // Nhóm dữ liệu theo các nhóm thiết bị và lấy các số liệu thống kê                        
+                        dataSource.group({ 
+                            field: 'phan_loai.nhom_tb.ten',
+                            aggregates: [{ field: "_id", aggregate: "count" }],
+                        });
+
+                        let resolved = [],
+                            views = dataSource.view();
+                        
+                        _.each(views, (view, index) => {
+                            resolved.push({
+                                category: view.value,
+                                value: view.aggregates._id.count,
+                                color: vm.pageData.loai_tbs[view.value]['color']
+                            });
+                        });
+
+                        // Sau khi thống kê xong, reset group.
+                        dataSource.group([]);
+
+                        vm.pageOptions.charts.donut_nhomtbs_countId.dataSource.data(resolved);
                     },
                 }
             };
@@ -162,16 +202,20 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             // ***************************************************
 
             vm.helpers({
-                cauhois: function cauhois() {
+                
+                statistics: function () {
+                    // Tách các loại thiết bị theo nhóm và ấn định các mã màu cho từng nhóm thiết bị, thể hiện trên các biểu đồ
+                    vm.utils.massageDataSource.resolve_loaitbs();
+                    // Sau khi có datahelpers cho loại thiết bị, thực hiện các thống kê cho câu hỏi
                     try {
                         vm._kOptions.dataSource.data(CauHois.find().fetch());
                     } catch (error) {
                         console.log("Error: ", error);
                     }
                     vm.utils.massageDataSource.massage(vm._kOptions.dataSource);
-                    return CauHois.find({
-                    });
-                },
+                    return;
+                }
+                
             });
             
 
