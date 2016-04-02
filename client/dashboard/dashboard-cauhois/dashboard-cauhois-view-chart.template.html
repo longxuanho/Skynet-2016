@@ -2,8 +2,8 @@
     <div>
         <div class="md-card md-card-hover md-card-overlay">
             <div class="md-card-content">
-                <div class="epc_chart" easypiechart options="vm.pageOptions.epc.cauhois_total" percent="76">
-                    <span class="epc_chart_text"><span class="countUpMe">468</span></span>
+                <div class="epc_chart" easypiechart options="vm.pageOptions.epc.cauhois_total" percent="vm.pageData.statistics.cauhois.percent_kythuats_vs_all">
+                    <span class="epc_chart_text"><span class="countUpMe">{{vm.pageData.statistics.cauhois.total}}</span></span>
                 </div>
             </div>
             <div class="md-card-overlay-content">
@@ -13,7 +13,7 @@
                         Số câu hỏi
                     </h3>
                 </div>
-                Skynet đang quản lý <span class="uk-text-bold">468</span> câu hỏi về Kỹ thuật, chiếm <span class="uk-text-bold">78%</span> trên tổng số <span class="uk-text-bold">3,165</span> câu hỏi.
+                Skynet đang quản lý <span class="uk-text-bold">{{vm.pageData.statistics.cauhois.total | number:0}}</span> câu hỏi về Kỹ thuật, chiếm <span class="uk-text-bold">{{vm.pageData.statistics.cauhois.percent_kythuats_vs_all | number:0}}%</span> trong tổng số <span class="uk-text-bold">{{vm.numberOfCauHoisTotal | number:0}}</span> câu hỏi trên toàn hệ thống.
             </div>
         </div>        
     </div>
@@ -173,6 +173,7 @@
                         <div class="uk-width-medium-1-2">
                             <div kendo-chart id="bar_large_nhomcauhois_countId"
                                 k-options="vm.pageOptions.charts.bar_large_nhomcauhois_countId"
+                                k-rebind="vm.pageOptions.charts.bar_large_nhomcauhois_countId"
                                 style="height: 350px;">
                             </div>  
                         </div>                   

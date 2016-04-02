@@ -226,32 +226,40 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                     bar_large_nhomcauhois_countId: {
                         theme: "material",
                         title: {
-                            text: "Phân bố câu hỏi theo các bộ đề",
+                            text: "Phân bố câu hỏi theo nhóm nội dung",
                             font: "16px Roboto,Arial,Helvetica,sans-serif"
                         },
                         legend: {
-                            visible: false
+                            visible: true,
+                            position: 'top'
                         },
                         seriesDefaults: {
-                            type: "bar"
-                        },
-                        dataSource: kendo.data.DataSource.create({
-                            data: []
-                        }),
-                        series: [{
-                            categoryField: "category",
-                            field: "value",
-                            colorField: "color",
-                            labels: {
-                                visible: true,
-                                background: "transparent",
-                                position: "outsideEnd",
-                                template: "#= value #"
+                            type: "column",
+                            stack: {
+                                type: "100%"
                             }
-                        }],
+                        },
+                        series: [],
+                        valueAxis: {
+                            line: {
+                                visible: false
+                            },
+                            minorGridLines: {
+                                visible: true
+                            }
+                        },
+                        categoryAxis: {
+                            categories: [],
+                            labels: {
+                                rotation: 'auto'
+                            },
+                            majorGridLines: {
+                                visible: false
+                            }
+                        },
                         tooltip: {
                             visible: true,
-                            template: "#= category #: #= value # câu hỏi"
+                            template: "#= series.name #: #= value # câu hỏi (#= kendo.format('{0:P0}', percentage) #)"
                         }
                     },
                 }
@@ -263,7 +271,8 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                 statistics: {
                     cauhois: {
                         total: 0,
-                        big_total: 0
+                        big_total: 0,
+                        percent_kythuats_vs_all: 0,
                     }
                 }
             }      
@@ -298,7 +307,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             vm.pageData.loai_tbs[key]['color'] = vm._kOptions.color.palettes['Vitamin C'][index];
                             vm.pageData.loai_tbs[key]['data'] = rawData[key];
                         });
-                        console.log('vm.pageData: ', vm.pageData);
+                        // console.log('vm.pageData: ', vm.pageData);
                     },
                     resolve_nhomcauhois: function() {
                         _.each(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem.nhom_cau_hois, (item, index) => {
@@ -320,14 +329,44 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                     resolve_statistics: function(dataSource) {
                         // Tổng số câu hỏi thi NGB được trả về từ DB
                         vm.pageData.statistics.cauhois.total = dataSource.aggregates()['_id'].count;
+                        // Tính lại các chỉ số phần trăm
+                        if (vm.numberOfCauHoisTotal)
+                            vm.pageData.statistics.cauhois.percent_kythuats_vs_all = vm.pageData.statistics.cauhois.total / vm.numberOfCauHoisTotal * 100;
+                    },
+                    resolved_bar_series_nhomcauhois_countId: function(detail_resolved_data, new_categories) {
+                        // console.log('received data: ', detail_resolved_data, new_categories)
+                        // Xử lý dữ liệu data cho  bar_large_nhomcauhois_countId: Với mỗi phần được lọc, ta chia nhóm nhỏ hơn để lấy các giá trị thống kê:
+                        let new_series = [];
+
+                        _.each(_.keys(vm.pageData.nhom_cau_hois), (key) => {
+                            let obj = {
+                                name: key,
+                                color: vm.pageData.nhom_cau_hois[key] ? vm.pageData.nhom_cau_hois[key]['color'] : vm.pageOptions.default.colorPalette[0],
+                                data: []
+                            };
+                            _.each(new_categories, (loaitb) => {
+                                obj.data.push(
+                                    detail_resolved_data[loaitb][key] ? detail_resolved_data[loaitb][key] : 0
+                                );
+                            });
+                            new_series.push(obj);
+                        });
+
+                        vm.pageOptions.charts.bar_large_nhomcauhois_countId.categoryAxis.categories = new_categories;
+                        vm.pageOptions.charts.bar_large_nhomcauhois_countId.series = new_series;
+
+                        // console.log('new_series: ', new_series)
                     },   
                     resolve_bar_loaitbs_countId: function(dataSource) {
                         // Tính toán các số liệu về câu hỏi tương ứng với các bộ đề (chia theo loại thiết bị) - Sử dụng các filters
                         if (!_.isEmpty(vm.pageData.loai_tbs)) {
                             let resolved = [],
-                                keys = _.keys(vm.pageData.loai_tbs);
+                                // Dùng cho dữ liệu biểu đồ cột chi tiết khi phóng lớn, quan hệ tỷ lệ giữa nhóm nội dung theo các bộ đề, column stack 100%
+                                new_detail_resolved = {}, 
+                                new_categories = []; 
+                            
                             // Với mỗi nhóm thiết bị, áp dụng các filter theo nhóm rồi theo loại thiết bị, từ đó tính ra số lượng câu hỏi
-                            _.each(keys, (key) => {
+                            _.each(_.keys(vm.pageData.loai_tbs), (key) => {
                                 _.each(vm.pageData.loai_tbs[key].data, (loaitb, index) => {
                                     dataSource.filter({
                                         logic: "and",
@@ -345,8 +384,22 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                             color: vm.pageData.loai_tbs[key] ? vm.pageData.loai_tbs[key]['color'] : vm.pageOptions.default.colorPalette[0]
                                         });
                                     }
-                                });                                
+                                    // Tiếp theo xử lý dữ liệu cho bar_large_nhomcauhois_countId: Với mỗi phần được lọc, ta chia nhóm nhỏ hơn để lấy các giá trị thống kê:
+                                    dataSource.group({ 
+                                        field: 'phan_loai.nhom_cau_hoi.ten',
+                                        aggregates: [{ field: "_id", aggregate: "count" }],
+                                    });
+                                    new_detail_resolved[loaitb.container.text] = {};
+                                    _.each(dataSource.view(), (view) => {
+                                        new_detail_resolved[loaitb.container.text][view.value] = view.items.length;
+                                    });
+                                    new_categories.push(loaitb.container.text);
+                                    // Reset group
+                                    dataSource.group([]);
+                                });                               
                             });
+
+                            
 
                             // Sau khi thống kê xong, reset filter.
                             dataSource.filter({});
@@ -357,14 +410,15 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                 vm.pageData.statistics.cauhois.big_total += item.value;
                             });                            
 
+                            // Feed dữ liệu cho bar_large_nhomcauhois_countId: Với mỗi phần được lọc, ta chia nhóm nhỏ hơn để lấy các giá trị thống kê:
+                            this.resolved_bar_series_nhomcauhois_countId(new_detail_resolved, new_categories);
                             // Feed dữ liệu cho bar_loaitbs_countId và bar_large_loaitbs_countId
                             vm.pageOptions.charts.bar_loaitbs_countId.dataSource.data(resolved);
                             vm.pageOptions.charts.bar_large_loaitbs_countId.dataSource.data(resolved);
-                            vm.pageOptions.charts.bar_large_nhomcauhois_countId.dataSource.data(resolved);
                         }
                     },              
                     resolve_donut_nhomtbs_countId: function(dataSource) {
-                        // Nhóm dữ liệu theo các nhóm thiết bị và lấy các số liệu thống kê (Tính toán số liệu cho donut vòng trong)                 
+                        // Nhóm dữ liệu theo các nhóm thiết bị và lấy các số liệu thống kê (Tính toán số liệu cho donut vòng ngoài)                 
                         dataSource.group({ 
                             field: 'phan_loai.nhom_tb.ten',
                             aggregates: [{ field: "_id", aggregate: "count" }],
@@ -385,7 +439,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         vm.pageOptions.charts.donut_nhomtbs_countId.series[1].data = resolved;
                         vm.pageOptions.charts.donut_large_nhomtbs_countId.dataSource.data(resolved);
 
-                        // Tính toán các số liệu cho donut vòng ngoài - theo nhóm nội dung
+                        // Tính toán các số liệu cho donut vòng trong - theo nhóm nội dung
                         dataSource.group({ 
                             field: 'phan_loai.nhom_cau_hoi.ten',
                             aggregates: [{ field: "_id", aggregate: "count" }],
@@ -401,8 +455,6 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                 color: vm.pageData.nhom_cau_hois[view.value]['color']
                             });
                         });
-
-                        console.log('test, ', resolved);
 
                         // Feed dữ liệu cho donut_nhomtbs_countId, donut_large_nhomcauhois_countId 
                         vm.pageOptions.charts.donut_nhomtbs_countId.series[0].data = resolved;
@@ -422,7 +474,9 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             // ***************************************************
 
             vm.helpers({
-                
+                numberOfCauHoisTotal: () => {
+                    return Counts.get('numberOfCauHoisTotal');
+                },
                 statistics: function () {
                     // Tách các loại thiết bị theo nhóm và ấn định các mã màu cho từng nhóm thiết bị, thể hiện trên các biểu đồ
                     vm.utils.processDataSource.resolve_loaitbs();
@@ -435,6 +489,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                     vm.utils.massageDataSource.massage(vm._kOptions.dataSource);
                     return;
                 }
+                
                 
             });
             

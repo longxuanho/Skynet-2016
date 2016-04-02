@@ -113,6 +113,12 @@ Meteor.publish("cauhois", function(options, searchString, searchBy, tags, loaitb
 Meteor.publish("cauhois_statistics", function(section) {
     if (!section)
         section = 'ky_thuat';
+
+    Counts.publish(this, 'numberOfCauHoisTotal', CauHois.find({
+    }), {
+        noReady: true
+    });
+
     return CauHois.find({
         'lop.ma': section
     }, {
