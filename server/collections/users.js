@@ -52,8 +52,6 @@ Meteor.publish("users_single", function(id) {
     });
 });
 
-
-
 Meteor.publish("userStatus", function(options, searchString, searchBy) {
 
     if (searchString == null)

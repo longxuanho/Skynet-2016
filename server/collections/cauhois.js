@@ -39,7 +39,41 @@ CauHois.allow({
 // ***************************************************
 // COLLECTION HOOKS
 // ***************************************************
+CauHois.after.insert(function(userId, doc) {
+    // Sau khi tạo mới câu hỏi thi -> ghi vào log
+    let user = Meteor.users.findOne({_id: userId});
+    if (user) {
+        let now = new Date,
+            new_log = {
+                subject: 'cauhois',
+                category: 'ky_thuat',
+                section: doc.phan_loai.nhom_tb.ten,
+                action: 'Tạo mới',
+                user: {
+                    userId: userId,
+                    userName: user.profile ? user.profile.name : 'Vô danh',
+                    userEmail: user.emails[0].address
+                },
+                target: {
+                    keyId: doc._id,
+                    ref: doc.noi_dung.tieu_de,
+                },
+                when: {
+                    time: now,
+                    time_day_str: moment(now).format('YYYY-MM-DD'),
+                    time_month_str: moment(now).format('YYYY-MM'),
+                    time_year_str: moment(now).format('YYYY')
+                }
+            }
+            SkyLogs.insert(new_log, (error) => {
+                if (error) {
+                    console.log('SkyLogs - Error: ', error.reason);
+                }
+            });
+    }    
+    
 
+});
 
 // ***************************************************
 // PUBLISH / SUBSCRIBE
