@@ -102,14 +102,28 @@
                         <div kendo-chart id="donut_nhomtbs_countId"
                             k-options="vm.pageOptions.charts.donut_nhomtbs_countId"
                             k-rebind="vm.pageOptions.charts.donut_nhomtbs_countId"
+                            ng-hide="$root.card_fullscreen"
                             style="height: 350px;">
                         </div>  
                     </div>                    
                 </div>
 
                 <div class="md-card-fullscreen-content">
-                    <p class="uk-margin-large-top uk-margin-small-bottom heading_list uk-text-success">Some Info:</p>
-                    <p class="uk-margin-top-remove">Ut quidem sunt minus aut accusantium iusto libero et cupiditate quod perspiciatis tempora dignissimos sed aliquam nihil itaque corporis perspiciatis dignissimos qui dolores quisquam ut hic ipsum ex vel delectus culpa nobis et dolores repudiandae accusantium porro eum quod repudiandae sunt esse ex nihil nihil qui sed voluptas dignissimos a sapiente ea sed animi vel qui et error incidunt quos numquam modi vitae at nostrum harum dignissimos molestias hic neque aliquam vel repudiandae.</p>
+                    <p class="uk-margin-large-top uk-margin-small-bottom heading_list"><span class="uk-text-success">Dữ liệu quản lý NGB chuyên ngành Kỹ thuật:</span> {{vm.pageData.statistics.cauhois.total}} câu hỏi</p> 
+                    <div class="uk-grid" ng-if="$root.card_fullscreen">
+                        <div class="uk-width-medium-1-2">
+                            <div kendo-chart id="donut_large_nhomtbs_countId"
+                                k-options="vm.pageOptions.charts.donut_large_nhomtbs_countId"
+                                style="height: 350px;">
+                            </div>  
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div kendo-chart id="donut_large_nhomcauhois_countId"
+                                k-options="vm.pageOptions.charts.donut_large_nhomcauhois_countId"
+                                style="height: 350px;">
+                            </div>  
+                        </div>                   
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,7 +146,7 @@
                 </div>
                 <card-fullscreen-deactivate></card-fullscreen-deactivate>
                 <h3 class="md-card-toolbar-heading-text">
-                    Số lượng câu hỏi theo Bộ đề
+                    Số lượng câu hỏi quản lý theo Bộ đề
                 </h3>
             </div>
             <div class="md-card-content">
@@ -140,14 +154,30 @@
                     <div class="uk-width-medium-1-1">
                         <div kendo-chart id="bar_loaitbs_countId"
                             k-options="vm.pageOptions.charts.bar_loaitbs_countId"
+                            ng-hide="$root.card_fullscreen"
                             style="height: 350px;">
                         </div>  
                     </div>                    
                 </div>
 
                 <div class="md-card-fullscreen-content">
-                    <p class="uk-margin-large-top uk-margin-small-bottom heading_list uk-text-success">Some Info:</p>
-                    <p class="uk-margin-top-remove">Ut quidem sunt minus aut accusantium iusto libero et cupiditate quod perspiciatis tempora dignissimos sed aliquam nihil itaque corporis perspiciatis dignissimos qui dolores quisquam ut hic ipsum ex vel delectus culpa nobis et dolores repudiandae accusantium porro eum quod repudiandae sunt esse ex nihil nihil qui sed voluptas dignissimos a sapiente ea sed animi vel qui et error incidunt quos numquam modi vitae at nostrum harum dignissimos molestias hic neque aliquam vel repudiandae.</p>
+                    <div class="md-card-fullscreen-content">
+                    <p class="uk-margin-large-top uk-margin-small-bottom heading_list"><span class="uk-text-success">Tổng số câu hỏi được phân bổ vào các bộ đề:</span> {{vm.pageData.statistics.cauhois.big_total}} câu hỏi</p> 
+                    <div class="uk-grid" ng-if="$root.card_fullscreen">
+                        <div class="uk-width-medium-1-2">
+                            <div kendo-chart id="bar_large_loaitbs_countId"
+                                k-options="vm.pageOptions.charts.bar_large_loaitbs_countId"
+                                style="height: 350px;">
+                            </div>  
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div kendo-chart id="bar_large_nhomcauhois_countId"
+                                k-options="vm.pageOptions.charts.bar_large_nhomcauhois_countId"
+                                style="height: 350px;">
+                            </div>  
+                        </div>                   
+                    </div>
+                </div>
                 </div>
             </div>
         </div> 

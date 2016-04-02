@@ -21,8 +21,11 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm._kOptions = skynetLiveOptions.cauhois.kendo.options.charts.dashboard;
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
-            // vm.pageOptions.charts.donut_nhomtbs_countId.series[0].data
+            // vm.pageOptions.default.color
             vm.pageOptions = {
+                default: {
+                    colorPalette: ['&#xE7EF;']
+                },
                 epc: {
                     cauhois_total: {
                         barColor:'#03a9f4',
@@ -66,7 +69,8 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         theme: "material",
                         title: {
                             position: "bottom",
-                            text: "Biểu đồ phân bố câu hỏi NGB"
+                            text: "Biểu đồ phân bố câu hỏi NGB",
+                            font: "16px Roboto,Arial,Helvetica,sans-serif"
                         },
                         legend: {
                             visible: true,
@@ -93,10 +97,73 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         tooltip: {
                             visible: true,
                             template: "#= category #: #= value # câu hỏi (#= kendo.format('{0:P0}', percentage) #)"
-                        },
-                        seriesClick: function (e) {
-                            console.log('series clicked: ', e);
                         }
+                    },
+                    donut_large_nhomtbs_countId: {
+                        theme: "material",
+                        title: {
+                            text: "Theo các nhóm thiết bị",
+                            font: "16px Roboto,Arial,Helvetica,sans-serif"
+                        },
+                        legend: {
+                            position: "bottom"
+                        },
+                        dataSource: kendo.data.DataSource.create({
+                            data: []
+                        }),
+                        seriesDefaults: {
+                            type: "donut",
+                            startAngle: 0
+                        },
+                        series: [{
+                            field: 'value',
+                            categoryField: 'category',
+                            colorField: 'color',
+                            holeSize: 70,
+                            labels: {
+                                visible: true,
+                                background: "transparent",
+                                position: "outsideEnd",
+                                template: "#= category #\n#= value # câu hỏi"
+                            }
+                        }],
+                        tooltip: {
+                            visible: true,
+                            template: "#= category #: #= value # câu hỏi (#= kendo.format('{0:P0}', percentage) #)"
+                        },
+                    },
+                    donut_large_nhomcauhois_countId: {
+                        theme: "material",
+                        title: {
+                            text: "Theo các nhóm nội dung",
+                            font: "16px Roboto,Arial,Helvetica,sans-serif"
+                        },
+                        legend: {
+                            position: "bottom"
+                        },
+                        dataSource: kendo.data.DataSource.create({
+                            data: []
+                        }),
+                        seriesDefaults: {
+                            type: "donut",
+                            startAngle: 0
+                        },
+                        series: [{
+                            field: 'value',
+                            categoryField: 'category',
+                            colorField: 'color',
+                            holeSize: 70,
+                            labels: {
+                                visible: true,
+                                background: "transparent",
+                                position: "outsideEnd",
+                                template: "#= category #\n#= value # câu hỏi"
+                            }
+                        }],
+                        tooltip: {
+                            visible: true,
+                            template: "#= category #: #= value # câu hỏi (#= kendo.format('{0:P0}', percentage) #)"
+                        },
                     },
                     bar_loaitbs_countId: {
                         theme: "material",
@@ -123,17 +190,82 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         tooltip: {
                             visible: true,
                             template: "#= category #: #= value # câu hỏi"
-                        },
-                        seriesClick: function (e) {
-                            console.log('series clicked: ', e);
                         }
-                    }
+                    },
+                    bar_large_loaitbs_countId: {
+                        theme: "material",
+                        title: {
+                            text: "Phân bố câu hỏi theo các bộ đề",
+                            font: "16px Roboto,Arial,Helvetica,sans-serif"
+                        },
+                        legend: {
+                            visible: false
+                        },
+                        seriesDefaults: {
+                            type: "bar"
+                        },
+                        dataSource: kendo.data.DataSource.create({
+                            data: []
+                        }),
+                        series: [{
+                            categoryField: "category",
+                            field: "value",
+                            colorField: "color",
+                            labels: {
+                                visible: true,
+                                background: "transparent",
+                                position: "outsideEnd",
+                                template: "#= value #"
+                            }
+                        }],
+                        tooltip: {
+                            visible: true,
+                            template: "#= category #: #= value # câu hỏi"
+                        }
+                    },
+                    bar_large_nhomcauhois_countId: {
+                        theme: "material",
+                        title: {
+                            text: "Phân bố câu hỏi theo các bộ đề",
+                            font: "16px Roboto,Arial,Helvetica,sans-serif"
+                        },
+                        legend: {
+                            visible: false
+                        },
+                        seriesDefaults: {
+                            type: "bar"
+                        },
+                        dataSource: kendo.data.DataSource.create({
+                            data: []
+                        }),
+                        series: [{
+                            categoryField: "category",
+                            field: "value",
+                            colorField: "color",
+                            labels: {
+                                visible: true,
+                                background: "transparent",
+                                position: "outsideEnd",
+                                template: "#= value #"
+                            }
+                        }],
+                        tooltip: {
+                            visible: true,
+                            template: "#= category #: #= value # câu hỏi"
+                        }
+                    },
                 }
             };
 
             vm.pageData = {
                 loai_tbs: {},
-                nhom_cau_hois: []
+                nhom_cau_hois: [],
+                statistics: {
+                    cauhois: {
+                        total: 0,
+                        big_total: 0
+                    }
+                }
             }      
 
             // ***************************************************
@@ -145,13 +277,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             // ***************************************************
 
             vm.utils = {
-                massageDataSource: {
-                    massage: function (dataSource) {
-                        // Bước 1: Xử lý dữ liệu cho đồ thị bar_loaitbs_countId
-                        vm.utils.massageDataSource.resolve_bar_loaitbs_countId(dataSource);
-                        // Bước 2: Xử lý dữ liệu cho đồ thị donut_nhomtbs_countId
-                        vm.utils.massageDataSource.resolve_donut_nhomtbs_countId(dataSource);
-                    },
+                processDataSource: {
                     resolve_loaitbs: function() {
                         let rawData = _.groupBy(DataHelpers.find({
                             'subject': 'cauhois',
@@ -180,7 +306,21 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                 color: vm._kOptions.color.palettes['Blue Mono'][index]
                             };
                         });
+                    }
+                },
+                massageDataSource: {
+                    massage: function (dataSource) {
+                        // Bước 0: Xử lý dữ liệu cho các thống kê statistics
+                        vm.utils.massageDataSource.resolve_statistics(dataSource);
+                        // Bước 1: Xử lý dữ liệu cho đồ thị bar_loaitbs_countId
+                        vm.utils.massageDataSource.resolve_bar_loaitbs_countId(dataSource);
+                        // Bước 2: Xử lý dữ liệu cho đồ thị donut_nhomtbs_countId
+                        vm.utils.massageDataSource.resolve_donut_nhomtbs_countId(dataSource);
                     },
+                    resolve_statistics: function(dataSource) {
+                        // Tổng số câu hỏi thi NGB được trả về từ DB
+                        vm.pageData.statistics.cauhois.total = dataSource.aggregates()['_id'].count;
+                    },   
                     resolve_bar_loaitbs_countId: function(dataSource) {
                         // Tính toán các số liệu về câu hỏi tương ứng với các bộ đề (chia theo loại thiết bị) - Sử dụng các filters
                         if (!_.isEmpty(vm.pageData.loai_tbs)) {
@@ -202,7 +342,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                         resolved.push({
                                             category: loaitb.container.text,
                                             value: count,
-                                            color: vm.pageData.loai_tbs[key] ? vm.pageData.loai_tbs[key]['color'] : '&#xE7EF;'
+                                            color: vm.pageData.loai_tbs[key] ? vm.pageData.loai_tbs[key]['color'] : vm.pageOptions.default.colorPalette[0]
                                         });
                                     }
                                 });                                
@@ -211,9 +351,18 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             // Sau khi thống kê xong, reset filter.
                             dataSource.filter({});
 
+                            // Cập nhật phần thống kê dữ liệu
+                            vm.pageData.statistics.cauhois.big_total = 0;
+                            _.each(resolved, (item) => {
+                                vm.pageData.statistics.cauhois.big_total += item.value;
+                            });                            
+
+                            // Feed dữ liệu cho bar_loaitbs_countId và bar_large_loaitbs_countId
                             vm.pageOptions.charts.bar_loaitbs_countId.dataSource.data(resolved);
+                            vm.pageOptions.charts.bar_large_loaitbs_countId.dataSource.data(resolved);
+                            vm.pageOptions.charts.bar_large_nhomcauhois_countId.dataSource.data(resolved);
                         }
-                    },                    
+                    },              
                     resolve_donut_nhomtbs_countId: function(dataSource) {
                         // Nhóm dữ liệu theo các nhóm thiết bị và lấy các số liệu thống kê (Tính toán số liệu cho donut vòng trong)                 
                         dataSource.group({ 
@@ -228,11 +377,13 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             resolved.push({
                                 category: view.value,
                                 value: view.aggregates._id.count,
-                                color: vm.pageData.loai_tbs[view.value] ? vm.pageData.loai_tbs[view.value]['color'] : '&#xE7EF;'
+                                color: vm.pageData.loai_tbs[view.value] ? vm.pageData.loai_tbs[view.value]['color'] : vm.pageOptions.default.colorPalette[0]
                             });
                         });
 
+                        // Feed dữ liệu cho donut_nhomtbs_countId, donut_large_nhomtbs_countId 
                         vm.pageOptions.charts.donut_nhomtbs_countId.series[1].data = resolved;
+                        vm.pageOptions.charts.donut_large_nhomtbs_countId.dataSource.data(resolved);
 
                         // Tính toán các số liệu cho donut vòng ngoài - theo nhóm nội dung
                         dataSource.group({ 
@@ -253,14 +404,18 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
 
                         console.log('test, ', resolved);
 
+                        // Feed dữ liệu cho donut_nhomtbs_countId, donut_large_nhomcauhois_countId 
                         vm.pageOptions.charts.donut_nhomtbs_countId.series[0].data = resolved;
+                        vm.pageOptions.charts.donut_large_nhomcauhois_countId.dataSource.data(resolved);
+
                         // Sau khi thống kê xong, reset group.
                         dataSource.group([]);                        
                     },
-                }
+                },
+
             };
 
-            vm.utils.massageDataSource.resolve_nhomcauhois();
+            vm.utils.processDataSource.resolve_nhomcauhois();
 
             // ***************************************************
             // REACTIVE HELPERS
@@ -270,7 +425,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                 
                 statistics: function () {
                     // Tách các loại thiết bị theo nhóm và ấn định các mã màu cho từng nhóm thiết bị, thể hiện trên các biểu đồ
-                    vm.utils.massageDataSource.resolve_loaitbs();
+                    vm.utils.processDataSource.resolve_loaitbs();
                     // Sau khi có datahelpers cho loại thiết bị, thực hiện các thống kê cho câu hỏi
                     try {
                         vm._kOptions.dataSource.data(CauHois.find().fetch());
