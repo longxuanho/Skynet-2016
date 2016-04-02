@@ -21,11 +21,25 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm._kOptions = skynetLiveOptions.cauhois.kendo.options.charts.dashboard;
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
-            // vm.pageOptions.default.color
-            vm.pageOptions = {
+            vm.pageData = {
                 default: {
-                    colorPalette: ['&#xE7EF;']
+                    colorPalette: ['#FF4081', '#03a9f4', '#607D8B']
                 },
+                loai_tbs: {},
+                nhom_cau_hois: [],
+                statistics: {
+                    cauhois: {
+                        total: 0,
+                        big_total: 0,
+                        count_loaitbs: 0,
+                        percent_kythuats_vs_all: 0,
+                        percent_effective: 0,
+                        percent_users_online: 0
+                    }
+                }
+            }      
+
+            vm.pageOptions = {
                 epc: {
                     cauhois_total: {
                         barColor:'#03a9f4',
@@ -54,15 +68,33 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         },
                         valueAxis: {
                             labels: {
-                                visible:false
+                                visible: false
+                            },
+                            line: {
+                                visible: false
+                            }
+                        },
+                        categoryAxis: {
+                            line: {
+                                visible: false
                             }
                         },
                         series: [{
                                 name: "Thực tế",
-                                data: [0.3]
+                                data: [],
+                                color: vm.pageData.default.colorPalette[1],
+                                tooltip: {
+                                    visible: true,
+                                    format: "Tổng số: {0}"
+                                }
                             }, {
                                 name: "Phân bố",
-                                data: [1]
+                                data: [],
+                                color: vm.pageData.default.colorPalette[2],
+                                tooltip: {
+                                    visible: true,
+                                    format: "Phân bố: {0}"
+                                }
                             }]
                     },
                     donut_nhomtbs_countId: {
@@ -265,17 +297,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                 }
             };
 
-            vm.pageData = {
-                loai_tbs: {},
-                nhom_cau_hois: [],
-                statistics: {
-                    cauhois: {
-                        total: 0,
-                        big_total: 0,
-                        percent_kythuats_vs_all: 0,
-                    }
-                }
-            }      
+            
 
             // ***************************************************
             // SUBSCRIBE
@@ -332,6 +354,12 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         // Tính lại các chỉ số phần trăm
                         if (vm.numberOfCauHoisTotal)
                             vm.pageData.statistics.cauhois.percent_kythuats_vs_all = vm.pageData.statistics.cauhois.total / vm.numberOfCauHoisTotal * 100;
+                        if (vm.pageData.statistics.cauhois.big_total)
+                            vm.pageData.statistics.cauhois.percent_effective = vm.pageData.statistics.cauhois.total / vm.pageData.statistics.cauhois.big_total * 100;
+                        // Cập nhật cho biểu đồ hiệu quả quản lý
+                        vm.pageOptions.charts.small_bar_ratio.series[0].data = [vm.pageData.statistics.cauhois.total];
+                        vm.pageOptions.charts.small_bar_ratio.series[1].data = [vm.pageData.statistics.cauhois.big_total];
+
                     },
                     resolved_bar_series_nhomcauhois_countId: function(detail_resolved_data, new_categories) {
                         // console.log('received data: ', detail_resolved_data, new_categories)
@@ -341,7 +369,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         _.each(_.keys(vm.pageData.nhom_cau_hois), (key) => {
                             let obj = {
                                 name: key,
-                                color: vm.pageData.nhom_cau_hois[key] ? vm.pageData.nhom_cau_hois[key]['color'] : vm.pageOptions.default.colorPalette[0],
+                                color: vm.pageData.nhom_cau_hois[key] ? vm.pageData.nhom_cau_hois[key]['color'] : vm.pageData.default.colorPalette[0],
                                 data: []
                             };
                             _.each(new_categories, (loaitb) => {
@@ -381,7 +409,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                         resolved.push({
                                             category: loaitb.container.text,
                                             value: count,
-                                            color: vm.pageData.loai_tbs[key] ? vm.pageData.loai_tbs[key]['color'] : vm.pageOptions.default.colorPalette[0]
+                                            color: vm.pageData.loai_tbs[key] ? vm.pageData.loai_tbs[key]['color'] : vm.pageData.default.colorPalette[0]
                                         });
                                     }
                                     // Tiếp theo xử lý dữ liệu cho bar_large_nhomcauhois_countId: Với mỗi phần được lọc, ta chia nhóm nhỏ hơn để lấy các giá trị thống kê:
@@ -406,6 +434,8 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
 
                             // Cập nhật phần thống kê dữ liệu
                             vm.pageData.statistics.cauhois.big_total = 0;
+                            vm.pageData.statistics.cauhois.count_loaitbs = resolved.length;
+
                             _.each(resolved, (item) => {
                                 vm.pageData.statistics.cauhois.big_total += item.value;
                             });                            
@@ -431,7 +461,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             resolved.push({
                                 category: view.value,
                                 value: view.aggregates._id.count,
-                                color: vm.pageData.loai_tbs[view.value] ? vm.pageData.loai_tbs[view.value]['color'] : vm.pageOptions.default.colorPalette[0]
+                                color: vm.pageData.loai_tbs[view.value] ? vm.pageData.loai_tbs[view.value]['color'] : vm.pageData.default.colorPalette[0]
                             });
                         });
 
@@ -476,6 +506,15 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm.helpers({
                 numberOfCauHoisTotal: () => {
                     return Counts.get('numberOfCauHoisTotal');
+                },
+                numberOfUsersTotal: () => {
+                    return Counts.get('numberOfUsersTotal');
+                },
+                numberOfUserOnline: () => {
+                    let number = Counts.get('numberOfUserOnline');
+                    if (vm.numberOfUsersTotal)
+                        vm.pageData.statistics.cauhois.percent_users_online = number / vm.numberOfUsersTotal * 100;
+                    return number;
                 },
                 statistics: function () {
                     // Tách các loại thiết bị theo nhóm và ấn định các mã màu cho từng nhóm thiết bị, thể hiện trên các biểu đồ

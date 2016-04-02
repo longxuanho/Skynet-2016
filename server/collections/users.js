@@ -81,6 +81,30 @@ Meteor.publish("userStatus", function(options, searchString, searchBy) {
     return Meteor.users.find(query, options);
 });
 
+Meteor.publish("user_statistics", function() {
+
+    Counts.publish(this, 'numberOfUsersTotal', Meteor.users.find({
+    }), {
+        noReady: true
+    });
+
+    Counts.publish(this, 'numberOfUserOnline', Meteor.users.find({
+        'status.online': true
+    }), {
+        noReady: true
+    });
+
+    return Meteor.users.find({
+    }, {
+        fields: {
+            emails: 1,
+            profile: 1,
+            status: 1,
+            roles: 1
+        }
+    });
+});
+
 
 // ***************************************************
 // METHODS

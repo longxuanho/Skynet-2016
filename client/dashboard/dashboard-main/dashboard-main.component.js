@@ -26,7 +26,7 @@ angular.module('angular-skynet').directive('dashboardMain', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            // $scope.subscribe('users');
+            $scope.subscribe('user_statistics');
             // $scope.subscribe('usersettings');
 
 

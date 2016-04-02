@@ -20,8 +20,9 @@
     <div>
         <div class="md-card md-card-hover md-card-overlay">
             <div class="md-card-content uk-flex uk-flex-center uk-flex-middle">
-                <div kendo-chart id="bar_loaitbs_countId"
+                <div kendo-chart id="bar_small_ratio"
                     k-options="vm.pageOptions.charts.small_bar_ratio"
+                    k-rebind="vm.pageOptions.charts.small_bar_ratio"
                     style="height: 130px;">
                 </div>
             </div>
@@ -32,7 +33,7 @@
                         Hiệu suất quản lý
                     </h3>
                 </div>
-                Skynet quản lý <span class="uk-text-bold">468</span> câu hỏi về Kỹ thuật, được bố trí vào <span class="uk-text-bold">13</span> bộ đề thi với tổng số <span class="uk-text-bold">890</span> câu hỏi, cho hiệu suất nén thông tin đạt <span class="uk-text-bold">56%</span>.
+                Skynet quản lý <span class="uk-text-bold">{{vm.pageData.statistics.cauhois.total | number:0}}</span> câu hỏi về Kỹ thuật, được bố trí vào <span class="uk-text-bold">{{vm.pageData.statistics.cauhois.count_loaitbs}}</span> bộ đề thi với tổng số <span class="uk-text-bold">{{vm.pageData.statistics.cauhois.big_total | number:0}}</span> câu hỏi, cho hiệu suất nén thông tin đạt <span class="uk-text-bold">{{vm.pageData.statistics.cauhois.percent_effective | number:0}}%</span>.
             </div>
         </div>
     </div>
@@ -58,7 +59,7 @@
     <div>
         <div class="md-card md-card-hover md-card-overlay">
             <div class="md-card-content">
-                <div class="epc_chart" easypiechart options="vm.pageOptions.epc.user_status" percent="37">
+                <div class="epc_chart" easypiechart options="vm.pageOptions.epc.user_status" percent="vm.pageData.statistics.cauhois.percent_users_online">
                     <span class="epc_chart_icon"><i class="material-icons">&#xE7EF;</i></span>
                 </div>
             </div>
@@ -69,7 +70,7 @@
                         Người dùng
                     </h3>
                 </div>
-                Hiện có <span class="uk-text-bold">3</span> người dùng đang online trên tổng số <span class="uk-text-bold">13</span> người dùng đã đăng ký.
+                Hiện có <span class="uk-text-bold">{{vm.numberOfUserOnline}}</span> người dùng đang online trên tổng số <span class="uk-text-bold">{{vm.numberOfUsersTotal}}</span> người dùng đã đăng ký.
             </div>
         </div>
     </div>
