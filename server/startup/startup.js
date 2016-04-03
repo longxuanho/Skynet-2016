@@ -3,7 +3,7 @@ Meteor.startup(function() {
     if (Meteor.users.find().count() === 0) {
         let users = [
         	// Password sẽ được admin thay đổi trong lần đăng nhập đầu tiên
-            { name: "Long Hồ", email: "longxuanho@gmail.com", password: "defaultadminpasswordforskynet", roles: ['admin'] }
+            { name: "Long Hồ", email: "longxuanho@gmail.com", password: "defaultadminpasswordforskynet", roles: ['admin', 'manage-users'] }
         ];
 
         _.each(users, (user) => {
