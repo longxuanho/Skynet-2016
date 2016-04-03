@@ -41,6 +41,11 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             }      
 
             vm.pageOptions = {
+                ui: {
+                    modals: {
+                        isViewActivities: false,
+                    }
+                },
                 epc: {
                     cauhois_total: {
                         barColor:'#03a9f4',
@@ -51,7 +56,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         easing: variables.bez_easing_swiftOut
                     },
                     user_status: {
-                        barColor:'#607d8b',
+                        barColor:'#ACDB39',
                         scaleColor: false,
                         trackColor: '#f5f5f5',
                         lineWidth: 5,
@@ -113,7 +118,8 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             field: "value",
                             markers: {
                               visible: false
-                            }
+                            },
+                            color: "#004358"
                         }],
                         legend: {
                             visible: false
@@ -338,10 +344,158 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             template: "#= series.name #: #= value # câu hỏi (#= kendo.format('{0:P0}', percentage) #)"
                         }
                     },
+                    area_modal_activities_countId: {
+                        theme: "material",
+                        title: {
+                            text: "Các tương tác người dùng trên hệ thống \n /Thống kê trong 7 ngày gần nhất/",
+                            font: "16px Roboto,Arial,Helvetica,sans-serif"
+                        },
+                        legend: {
+                            position: "bottom"
+                        },
+                        seriesDefaults: {
+                            type: "area",
+                            area: {
+                                line: {
+                                    style: "smooth"
+                                }
+                            }
+                        },
+                        series: [{
+                            name: "Tạo mới",
+                            data: [4, 8, 8, 9, 9, 10, 4],
+                            color: '#83BC2D',
+                            opacity: 0.5
+                        }, {
+                            name: "Gỡ bỏ",
+                            data: [2, 3, 4, 3, 4, 3, 1],
+                            color: '#F26C69',
+                            opacity: 0.5
+                        }, {
+                            name: "Cập nhật",
+                            data: [0, 0, 3, 2, 2, 3, 1],
+                            color: '#5988B4',
+                            opacity: 0.5
+                        }],
+                        valueAxis: {
+                            labels: {
+                                format: "{0}"
+                            },
+                            line: {
+                                visible: false
+                            },
+                            axisCrossingValue: -10
+                        },
+                        categoryAxis: {
+                            categories: ['2016-03-29', '2016-03-30', '2016-03-31', '2016-04-01', '2016-04-02', '2016-04-03', '2016-04-04'],
+                            majorGridLines: {
+                                visible: false
+                            },
+                            labels: {
+                                visible: false
+                            }
+                        },
+                        tooltip: {
+                            visible: true,
+                            format: "{0}%",
+                            template: "#= category #: #= value # lượt #= series.name.toLowerCase() #" 
+                        }
+                    }
+                },
+                grids: {
+                    refs: {
+                        activities_modal_grid: {}
+                    },
+                    activities_modal_grid: {
+                        dataSource: kendo.data.DataSource.create({
+                            data: [],
+                            page: 1,
+                            group: [
+                                { field: 'when.time_day_str' },
+                                { field: 'user.userName' },
+                                { field: 'action', dir: 'desc' }
+                            ],
+                            pageSize: 10
+                        }),
+                        columns: [
+                            {
+                                field: "_id",
+                                title: "ID",
+                                width: "100px",
+                                hidden: true
+                            }, {
+                                field: "when.time_day_str",
+                                title: "Ngày",
+                                width: "100px",
+                                hidden: true
+                            }, {
+                                field: "user.userName",
+                                title: "Người dùng",
+                                width: "150px",
+                                hidden: true,
+                                groupHeaderTemplate: "#= value #",
+                            }, {
+                                field: "action",
+                                title: "Thao tác",
+                                width: "150px",
+                                groupHeaderTemplate: "#= value #",
+                                hidden: true
+                            }, {
+                                field: "section",
+                                title: "Nhóm",
+                                width: "70px"
+                            }, {
+                                field: "target.desc",
+                                title: "Trường dữ liệu",
+                                width: "140px",
+                                hidden: true
+                            }, {
+                                field: "target.ref",
+                                title: "Câu hỏi",
+                                width: "140px",
+                                attributes: {
+                                    style: "text-overflow: ellipsis;white-space: nowrap;"
+                                }
+                            }
+                        ],
+                        filterable: {
+                            mode: 'menu',
+                            extra: false
+                        },
+                        groupable: {
+                            enabled: false,
+                            showFooter: false
+                        },
+                        pageable: {
+                            pageSize: 2,
+                            refresh: false,
+                            pageSizes: false,
+                            info: true,
+                            buttonCount: 3,
+                            numeric: false,
+                            input: true,
+                            previousNext: true
+                        },
+                        reorderable: true,
+                        resizable: true,
+                        sortable: {
+                            mode: "single",
+                            allowUnsort: true
+                        },
+                        filterMenuInit: function(e) {
+                            if (_.contains([
+                                    "section",
+                                    "target.desc",
+                                    "target.ref"
+                                ], e.field)) {
+                                let firstValueDropDown = e.container.find("select:eq(0)").data("kendoDropDownList");
+                                firstValueDropDown.value("contains");
+                                firstValueDropDown.trigger("change");
+                            }
+                        }
+                    }
                 }
-            };
-
-            
+            };            
 
             // ***************************************************
             // SUBSCRIBE
@@ -353,6 +507,26 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             // ***************************************************
 
             vm.utils = {
+                ui: {
+                    modals: {
+                        show_modal_activities: function() {
+                            // Bật cờ isViewActivities để kích hoạt quá trình khởi tạo chart và grid - Cờ chỉ bật một lần
+                            vm.pageOptions.ui.modals.isViewActivities = true;
+                            // chờ 1s sau đó show modal..
+                            $timeout(() => {
+                                let modal = UIkit.modal("#modal_cauhois_view_activities");
+                                if (!modal.isActive())
+                                    modal.show();
+                            }, 1000);                            
+                        },
+                        close_modal_activities: function() {
+                            // close modal..
+                            let modal = UIkit.modal("#modal_cauhois_view_activities");
+                            if (modal.isActive())
+                                modal.hide();
+                        }
+                    }    
+                },
                 processDataSource: {
                     resolve_loaitbs: function() {
                         let rawData = _.groupBy(DataHelpers.find({
@@ -570,9 +744,16 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             }
                         });
                         vm.pageOptions.charts.small_line_activities.dataSource.data(resolved);
-                    }
-                },
+                        
+                        // Tiếp tục chia nhỏ dữ liệu theo nhóm (action: Cập nhật, Tạo mới, Gỡ bỏ).. để lấy dữ liệu cho modal chart
+                        dataSource.group([
+                            { field: 'when.time_day_str'},
+                            { field: 'action'}
+                        ]);
 
+                        // Reset group
+                    }
+                }
             };
 
             // ***************************************************
@@ -617,11 +798,15 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                 skylogs: function() {
                     // Xử lý dữ liệu cho các hoạt động của người dùng, lưu ý data này bị limit giá trị trả về tại server!
                     try {
-                        vm._skylogs.dataSource.data(SkyLogs.find({
+                        let rawData = SkyLogs.find({
                             'when.time_day_str': {
                                 $gte: vm._skylogs.time_ranges.week[0]
                             }
-                        }).fetch());
+                        }).fetch();
+                        // Feed dữ liệu cho grid activities nằm trong modal
+                        vm.pageOptions.grids.activities_modal_grid.dataSource.data(rawData);
+                        // Feed dữ liệu cho các biểu đồ liên quan tới activities
+                        vm._skylogs.dataSource.data(rawData);
                         vm.utils.massageDataSource.resolve_activities(vm._skylogs.dataSource);
                     } catch (error) {
                         console.log("Error: ", error);

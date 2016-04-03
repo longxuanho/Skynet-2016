@@ -53,7 +53,7 @@
                     </h3>
                 </div>
                 <p><span class="uk-text-bold">{{vm.newest_log.user.userName}}</span> đã <span class="uk-text-bold">{{vm.newest_log.action | lowercase}} {{vm.newest_log.target.desc | lowercase}}</span> câu hỏi thuộc nhóm <span class="uk-text-bold">{{vm.newest_log.section}}</span> vào <span class="uk-text-bold">{{vm.newest_log.when.time | displayDate:'fromNow'}}</span>.</p>
-                <button class="md-btn md-btn-primary">Thêm</button>
+                <button class="md-btn md-btn-primary" ng-click="vm.utils.ui.modals.show_modal_activities()">Thêm</button>
             </div>
         </div>
     </div>
@@ -184,5 +184,80 @@
                 </div>
             </div>
         </div> 
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_cauhois_view_activities">
+    <div class="uk-modal-dialog">
+        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'scale'}">
+            <li class="uk-active"><a href="#">Tổng quan</a></li>
+            <li><a href="#">Chi tiết</a></li>
+        </ul>
+        <ul id="tabs_anim6" class="uk-switcher uk-margin">
+            <li>
+                <div class="uk-grid" ng-if="vm.pageOptions.ui.modals.isViewActivities">
+                    <div class="uk-width-medium-1-1">
+                        <div kendo-chart id="area_modal_activities_countId"
+                            k-options="vm.pageOptions.charts.area_modal_activities_countId"
+                            style="height: 350px;">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="uk-grid">
+                    <div class="uk-width-medium-1-1">
+                        <div id="activities_modal_grid" 
+                            kendo-grid="vm.pageOptions.grids.refs.activities_modal_grid"
+                            k-options="vm.pageOptions.grids.activities_modal_grid"
+                        >
+                            <div k-detail-template>
+                                <ul class="md-list">
+                                    <li>
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading">Trạng thái</span>
+                                            <span class="uk-text-small uk-text-muted">{{dataItem.action}} {{dataItem.when.time | displayDate:'fromNow'}} bởi {{dataItem.user.userName}}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading">Mã câu hỏi</span>
+                                            <span class="uk-text-small uk-text-muted">{{dataItem.target.keyId}}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading">Nội dung câu hỏi</span>
+                                            <span class="uk-text-small uk-text-muted">{{dataItem.target.ref}}</span>
+                                        </div>
+                                    </li>                                    
+                                    <li  ng-if="dataItem.action=='Cập nhật'">
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading">Trường thông tin</span>
+                                            <span class="uk-text-small uk-text-muted">{{dataItem.target.desc}}</span>
+                                        </div>
+                                    </li>
+                                    <li ng-if="dataItem.action=='Cập nhật'">
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading">Giá trị cũ</span>
+                                            <span class="uk-text-small uk-text-muted">{{dataItem.target.from}}</span>
+                                        </div>
+                                    </li>
+                                    <li ng-if="dataItem.action=='Cập nhật'">
+                                        <div class="md-list-content">
+                                            <span class="md-list-heading">Giá trị mới</span>
+                                            <span class="uk-text-small uk-text-muted">{{dataItem.target.to}}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="uk-modal-footer uk-text-right">
+            <button type="button" class="md-btn md-btn-flat" ng-click="vm.utils.ui.modals.close_modal_activities()">Đóng</button>
+        </div>
     </div>
 </div>
