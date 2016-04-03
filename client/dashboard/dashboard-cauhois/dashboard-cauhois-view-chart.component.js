@@ -302,6 +302,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             // ***************************************************
             // SUBSCRIBE
             // ***************************************************
+            $scope.subscribe('skylogs_cauhois_kythuat');
 
             // ***************************************************
             // UTILS
@@ -527,9 +528,10 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                     }
                     vm.utils.massageDataSource.massage(vm._kOptions.dataSource);
                     return;
+                },
+                newest_log: function() {
+                    return SkyLogs.findOne({}, {sort: {'when.time': -1}});
                 }
-                
-                
             });
             
 
