@@ -19,6 +19,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
             vm._data = skynetHelpers.data;
             vm._helpers = skynetHelpers.helpers;
             vm._kOptions = skynetLiveOptions.cauhois.kendo.options.charts.dashboard;
+            vm._skylogs = skynetLiveOptions.skylogs.cauhois;
             vm.dictionary = angular.copy(skynetDictionary.data.nganhangcauhois.data.ky_thuat.trac_nghiem);
 
             vm.pageData = {
@@ -96,6 +97,49 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                     format: "Phân bố: {0}"
                                 }
                             }]
+                    },
+                    small_line_activities: {
+                        chartArea: {
+                            background: ""
+                        },
+                        seriesDefaults: {
+                            type: "line",
+                            style: "smooth"
+                        },
+                        dataSource: kendo.data.DataSource.create({
+                            data: []
+                        }),
+                        series: [{
+                            field: "value",
+                            markers: {
+                              visible: false
+                            }
+                        }],
+                        legend: {
+                            visible: false
+                        },
+                        valueAxis: {
+                            line: {
+                                visible: false
+                            },
+                            labels: {
+                                visible: false
+                            }
+                        },
+                        categoryAxis: {
+                            field: "category",
+                            line: {
+                                visible: false
+                            },
+                            labels: {
+                                visible: false
+                            }
+                        },
+                        tooltip: {
+                            visible: true,
+                            format: "{0}%",
+                            template: "#= category #: #= value #"
+                        }
                     },
                     donut_nhomtbs_countId: {
                         theme: "material",
@@ -338,6 +382,15 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                 color: vm._kOptions.color.palettes['Blue Mono'][index]
                             };
                         });
+                    },
+                    resolve_time_range_week: function() {
+                        // Reset khoảng thời gian tuần và tính lại thời gian từ ngày này về trước (1 tuần)
+                        vm._skylogs.time_ranges.week = [];
+                        
+                        let offset_days = _.range(6, -1, -1);    // Output: 6, 5, 4, 3, 2, 1, 0
+                        _.each(offset_days, (num) => {
+                            vm._skylogs.time_ranges.week.push(moment().subtract(num, 'day').format("YYYY-MM-DD"));
+                        });
                     }
                 },
                 massageDataSource: {
@@ -360,7 +413,6 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         // Cập nhật cho biểu đồ hiệu quả quản lý
                         vm.pageOptions.charts.small_bar_ratio.series[0].data = [vm.pageData.statistics.cauhois.total];
                         vm.pageOptions.charts.small_bar_ratio.series[1].data = [vm.pageData.statistics.cauhois.big_total];
-
                     },
                     resolved_bar_series_nhomcauhois_countId: function(detail_resolved_data, new_categories) {
                         // console.log('received data: ', detail_resolved_data, new_categories)
@@ -426,9 +478,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                                     // Reset group
                                     dataSource.group([]);
                                 });                               
-                            });
-
-                            
+                            });                            
 
                             // Sau khi thống kê xong, reset filter.
                             dataSource.filter({});
@@ -494,11 +544,43 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                         // Sau khi thống kê xong, reset group.
                         dataSource.group([]);                        
                     },
+                    resolve_activities: function(dataSource) {
+                        let rawData = {},
+                            resolved = [];
+
+                        // Nhóm dữ liệu theo từng ngày (date range: 1 tuần)
+                        dataSource.group({ 
+                            field: 'when.time_day_str',
+                            aggregates: [{ field: "_id", aggregate: "count" }],
+                        });
+                        _.each(dataSource.view(), (view, index) => {
+                            rawData[view.value] = view.items.length;
+                        });
+                        _.each(vm._skylogs.time_ranges.week, (date) => {
+                            if (!rawData[date]) {
+                                resolved.push({
+                                    category: date,
+                                    value: 0
+                                });   
+                            } else {
+                                resolved.push({
+                                    category: date,
+                                    value: rawData[date]
+                                });
+                            }
+                        });
+                        vm.pageOptions.charts.small_line_activities.dataSource.data(resolved);
+                    }
                 },
 
             };
 
+            // ***************************************************
+            // EXECUTE FUNCTION
+            // ***************************************************
+
             vm.utils.processDataSource.resolve_nhomcauhois();
+            vm.utils.processDataSource.resolve_time_range_week();
 
             // ***************************************************
             // REACTIVE HELPERS
@@ -531,6 +613,20 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                 },
                 newest_log: function() {
                     return SkyLogs.findOne({}, {sort: {'when.time': -1}});
+                },
+                skylogs: function() {
+                    // Xử lý dữ liệu cho các hoạt động của người dùng, lưu ý data này bị limit giá trị trả về tại server!
+                    try {
+                        vm._skylogs.dataSource.data(SkyLogs.find({
+                            'when.time_day_str': {
+                                $gte: vm._skylogs.time_ranges.week[0]
+                            }
+                        }).fetch());
+                        vm.utils.massageDataSource.resolve_activities(vm._skylogs.dataSource);
+                    } catch (error) {
+                        console.log("Error: ", error);
+                    }                   
+                    return;
                 }
             });
             

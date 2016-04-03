@@ -97,7 +97,21 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
 
     factory.cauhois = {
         kendo: {}
-    } 
+    }
+
+    factory.skylogs = {
+        cauhois: {
+            time_ranges: {
+                week: []
+            },
+            dataSource: kendo.data.DataSource.create({
+                data: [],
+                aggregate: [
+                    { field: "_id", aggregate: "count" },
+                ]
+            })
+        }
+    }
 
     factory.cauhois.kendo.options = {
         charts: {
