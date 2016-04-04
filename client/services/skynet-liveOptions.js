@@ -78,6 +78,9 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     'metadata.nguoi_cap_nhat_cuoi_email': {
                         type: 'string'
                     },
+                    'isReserveOrder': {
+                        type: 'boolean'
+                    },
                     'fields.lua_chons.A': {
                         type: 'string'
                     },
@@ -470,6 +473,23 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                                 showOperators: false
                             }
                         }
+                    }, {
+                        field: "isReserveOrder",
+                        title: "Xáo trộn?",
+                        width: "150px",
+                        filterable: {
+                            cell: {
+                                operator: "eq",
+                                showOperators: false
+                            }
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        },
+                        values: [
+                            { text: "1", value: true },
+                            { text: "0", value: false }
+                        ]
                     }, {
                         field: "fields.lua_chons.A",
                         title: "Lựa chọn A",

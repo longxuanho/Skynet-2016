@@ -2,14 +2,14 @@
     <div class="uk-float-right">
         <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='createNew'" ng-click="cauhoisWindow.addNewCauHoi()">&#xE876;</i>
         <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='update'" ng-click="cauhoisWindow.save()">&#xE161;</i>
-        <i class="md-icon material-icons no-animate" ng-click="cauhoisWindow.utils.randomizeLuaChonOrder()">&#xE0D7;</i>
+        <i class="md-icon material-icons no-animate" ng-click="cauhoisWindow.utils.randomizeLuaChonOrder()" ng-hide="cauhoisWindow.source.isReserveOrder">&#xE0D7;</i>
         <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='createNew'" ng-class="{'uk-text-warning': cauhoisWindow.source.phan_loai.loai_tb === null}" ng-click="cauhoisWindow.utils.resetNewCauHoi()">&#xE5D5;</i>
         <i class="md-icon material-icons no-animate" ng-show="cauhoisWindow.kWindowOptions.mode==='update'" ng-class="{'uk-text-warning': cauhoisWindow.source.phan_loai.loai_tb === null}" ng-click="cauhoisWindow.reset()">&#xE5D5;</i>
         <i class="md-icon material-icons no-animate color-accent" ng-click="cauhoisWindow.utils.toggleMode()" ng-show="cauhoisWindow.kWindowOptions.mode==='update'">&#xE254;</i>
         <i class="md-icon material-icons no-animate color-accent" ng-click="cauhoisWindow.utils.toggleMode()" ng-show="cauhoisWindow.kWindowOptions.mode==='createNew'">&#xE03B;</i>
     </div>                 
 </div>
-<div class="md-card-content reset-print">
+<div class="md-card-content reset-print {{$root.main_theme}}">
     <div class="uk-accordion" data-uk-accordion id="cauhois_window_main_panel">
         <h3 class="uk-accordion-title" id="accordion_du_lieu">Dữ liệu câu hỏi</h3>
         <div class="uk-accordion-content">
@@ -52,8 +52,16 @@
                     <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': cauhoisWindow.pageOptions.template.flags.isLockSectionPhanLoai}" ng-click="cauhoisWindow.utils.toggleLockSectionPhanLoai()">{{ (!cauhoisWindow.pageOptions.template.flags.isLockSectionPhanLoai) ? '&#xE898;' : '&#xE899;' }}</i>
                 </div>
             </div>
+            <div class="uk-width-medium-1-1 uk-margin-medium-top" ng-if="cauhoisWindow.kWindowOptions.mode === 'update'">
+            </div>
+            <div class="uk-width-medium-1-1">
+                <span class="icheck-inline">
+                    <input id="cb_isReserveOrder" class="iCheckInput" type="checkbox" icheck ng-model="cauhoisWindow.source.isReserveOrder"/>
+                    <label for="cb_isReserveOrder" class="inline-label">Không cho phép đảo lựa chọn</label>
+                </span>
+            </div>
             <div class="uk-width-medium-1-1" >
-                <div class="uk-margin-small-top" style="display:inline-block;width:60%;">
+                <div class="uk-margin-medium-top" style="display:inline-block;width:60%;">
                     <div class="uk-form-stacked">
                         <label for="cauhoi_phanloai_nhomcauhoi">Nhóm câu hỏi</label>
                         <select kendo-drop-down-list style="width: 95%;" id="cauhoi_phanloai_nhomcauhoi"
@@ -109,9 +117,6 @@
                 >
                 </select>
             </div>
-
-            <div class="uk-width-medium-1-1 uk-margin-small-top uk-margin-medium-bottom">
-            </div>
             <div class="uk-width-medium-1-1 uk-margin-small-top uk-margin-medium-bottom">
                 <div class="uk-form-stacked">
                     <label for="cauhoi_phanloai_bacthi">Bậc thi</label>
@@ -121,7 +126,8 @@
                     >
                     </select>
                 </div>
-            </div>                                           
+            </div>
+                                                    
         </div>
         <h3 class="uk-accordion-title" id="accordion_phan_loai">Gắn thẻ (Tag)</h3>
         <div class="uk-accordion-content">

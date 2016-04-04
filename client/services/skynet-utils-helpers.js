@@ -1408,6 +1408,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                 metadata: {},
                 isPublic: true,
                 isArchived: false,
+                isReserveOrder: false,
                 status: 'Active'
             };
         },
@@ -1460,6 +1461,9 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
         },
 
         buildCauHoi: function(cauhoi) {
+            // Fix lỗi tương thích dữ liệu trong các trường hợp trước
+            // cauhoi.isReserveOrder = cauhoi.isReserveOrder ? true : false;
+
             // Loại bỏ các lựa chọn không có nội dung
             cauhoi.noi_dung.lua_chons = _.filter(cauhoi.noi_dung.lua_chons, (item) => {
                 return item.tieu_de;
@@ -1568,7 +1572,7 @@ angular.module('angular-skynet').factory('skynetHelpers', function($meteor, $roo
                     // Các giá trị cho phép: nhom_tbs, loai_tbs, tags, bac_this, ...
                     field: field,
                     data: {
-                         // Các giá trị cho phép: thiet_bi_nang, xe_may, tau_thuyen, tram_nguon, tat_ca
+                        // Các giá trị cho phép: thiet_bi_nang, xe_may, tau_thuyen, tram_nguon, tat_ca
                         subject: subject,
                         group: 'Nội dung',
                         text: ''

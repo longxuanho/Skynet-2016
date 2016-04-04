@@ -192,6 +192,7 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
                                     ghi_chu: cauhoisWindow.source.ghi_chu,                  
                                     isPublic: cauhoisWindow.source.isPublic,
                                     isArchived: cauhoisWindow.source.isArchived,
+                                    isReserveOrder: cauhoisWindow.source.isReserveOrder,
                                     status: cauhoisWindow.source.status,
                                     'metadata.ngay_cap_nhat_cuoi': cauhoisWindow.source.metadata.ngay_cap_nhat_cuoi,
                                     'metadata.nguoi_cap_nhat_cuoi': cauhoisWindow.source.metadata.nguoi_cap_nhat_cuoi,

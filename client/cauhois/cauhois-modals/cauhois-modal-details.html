@@ -45,6 +45,7 @@
                                     <span class="uk-text-small uk-text-muted">Nhóm thiết bị: {{source.fields.loai_tb ? source.fields.loai_tb : '-'}}</span>
                                     <span class="uk-text-small uk-text-muted">Bậc thi: {{source.fields.bac_thi ? source.fields.bac_thi : '-'}}</span>
                                     <span class="uk-text-small uk-text-muted">Độ khó: {{source.phan_loai.muc_do.ten ? source.phan_loai.muc_do.ten : '-'}}</span>
+                                    <span class="uk-text-small uk-text-muted uk-text-italic uk-margin-small-top" ng-show="source.isReserveOrder">Câu hỏi không cho phép xáo trộn các lựa chọn</span>
                                 </div>
                             </li>
                             <li>
@@ -66,8 +67,8 @@
                                     <span class="md-list-heading">Hệ thống</span>
                                     <span class="uk-text-small uk-text-muted">Phân lớp: {{source.phan_lop.ten}}</span>
                                     <span class="uk-text-small uk-text-muted">Kiểu câu hỏi: {{source.phan_loai.kieu_cau_hoi.ten}}</span>
-                                    <span class="uk-text-small uk-text-muted">Được tạo {{source.metadata.ngay_tao|displayDate}} bời {{(source.metadata.nguoi_tao_name)?source.metadata.nguoi_tao_name:source.metadata.nguoi_tao_email}}</span>
-                                    <span ng-show="source.metadata.ngay_cap_nhat_cuoi" class="uk-text-small uk-text-muted">Cập nhật lần cuối  {{source.metadata.ngay_cap_nhat_cuoi|displayDate}} bời {{(source.metadata.nguoi_cap_nhat_cuoi_name)?source.metadata.nguoi_cap_nhat_cuoi_name:source.metadata.nguoi_cap_nhat_cuoi_email}}</span>
+                                    <span class="uk-text-small uk-text-muted">Được tạo {{source.metadata.ngay_tao|displayDate:'fromNow'}} bời {{(source.metadata.nguoi_tao_name)?source.metadata.nguoi_tao_name:source.metadata.nguoi_tao_email}}</span>
+                                    <span ng-show="source.metadata.ngay_cap_nhat_cuoi" class="uk-text-small uk-text-muted">Cập nhật lần cuối  {{source.metadata.ngay_cap_nhat_cuoi|displayDate:'fromNow'}} bời {{(source.metadata.nguoi_cap_nhat_cuoi_name)?source.metadata.nguoi_cap_nhat_cuoi_name:source.metadata.nguoi_cap_nhat_cuoi_email}}</span>
                                 </div>
                             </li>
                         </ul>
