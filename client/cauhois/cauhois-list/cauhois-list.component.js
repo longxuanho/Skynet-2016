@@ -248,6 +248,9 @@ angular.module('angular-skynet').directive('cauhoisList', function() {
 
             // Security: Chỉ cho phép tạo câu hỏi mới nếu người dùng có đủ thẩm quyền.
             vm.gridData.kGrid.kEvents.onDataBound = function(event) {
+                // Fix lỗi khi chuyển từ dashboard sang cauhois-list thì bị mất tham chiếu
+                if (_.isEmpty(vm.pageOptions.gridRef))
+                    vm.pageOptions.gridRef = $("#myGrid").data("kendoGrid");
                 vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_cau_hoi')) ? 'cauhois_createNew' : '';
 
                 if (vm.pageOptions.gridRef.tbody) {

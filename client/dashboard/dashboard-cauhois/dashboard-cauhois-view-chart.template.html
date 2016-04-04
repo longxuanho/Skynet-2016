@@ -52,8 +52,9 @@
                         Hoạt động
                     </h3>
                 </div>
-                <p><span class="uk-text-bold">{{vm.newest_log.user.userName}}</span> đã <span class="uk-text-bold">{{vm.newest_log.action | lowercase}} {{vm.newest_log.target.desc | lowercase}}</span> câu hỏi thuộc nhóm <span class="uk-text-bold">{{vm.newest_log.section}}</span> vào <span class="uk-text-bold">{{vm.newest_log.when.time | displayDate:'fromNow'}}</span>.</p>
-                <button class="md-btn md-btn-primary" ng-click="vm.utils.ui.modals.show_modal_activities()">Thêm</button>
+                <p ng-hide="vm.newest_log._id">Không có hoạt động của người dùng được ghi nhận gần đây.</p>
+                <p ng-show="vm.newest_log._id"><span class="uk-text-bold">{{vm.newest_log.user.userName}}</span> đã <span class="uk-text-bold">{{vm.newest_log.action | lowercase}} {{vm.newest_log.target.desc | lowercase}}</span> câu hỏi thuộc nhóm <span class="uk-text-bold">{{vm.newest_log.section}}</span> vào <span class="uk-text-bold">{{vm.newest_log.when.time | displayDate:'fromNow'}}</span>.</p>
+                <button class="md-btn md-btn-primary" ng-show="vm.newest_log._id" ng-click="vm.utils.ui.modals.show_modal_activities()">Thêm</button>
             </div>
         </div>
     </div>
