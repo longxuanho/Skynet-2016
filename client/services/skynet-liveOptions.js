@@ -475,7 +475,7 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                         }
                     }, {
                         field: "isReserveOrder",
-                        title: "Xáo trộn?",
+                        title: "Đảo đáp án?",
                         width: "150px",
                         filterable: {
                             cell: {
@@ -487,8 +487,8 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                             style: "text-align: center;"
                         },
                         values: [
-                            { text: "1", value: true },
-                            { text: "0", value: false }
+                            { text: "0", value: true }, // Không được đảo đáp án
+                            { text: "1", value: false } // Cho phép đảo đáp án
                         ]
                     }, {
                         field: "fields.lua_chons.A",
@@ -542,6 +542,121 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                                 showOperators: false
                             }
                         }
+                    },
+                    // Các trường xuất dữ liệu cho PM thi trắc nghiệm SNP
+                    {
+                        field: "noi_dung.tieu_de",
+                        title: "CAUHOI",
+                        width: "330px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "contains",
+                                suggestionOperator: "contains",
+                                minLength: 3,
+                                showOperators: false
+                            }
+                        },
+                        template: '# if (isReserveOrder) { # !@#= noi_dung.tieu_de # # } else { # !\\##= noi_dung.tieu_de # # } #' 
+                    }, {
+                        field: "noi_dung.thong_ke.numOfLuaChons",
+                        title: "SOCAUTRALOI",
+                        width: "150px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "eq",
+                                showOperators: false
+                            }
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    }, {
+                        field: "noi_dung.thong_ke.numOfUrlHinhAnhs",
+                        title: "ANHCAUHOI",
+                        width: "200px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "eq",
+                                showOperators: false
+                            }
+                        },
+                        attributes: {
+                            style: "text-overflow: ellipsis; white-space: nowrap;"
+                        },
+                        template: "# if (noi_dung.thong_ke.numOfUrlHinhAnhs) { # #= noi_dung.url_hinh_anhs[0] # # } #"
+                    }, {
+                        field: "fields.lua_chons.A",
+                        title: "DAPAN1",
+                        width: "330px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "contains",
+                                suggestionOperator: "contains",
+                                minLength: 3,
+                                showOperators: false
+                            }
+                        },
+                        template: "# if (fields.lua_chons.A) { if (fields.correctAnswer=='A') { # $#= fields.lua_chons.A # # } else { # \\##= fields.lua_chons.A # # } } #"
+                    }, {
+                        field: "fields.lua_chons.B",
+                        title: "DAPAN2",
+                        width: "330px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "contains",
+                                suggestionOperator: "contains",
+                                minLength: 3,
+                                showOperators: false
+                            }
+                        },
+                        template: "# if (fields.lua_chons.B) { if (fields.correctAnswer=='B') { # $#= fields.lua_chons.B # # } else { # \\##= fields.lua_chons.B # # } } #"
+                    }, {
+                        field: "fields.lua_chons.C",
+                        title: "DAPAN3",
+                        width: "330px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "contains",
+                                suggestionOperator: "contains",
+                                minLength: 3,
+                                showOperators: false
+                            }
+                        },
+                        template: "# if (fields.lua_chons.C) { if (fields.correctAnswer=='C') { # $#= fields.lua_chons.C # # } else { # \\##= fields.lua_chons.C # # } } #"
+                    }, {
+                        field: "fields.lua_chons.D",
+                        title: "DAPAN4",
+                        width: "330px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "contains",
+                                suggestionOperator: "contains",
+                                minLength: 3,
+                                showOperators: false
+                            }
+                        },
+                        template: "# if (fields.lua_chons.D) { if (fields.correctAnswer=='D') { # $#= fields.lua_chons.D # # } else { # \\##= fields.lua_chons.D # # } } #"
+                    }, {
+                        field: "fields.lua_chons.E",
+                        title: "DAPAN5",
+                        width: "330px",
+                        hidden: true,
+                        filterable: {
+                            cell: {
+                                operator: "contains",
+                                suggestionOperator: "contains",
+                                minLength: 3,
+                                showOperators: false
+                            }
+                        },
+                        template: "# if (fields.lua_chons.E) { if (fields.correctAnswer=='E') { # $#= fields.lua_chons.E # # } else { # \\##= fields.lua_chons.E # # } } #"
                     }
                 ],
 
