@@ -411,7 +411,7 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewChart', function
                             data: [],
                             page: 1,
                             group: [
-                                { field: 'when.time_day_str' },
+                                { field: 'when.time_day_str', dir: 'desc' },
                                 { field: 'user.userName' },
                                 { field: 'action', dir: 'desc' }
                             ],
