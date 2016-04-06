@@ -4,6 +4,15 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
     $locationProvider.html5Mode(true);
 
     $stateProvider
+        // DATAHELPERS
+        .state('datahelpers', {
+            url: '/datahelpers',
+            template: '<datahelpers-main></datahelpers-main>'
+        })
+        .state('datahelpers.list', {
+            url: '/thong-ke',
+            template: '<datahelpers-list></datahelpers-list>'
+        })
         // DASHBOARD
         .state('dashboard', {
             url: '/bang-tin',
