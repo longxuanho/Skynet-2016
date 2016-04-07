@@ -108,12 +108,9 @@
             <div class="uk-width-medium-1-1 uk-margin-small-top">
                 <label for="cauhoi_phanloai_loaithietbi">Loại TB</label>
                 <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
-                    k-data-source="cauhoisWindow.pageReactiveData.loai_tbs"
-                    k-data-text-field="'container.text'"
-                    k-data-value-field="'container.text'"
-                    k-highlight-first="false"
-                    k-ng-delay="cauhoisWindow.source.phan_loai.loai_tb"
-                    ng-model="cauhoisWindow.source.phan_loai.loai_tb"
+                    k-data-source="cauhoisWindow.pageReactiveData.resolve_data.loai_tbs[cauhoisWindow.source.phan_loai.nhom_tb.ten]"
+                    k-value-primitive="true"
+                    k-ng-model="cauhoisWindow.source.phan_loai.loai_tb"
                 >
                 </select>
             </div>
@@ -127,28 +124,16 @@
                     </select>
                 </div>
             </div>
-                                                    
-        </div>
-        <h3 class="uk-accordion-title" id="accordion_phan_loai">Gắn thẻ (Tag)</h3>
-        <div class="uk-accordion-content">
-            <div class="uk-width-medium-1-1 uk-clearfix" ng-show="cauhoisWindow.kWindowOptions.mode === 'createNew'">
-                <div class="uk-align-medium-right">                                                  
-                    <i class="md-icon material-icons no-animate" ng-class="{'color-fade': !cauhoisWindow.pageOptions.able.decreaseNumOfLuaChons}" ng-click="cauhoisWindow.utils.resetTagSection()">&#xE5D5;</i>
-                     <i class="md-icon-fade material-icons no-animate" ng-class="{'uk-text-warning': cauhoisWindow.pageOptions.template.flags.isLockSectionTags}" ng-click="cauhoisWindow.utils.toggleLockSectionTags()">{{ (!cauhoisWindow.pageOptions.template.flags.isLockSectionTags) ? '&#xE898;' : '&#xE899;' }}</i>
-                </div>
-            </div>
             <div class="uk-width-medium-1-1 uk-margin-medium-bottom">
-                <label for="cauhoi_phanloai_loaithietbi">Thêm tag mới</label>
+                <label for="cauhoi_phanloai_loaithietbi">Gắn thẻ</label>
                 <select kendo-multi-select id="cauhoi_phanloai_loaithietbi"
-                    k-data-source="cauhoisWindow.pageReactiveData.tags"
+                    k-data-source="cauhoisWindow.pageReactiveData.resolve_data.tags[cauhoisWindow.source.phan_loai.nhom_tb.ten]"
                     k-filter="'contains'"
-                    k-highlight-first="false"
-                    k-data-text-field="'container.text'"
-                    k-data-value-field="'container.text'"
-                    ng-model="cauhoisWindow.source.tags"
-                    k-ng-delay="cauhoisWindow.source.tags">
+                    k-value-primitive="true"
+                    k-ng-model="cauhoisWindow.source.tags">
                 </select>
             </div>
+                                                    
         </div>
         <h3 class="uk-accordion-title" id="accordion_phan_loai">Hình ảnh</h3>
         <div class="uk-accordion-content">

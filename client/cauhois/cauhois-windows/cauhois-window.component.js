@@ -75,12 +75,14 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             cauhoisWindow.pageReactiveData = {
                 cauhois: [],
                 tags: kendo.data.DataSource.create({
-                        data: [],
-                        group: { field: 'container.group' }
-                    }),
+                    data: []
+                }),
                 loai_tbs: kendo.data.DataSource.create({
                     data: []
                 }),
+                resolve_data: {
+                    loai_tbs: {}
+                }
             };
 
             $timeout(() => {
@@ -91,53 +93,7 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             // // SUBSCRIBE
             // // ***************************************************
 
-            // // ***************************************************
-            // // REACTIVE HELPERS
-            // // ***************************************************
-
-            cauhoisWindow.helpers({
-                datahelpers: () => {
-                    cauhoisWindow.pageReactiveData.loai_tbs.data(DataHelpers.find({
-                        'subject': 'cauhois',
-                        'category': 'loai_tbs',
-                        'container.ref': cauhoisWindow.getReactively('source.phan_loai.nhom_tb.ten')
-                    }, {
-                        sort: {
-                            'container.text': 1
-                        }
-                    }).fetch());
-                    cauhoisWindow.pageReactiveData.tags.data(DataHelpers.find({
-                        subject: 'cauhois',
-                        category: 'tags'
-                    }, {
-                        sort: {
-                            'container.text': 1
-                        }
-                    }).fetch());
-                    return DataHelpers.find();
-                },
-                master: () => {
-                    if (cauhoisWindow.kWindowOptions.selectedItem._id && cauhoisWindow.getReactively('kWindowOptions.mode')==='update') {
-                        cauhoisWindow.source = CauHois.findOne({ _id: cauhoisWindow.kWindowOptions.selectedItem._id });
-                        if (!_.isEmpty(cauhoisWindow.source)) {
-                            // Cập nhật switchery ở Section Hình ảnh
-                            cauhoisWindow.pageOptions.props.isHasImages = (cauhoisWindow.source.noi_dung.url_hinh_anhs.length) ? true : false;
-                            // Cập nhật các template
-                            cauhoisWindow.pageOptions.template.phan_loai = angular.copy(cauhoisWindow.source.phan_loai);
-                            cauhoisWindow.pageOptions.template.tags = angular.copy(cauhoisWindow.source.tags);
-                            cauhoisWindow.pageOptions.template.url_hinh_anhs = angular.copy(cauhoisWindow.source.noi_dung.url_hinh_anhs);
-                            cauhoisWindow.pageOptions.template.ghi_chu.mo_ta = cauhoisWindow.source.mo_ta;
-                            cauhoisWindow.pageOptions.template.ghi_chu.ghi_chu = cauhoisWindow.source.ghi_chu;
-
-                            // Người dùng có quyền remove câu hỏi?
-                            cauhoisWindow.pageOptions.able.removeCauHoi =   _.isEmpty(cauhoisWindow._helpers.validateUser('can_delete_cau_hoi')) ? true : false;
-
-                            console.log('master: ', cauhoisWindow.source)
-                        }
-                    }
-                    return CauHois.findOne({_id: cauhoisWindow.getReactively('kWindowOptions.selectedItem._id')});
-                },
-            });
+            
 
 
             // // ***************************************************
@@ -243,11 +199,37 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             // // ***************************************************
             // // UTILS
             // // ***************************************************
-
+            
             cauhoisWindow.utils = {
                 // accentColor: _.findWhere(cauhoisWindow._data.general.themes, {
                 //     name: $rootScope.main_theme
                 // }).color_accent,
+                resolve_data: {
+                    loai_tbs: function (rawDataSource) {
+                        rawDataSource.group({ field: "container.ref" });
+                        cauhoisWindow.pageReactiveData.resolve_data.loai_tbs = {};
+                        _.each(rawDataSource.view(), (view) => {
+                            cauhoisWindow.pageReactiveData.resolve_data.loai_tbs[view.value] = [];
+                            _.each(view.items, (item) => {
+                                cauhoisWindow.pageReactiveData.resolve_data.loai_tbs[view.value].push(item.container.text)
+                            });
+                        });
+                        rawDataSource.group([]);
+                    },
+                    tags: function (rawDataSource) {
+                        rawDataSource.group([
+                            { field: "container.ref" }
+                        ]);
+                        cauhoisWindow.pageReactiveData.resolve_data.tags = {};
+                        _.each(rawDataSource.view(), (view) => {
+                            cauhoisWindow.pageReactiveData.resolve_data.tags[view.value] = [];
+                            _.each(view.items, (item) => {
+                                cauhoisWindow.pageReactiveData.resolve_data.tags[view.value].push(item.container.text)
+                            });
+                        });
+                        rawDataSource.group([]);
+                    }
+                },
                 toggleMode: function() {
                     if (cauhoisWindow.kWindowOptions.mode === 'createNew')
                         cauhoisWindow.kWindowOptions.mode = 'update';
@@ -398,6 +380,59 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
                     cauhoisWindow.source.noi_dung.lua_chons = _.sortBy(cauhoisWindow.source.noi_dung.lua_chons, 'order');
                 },
             };
+
+            // ***************************************************
+            // REACTIVE HELPERS
+            // ***************************************************
+
+            cauhoisWindow.helpers({
+                datahelpers: () => {
+
+                    cauhoisWindow.pageReactiveData.loai_tbs.data(DataHelpers.find({
+                        'subject': 'cauhois',
+                        'category': 'loai_tbs',
+                    }, {
+                        sort: {
+                            'container.text': 1
+                        }
+                    }).fetch());
+
+                    
+                    cauhoisWindow.pageReactiveData.tags.data(DataHelpers.find({
+                        subject: 'cauhois',
+                        category: 'tags'
+                    }, {
+                        sort: {
+                            'container.text': 1
+                        }
+                    }).fetch());
+
+                    cauhoisWindow.utils.resolve_data.loai_tbs(cauhoisWindow.pageReactiveData.loai_tbs);
+                    cauhoisWindow.utils.resolve_data.tags(cauhoisWindow.pageReactiveData.tags);
+                    // cauhoisWindow.utils.resolve_data.tags(cauhoisWindow.pageReactiveData.tags);
+                    // console.log('test: ', cauhoisWindow.pageReactiveData.tags.view());
+                    return;
+                },
+                master: () => {
+                    if (cauhoisWindow.kWindowOptions.selectedItem._id && cauhoisWindow.getReactively('kWindowOptions.mode')==='update') {
+                        cauhoisWindow.source = CauHois.findOne({ _id: cauhoisWindow.kWindowOptions.selectedItem._id });
+                        if (!_.isEmpty(cauhoisWindow.source)) {
+                            // Cập nhật switchery ở Section Hình ảnh
+                            cauhoisWindow.pageOptions.props.isHasImages = (cauhoisWindow.source.noi_dung.url_hinh_anhs.length) ? true : false;
+                            // Cập nhật các template
+                            cauhoisWindow.pageOptions.template.phan_loai = angular.copy(cauhoisWindow.source.phan_loai);
+                            cauhoisWindow.pageOptions.template.tags = angular.copy(cauhoisWindow.source.tags);
+                            cauhoisWindow.pageOptions.template.url_hinh_anhs = angular.copy(cauhoisWindow.source.noi_dung.url_hinh_anhs);
+                            cauhoisWindow.pageOptions.template.ghi_chu.mo_ta = cauhoisWindow.source.mo_ta;
+                            cauhoisWindow.pageOptions.template.ghi_chu.ghi_chu = cauhoisWindow.source.ghi_chu;
+
+                            // Người dùng có quyền remove câu hỏi?
+                            cauhoisWindow.pageOptions.able.removeCauHoi =   _.isEmpty(cauhoisWindow._helpers.validateUser('can_delete_cau_hoi')) ? true : false;
+                        }
+                    }
+                    return CauHois.findOne({_id: cauhoisWindow.getReactively('kWindowOptions.selectedItem._id')});
+                },
+            });
 
             // // ***************************************************
             // // WATCHERS
