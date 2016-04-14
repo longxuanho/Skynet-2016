@@ -54,6 +54,10 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
                 }
             }
         })
+        .state('dashboard.xuongdvkt', {
+            url: '/xuong-dvkt',
+            template: '<dashboard-xuongdvkt-main></dashboard-xuongdvkt-main>'
+        })
         // NHOMS
         .state('nhoms', {
             url: '/quan-ly/nhom',
