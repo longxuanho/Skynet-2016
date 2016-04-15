@@ -4,13 +4,14 @@ angular.module('angular-skynet').directive('dashboardXuongdvktMain', function() 
         templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-main.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, variables, $timeout) {
+        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive) {
 
             $reactive(this).attach($scope);
 
             // ***************************************************
             // INITIALIZE
             // ***************************************************
+            $("body").addClass("skynet-dark-theme-background");
 
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;        

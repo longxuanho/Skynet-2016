@@ -1,28 +1,75 @@
-<div>
-    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%">{{vm.pageData.dummy.headerText}}</marquee>
-    <div class="uk-grid">
-        <div class="uk-width-1-3">Đang sửa chữa: {{vm.pageData.dummy.statistics.numOfDangSuaChua}}</div>
-        <div class="uk-width-1-3">Chuẩn bị bàn giao: {{vm.pageData.dummy.statistics.numOfSuaChuaXong}}</div>
-        <div class="uk-width-1-3">Đã sửa chữa xong: {{vm.pageData.dummy.statistics.numOfChuanBiBanGiao}}</div>
-    </div>
-    <input type="text" ng-model="vm.myFilter">
-    <input type="number" ng-model="vm.pageOptions.ui.page">
-    <table style="width:100%" class="uk-table uk-table-hover" id="xuongdvkt_bangtin">
-        <tr>
-            <td>Khu vực</td>
-            <td>Mã TB</td> 
-            <td>ĐVQL</td>
-            <td>Nội dung sửa chữa</td>
-            <td>Thời gian</td>
-        </tr>
-        <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
-        <tr dir-paginate="suachua in vm.pageData.dummy.suachuas | itemsPerPage: vm.pageOptions.ui.perPage | filter: { ma_tb: vm.myFilter } " total-items="vm.pageData.statistics.totalOfSuaChuas" class="suachuas-dashboard-item" style="background-color: yellow;" current-page="2">
-            <td>{{suachua.khu_vuc}}</td>
-            <td>{{suachua.ma_tb}}</td> 
-            <td>{{suachua.dvql}}</td>
-            <td>{{suachua.noi_dung_sc}}</td>
-            <td>{{suachua.thoi_gian}}</td>
-        </tr>
-    </table>
-    <dir-pagination-controls></dir-pagination-controls>
+
+<div class="uk-panel uk-panel-box uk-panel-box-primary" id="dashboard-xuongdvkt-panel-heading">
+    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;font-size:1.5rem;">{{vm.pageData.dummy.headerText}}</marquee>  
+</div>
+<div style="padding: 0 48px;">
+    <div id="xuongdvkt-dashboard">    
+        <div class="flip-board-panel">
+            <div class="uk-clearfix">
+                <div class="uk-align-left">
+                    <div style="display: inline-block;margin-right: 48px;"><span class="flip-board-count">{{vm.pageData.dummy.statistics.numOfDangSuaChua}}</span> <span class="flip-board-desc">lượt đang sửa chữa</span></div>
+                    <div style="display: inline-block;margin-right: 48px;"><span class="flip-board-count">{{vm.pageData.dummy.statistics.numOfSuaChuaXong}}</span> <span class="flip-board-desc">lượt chuẩn bị bàn giao</span></div>
+                    <div style="display: inline-block;margin-right: 48px;"><span class="flip-board-count">{{vm.pageData.dummy.statistics.numOfChuanBiBanGiao}}</span> <span class="flip-board-desc">lượt sửa chữa xong</span></div>    
+                </div>
+                <div class="uk-align-right">
+                    <div style="display: inline-block;"><span class="flip-board-count">3:30</span> <span class="flip-board-desc">SA</span></div>  
+                </div>
+            </div>
+        </div>
+        
+        <input type="text" ng-model="vm.myFilter">
+        <input type="number" ng-model="vm.pageOptions.ui.page">
+        
+        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'slide-bottom'}">
+            <li class="uk-active"><a href="#">Bảng tin</a></li>
+            <li><a href="#">Thống kê</a></li>
+            <li><a href="#">Quản lý</a></li>
+            <li><a href="#">Thiết lập</a></li>
+        </ul>
+        <ul id="tabs_anim6" class="uk-switcher uk-margin-remove">
+            <li>
+<!--                 <div class="uk-clearfix" style="padding: 30px 30px 0 0;">
+                    <div class="uk-align-right"> -->
+                        <div class="search-container">
+                            <span class="search-label">
+                                <i class="material-icons icon" style="color: #aaa">&#xE8B6;</i>
+                            </span>
+                            <input type="text" class="search-box" placeholder="Tìm kiếm..." ng-model="vm.myFilter">    
+                        </div>                        
+<!--                     </div>
+                </div> -->
+                <div style="padding: 0 30px 30px 30px;" class="uk-container-center uk-align-center">
+                    <table class="uk-table uk-table-hover">
+                        <tr class="xuongdvkt-dashboard-title">
+                            <td>Khu vực</td>
+                            <td>Mã TB</td> 
+                            <td>ĐVQL</td>
+                            <td>Nội dung sửa chữa</td>
+                            <td>Sửa chữa</td>
+                            <td>Dự kiến</td>
+                        </tr>
+                        <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
+                        <tr dir-paginate="suachua in vm.pageData.dummy.suachuas | itemsPerPage: vm.pageOptions.ui.perPage | filter: { ma_tb: vm.myFilter } " total-items="vm.pageData.statistics.totalOfSuaChuas" class="xuongdvkt-dashboard-item" current-page="2">
+                            <td>{{suachua.khu_vuc}}</td>
+                            <td>{{suachua.ma_tb}}</td> 
+                            <td>{{suachua.dvql}}</td>
+                            <td>{{suachua.noi_dung_sc}}</td>
+                            <td>{{suachua.thoi_gian}}</td>
+                            <td>{{suachua.du_kien}}</td>
+                        </tr>
+                    </table>               
+                </div>
+                       
+            </li>
+            <li>
+                Hello!
+            </li>
+            <li>
+                Hello!
+            </li>
+            <li>
+                Hello!
+            </li>
+        </ul>
+    </div>        
 </div>

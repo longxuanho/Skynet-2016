@@ -626,6 +626,9 @@ angular.module('angular-skynet')
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            // Chỉ sử dụng darktheme cho quản lý xưởng DVKT
+            $("body").removeClass("skynet-dark-theme-background");
+
             // Chú ý: chế độ mặc định luôn hiển thị mainSidebar và mainHeader
             $rootScope.hideMainSidebar = false;
             $rootScope.hideMainHeader = false;

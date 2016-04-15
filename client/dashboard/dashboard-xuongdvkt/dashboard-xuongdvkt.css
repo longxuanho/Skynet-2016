@@ -1,9 +1,0 @@
-.suachuas-dashboard-item.ng-enter {
-	-webkit-animation: flipInX 1s;
-    animation: flipInX 1s;
-}
-
-.suachuas-dashboard-item.ng-leave {
-	-webkit-animation: flipOutX 1s;
-    animation: flipOutX 1s;
-}
