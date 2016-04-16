@@ -30,15 +30,15 @@
                 <div style="padding: 0 30px 30px 30px;" class="uk-container-center uk-align-center">
                     <table class="uk-table uk-table-hover">
                         <tr class="xuongdvkt-dashboard-title">
-                            <td>Khu vực</td>
-                            <td>Mã TB</td> 
-                            <td>ĐVQL</td>
-                            <td>Nội dung sửa chữa</td>
-                            <td>Sửa chữa</td>
-                            <td style="text-align:right;">Dự kiến</td>
+                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('khu_vuc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='khu_vuc' || vm.pageOptions.ui.sort=='-khu_vuc'}">Khu vực</td>
+                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('ma_tb')" ng-class="{'order-active': vm.pageOptions.ui.sort=='ma_tb' || vm.pageOptions.ui.sort=='-ma_tb'}">Mã TB</td> 
+                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('dvql')" ng-class="{'order-active': vm.pageOptions.ui.sort=='dvql' || vm.pageOptions.ui.sort=='-dvql'}">ĐVQL</td>
+                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('noi_dung_sc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='noi_dung_sc' || vm.pageOptions.ui.sort=='-noi_dung_sc'}">Nội dung sửa chữa</td>
+                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('thoi_gian')" ng-class="{'order-active': vm.pageOptions.ui.sort=='thoi_gian' || vm.pageOptions.ui.sort=='-thoi_gian'}">Sửa chữa</td>
+                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort=='du_kien' || vm.pageOptions.ui.sort=='-du_kien'}" style="text-align:right;">Dự kiến</td>
                         </tr>
                         <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
-                        <tr dir-paginate="suachua in vm.pageData.dummy.suachuas | itemsPerPage: vm.pageOptions.ui.perPage | filter: { ma_tb: vm.myFilter } " total-items="vm.pageData.statistics.totalOfSuaChuas" class="xuongdvkt-dashboard-item" current-page="2">
+                        <tr dir-paginate="suachua in vm.pageData.dummy.suachuas | orderBy: vm.pageOptions.ui.sort | itemsPerPage: vm.pageOptions.ui.perPage | filter: { ma_tb: vm.myFilter } " total-items="vm.pageData.statistics.totalOfSuaChuas" class="xuongdvkt-dashboard-item" current-page="2">
                             <td class="color-{{suachua.color_code}}">{{suachua.khu_vuc}}</td>
                             <td class="color-{{suachua.color_code}}">{{suachua.ma_tb}}</td> 
                             <td style="color:#888;">{{suachua.dvql}}</td>

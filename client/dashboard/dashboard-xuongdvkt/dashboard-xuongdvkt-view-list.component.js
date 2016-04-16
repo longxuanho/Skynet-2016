@@ -23,7 +23,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 ui: {
                     perPage: 5,
                     page: 1,
-                    sort: { khu_vuc: 1 }
+                    sort: ''
                 }                                
             };
 
@@ -155,6 +155,37 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 
             vm.utils = {
                 dummy: {
+                    dashboard: {
+                        cycleOrder: function(where) {
+                            let options = [];
+                            switch (where) {                                
+                                case 'khu_vuc':
+                                    options = ['khu_vuc', '-khu_vuc', '', 'khu_vuc'];
+                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
+                                    break;
+                                case 'ma_tb':
+                                    options = ['ma_tb', '-ma_tb', '', 'ma_tb'];
+                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
+                                    break;
+                                case 'dvql':
+                                    options = ['dvql', '-dvql', '', 'dvql'];
+                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
+                                    break;
+                                case 'noi_dung_sc':
+                                    options = ['noi_dung_sc', '-noi_dung_sc', '', 'noi_dung_sc'];
+                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
+                                    break;
+                                case 'thoi_gian':
+                                    options = ['thoi_gian', '-thoi_gian', '', 'thoi_gian'];
+                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
+                                    break;
+                                case 'du_kien':
+                                    options = ['du_kien', '-du_kien', '', 'du_kien'];
+                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
+                                    break;
+                            }
+                        }
+                    },
                     pageChanged: function(newPage) {
                         vm.pageOptions.ui.page = newPage;
                     }
