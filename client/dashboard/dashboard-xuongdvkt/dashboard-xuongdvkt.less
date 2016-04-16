@@ -4,6 +4,14 @@
     background-color: @app_dark_theme_color;
 }
 
+#dashboard-xuongdvkt-hero-content {
+	padding-top: 20px;
+	background-color: #333;
+	color: #D3D3D3;
+	font-size: 1.75rem;
+	border-bottom: 7px solid #555;
+}
+
 #xuongdvkt-dashboard {
 	ul {
 		background-color: #333333;
@@ -24,23 +32,59 @@
 		   border-bottom-color: #f05a28;
 		}
 	}
-	.search-container {
-		width: 300px;
-		vertical-align: middle;
-		white-space: nowrap;
-		position: relative;
-		.search-box {
-			width: 300px;
-			height: 50px;
-			background: #2b303b;
-			border: none;
-			font-size: 10pt;
-			float: left;
-			color: #63717f;
-			padding-left: 45px;
-			-webkit-border-radius: 5px;
-			-moz-border-radius: 5px;
-			border-radius: 5px;
+	.color{
+		&-red {
+			color: #F05A28 !important;
+		}
+		&-green {
+			color: #9BBF17 !important;
+		}
+		&-yellow {
+			color: #F8A317 !important;
+		}
+	}
+	.search-form {
+		padding: 15px 30px 15px 30px;
+		text-align: right;
+		input {
+			outline: none;
+			-webkit-appearance: textfield;
+			-webkit-box-sizing: content-box;
+			font-family: 'Roboto', sans-serif;
+			font-size: 100%;
+			color: #F05A28;
+
+
+
+			background: #444 url("/assets/img/search-icon_1x.png") no-repeat 9px center;
+			border: solid 1px #555;
+			padding: 9px 10px 9px 36px;
+			width: 80px;
+			-webkit-border-radius: 10em;
+			-moz-border-radius: 10em;
+			border-radius: 10em;
+
+			-webkit-transition: all .5s;
+			-moz-transition: all .5s;
+			transition: all .5s;
+			&:focus {
+				width: 140px;
+				background-color: #fff;
+				border-color: #F05A28; /* #66CC75 */
+
+				color: #333;
+
+				-webkit-box-shadow: 0 0 5px rgba(240,90,40,.5); /* rgba(109,207,246,.5) */
+				-moz-box-shadow: 0 0 5px rgba(240,90,40,.5);
+				box-shadow: 0 0 5px rgba(240,90,40,.5);
+			}
+			&::-webkit-input-placeholder {
+			   color: #444;
+			}
+			&::-webkit-search-decoration,
+			&::-webkit-search-cancel-button {
+				display: none;
+			}			
 		}
 	}
 	
@@ -52,9 +96,10 @@
 			border-bottom: 1px solid #555;
 		    min-height: 48px;
 		    font-weight: 500;
-		    font-size: 1rem;
+		    font-size: 1.25rem;
 		}
 		&-item td {
+			text-overflow: ellipsis;
 			background-color: #333333;
 			color: #D3D3D3;
 			padding: 18px;
@@ -65,16 +110,26 @@
 		}		
 	}
 	.flip-board-panel {
-		.flip-board-count {
+		.count {
 			font-family: "Helvetica Neue", Helvetica, sans-serif;
 			font-size: 110px;
 			font-weight: bold;
+			&-red {
+				color: #F05A28;
+			}
+			&-green {
+				color: #9BBF17;
+			}
+			&-yellow {
+				color: #F8A317;
+			}
 		}
 		.flip-board-desc {
 			font-size: 1.5rem;
 			color: #555;
 		}
 	}
+
 }
 
 .suachuas-dashboard-item.ng-enter {
@@ -85,9 +140,5 @@
 .suachuas-dashboard-item.ng-leave {
 	-webkit-animation: flipOutX 1s;
     animation: flipOutX 1s;
-}
-
-#dashboard-xuongdvkt-panel-heading {
-
 }
 
