@@ -632,6 +632,7 @@ angular.module('angular-skynet')
             // Chú ý: chế độ mặc định luôn hiển thị mainSidebar và mainHeader
             $rootScope.hideMainSidebar = false;
             $rootScope.hideMainHeader = false;
+            $rootScope.hideStyleSwitcher = false;
 
             // main search
             $rootScope.mainSearchActive = false;

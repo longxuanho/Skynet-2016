@@ -5,7 +5,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
         controllerAs: 'vm',
         bindToController: true,
 
-        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive, skynetDictionary, variables, $timeout) {
+        controller: function($scope, $rootScope, iNotifier, $reactive) {
 
             $reactive(this).attach($scope);
 
@@ -16,8 +16,11 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;
 
-            vm._data = skynetHelpers.data;
-            vm._helpers = skynetHelpers.helpers;
+            // vm._data = skynetHelpers.data;
+            // vm._helpers = skynetHelpers.helpers;
+            $rootScope.hideMainHeader = true;
+            $rootScope.primarySidebarOpen = false;
+            $rootScope.hideStyleSwitcher = true;
 
             vm.pageOptions = {
                 ui: {
@@ -195,7 +198,13 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // ***************************************************
             // WATCHERS
             // ***************************************************
-
+            $rootScope.$watch('hideMainHeader', (newVal) => {
+                if (newVal) {
+                    $("body").addClass("uk-padding-top-remove");
+                } else {
+                    $("body").removeClass("uk-padding-top-remove");
+                }
+            })
         }
     }
 });

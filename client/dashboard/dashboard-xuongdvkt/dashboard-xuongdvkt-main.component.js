@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktMain', function() 
         templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-main.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, $state, skynetHelpers, $rootScope, iNotifier, $reactive) {
+        controller: function($scope, $reactive) {
 
             $reactive(this).attach($scope);
 
