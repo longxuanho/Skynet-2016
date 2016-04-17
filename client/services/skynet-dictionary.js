@@ -483,58 +483,7 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                     ten: "Khu E",
                     ma: "zone_e"
                 }
-            ], 
-            // "vi_tris": [
-            //     {
-            //         "ten": "A01",
-            //         "ma": "A01",
-            //         group: "zone_a"
-            //     }, {
-            //         "ten": "A02",
-            //         "ma": "A02",
-            //         group: "zone_a"
-            //     }, {
-            //         "ten": "A03",
-            //         "ma": "A03",
-            //         group: "zone_a"
-            //     }, {
-            //         "ten": "A04",
-            //         "ma": "A04",
-            //         group: "zone_a"
-            //     }, {
-            //         "ten": "A05",
-            //         "ma": "A05",
-            //         group: "zone_a"
-            //     }, {
-            //         "ten": "A06",
-            //         "ma": "A06",
-            //         group: "zone_a"
-            //     }, {
-            //         "ten": "B01",
-            //         "ma": "B01",
-            //         group: "zone_b"
-            //     }, {
-            //         "ten": "B02",
-            //         "ma": "B02",
-            //         group: "zone_b"
-            //     },{
-            //         "ten": "B03",
-            //         "ma": "B03",
-            //         group: "zone_b"
-            //     },{
-            //         "ten": "C01",
-            //         "ma": "C01",
-            //         group: "zone_c"
-            //     },{
-            //         "ten": "C02",
-            //         "ma": "C02",
-            //         group: "zone_c"
-            //     },{
-            //         "ten": "C03",
-            //         "ma": "C03",
-            //         group: "zone_c"
-            //     }
-            // ],
+            ],
             "vi_tris": {
                 'zone_a': [
                     "A01",
@@ -601,7 +550,83 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                     "ma": "hoan_thanh"
                 }
             ]
-        }
+        },
+        "xuongdvkt": {
+            "nhom_tbs": [
+                "Thiết bị nâng",
+                "Xe - máy",
+                "Tàu thuyền"
+            ],
+            "loai_tbs": {
+                "Xe - máy": [
+                    "Đầu kéo chạy ngoài",
+                    "Đầu kéo nội bộ",
+                    "Rơ móoc",
+                    "Xe bus nội bộ"
+                ]
+            },
+            "ma_tbs": {
+                "Đầu kéo chạy ngoài": [
+                    { ma_tb: "CP189-01", dvql: "CPCL" },
+                    { ma_tb: "CP189-02", dvql: "TCL" },
+                    { ma_tb: "CPCL16", dvql: "KVTC" },
+                    { ma_tb: "CPCL17", dvql: "XNCG" },
+                    { ma_tb: "KC01", dvql: "XNCG" },
+                    { ma_tb: "KC02", dvql: "TCL" },
+                ],
+                "Đầu kéo nội bộ": [
+                    { ma_tb: "NB100", dvql: "CPCL" },
+                    { ma_tb: "NB101", dvql: "TVVT" },
+                    { ma_tb: "NB102", dvql: "XNCG" },
+                    { ma_tb: "NB103", dvql: "XNCG" },
+                    { ma_tb: "NB104", dvql: "TCL" },
+                    { ma_tb: "NB105", dvql: "XDCT" },
+                    { ma_tb: "NB106", dvql: "XNCG" }
+                ],
+                "Xe bus nội bộ": [
+                    { ma_tb: "NO-07", dvql: "CPCL" },
+                    { ma_tb: "NO-08", dvql: "TVVT" },
+                    { ma_tb: "NO-09", dvql: "XNCG" },
+                    { ma_tb: "NO-10", dvql: "XNCG" },
+                    { ma_tb: "NO-11", dvql: "TCL" },
+                    { ma_tb: "NO-12", dvql: "XDCT" },
+                    { ma_tb: "NO-13", dvql: "XNCG" }
+                ],
+                "Rơ móoc": [
+                    { ma_tb: "R-50R-0010", dvql: "CPCL" },
+                    { ma_tb: "R-51R-00070", dvql: "TVVT" },
+                    { ma_tb: "R-51R-00074", dvql: "XNCG" },
+                    { ma_tb: "R-51R-00159", dvql: "XNCG" }
+                ]
+            },
+            "loai_sua_chuas": [
+                "Sửa chữa nhỏ",
+                "Sửa chữa cụm",
+                "Sửa chữa lớn",
+                "Đại tu",
+                "Kiểm tra"
+            ],
+            "khu_vucs": [
+                { ten: "Khu A", ma: "A" },
+                { ten: "Khu B", ma: "B" },
+                { ten: "Khu C", ma: "C" },
+                { ten: "Khu D", ma: "D" },
+                { ten: "Khu E", ma: "E" }
+            ],
+            "vi_tris": {
+                "A": [ "A01", "A02", "A03", "A04", "A05" ],
+                "B": [ "B01", "B02", "B03", "B04", "B05" ],
+                "C": [ "C01", "C02", "C03", "C04", "C05" ],
+                "D": [ "D01", "D02", "D03", "D04", "D05" ],
+                "E": [ "E01", "E02", "E03", "E04", "E05" ]
+            },
+            trang_thais: [
+                "Đang sửa chữa",
+                "Chuẩn bị bàn giao",
+                "Sửa chữa xong",
+                "Ngừng sửa chữa"
+            ]
+        },
     }
 
     return factory;
