@@ -1,8 +1,8 @@
-angular.module('angular-skynet').directive('dashboardXuongdvktManage', function() {
+angular.module('angular-skynet').directive('dashboardXuongdvktSettings', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-manage.template.html',
-        controller: function($scope) {
+        templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-settings.template.html',
+        controller: function($scope, $rootScope) {
 
             // ***************************************************
             // INITIALIZE

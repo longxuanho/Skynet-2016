@@ -1,7 +1,7 @@
-angular.module('angular-skynet').directive('dashboardXuongdvktManage', function() {
+angular.module('angular-skynet').directive('dashboardXuongdvktCharts', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-manage.template.html',
+        templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-charts.template.html',
         controller: function($scope) {
 
             // ***************************************************
