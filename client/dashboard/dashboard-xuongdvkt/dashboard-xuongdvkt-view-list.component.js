@@ -21,7 +21,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 
             vm.pageOptions = {
                 ui: {
-                    perPage: 5,
+                    perPage: 4,
                     page: 1,
                     sort: ''
                 }                                
@@ -64,8 +64,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             thoi_gian: 'Vài phút trước',
                             khu_vuc: 'A05',
                             du_kien: 8.0,
-                            trang_thai: 'Đang sửa chữa',
-                            color_code: 'red'
+                            trang_thai: 'Sửa chữa xong',
+                            color_code: 'green'
                         }, {
                             ma_tb: 'NB134',
                             noi_dung_sc: 'Nunc faucibus, orci a feugiat ultricies, justo turpis bibendum turpis',
