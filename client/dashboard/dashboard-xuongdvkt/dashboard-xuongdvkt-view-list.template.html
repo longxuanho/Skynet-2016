@@ -15,59 +15,67 @@
                     <div style="display: inline-block;"><span class="count">3:30</span> <span class="flip-board-desc">SA</span></div>  
                 </div>
             </div>
-        </div>        
-        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'slide-bottom'}">
-            <li class="uk-active"><a href="#">Bảng tin</a></li>
-            <li><a href="#">Thống kê</a></li>
-            <li><a href="#">Quản lý</a></li>
-            <li><a href="#">Thiết lập</a></li>
-        </ul>
-        <ul id="tabs_anim6" class="uk-switcher uk-margin-remove">
-            <li>
-                <!--
-                <form  class="search-form">
-                    <input type="search" placeholder="Tìm kiếm..." ng-model="vm.myFilter">
-                </form>
-                -->
+        </div>
+        <div class="uk-grid">
+            <div class="uk-width-medium-7-10">
+                <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'slide-bottom'}">
+                    <li class="uk-active"><a href="#">Bảng tin</a></li>
+                    <li><a href="#">Thống kê</a></li>
+                    <li><a href="#">Quản lý</a></li>
+                    <li><a href="#">Thiết lập</a></li>
+                </ul>
+                <ul id="tabs_anim6" class="uk-switcher uk-margin-remove">
+                    <li>
+                        <!--
+                        <form  class="search-form">
+                            <input type="search" placeholder="Tìm kiếm..." ng-model="vm.myFilter">
+                        </form>
+                        -->
+                                       
+                        <div style="padding: 20px 30px 10px 30px;" class="uk-container-center uk-align-center">
+                            <div style="width:100%;text-align:right;">
+                                <span style="color:#F05A28;font-size:1.15rem;font-weight:300;padding-right:18px;padding-top:10px;">Hôm nay</span>   
+                            </div> 
+                            <table class="uk-table uk-table-hover">
+                                <tr class="xuongdvkt-dashboard-title">
+                                    <td style="width:10%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('khu_vuc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='khu_vuc' || vm.pageOptions.ui.sort=='-khu_vuc'}">Khu vực</td>
+                                    <td style="width:12%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('ma_tb')" ng-class="{'order-active': vm.pageOptions.ui.sort=='ma_tb' || vm.pageOptions.ui.sort=='-ma_tb'}">Mã TB</td> 
+                                    <td style="width:12%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('dvql')" ng-class="{'order-active': vm.pageOptions.ui.sort=='dvql' || vm.pageOptions.ui.sort=='-dvql'}">ĐVQL</td>
+                                    <td ng-click="vm.utils.dummy.dashboard.cycleOrder('noi_dung_sc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='noi_dung_sc' || vm.pageOptions.ui.sort=='-noi_dung_sc'}">Nội dung sửa chữa</td>
+                                    <td style="width:15%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('thoi_gian')" ng-class="{'order-active': vm.pageOptions.ui.sort=='thoi_gian' || vm.pageOptions.ui.sort=='-thoi_gian'}">Sửa chữa</td>
+                                    <td ng-click="vm.utils.dummy.dashboard.cycleOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort=='du_kien' || vm.pageOptions.ui.sort=='-du_kien'}" style="text-align:right;width:10%;">Dự kiến</td>
+                                </tr>
+                                <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
+                                <tr dir-paginate="suachua in vm.pageData.dummy.suachuas | orderBy: vm.pageOptions.ui.sort | itemsPerPage: vm.pageOptions.ui.perPage | filter: { ma_tb: vm.myFilter } " total-items="vm.pageData.statistics.totalOfSuaChuas" class="xuongdvkt-dashboard-item" current-page="2">
+                                    <td style="color:#888;">{{suachua.khu_vuc}}</td>
+                                    <td class="color-{{suachua.color_code}}">{{suachua.ma_tb}}</td> 
+                                    <td style="color:#888;">{{suachua.dvql}}</td>
+                                    <td style="color:#888;white-space: nowrap;max-width:500px;overflow: hidden;">{{suachua.noi_dung_sc}}</td>
+                                    <td style="color:#888;">{{suachua.thoi_gian}}</td>
+                                    <td class="color-{{suachua.color_code}}" style="text-align:right;">{{suachua.du_kien}}</td>
+                                </tr>
+                            </table>
+                            <div style="width:100%;text-align:right;color:#555;">
+                                <span>2016 © Phòng Kỹ Thuật Vật Tư, Tổng Công Ty Tân Cảng Sài Gòn.</span>
+                            </div>             
+                        </div>
                                
-                <div style="padding: 20px 30px 10px 30px;" class="uk-container-center uk-align-center">
-                    <div style="width:100%;text-align:right;">
-                        <span style="color:#F05A28;font-size:1.15rem;font-weight:300;padding-right:18px;padding-top:10px;">Hôm nay</span>   
-                    </div> 
-                    <table class="uk-table uk-table-hover">
-                        <tr class="xuongdvkt-dashboard-title">
-                            <td style="width:10%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('khu_vuc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='khu_vuc' || vm.pageOptions.ui.sort=='-khu_vuc'}">Khu vực</td>
-                            <td style="width:12%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('ma_tb')" ng-class="{'order-active': vm.pageOptions.ui.sort=='ma_tb' || vm.pageOptions.ui.sort=='-ma_tb'}">Mã TB</td> 
-                            <td style="width:12%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('dvql')" ng-class="{'order-active': vm.pageOptions.ui.sort=='dvql' || vm.pageOptions.ui.sort=='-dvql'}">ĐVQL</td>
-                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('noi_dung_sc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='noi_dung_sc' || vm.pageOptions.ui.sort=='-noi_dung_sc'}">Nội dung sửa chữa</td>
-                            <td style="width:15%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('thoi_gian')" ng-class="{'order-active': vm.pageOptions.ui.sort=='thoi_gian' || vm.pageOptions.ui.sort=='-thoi_gian'}">Sửa chữa</td>
-                            <td ng-click="vm.utils.dummy.dashboard.cycleOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort=='du_kien' || vm.pageOptions.ui.sort=='-du_kien'}" style="text-align:right;width:10%;">Dự kiến</td>
-                        </tr>
-                        <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
-                        <tr dir-paginate="suachua in vm.pageData.dummy.suachuas | orderBy: vm.pageOptions.ui.sort | itemsPerPage: vm.pageOptions.ui.perPage | filter: { ma_tb: vm.myFilter } " total-items="vm.pageData.statistics.totalOfSuaChuas" class="xuongdvkt-dashboard-item" current-page="2">
-                            <td style="color:#888;">{{suachua.khu_vuc}}</td>
-                            <td class="color-{{suachua.color_code}}">{{suachua.ma_tb}}</td> 
-                            <td style="color:#888;">{{suachua.dvql}}</td>
-                            <td style="color:#888;white-space: nowrap;max-width:500px;overflow: hidden;">{{suachua.noi_dung_sc}}</td>
-                            <td style="color:#888;">{{suachua.thoi_gian}}</td>
-                            <td class="color-{{suachua.color_code}}" style="text-align:right;">{{suachua.du_kien}}</td>
-                        </tr>
-                    </table>
-                    <div style="width:100%;text-align:right;color:#555;">
-                        <span>2016 © Phòng Kỹ Thuật Vật Tư, Tổng Công Ty Tân Cảng Sài Gòn.</span>
-                    </div>             
-                </div>
-                       
-            </li>
-            <li>
-               <dashboard-xuongdvkt-charts></dashboard-xuongdvkt-charts>
-            </li>
-            <li>
-                <dashboard-xuongdvkt-manage></dashboard-xuongdvkt-manage>
-            </li>
-            <li>
-                <dashboard-xuongdvkt-settings></dashboard-xuongdvkt-settings>                          
-            </li>
-        </ul>
+                    </li>
+                    <li>
+                       <dashboard-xuongdvkt-charts></dashboard-xuongdvkt-charts>
+                    </li>
+                    <li>
+                        <dashboard-xuongdvkt-manage></dashboard-xuongdvkt-manage>
+                    </li>
+                    <li>
+                        <dashboard-xuongdvkt-settings></dashboard-xuongdvkt-settings>
+                    </li>
+                </ul>  
+            </div>
+            <div class="uk-width-medium-3-10">
+                <dashboard-xuongdvkt-search-panel></dashboard-xuongdvkt-search-panel>
+            </div>
+        </div>       
+        
     </div>        
 </div>
