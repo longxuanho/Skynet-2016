@@ -27,7 +27,16 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     perPage: 4,
                     page: 1,
                     sort: ''
-                }                                
+                },
+                displayMode: {
+                    hero_content: {
+                        text: '',
+                        mode: 'Mặc định'
+                    },
+                    current_nav_tab: '',
+                    isDisplaySearchPanel: false,
+                    current_manage_mode: 'createNew'
+                }                        
             };
 
             vm.pageData = {
@@ -198,13 +207,24 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // ***************************************************
             // WATCHERS
             // ***************************************************
+            UIkit.on('change.uk.tab', function(event, active_item) {
+                if (active_item) {
+                    vm.pageOptions.displayMode.current_nav_tab = active_item.text();
+                    vm.pageOptions.displayMode.isDisplaySearchPanel = (vm.pageOptions.displayMode.current_nav_tab === 'Quản lý') ? true : false;    
+                }                
+            });
+
             $rootScope.$watch('hideMainHeader', (newVal) => {
                 if (newVal) {
                     $("body").addClass("uk-padding-top-remove");
                 } else {
                     $("body").removeClass("uk-padding-top-remove");
                 }
-            })
+            });
+
+            $scope.$watch('pageOptions.displayMode.hero_content.text.length', (newVal) => {
+                vm.pageOptions.ui.perPage = (newVal) ? 4 : 5;
+            });
         }
     }
 });

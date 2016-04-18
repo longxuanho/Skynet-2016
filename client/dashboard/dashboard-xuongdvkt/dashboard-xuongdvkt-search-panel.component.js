@@ -2,6 +2,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
     return {
         restrict: 'E',
         templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-search-panel.template.html',
+        scope: {
+            pageOptions: '='
+        },
         controller: function($scope, $timeout) {
 
             // ***************************************************

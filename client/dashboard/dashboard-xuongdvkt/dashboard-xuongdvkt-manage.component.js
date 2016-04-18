@@ -2,6 +2,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
     return {
         restrict: 'E',
         templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-manage.template.html',
+        scope: {
+            pageOptions: '='
+        },
         controller: function($scope, skynetHelpers, skynetDictionary) {
 
             // ***************************************************

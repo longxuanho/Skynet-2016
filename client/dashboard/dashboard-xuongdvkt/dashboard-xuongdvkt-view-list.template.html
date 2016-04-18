@@ -1,23 +1,27 @@
 
-<div class="uk-panel uk-panel-box uk-panel-box-primary" id="dashboard-xuongdvkt-hero-content">
-    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;">{{vm.pageData.dummy.headerText}}</marquee>  
+<div class="uk-panel uk-panel-box uk-panel-box-primary" id="dashboard-xuongdvkt-hero-content" ng-if="vm.pageOptions.displayMode.hero_content.text">
+    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;">{{vm.pageOptions.displayMode.hero_content.text}}</marquee>  
 </div>
 <div style="padding: 0 48px;">
     <div id="xuongdvkt-dashboard">    
         <div class="flip-board-panel">
             <div class="uk-clearfix">
-                <div class="uk-align-left">
-                    <div style="display: inline-block;margin-right: 48px;"><span class="count count-red">{{vm.pageData.dummy.statistics.numOfDangSuaChua}}</span> <span class="flip-board-desc">lượt đang sửa chữa</span></div>
+                <div class="uk-align-left" style="margin-top: 10px;margin-bottom:10px;">
+                    <div style="display: inline-block;margin-right: 48px;padding-left:18px;"><span class="count count-red">{{vm.pageData.dummy.statistics.numOfDangSuaChua}}</span> <span class="flip-board-desc">lượt đang sửa chữa</span></div>
                     <div style="display: inline-block;margin-right: 48px;"><span class="count count-yellow">{{vm.pageData.dummy.statistics.numOfSuaChuaXong}}</span> <span class="flip-board-desc">lượt chuẩn bị bàn giao</span></div>
                     <div style="display: inline-block;margin-right: 48px;"><span class="count count-green">{{vm.pageData.dummy.statistics.numOfChuanBiBanGiao}}</span> <span class="flip-board-desc">lượt sửa chữa xong</span></div>    
                 </div>
-                <div class="uk-align-right" ng-hide="$root.primarySidebarOpen">
-                    <div style="display: inline-block;"><span class="count">3:30</span> <span class="flip-board-desc">SA</span></div>  
+                <div class="uk-align-right" ng-hide="$root.primarySidebarOpen" style="margin: 10px 0 0;">
+                    <div style="display: block;text-align: right;margin-bottom: -30px;"><span class="count">3:30</span> <span class="flip-board-desc">SA</span></div>
+                    <div style="display: block;text-align: right;margin-bottom: 48px" ng-if="!vm.pageOptions.displayMode.hero_content.text">
+                        <span class="flip-board-desc">Thứ 7, ngày 14 tháng 4 năm 2016</span>  
+                    </div>  
                 </div>
             </div>
+            
         </div>
         <div class="uk-grid">
-            <div class="uk-width-medium-7-10">
+            <div ng-class="{'uk-width-medium-7-10': vm.pageOptions.displayMode.isDisplaySearchPanel, 'uk-width-medium-1-1': !vm.pageOptions.displayMode.isDisplaySearchPanel}" id="xuong_dvkt_list_view">
                 <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim6', animation:'slide-bottom'}">
                     <li class="uk-active"><a href="#">Bảng tin</a></li>
                     <li><a href="#">Thống kê</a></li>
@@ -65,14 +69,14 @@
                        <dashboard-xuongdvkt-charts></dashboard-xuongdvkt-charts>
                     </li>
                     <li>
-                        <dashboard-xuongdvkt-manage></dashboard-xuongdvkt-manage>
+                        <dashboard-xuongdvkt-manage page-options="vm.pageOptions"></dashboard-xuongdvkt-manage>
                     </li>
                     <li>
-                        <dashboard-xuongdvkt-settings></dashboard-xuongdvkt-settings>
+                        <dashboard-xuongdvkt-settings page-options="vm.pageOptions"></dashboard-xuongdvkt-settings>
                     </li>
                 </ul>  
             </div>
-            <div class="uk-width-medium-3-10">
+            <div class="uk-width-medium-3-10" ng-if="vm.pageOptions.displayMode.isDisplaySearchPanel">
                 <dashboard-xuongdvkt-search-panel></dashboard-xuongdvkt-search-panel>
             </div>
         </div>       
