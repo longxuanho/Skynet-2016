@@ -26,6 +26,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 ui: {
                     perPage: 4,
                     page: 1,
+                    totalItems: 0,
+                    maxNumOfPage: 1,
                     sort: ''
                 },
                 displayMode: {
@@ -40,6 +42,50 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             };
 
             vm.pageData = {
+                rights: {
+                    'can_upsert_sua_chua': ["admin", "super-manager", "quanly-suachuas"]
+                },
+                source: {
+                    newSuaChua: {
+                        phan_loai: {
+                            nhom_tb: "Xe - máy",
+                            loai_tb: '',
+                            loai_sua_chua: ''
+                        },
+                        ma_tb: {
+                            ma_tb: '',
+                            dvql: ''
+                        },
+                        dia_diem: {
+                            dia_diem: 'Xưởng DVKT',
+                            khu_vuc: {
+                                ten: '',
+                                ma: ''
+                            },
+                            vi_tri: ''
+                        },
+                        noi_dung: '',
+                        thoi_gian: {
+                            bat_dau: new Date()
+                        },
+                        thong_ke: {
+                            thoi_gian: {}
+                        },
+                        trang_thai: 'Đang sửa chữa',
+                        isPublic: true,
+                        isArchived: false
+                    },
+                    selectedSuaChua: {
+                        
+                    } 
+                },
+                suachuas: {
+                    raw: [],
+                    view: [],
+                    dataSource: kendo.data.DataSource.create({
+                        data: []
+                    })
+                },
                 dummy: {
                     suachuas: [
                         {
@@ -136,36 +182,24 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             }
 
             // ***************************************************
-            // REACTIVE HELPERS
-            // ***************************************************
-
-            vm.helpers({
-                // suachuas: () => {
-                //     vm.pageData.suachuasDataSource.data(SuaChuas.find({
-                //         'trang_thai.ma': 'dang_sua_chua'
-                //     }).fetch());
-                //     vm.pageData.suachuasDataSource.fetch(function(){
-                //         vm.pageData.suachuasRaw = vm.pageData.suachuasDataSource.view();
-                //         vm.pageData.statistics = vm.pageData.suachuasDataSource.aggregates();
-                //     });
-                //     return SuaChuas.find({
-                //         'trang_thai.ma': 'dang_sua_chua'
-                //     });
-                // }
-            });
-            
-
-            // ***************************************************
-            // METHODS
-            // ***************************************************
-            
-
-
-            // ***************************************************
             // UTILS
             // ***************************************************
 
             vm.utils = {
+                getDataView: {
+                    suachuas: function() {
+                        let fromIndex = vm.pageOptions.ui.perPage * (vm.pageOptions.ui.page - 1);
+                        if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage) {                            
+                            let endIndex = fromIndex + vm.pageOptions.ui.perPage;
+                            console.log('excec section 1, from ', fromIndex, 'to ', endIndex)
+                            vm.pageData.suachuas.view = vm.pageData.suachuas.raw.slice(fromIndex, endIndex);
+                            console.log('result: ', vm.pageData.suachuas.view);
+                        } else {
+                            console.log('excec section 2')
+                            vm.pageData.suachuas.view = vm.pageData.suachuas.raw.slice(fromIndex);
+                        }
+                    }
+                },
                 dummy: {
                     dashboard: {
                         cycleOrder: function(where) {
@@ -205,6 +239,33 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             };
 
             // ***************************************************
+            // REACTIVE HELPERS
+            // ***************************************************
+
+            vm.helpers({
+                suachuas: () => {
+                    vm.pageData.suachuas.raw = SuaChuas.find().fetch();
+                    vm.pageData.suachuas.dataSource.data(vm.pageData.suachuas.raw);
+                    
+                    vm.pageOptions.ui.totalItems = vm.pageData.suachuas.raw.length;
+                    vm.pageOptions.ui.maxNumOfPage = Math.ceil(vm.pageOptions.ui.totalItems / vm.pageOptions.ui.perPage);
+                    console.log('calc: ', vm.pageOptions.ui.maxNumOfPage)
+                    
+                    vm.utils.getDataView.suachuas();
+                    return;
+                }
+            });
+            
+
+            // ***************************************************
+            // METHODS
+            // ***************************************************
+            
+
+
+            
+
+            // ***************************************************
             // WATCHERS
             // ***************************************************
             UIkit.on('change.uk.tab', function(event, active_item) {
@@ -222,8 +283,12 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 }
             });
 
-            $scope.$watch('pageOptions.displayMode.hero_content.text.length', (newVal) => {
+            $scope.$watch('vm.pageOptions.displayMode.hero_content.text.length', (newVal) => {
                 vm.pageOptions.ui.perPage = (newVal) ? 4 : 5;
+            });
+
+            $scope.$watch('vm.pageOptions.ui.perPage', (newVal) => {
+                vm.utils.getDataView.suachuas();
             });
         }
     }

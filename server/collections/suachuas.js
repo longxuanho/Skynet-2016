@@ -39,79 +39,37 @@ SuaChuas.allow({
 // COLLECTION HOOKS
 // ***************************************************
 
-SuaChuas.after.insert(function (userId, doc) {
-    ddpEvents.emit('suachuasChageEvent', { 
-        action: 'insert',
-        data: doc
-    });
-});
-
-SuaChuas.after.update(function (userId, doc) {
-    if (this.previous.trang_thai.ma !== doc.trang_thai.ma) {
-        ddpEvents.emit('suachuasChageEvent', { 
-            action: 'update',
-            data: doc
-        });
-    }
-});
 
 // ***************************************************
 // PUBLISH / SUBSCRIBE
 // ***************************************************
 
-Meteor.publish("suachuas", function(options, searchString, searchBy, tags) {
+Meteor.publish("suachuas", function(fromDate, toDate) {
 
-    if (searchString == null)
-        searchString = '';
-    if (searchBy == null)
-        searchBy = 'noi_dung.noi_dung';
+    if (!fromDate) 
+        fromDate = moment().format("YYYY-MM-DD");
 
-    var query = {};
-    var regex = {
-        '$regex': '.*' + searchString || '' + '.*',
-        '$options': 'i'
+    var query = {
+        '$or': []
     };
-
-    if (!_.isEmpty(tags)) {
-        query['tags'] = {
-            $in: tags
-        };
-    }
-
-    query[searchBy] = regex;
-
-    query['$or'] = [{
-        '$and': [{
-            'isPublic': true
-        }, {
-            'isPublic': {
-                '$exists': true
-            }
-        }]
-    }, {
-        '$and': [{
-            'metadata.nguoi_tao': this.userId
-        }, {
-            'metadata.nguoi_tao': {
-                '$exists': true
-            }
-        }]
-    }];
+    if (!toDate) {
+        query['$or'] = [
+            {'thong_ke.thoi_gian.ngay_bat_dau': { $gte: fromDate } },
+            {'thong_ke.thoi_gian.ngay_ket_thuc': { $gte: fromDate } },
+            {'trang_thai': { $in: ["Đang sửa chữa", "Chuẩn bị bàn giao"] } }
+        ]
+    } else {
+        query['$or'] = [
+            {'thong_ke.thoi_gian.ngay_bat_dau': { $gte: fromDate, $lte: toDate } },
+            {'thong_ke.thoi_gian.ngay_ket_thuc': { $gte: fromDate, $lte: toDate } },
+            {'trang_thai': { $in: ["Đang sửa chữa", "Chuẩn bị bàn giao"] } }
+        ]
+    }    
 
     Counts.publish(this, 'numberOfSuaChuasTotal', SuaChuas.find({
-        '$or': query['$or']
     }), {
         noReady: true
     });
 
-
-    Counts.publish(this, 'numberOfSuaChuas', SuaChuas.find(query), {
-        noReady: true
-    });
-
-    return SuaChuas.find(query, options);
-});
-
-Meteor.publish("suachualogs", function(options) {
-    return SuaChuaLogs.find();
+    return SuaChuas.find(query);
 });

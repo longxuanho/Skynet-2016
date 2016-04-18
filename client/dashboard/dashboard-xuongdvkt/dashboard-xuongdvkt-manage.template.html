@@ -1,5 +1,5 @@
-<pre style="display:block;" ng-show="false">
-	{{newSuaChua | json }}
+<pre style="display:block;" ng-show="true">
+	{{pageData.source.newSuaChua | json }}
 </pre>
 <form style="padding: 30px 48px 48px;" id="nav_quan_ly" class="input-form">
 	<div style="text-align:right;">
@@ -16,7 +16,7 @@
 			        <label for="newsuachua_phanloai_loaisuachua">Loại sửa chữa</label>
 			        <select kendo-drop-down-list style="width: 100%;" id="newsuachua_phanloai_loaisuachua"
 			        	k-value-primitive="true"
-						k-ng-model="newSuaChua.phan_loai.loai_sua_chua"
+						k-ng-model="pageData.source.newSuaChua.phan_loai.loai_sua_chua"
 						k-filter="'contains'"
 						k-index="-1"
 			            k-data-source="_dictionary.loai_sua_chuas">
@@ -28,10 +28,10 @@
 			        <label for="newsuachua_phanloai_loaitb">Loại phương tiện</label>
 			        <select kendo-drop-down-list style="width: 100%;" id="newsuachua_phanloai_loaitb"
 			        	k-value-primitive="true"
-						k-ng-model="newSuaChua.phan_loai.loai_tb"
+						k-ng-model="pageData.source.newSuaChua.phan_loai.loai_tb"
 						k-filter="'contains'"
 						k-index="-1"
-			            k-data-source="_dictionary.loai_tbs[newSuaChua.phan_loai.nhom_tb]">
+			            k-data-source="_dictionary.loai_tbs[pageData.source.newSuaChua.phan_loai.nhom_tb]">
 			        </select>
 			    </div>
 			</div>
@@ -39,11 +39,11 @@
 			    <div class="uk-form-stacked">
 			        <label for="newsuachua_phanloai_loaitb">Mã phương tiện</label>
 			        <select kendo-drop-down-list style="width: 100%;" id="newsuachua_phanloai_matb"
-			            k-ng-model="newSuaChua.ma_tb"
+			            k-ng-model="pageData.source.newSuaChua.ma_tb"
 			            k-data-text-field="'ma_tb'"
 			            k-filter="'contains'"
 			            k-index="-1"
-			            k-data-source="_dictionary.ma_tbs[newSuaChua.phan_loai.loai_tb]">
+			            k-data-source="_dictionary.ma_tbs[pageData.source.newSuaChua.phan_loai.loai_tb]">
 			        </select>
 			    </div>
 			</div>
@@ -53,7 +53,7 @@
 			    <div class="uk-form-stacked">
 			        <label for="newsuachua_diadiem_khuvuc">Khu vực</label>
 			        <select kendo-drop-down-list style="width: 100%;" id="newsuachua_diadiem_khuvuc"
-			        	k-ng-model="newSuaChua.dia_diem.khu_vuc"
+			        	k-ng-model="pageData.source.newSuaChua.dia_diem.khu_vuc"
 			            k-data-text-field="'ten'"
 			            k-filter="'contains'"
 			            k-index="-1"
@@ -65,11 +65,11 @@
 			    <div class="uk-form-stacked">
 			        <label for="newsuachua_diadiem_vitri">Vị trí</label>
 			        <select kendo-drop-down-list style="width: 100%;" id="newsuachua_diadiem_vitri"
-			        	k-ng-model="newSuaChua.dia_diem.vi_tri"
+			        	k-ng-model="pageData.source.newSuaChua.dia_diem.vi_tri"
 			        	k-value-primitive="true"
 			            k-filter="'contains'"
 			            k-index="-1"
-			            k-data-source="_dictionary.vi_tris[newSuaChua.dia_diem.khu_vuc.ma]">
+			            k-data-source="_dictionary.vi_tris[pageData.source.newSuaChua.dia_diem.khu_vuc.ma]">
 			            <!-- Chú ý sửa datasource ở đây: chỉ lọc các giá trị đang trống -->
 			        </select>
 			    </div>
@@ -80,7 +80,7 @@
 			<div class="uk-width-medium-2-3">
 			    <div class="uk-form-row uk-form-stacked">
 			        <label>Nội dung sửa chữa</label>
-			        <input type="text" class="k-textbox" style="width: 100%;" ng-model="newSuaChua.noi_dung.noi_dung"/>
+			        <input type="text" class="k-textbox" style="width: 100%;" ng-model="pageData.source.newSuaChua.noi_dung"/>
 			    </div>
 			</div>
 			<div class="uk-width-medium-1-3">
@@ -90,15 +90,15 @@
 			            k-min="0"
 			            k-max="1000"
 			            k-step="0.25"
-			            k-ng-model="newSuaChua.thoi_gian.sua_chua_du_kien" />
+			            k-ng-model="pageData.source.newSuaChua.thoi_gian.sua_chua_du_kien" />
 			    </div>
 			</div>		
 		</div>
 		
 		<div class="uk-grid uk-margin-medium-top">
 			<div class="uk-width-medium-2-3">
-				<button class="btn-create-new">TẠO MỚI</button>
-				<button class="btn-reset">RESET</button>
+				<button class="btn-create-new" ng-click="methods.manage.insert();">TẠO MỚI</button>
+				<button class="btn-reset" ng-click="utils.reset.newSuaChua(pageData.source.newSuaChua);">RESET</button>
 			</div>
 		</div>
 	</div>
@@ -116,7 +116,7 @@
 			<div class="uk-width-medium-2-3">
 			    <div class="uk-form-row uk-form-stacked">
 			        <label>Nội dung sửa chữa</label>
-			        <input type="text" class="k-textbox" style="width: 100%;" ng-model="newSuaChua.noi_dung.noi_dung"/>
+			        <input type="text" class="k-textbox" style="width: 100%;" ng-model="pageData.source.newSuaChua.noi_dung.noi_dung"/>
 			    </div>
 			</div>
 			<div class="uk-width-medium-1-3">
@@ -126,7 +126,7 @@
 			            k-min="0"
 			            k-max="1000"
 			            k-step="0.25"
-			            k-ng-model="newSuaChua.thoi_gian.sua_chua_du_kien" />
+			            k-ng-model="pageData.source.newSuaChua.thoi_gian.sua_chua_du_kien" />
 			    </div>
 			</div>		
 		</div>
@@ -134,7 +134,7 @@
 			<div class="uk-width-medium-2-3">
 			    <div class="uk-form-row uk-form-stacked">
 			        <label>Viết ghi chú</label>
-			        <input type="text" class="k-textbox" style="width: 100%;" ng-model="newSuaChua.ghi_chu"/>
+			        <input type="text" class="k-textbox" style="width: 100%;" ng-model="pageData.source.newSuaChua.ghi_chu"/>
 			    </div>
 			</div>		
 		</div>
