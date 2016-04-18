@@ -10,6 +10,20 @@
 	color: #D3D3D3;
 	font-size: 1.5rem; /* 1.75rem */
 	border-bottom: 7px solid #555;
+	.color {
+		&-default {
+			color: #D3D3D3;
+		}
+		&-warning {
+			color: #F8A317;
+		}
+		&-danger {
+			color: #F05A28;
+		}
+		&-success {
+			color: #9BBF17;
+		}
+	}
 }
 
 #xuongdvkt-dashboard {
@@ -101,6 +115,59 @@
 			color: #555;
 		}
 		.btn {
+			&-manage-mode {
+				color: #555;
+				&:hover {
+					color: #222;
+				}
+				&-active {
+					color: #F05A28;	
+				}
+			}
+			&-group-manage-update-trang-thai {
+				button {
+					margin-right: 20px;
+					font-size: 1rem;
+					font-weight: 300;
+				    background-color: transparent;
+				    display: inline-block;
+				    color: #555;
+				    border: 1px solid #555;
+				    border-radius: 20px;
+				    cursor: pointer;
+				    min-width: 160px;
+				    padding: 0 25px;
+				    text-align: center;
+				    height: 40px;
+				    &.btn-success:hover {
+				    	color: #9BBF17;
+				    	border: 1px solid #9BBF17;
+				    }
+				    &.btn-warning:hover {
+				    	color: #F8A317;
+				    	border: 1px solid #F8A317;
+				    }
+				    &.btn-danger:hover {
+				    	color: #F05A28;
+				    	border: 1px solid #F05A28;
+				    }
+				    &.color-mode {
+				    	&-success {
+				    		color: #9BBF17;
+				    		border: 1px solid #9BBF17;
+				    	}
+				    	&-warning {
+				    		color: #F8A317;
+				    		border: 1px solid #F8A317;
+				    	}
+				    	&-danger {
+				    		color: #F05A28;
+				    		border: 1px solid #F05A28;
+				    	}
+				    }
+				}
+				
+			}
 			&-create-new {
 				font-size: 1rem;
 				font-weight: 300;

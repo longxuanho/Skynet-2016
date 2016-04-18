@@ -31,7 +31,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 displayMode: {
                     hero_content: {
                         text: '',
-                        mode: 'Mặc định'
+                        mode: 'default'
                     },
                     current_nav_tab: '',
                     isDisplaySearchPanel: false,

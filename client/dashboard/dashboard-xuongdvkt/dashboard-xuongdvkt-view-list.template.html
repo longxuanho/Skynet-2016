@@ -1,6 +1,6 @@
 
 <div class="uk-panel uk-panel-box uk-panel-box-primary" id="dashboard-xuongdvkt-hero-content" ng-if="vm.pageOptions.displayMode.hero_content.text">
-    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;">{{vm.pageOptions.displayMode.hero_content.text}}</marquee>  
+    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;" class="color-{{vm.pageOptions.displayMode.hero_content.mode}}">{{vm.pageOptions.displayMode.hero_content.text}}</marquee>  
 </div>
 <div style="padding: 0 48px;">
     <div id="xuongdvkt-dashboard">    
@@ -12,9 +12,9 @@
                     <div style="display: inline-block;margin-right: 48px;"><span class="count count-green">{{vm.pageData.dummy.statistics.numOfChuanBiBanGiao}}</span> <span class="flip-board-desc">lượt sửa chữa xong</span></div>    
                 </div>
                 <div class="uk-align-right" ng-hide="$root.primarySidebarOpen" style="margin: 10px 0 0;">
-                    <div style="display: block;text-align: right;margin-bottom: -30px;"><span class="count">3:30</span> <span class="flip-board-desc">SA</span></div>
+                    <div style="display: block;text-align: right;margin-bottom: -20px;"><span class="count">3:30</span> <span class="flip-board-desc">SA</span></div>
                     <div style="display: block;text-align: right;margin-bottom: 48px" ng-if="!vm.pageOptions.displayMode.hero_content.text">
-                        <span class="flip-board-desc">Thứ 7, ngày 14 tháng 4 năm 2016</span>  
+                        <span class="flip-board-desc" style="font-size:1.15rem; color: #758587;">Thứ 7, ngày 14 tháng 4 năm 2016</span>  
                     </div>  
                 </div>
             </div>
