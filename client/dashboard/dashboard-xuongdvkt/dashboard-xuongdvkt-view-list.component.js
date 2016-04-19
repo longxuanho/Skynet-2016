@@ -206,7 +206,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             let options = [];
                             switch (where) {                                
                                 case 'khu_vuc':
-                                    options = ['khu_vuc', '-khu_vuc', '', 'khu_vuc'];
+                                    options = ['dia_diem.vi_tri', '-dia_diem.vi_tri', '', 'dia_diem.vi_tri'];
                                     vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
                                     break;
                                 case 'ma_tb':

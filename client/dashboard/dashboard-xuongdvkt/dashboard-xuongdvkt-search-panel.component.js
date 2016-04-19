@@ -22,7 +22,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'A02',
                             du_kien: 2.5,
                             trang_thai: 'Đang sửa chữa',
-                            color_code: 'red'
+                            color_code: 'danger'
                         }, {
                             ma_tb: 'NB109',
                             noi_dung_sc: 'Sed ex nisl, faucibus eu lorem sit amet, tristique pellentesque nisi',
@@ -31,7 +31,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'B04',
                             du_kien: 3.5,
                             trang_thai: 'Đang sửa chữa',
-                            color_code: 'red'
+                            color_code: 'danger'
                         }, {
                             ma_tb: 'RM103',
                             noi_dung_sc: 'Cras arcu lacus, lacinia nec ipsum sit amet, molestie posuere ligula',
@@ -40,7 +40,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'B01',
                             du_kien: 4.5,
                             trang_thai: 'Chuẩn bị bàn giao',
-                            color_code: 'yellow'
+                            color_code: 'warning'
                         }, {
                             ma_tb: 'NB207',
                             noi_dung_sc: 'Mauris in ante dictum, venenatis leo eu, accumsan ex',
@@ -49,7 +49,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'A05',
                             du_kien: 8.0,
                             trang_thai: 'Sửa chữa xong',
-                            color_code: 'green'
+                            color_code: 'success'
                         }, {
                             ma_tb: 'NB134',
                             noi_dung_sc: 'Nunc faucibus, orci a feugiat ultricies, justo turpis bibendum turpis',
@@ -58,7 +58,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'C07',
                             du_kien: 7.0,
                             trang_thai: 'Sửa chữa xong',
-                            color_code: 'green'
+                            color_code: 'success'
                         }, {
                             ma_tb: 'RM005',
                             noi_dung_sc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
@@ -67,7 +67,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'A04',
                             du_kien: 24,
                             trang_thai: 'Đang sửa chữa',
-                            color_code: 'red'
+                            color_code: 'danger'
                         }, {
                             ma_tb: 'VB108',
                             noi_dung_sc: 'Donec id justo a ante pellentesque tincidunt eget eget neque',
@@ -76,7 +76,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'C07',
                             du_kien: 3,
                             trang_thai: 'Đang sửa chữa',
-                            color_code: 'red'
+                            color_code: 'danger'
                         }, {
                             ma_tb: 'SC150',
                             noi_dung_sc: 'Etiam tempor est ac massa vehicula, nec hendrerit erat iaculis',
@@ -85,7 +85,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'C05',
                             du_kien: 6,
                             trang_thai: 'Đang sửa chữa',
-                            color_code: 'red'
+                            color_code: 'danger'
                         }, {
                             ma_tb: 'LK301',
                             noi_dung_sc: 'Praesent in varius lacus, eget lacinia tortor',
@@ -94,7 +94,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                             khu_vuc: 'A',
                             du_kien: 25,
                             trang_thai: 'Đang sửa chữa',
-                            color_code: 'red'
+                            color_code: 'danger'
                         }
                     ],
                     statistics: {

@@ -9,6 +9,8 @@ angular.module('angular-skynet').filter('displayDate', function() {
                 return moment(date).format('L');
             if (type === 'fromNow')
                 return moment(date).fromNow();
+            if (type === 'shortHour')
+                return moment(date).format('hh:mm');
             // Các trường hợp khác, xuất theo định dạng type: MM-DD-YYYY HH:mm A Z
             return moment(date).format(type);            
 
