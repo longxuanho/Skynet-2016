@@ -1,18 +1,18 @@
 <div id="nav_quan_ly_search_panel">
 	<div>
 		<form class="search-form">
-            <input type="search" placeholder="Tìm kiếm..." ng-model="myFilter">
+            <input type="search" placeholder="Tìm kiếm..." ng-model="myFilter.ma_tb.ma_tb">
         </form>	
 	</div>
 	<div>
 		<h3>Các phương tiện sửa chữa</h3>
 		<div class="scrollable-area">
 			<table class="uk-table uk-table-hover">
-	            <tr ng-repeat="suachua in pageData.dummy.suachuas | filter: { ma_tb: myFilter } " class="search-result-item">
-	                <td style="width:30%" class="color-{{suachua.color_code}}">{{suachua.ma_tb}}</td>
-	                <td style="width:15%;">{{suachua.khu_vuc}}</td>
-	                <td style="width:40%;">{{suachua.thoi_gian}}</td>
-	                <td style="text-align:right;">{{suachua.du_kien}}</td>
+	            <tr ng-repeat="suachua in pageData.suachuas.raw | filter: myFilter " class="search-result-item">
+	                <td style="width:30%" ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.ma_tb.ma_tb}}</td>
+	                <td style="width:15%;">{{suachua.dia_diem.vi_tri}}</td>
+	                <td style="width:40%;">{{suachua.thoi_gian.bat_dau | displayDate: 'fromNow'}}</td>
+					<td style="text-align:right;">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate: 'shortHour'}}</td>
 	            </tr>
 	        </table>	
 		</div>		

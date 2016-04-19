@@ -76,7 +76,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         isArchived: false
                     },
                     selectedSuaChua: {
-                        
                     } 
                 },
                 suachuas: {

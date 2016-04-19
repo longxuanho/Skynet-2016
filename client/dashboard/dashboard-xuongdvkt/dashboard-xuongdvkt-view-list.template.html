@@ -1,6 +1,6 @@
 
 <div class="uk-panel uk-panel-box uk-panel-box-primary" id="dashboard-xuongdvkt-hero-content" ng-if="vm.pageOptions.displayMode.hero_content.text">
-    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;" class="color-{{vm.pageOptions.displayMode.hero_content.mode}}">{{vm.pageOptions.displayMode.hero_content.text}}</marquee>  
+    <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;" class="color-{{vm.pageOptions.displayMode.hero_content.mode}}">{{vm.pageOptions.displayMode.hero_content.text}}</marquee>
 </div>
 <div style="padding: 0 48px;">
     <div id="xuongdvkt-dashboard">    
@@ -41,7 +41,7 @@
                                     <td style="width:12%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('dvql')" ng-class="{'order-active': vm.pageOptions.ui.sort=='dvql' || vm.pageOptions.ui.sort=='-dvql'}">ĐVQL</td>
                                     <td ng-click="vm.utils.dummy.dashboard.cycleOrder('noi_dung_sc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='noi_dung_sc' || vm.pageOptions.ui.sort=='-noi_dung_sc'}">Nội dung sửa chữa</td>
                                     <td style="width:15%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('thoi_gian')" ng-class="{'order-active': vm.pageOptions.ui.sort=='thoi_gian' || vm.pageOptions.ui.sort=='-thoi_gian'}">Bắt đầu</td>
-                                    <td ng-click="vm.utils.dummy.dashboard.cycleOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort=='du_kien' || vm.pageOptions.ui.sort=='-du_kien'}" style="text-align:right;width:10%;">Dự kiến ra</td>
+                                    <td ng-click="vm.utils.dummy.dashboard.cycleOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort=='du_kien' || vm.pageOptions.ui.sort=='-du_kien'}" style="text-align:right;width:10%;">DK bàn giao</td>
                                 </tr>
                                 <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
                                 <tr ng-repeat="suachua in vm.pageData.suachuas.view | orderBy: vm.pageOptions.ui.sort" class="xuongdvkt-dashboard-item">
@@ -72,7 +72,7 @@
                 </ul>  
             </div>
             <div class="uk-width-medium-3-10" ng-if="vm.pageOptions.displayMode.isDisplaySearchPanel">
-                <dashboard-xuongdvkt-search-panel></dashboard-xuongdvkt-search-panel>
+                <dashboard-xuongdvkt-search-panel page-data="vm.pageData"></dashboard-xuongdvkt-search-panel>
             </div>
         </div>       
         
