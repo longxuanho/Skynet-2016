@@ -28,7 +28,13 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     page: 1,
                     totalItems: 0,
                     maxNumOfPage: 1,
-                    sort: ''
+                    sort: '',
+                    // Nhấp nháy dấu hai chấm trên giao diện đồng hồ
+                    clock: {
+                    	isTicking: true,
+                    	time: '',
+                    	date: ''
+                    }
                 },
                 displayMode: {
                     hero_content: {
@@ -268,6 +274,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             }, 12000);
 
             
+   //          $scope.$on('$destroy', function() {
+			//     // Make sure that the interval is destroyed too
+			//     $interval.cancel(stop);
+			// });
 
             // ***************************************************
             // WATCHERS
