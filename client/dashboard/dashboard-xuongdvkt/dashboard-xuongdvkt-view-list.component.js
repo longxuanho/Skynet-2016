@@ -5,7 +5,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
         controllerAs: 'vm',
         bindToController: true,
 
-        controller: function($scope, $rootScope, iNotifier, $reactive) {
+        controller: function($scope, $rootScope, iNotifier, $reactive, $interval) {
 
             $reactive(this).attach($scope);
 
@@ -187,14 +187,14 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             vm.utils = {
                 getDataView: {
                     suachuas: function() {
+                    	// Tính lại tổng số trang
+                    	vm.pageOptions.ui.maxNumOfPage = Math.ceil(vm.pageOptions.ui.totalItems / vm.pageOptions.ui.perPage);
+                        
                         let fromIndex = vm.pageOptions.ui.perPage * (vm.pageOptions.ui.page - 1);
                         if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage) {                            
                             let endIndex = fromIndex + vm.pageOptions.ui.perPage;
-                            console.log('excec section 1, from ', fromIndex, 'to ', endIndex)
                             vm.pageData.suachuas.view = vm.pageData.suachuas.raw.slice(fromIndex, endIndex);
-                            console.log('result: ', vm.pageData.suachuas.view);
                         } else {
-                            console.log('excec section 2')
                             vm.pageData.suachuas.view = vm.pageData.suachuas.raw.slice(fromIndex);
                         }
                     }
@@ -247,9 +247,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     vm.pageData.suachuas.dataSource.data(vm.pageData.suachuas.raw);
                     
                     vm.pageOptions.ui.totalItems = vm.pageData.suachuas.raw.length;
-                    vm.pageOptions.ui.maxNumOfPage = Math.ceil(vm.pageOptions.ui.totalItems / vm.pageOptions.ui.perPage);
-                    console.log('calc: ', vm.pageOptions.ui.maxNumOfPage)
-                    
+                    // Cập nhật list view                    
                     vm.utils.getDataView.suachuas();
                     return;
                 }
@@ -260,7 +258,14 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // METHODS
             // ***************************************************
             
-
+            $interval(() => {
+            	// Tự động lật trang sau 3s
+            	if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage)
+            		vm.pageOptions.ui.page++;
+            	else
+            		vm.pageOptions.ui.page = 1;
+            	console.log('page: ', vm.pageOptions.ui.page);
+            }, 12000);
 
             
 
@@ -282,13 +287,14 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 }
             });
 
-            $scope.$watch('vm.pageOptions.displayMode.hero_content.text.length', (newVal) => {
-                vm.pageOptions.ui.perPage = (newVal) ? 4 : 5;
-            });
+			$scope.$watch('vm.pageOptions.displayMode.hero_content.text.length', (newVal) => {
+				vm.pageOptions.ui.perPage = (newVal) ? 4 : 5;
+				vm.utils.getDataView.suachuas();
+			});
 
-            $scope.$watch('vm.pageOptions.ui.perPage', (newVal) => {
-                vm.utils.getDataView.suachuas();
-            });
+			$scope.$watch('vm.pageOptions.ui.page', (newVal) => {
+				vm.utils.getDataView.suachuas();
+			});
         }
     }
 });

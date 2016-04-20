@@ -44,15 +44,15 @@
                                     <td ng-click="vm.utils.dummy.dashboard.cycleOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort=='du_kien' || vm.pageOptions.ui.sort=='-du_kien'}" style="text-align:right;width:10%;">DK bàn giao</td>
                                 </tr>
                                 <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
-                                <tr ng-repeat="suachua in vm.pageData.suachuas.view | orderBy: vm.pageOptions.ui.sort" class="xuongdvkt-dashboard-item">
+                                <tr ng-repeat="suachua in vm.pageData.suachuas.view | orderBy: vm.pageOptions.ui.sort" class="xuongdvkt-dashboard-list-item suachua">
                                     <td style="color:#888;">{{suachua.dia_diem.vi_tri}}</td>
                                     <td ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.ma_tb.ma_tb}}</td> 
                                     <td style="color:#888;">{{suachua.ma_tb.dvql}}</td>
                                     <td style="color:#888;white-space: nowrap;max-width:500px;overflow: hidden;">{{suachua.noi_dung}}</td>
-                                    <td style="color:#888;">{{suachua.thoi_gian.bat_dau | displayDate:'fromNow'}}</td>
+                                    <td style="color:#888;">{{suachua.thoi_gian.bat_dau | displayDate:'calendar'}}</td>
                                     <td ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}" style="text-align:right;">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate:'shortHour'}}</td>
                                 </tr>
-                            </table>
+                            </table>                      
                             <div ng-if="!vm.pageData.suachuas.view.length" style="color: #888;font-size: 1.25rem;font-weight: 300;padding-left: 18px;">Không có sửa chữa tại thời điểm này.</div>   
                             <div style="width:100%;text-align:right;color:#555;">
                                 <span>2016 © Phòng Kỹ Thuật Vật Tư, Tổng Công Ty Tân Cảng Sài Gòn.</span>

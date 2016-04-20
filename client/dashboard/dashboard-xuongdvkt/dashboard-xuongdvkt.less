@@ -61,7 +61,7 @@
 			color: @app_xuongdvkt_color_warning !important;
 		}
 	}
-	.xuongdvkt-dashboard {		
+	.xuongdvkt-dashboard {
 		&-title td {
 			&.order-active {
 				color: #D3D3D3 !important;
@@ -78,16 +78,17 @@
 		    	color: #D3D3D3;
 		    }
 		}
-		&-item td {
+		&-list-item td {
 			text-overflow: ellipsis;
-			background-color: #333333;
 			color: #D3D3D3;
 			padding: 18px;
+			border: none;
 			border-bottom: 1px solid #555;
 		    min-height: 48px;
 		    font-weight: 300;
 		    font-size: 1.25rem; /* 1.5rem */
 		}
+		
 	}
 	.flip-board-panel {
 		.count {
@@ -295,6 +296,24 @@
 		}
 	}
 
+	/* ANIMATION */
+	.suachua.ng-enter {
+		transition: transform 1.5s, opacity 2s;
+	}
+	.suachua.ng-enter,
+	.suachua.ng-leave-active {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	.suachua.ng-enter-active {
+		transform: translateX(0);
+		opacity: 1;
+	}
+	.suachua.ng-enter-stagger,
+	.suachua.ng-leave-stagger {
+		transition-delay: 200ms;
+		transition-dutation: 0;
+	}
 }
 
 .suachuas-dashboard-item.ng-enter {
