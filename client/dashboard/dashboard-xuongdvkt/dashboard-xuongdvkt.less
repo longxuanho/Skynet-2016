@@ -8,29 +8,100 @@
     background-color: @app_xuongdvkt_background_color_dark;
 }
 
-#dashboard-xuongdvkt-hero-content {
-	padding-top: 20px;
-	background-color: #333;
-	color: #D3D3D3;
-	font-size: 1.5rem; /* 1.75rem */
-	border-bottom: 7px solid #555;
-	.color {
-		&-default {
-			color: #D3D3D3;
-		}
-		&-warning {
-			color: @app_xuongdvkt_color_warning;
-		}
-		&-danger {
-			color: @app_xuongdvkt_color_danger;
-		}
-		&-success {
-			color: @app_xuongdvkt_color_success;
-		}
+
+
+#xuongdvkt-realtime-clock {
+	.range-desc {
+		font-size: 1.5rem;
+		color: #555;
+	}
+	.time {
+		font-family: "Helvetica Neue", Helvetica, sans-serif;
+		font-size: 100px;
+		font-weight: bold;
+	}
+	/* ANIMATION */
+	.blend-to-background-add {
+		transition: opacity 0.5s;
+	}
+	.blend-to-background,
+	.blend-to-background-active {
+		opacity: 0;
 	}
 }
 
 #xuongdvkt-dashboard {
+	#dashboard-xuongdvkt-hero-content {
+		padding-top: 20px;
+		background-color: #333;
+		color: #D3D3D3;
+		font-size: 1.5rem; /* 1.75rem */
+		border-bottom: 7px solid #555;
+		.hero-color {
+			&-default {
+				color: #D3D3D3;
+			}
+			&-warning {
+				color: #fff;
+			}
+			&-danger {
+				color: #fff;
+			}
+			&-success {
+				color: @app_xuongdvkt_color_success;
+			}
+		}
+		/* ANIMATION NGIF FOR HERO CONTENT */
+		&.ng-enter {
+			transition: transform 750ms, margin 1s;
+			margin-bottom: -81px;
+			transform: translateY(-81px);			
+		}
+		&.ng-enter-active {
+			margin-bottom: 0;
+			transform: translateY(0);			
+		}
+		&.ng-leave {
+			transition: transform 750ms, margin 1s;
+			transform: translateY(0);
+			margin-bottom: 0;
+		}
+		&.ng-leave-active {
+			margin-bottom: -81px;
+			transform: translateY(-81px);			
+		}
+
+		@keyframes backgroundColorWarningChange {
+			from {
+				background-color: #333;
+			}
+			to {
+				background-color: @app_xuongdvkt_color_warning;
+			}
+		}
+		@keyframes backgroundColorDangerChange {
+			from {
+				background-color: #333;
+			}
+			to {
+				background-color: @app_xuongdvkt_color_danger;
+			}
+		}
+		&.hero-background {
+			&-warning {
+			    animation-duration: 2s;
+			    animation-name: backgroundColorWarningChange;
+			    animation-direction: alternate;
+			    animation-iteration-count: infinite;
+			}
+			&-danger {
+			    animation-duration: 2s;
+			    animation-name: backgroundColorDangerChange;
+			    animation-direction: alternate;
+			    animation-iteration-count: infinite;
+			}
+		}
+	}
 	ul {
 		background-color: #333333;
 	}
@@ -315,14 +386,3 @@
 		transition-dutation: 0;
 	}
 }
-
-.suachuas-dashboard-item.ng-enter {
-	-webkit-animation: flipInX 1s;
-    animation: flipInX 1s;
-}
-
-.suachuas-dashboard-item.ng-leave {
-	-webkit-animation: flipOutX 1s;
-    animation: flipOutX 1s;
-}
-

@@ -264,24 +264,23 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // METHODS
             // ***************************************************
             
-            $interval(() => {
+            autoPaging = $interval(() => {
             	// Tự động lật trang sau 3s
             	if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage)
             		vm.pageOptions.ui.page++;
             	else
             		vm.pageOptions.ui.page = 1;
-            	console.log('page: ', vm.pageOptions.ui.page);
-            }, 12000);
-
+            }, 12000);           
             
-   //          $scope.$on('$destroy', function() {
-			//     // Make sure that the interval is destroyed too
-			//     $interval.cancel(stop);
-			// });
 
             // ***************************************************
             // WATCHERS
             // ***************************************************
+            $scope.$on('$destroy', function() {
+                // Make sure that the interval is destroyed too
+                $interval.cancel(autoPaging);
+            });
+
             UIkit.on('change.uk.tab', function(event, active_item) {
                 if (active_item) {
                     vm.pageOptions.displayMode.current_nav_tab = active_item.text();

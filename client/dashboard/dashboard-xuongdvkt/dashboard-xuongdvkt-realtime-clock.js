@@ -1,7 +1,7 @@
 angular.module('angular-skynet').directive('dashboardXuongdvktRealtimeClock', function() {
     return {
         restrict: 'E',
-        templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-realtime-clock.template.html',
+        templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-realtime-clock.html',
         controller: function($scope, $interval) {
 
             // ***************************************************
@@ -11,10 +11,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktRealtimeClock', fu
                 isTicking: true,
                 time: {
                     hour: '',
-                    minute: ''
+                    minute: '',
+                    range: ''
                 },
-                date: '',
-                range: ''
+                date: ''                
             }
 
             // ***************************************************
@@ -31,8 +31,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktRealtimeClock', fu
             // ***************************************************
             let stopTime = $interval(() => {
                 $scope.now.isTicking = !$scope.now.isTicking;
-                $scope.now.time.hour = moment().format('h');
-                $scope.now.time.minute = moment().minute();
+                $scope.now.time.hour = moment().format('hh');
+                $scope.now.time.minute = moment().format('mm');
+                $scope.now.time.range = moment().format('A');
                 $scope.now.date = moment().format('dddd, [ngày] DD [tháng] MM [năm] YYYY');
             }, 2000);
 
@@ -44,7 +45,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktRealtimeClock', fu
             // ***************************************************
             // WATCHERS
             // ***************************************************
-            $scope.on('$destroy', function() {
+            $scope.$on('$destroy', function() {
                 $interval.cancel(stopTime);
             });
 
