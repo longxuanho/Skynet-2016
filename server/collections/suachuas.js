@@ -54,14 +54,14 @@ Meteor.publish("suachuas", function(fromDate, toDate) {
     };
     if (!toDate) {
         query['$or'] = [
-            {'thong_ke.thoi_gian.ngay_bat_dau': { $gte: fromDate } },
-            {'thong_ke.thoi_gian.ngay_ket_thuc': { $gte: fromDate } },
+            {'thong_ke.thoi_gian.bat_dau.ngay': { $gte: fromDate } },
+            {'thong_ke.thoi_gian.ket_thuc.ngay': { $gte: fromDate } },
             {'trang_thai': { $in: ["Đang sửa chữa", "Chuẩn bị bàn giao"] } }
         ]
     } else {
         query['$or'] = [
-            {'thong_ke.thoi_gian.ngay_bat_dau': { $gte: fromDate, $lte: toDate } },
-            {'thong_ke.thoi_gian.ngay_ket_thuc': { $gte: fromDate, $lte: toDate } },
+            {'thong_ke.thoi_gian.bat_dau.ngay': { $gte: fromDate, $lte: toDate } },
+            {'thong_ke.thoi_gian.ket_thuc.ngay': { $gte: fromDate, $lte: toDate } },
             {'trang_thai': { $in: ["Đang sửa chữa", "Chuẩn bị bàn giao"] } }
         ]
     }    

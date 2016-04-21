@@ -20,7 +20,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             $scope.utils = {
             	reset: {
             		newSuaChua: function(newSuaChua) {
-            			console.log('action!');
             			newSuaChua.phan_loai = {
                             nhom_tb: "Xe - máy",
                             loai_tb: '',
@@ -38,15 +37,18 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                             },
                             vi_tri: ''
                         };
-                        newSuaChua.noi_dung = '';
+						newSuaChua.noi_dung = '';
                         newSuaChua.thoi_gian = {
                         	bat_dau: new Date()
                         };
                         newSuaChua.thong_ke = {
-                        	thoi_gian: {}
+                        	thoi_gian: {
+                        		bat_dau: {},
+                        		sua_chua: {},                        		
+                        		ket_thuc: {}
+                        	}
                         };
                         newSuaChua.trang_thai = 'Đang sửa chữa';
-                        newSuaChua.isPublic = true;
                         newSuaChua.isArchived = false;
             		}
             	},
@@ -55,18 +57,54 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             			// Tính toán thời gian kết thúc dự kiến
 						newSuaChua.thoi_gian.ket_thuc_du_kien = moment(newSuaChua.thoi_gian.bat_dau).add(newSuaChua.thoi_gian.sua_chua_du_kien, 'hours').toDate();
 
-			            // Tính toán các thông số thống kê			            
-			            newSuaChua.thong_ke.thoi_gian.ngay_bat_dau = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy-MM-dd", "vi-VN");
-			            newSuaChua.thong_ke.thoi_gian.thang_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "MM", "vi-VN");
-			            newSuaChua.thong_ke.thoi_gian.nam_sua_chua = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy", "vi-VN");
+			            // Tính toán các thông số thống kê	
+			            newSuaChua.thong_ke.thoi_gian.bat_dau.gio = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy-MM-dd HH:mm", "vi-VN")	            
+			            newSuaChua.thong_ke.thoi_gian.bat_dau.ngay = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy-MM-dd", "vi-VN");
+			            newSuaChua.thong_ke.thoi_gian.bat_dau.thang = kendo.toString(newSuaChua.thoi_gian.bat_dau, "MM", "vi-VN");
+			            newSuaChua.thong_ke.thoi_gian.bat_dau.nam = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy", "vi-VN");
+
+			            // Bắt buộc có trường thông tin này để liên kết các trường trong grid
+			            newSuaChua.thong_ke.thoi_gian.sua_chua.du_kien = newSuaChua.thoi_gian.sua_chua_du_kien;
+
+			            // Bắt buộc có trường thông tin này để liên kết các trường trong grid
+			            newSuaChua.thong_ke.thoi_gian.ket_thuc.nam = kendo.toString(newSuaChua.thoi_gian.bat_dau, "yyyy", "vi-VN");
 
 			            // Khởi tạo metadata câu hỏi 
 			            newSuaChua.metadata = {};
 			            $scope._helpers.buildMetadata('buildNew', newSuaChua.metadata); 
-            		}
+            		},
+                    sourceSuaChua: function(suachua) {
+                    	// Tính toán thời gian kết thúc dự kiến và thực tế nếu có
+						suachua.thoi_gian.ket_thuc_du_kien = moment(suachua.thoi_gian.bat_dau).add(suachua.thoi_gian.sua_chua_du_kien, 'hours').toDate();
+						// Tính toán các thông số thống kê
+						suachua.thong_ke.thoi_gian.sua_chua.du_kien = suachua.thoi_gian.sua_chua_du_kien;
+
+						if (suachua.trang_thai === 'Sửa chữa xong') {
+							suachua.thoi_gian.ket_thuc = new Date();
+
+							// Tính toán các thông số thống kê
+							suachua.thong_ke.thoi_gian.sua_chua.thuc_te =  moment.duration(moment(suachua.thoi_gian.ket_thuc).diff(moment(suachua.thoi_gian.bat_dau))).asHours();
+							suachua.thong_ke.thoi_gian.sua_chua.phut = moment(suachua.thoi_gian.ket_thuc).diff(suachua.thoi_gian.bat_dau, 'minutes');
+							suachua.thong_ke.thoi_gian.sua_chua.gio = moment(suachua.thoi_gian.ket_thuc).diff(suachua.thoi_gian.bat_dau, 'hours');
+							suachua.thong_ke.thoi_gian.sua_chua.ngay = moment(suachua.thoi_gian.ket_thuc).diff(suachua.thoi_gian.bat_dau, 'days');
+
+							suachua.thong_ke.thoi_gian.ket_thuc.gio = kendo.toString(suachua.thoi_gian.ket_thuc, "yyyy-MM-dd HH:mm", "vi-VN")	            
+				            suachua.thong_ke.thoi_gian.ket_thuc.ngay = kendo.toString(suachua.thoi_gian.ket_thuc, "yyyy-MM-dd", "vi-VN");
+				            suachua.thong_ke.thoi_gian.ket_thuc.thang = kendo.toString(suachua.thoi_gian.ket_thuc, "MM", "vi-VN");
+				            suachua.thong_ke.thoi_gian.ket_thuc.nam = kendo.toString(suachua.thoi_gian.ket_thuc, "yyyy", "vi-VN");
+						}
+						// Khởi tạo metadata
+						if (!suachua.metadata)
+							suachua.metadata = {};
+						$scope._helpers.buildMetadata('build', suachua.metadata);
+                    }
             	},
                 validateForm: function(suachua) {
-                    let error = {};                        
+                    let error = {};    
+                    if (!suachua._id && $scope.pageOptions.displayMode.current_manage_mode==='update') {
+                        error.message = "Vui lòng chọn một lượt sửa chữa trong danh sách để thực hiện cập nhật";
+                        return error;
+                    }                    
                     if (!suachua.phan_loai.nhom_tb) {
                         error.message = "Chưa có thông tin về nhóm phương tiện.";
                         return error;
@@ -114,6 +152,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                     return;
                 }
             }
+
+            $scope.utils.reset.newSuaChua($scope.pageData.source.newSuaChua);
 
             // ***************************************************
             // SUBSCRIBE
@@ -163,6 +203,48 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         }
                     },
                     update: function () {
+                        let error = {}
+                        if (!Meteor.userId()) {
+                            error.message = 'Bạn cần đăng nhập để sử dụng chức năng này.';
+                            iNotifier.error(error.message);
+                        } else {
+                            if (!Roles.userIsInRole(Meteor.userId(), $scope.pageData.rights['can_upsert_sua_chua'], 'sky-project')) {
+                                error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                                iNotifier.error(error.message);
+                            } else {
+                                error = $scope.utils.validateForm($scope.pageData.source.selectedSuaChua);
+                                if (!_.isEmpty(error)) {
+                                    iNotifier.error(error.message);
+                                } else {
+                                    $scope.utils.build.sourceSuaChua($scope.pageData.source.selectedSuaChua);
+                                    SuaChuas.update({
+	                                    _id: $scope.pageData.source.selectedSuaChua._id
+	                                }, {
+	                                    $set: {
+	                                    	'noi_dung': $scope.pageData.source.selectedSuaChua.noi_dung,
+	                                        'trang_thai': $scope.pageData.source.selectedSuaChua.trang_thai,
+	                                        'thoi_gian': $scope.pageData.source.selectedSuaChua.thoi_gian,
+	                                        'thong_ke': $scope.pageData.source.selectedSuaChua.thong_ke,
+	                                        'ghi_chu': $scope.pageData.source.selectedSuaChua.ghi_chu,
+	                                        'metadata.ngay_cap_nhat_cuoi': $scope.pageData.source.selectedSuaChua.metadata.ngay_cap_nhat_cuoi,
+	                                        'metadata.nguoi_cap_nhat_cuoi': $scope.pageData.source.selectedSuaChua.metadata.nguoi_cap_nhat_cuoi,
+	                                        'metadata.nguoi_cap_nhat_cuoi_name': $scope.pageData.source.selectedSuaChua.metadata.nguoi_cap_nhat_cuoi_name,
+	                                        'metadata.nguoi_cap_nhat_cuoi_email': $scope.pageData.source.selectedSuaChua.metadata.nguoi_cap_nhat_cuoi_email,
+	                                        'metadata.nguoi_cap_nhat_cuoi_field': $scope.pageData.source.selectedSuaChua.metadata.nguoi_cap_nhat_cuoi_field
+	                                    }
+	                                }, (error) => {
+	                                    if (error) {
+	                                        iNotifier.error('Không thể cập nhật lượt sửa chữa này. ' + error.message + '.');
+	                                    } else {
+	                                        iNotifier.success('Lượt sửa chữa được cập nhật thành công.');
+	                                        $scope.$apply(() => {
+	                                        	$scope.pageData.source.selectedSuaChua = SuaChuas.findOne({_id: $scope.pageData.source.selectedSuaChua._id});
+	                                        });
+	                                    }
+	                                });
+                                }
+                            }
+                        }
                     },
                     resetSelected: function(id) {
                         $scope.pageData.source.selectedSuaChua = SuaChuas.findOne({ _id: id });

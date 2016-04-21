@@ -103,8 +103,10 @@
 		</div>
 	</div>
 	<div id="nav_quan_ly_update" ng-show="pageOptions.displayMode.current_manage_mode === 'update'">
-		<h3 style="margin-top:0;">Sửa chữa {{pageData.source.selectedSuaChua.ma_tb.ma_tb}}</h3>
-		<dl class="uk-description-list-horizontal">
+		<h3 style="margin-top:0;" class="no-animate" ng-hide="pageData.source.selectedSuaChua._id">Cập nhật phương tiện</h3>
+		<p ng-hide="pageData.source.selectedSuaChua._id" class="no-animate">Vui lòng chọn một lượt sửa chữa có trong danh sách kế bên để tiến hành cập nhật.</p>
+		<h3 style="margin-top:0;" class="no-animate" ng-show="pageData.source.selectedSuaChua._id">{{pageData.source.selectedSuaChua.phan_loai.loai_sua_chua}} {{pageData.source.selectedSuaChua.ma_tb.ma_tb}}</h3>
+		<dl class="uk-description-list-horizontal" ng-show="pageData.source.selectedSuaChua._id">
 		    <dt>Vị trí</dt>
 		    <dd style="color: #888;">{{pageData.source.selectedSuaChua.dia_diem.khu_vuc.ten}} : {{pageData.source.selectedSuaChua.dia_diem.vi_tri}}</dd>
 		    <dt>Thời gian vào</dt>
@@ -112,8 +114,8 @@
 		    <dt>Dự kiến bàn giao</dt>
 		    <dd style="color: #888;">{{pageData.source.selectedSuaChua.thoi_gian.ket_thuc_du_kien | displayDate:'calendar'}}</dd>
 		</dl>
-		<h3 style="margin-top:0;">Cập nhật trạng thái</h3>
-		<div class="uk-form-row uk-form-stacked">
+		
+		<div class="uk-form-row uk-form-stacked uk-margin-medium-top">
 			<div class="btn-group-manage-update-trang-thai">
 				<button class="btn-danger" ng-class="{ 'color-mode-danger': (pageData.source.selectedSuaChua.trang_thai == 'Đang sửa chữa') }" ng-click="pageData.source.selectedSuaChua.trang_thai = 'Đang sửa chữa'">Đang sửa chữa</button>
 				<button class="btn-warning" ng-class="{ 'color-mode-warning': (pageData.source.selectedSuaChua.trang_thai == 'Chuẩn bị bàn giao') }" ng-click="pageData.source.selectedSuaChua.trang_thai = 'Chuẩn bị bàn giao'">Chuẩn bị bàn giao</button>
@@ -148,7 +150,7 @@
 		</div>
 		<div class="uk-grid uk-margin-medium-top">
 			<div class="uk-width-medium-2-3">
-				<button class="btn-create-new">CẬP NHẬT</button>
+				<button class="btn-create-new" ng-click="methods.manage.update()">CẬP NHẬT</button>
 				<button class="btn-reset" ng-click="methods.manage.resetSelected(pageData.source.selectedSuaChua._id)">RESET</button>
 			</div>
 		</div>

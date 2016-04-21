@@ -53,33 +53,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 },
                 source: {
                     newSuaChua: {
-                        phan_loai: {
-                            nhom_tb: "Xe - máy",
-                            loai_tb: '',
-                            loai_sua_chua: ''
-                        },
-                        ma_tb: {
-                            ma_tb: '',
-                            dvql: ''
-                        },
-                        dia_diem: {
-                            dia_diem: 'Xưởng DVKT',
-                            khu_vuc: {
-                                ten: '',
-                                ma: ''
-                            },
-                            vi_tri: ''
-                        },
-                        noi_dung: '',
-                        thoi_gian: {
-                            bat_dau: new Date()
-                        },
-                        thong_ke: {
-                            thoi_gian: {}
-                        },
-                        trang_thai: 'Đang sửa chữa',
-                        isPublic: true,
-                        isArchived: false
                     },
                     selectedSuaChua: {
                     } 
@@ -255,7 +228,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     vm.pageOptions.ui.totalItems = vm.pageData.suachuas.raw.length;
                     
                     // Cập nhật list view cho lần đầu tiên khởi tạo
-                    if (!vm.pageData.suachuas.view.length)                  
+                    // if (!vm.pageData.suachuas.raw.length)
                         vm.utils.getDataView.suachuas();
                     return;
                 }
