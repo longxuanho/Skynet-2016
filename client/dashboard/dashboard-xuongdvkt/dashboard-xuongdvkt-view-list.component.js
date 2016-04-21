@@ -253,8 +253,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     vm.pageData.suachuas.dataSource.data(vm.pageData.suachuas.raw);
                     
                     vm.pageOptions.ui.totalItems = vm.pageData.suachuas.raw.length;
-                    // Cập nhật list view                    
-                    vm.utils.getDataView.suachuas();
+                    
+                    // Cập nhật list view cho lần đầu tiên khởi tạo
+                    if (!vm.pageData.suachuas.view.length)                  
+                        vm.utils.getDataView.suachuas();
                     return;
                 }
             });
@@ -265,11 +267,17 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // ***************************************************
             
             autoPaging = $interval(() => {
-            	// Tự động lật trang sau 3s
-            	if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage)
-            		vm.pageOptions.ui.page++;
-            	else
-            		vm.pageOptions.ui.page = 1;
+                // Chỉ chuyển trang khi maxPage > 1
+            	if (vm.pageOptions.ui.maxNumOfPage > 1) {
+                    // Chỉ chuyển trang khi đang ở bảng tin
+                    if (vm.pageOptions.displayMode.current_nav_tab === 'Bảng tin') {
+                        // Tự động lật trang sau 3s
+                        if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage)
+                            vm.pageOptions.ui.page++;
+                        else
+                            vm.pageOptions.ui.page = 1;
+                    }                      
+                }                
             }, 12000);           
             
 
