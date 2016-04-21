@@ -35,7 +35,11 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
             // ***************************************************
             // METHODS
             // ***************************************************
-            
+            $scope.methods = {
+                selectSuaChua: function(id) {
+                    $scope.pageData.source.selectedSuaChua = SuaChuas.findOne({ _id: id });
+                }
+            }
 
             // ***************************************************
             // UTILS

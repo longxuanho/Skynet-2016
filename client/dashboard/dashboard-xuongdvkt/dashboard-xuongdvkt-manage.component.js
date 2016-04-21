@@ -135,9 +135,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                 manage: {
                     insert: function () {
                         let error = {}
-                        if (!Meteor.userId()) 
+                        if (!Meteor.userId()) {
                             error.message = 'Bạn cần đăng nhập để sử dụng chức năng này.';
-                        else {
+                            iNotifier.error(error.message);
+                        } else {
                             if (!Roles.userIsInRole(Meteor.userId(), $scope.pageData.rights['can_upsert_sua_chua'], 'sky-project')) {
                                 error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
                                 iNotifier.error(error.message);
@@ -162,7 +163,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         }
                     },
                     update: function () {
-
+                    },
+                    resetSelected: function(id) {
+                        $scope.pageData.source.selectedSuaChua = SuaChuas.findOne({ _id: id });
                     }
                 }
             }

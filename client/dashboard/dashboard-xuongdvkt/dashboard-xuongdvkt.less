@@ -221,15 +221,15 @@
 				    &.color-mode {
 				    	&-success {
 				    		color: #9BBF17;
-				    		border: 1px solid #9BBF17;
+				    		border: 2px solid #9BBF17;
 				    	}
 				    	&-warning {
 				    		color: #F8A317;
-				    		border: 1px solid #F8A317;
+				    		border: 2px solid #F8A317;
 				    	}
 				    	&-danger {
 				    		color: #F05A28;
-				    		border: 1px solid #F05A28;
+				    		border: 2px solid #F05A28;
 				    	}
 				    }
 				}
@@ -372,9 +372,25 @@
 				transition-dutation: 0;
 			}
 		}
+		.suachua-selected {
+			.color {
+				&-success {
+					border-left: @app_xuongdvkt_color_success solid 5px;
+				}
+				&-warning {
+					border-left: @app_xuongdvkt_color_warning solid 5px;
+				}
+				&-danger {
+					border-left: @app_xuongdvkt_color_danger solid 5px;
+				}
+			}			
+		    background-color: #2F2F2F;
+			color: #D3D3D3;
+			transition: all .5s;
+		}
 		/* ANIMATION FOR NG-IF */
 		&.ng-enter {
-			transition: opacity 2s .7s, transform 1s .7s;
+			transition: opacity 1s .7s, transform 1s .7s;
 			opacity: 0;
 			transform: translateX(100%);
 		}

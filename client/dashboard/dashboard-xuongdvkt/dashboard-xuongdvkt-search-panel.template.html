@@ -7,13 +7,15 @@
     <div>
         <h3>Các phương tiện sửa chữa</h3>
         <div class="scrollable-area">
-            <table class="uk-table uk-table-hover">
-                <tr ng-repeat="suachua in pageData.suachuas.raw | filter: myFilter " class="search-result-item">
-                    <td style="width:30%" ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.ma_tb.ma_tb}}</td>
-                    <td style="width:15%;">{{suachua.dia_diem.vi_tri}}</td>
-                    <td style="width:40%;">{{suachua.thoi_gian.bat_dau | displayDate: 'fromNow'}}</td>
-                    <td style="text-align:right;">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate: 'shortHour'}}</td>
-                </tr>
+            <table class="uk-table uk-table-hover" style="border-collapse: separate;">
+                <tbody>
+                    <tr ng-repeat="suachua in pageData.suachuas.raw | filter: myFilter " class="search-result-item" ng-class="{ 'suachua-selected': suachua._id === pageData.source.selectedSuaChua._id }" ng-click="methods.selectSuaChua(suachua._id);">
+                        <td style="width:30%" ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.ma_tb.ma_tb}}</td>
+                        <td style="width:15%;">{{suachua.dia_diem.vi_tri}}</td>
+                        <td style="width:40%;">{{suachua.thoi_gian.bat_dau | displayDate: 'fromNow'}}</td>
+                        <td style="text-align:right;">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate: 'shortHour'}}</td>
+                    </tr>   
+                </tbody>                
             </table>    
         </div>      
     </div>    
