@@ -24,5 +24,18 @@ Meteor.startup(function() {
         });
 
     }
+    if (Notifies.find().count() === 0) {
+        // Chú ý có lỗi khó hiểu xảy ra khi seed item này. Cần phải thêm thủ công các trường thông tin khác _id vào db
+        let item = {
+            section: 'suachuas',
+            category: 'xuongdvkt-dashboard',
+            subject: 'hero-content',
+            content: {
+                text: '',
+                isActive: false
+            }
+        }
+        Notifies.insert(item);
+    }
 
 });

@@ -21,6 +21,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktMain', function() 
             // ***************************************************
 
             $scope.subscribe('suachuas');
+            $scope.subscribe('notifies-xuongdvkt-dashboard');
 
             // ***************************************************
             // REACTIVE HELPERS
