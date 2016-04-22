@@ -238,7 +238,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
 	                                    } else {
 	                                        iNotifier.success('Lượt sửa chữa được cập nhật thành công.');
 	                                        $scope.$apply(() => {
-	                                        	$scope.pageData.source.selectedSuaChua = SuaChuas.findOne({_id: $scope.pageData.source.selectedSuaChua._id});
+	                                        	$scope.pageData.source.master = SuaChuas.findOne({_id: $scope.pageData.source.selectedSuaChua._id});
+                        						$scope.pageData.source.selectedSuaChua = angular.copy($scope.pageData.source.master);
 	                                        });
 	                                    }
 	                                });
@@ -247,7 +248,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         }
                     },
                     resetSelected: function(id) {
-                        $scope.pageData.source.selectedSuaChua = SuaChuas.findOne({ _id: id });
+                        $scope.pageData.source.selectedSuaChua = angular.copy($scope.pageData.source.master);
                     }
                 }
             }

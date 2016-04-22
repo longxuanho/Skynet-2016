@@ -8,9 +8,9 @@
             <div class="flip-board-panel">
                 <div class="uk-clearfix">
                     <div class="uk-align-left" style="margin-top: 10px;margin-bottom:10px;">
-                        <div style="display: inline-block;margin-right: 48px;padding-left:18px;"><span class="count color-danger">{{vm.pageData.dummy.statistics.numOfDangSuaChua}}</span> <span class="flip-board-desc">lượt đang sửa chữa</span></div>
-                        <div style="display: inline-block;margin-right: 48px;"><span class="count color-warning">{{vm.pageData.dummy.statistics.numOfSuaChuaXong}}</span> <span class="flip-board-desc">lượt chuẩn bị bàn giao</span></div>
-                        <div style="display: inline-block;margin-right: 48px;"><span class="count color-success">{{vm.pageData.dummy.statistics.numOfChuanBiBanGiao}}</span> <span class="flip-board-desc">lượt sửa chữa xong</span></div>    
+                        <div style="display: inline-block;margin-right: 48px;padding-left:18px;"><span class="count color-danger">{{vm.pageData.statistics.count_panel['Đang sửa chữa']}}</span> <span class="flip-board-desc">lượt đang sửa chữa</span></div>
+                        <div style="display: inline-block;margin-right: 48px;"><span class="count color-warning">{{vm.pageData.statistics.count_panel['Chuẩn bị bàn giao']}}</span> <span class="flip-board-desc">lượt chuẩn bị bàn giao</span></div>
+                        <div style="display: inline-block;margin-right: 48px;"><span class="count color-success">{{vm.pageData.statistics.count_panel['Sửa chữa xong']}}</span> <span class="flip-board-desc">lượt sửa chữa xong</span></div>    
                     </div>
                     <div id="xuongdvkt-realtime-clock" class="uk-align-right" ng-hide="$root.primarySidebarOpen" style="margin: 10px 0 0;">
                         <!-- <div style="display: block;text-align: right;margin-bottom: -20px;"><span class="count">3:30</span> <span class="flip-board-desc">SA</span></div>
@@ -37,15 +37,15 @@
                                 </div> 
                                 <table class="uk-table uk-table-hover">
                                     <tr class="xuongdvkt-dashboard-title">
-                                        <td style="width:8%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('khu_vuc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='dia_diem.vi_tri' || vm.pageOptions.ui.sort=='-dia_diem.vi_tri'}">Khu vực</td>
-                                        <td style="width:12%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('ma_tb')" ng-class="{'order-active': vm.pageOptions.ui.sort=='ma_tb' || vm.pageOptions.ui.sort=='-ma_tb'}">Mã TB</td> 
-                                        <td style="width:8%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('dvql')" ng-class="{'order-active': vm.pageOptions.ui.sort=='dvql' || vm.pageOptions.ui.sort=='-dvql'}">ĐVQL</td>
-                                        <td ng-click="vm.utils.dummy.dashboard.cycleOrder('noi_dung_sc')" ng-class="{'order-active': vm.pageOptions.ui.sort=='noi_dung_sc' || vm.pageOptions.ui.sort=='-noi_dung_sc'}">Nội dung sửa chữa</td>
-                                        <td style="width:15%;" ng-click="vm.utils.dummy.dashboard.cycleOrder('thoi_gian')" ng-class="{'order-active': vm.pageOptions.ui.sort=='thoi_gian' || vm.pageOptions.ui.sort=='-thoi_gian'}">Bắt đầu</td>
-                                        <td ng-click="vm.utils.dummy.dashboard.cycleOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort=='du_kien' || vm.pageOptions.ui.sort=='-du_kien'}" style="text-align:right;width:12%;">DK bàn giao</td>
+                                        <td style="width:8%;" ng-click="vm.utils.getDataView.cycleSortOrder('khu_vuc')" ng-class="{'order-active': vm.pageOptions.ui.sort.by=='khu_vuc'}">Khu vực</td>
+                                        <td style="width:12%;" ng-click="vm.utils.getDataView.cycleSortOrder('ma_tb')" ng-class="{'order-active': vm.pageOptions.ui.sort.by=='ma_tb'}">Mã TB</td> 
+                                        <td style="width:8%;" ng-click="vm.utils.getDataView.cycleSortOrder('dvql')" ng-class="{'order-active': vm.pageOptions.ui.sort.by=='dvql'}">ĐVQL</td>
+                                        <td ng-click="vm.utils.getDataView.cycleSortOrder('noi_dung')" ng-class="{'order-active': vm.pageOptions.ui.sort.by=='noi_dung'}">Nội dung sửa chữa</td>
+                                        <td style="width:15%;" ng-click="vm.utils.getDataView.cycleSortOrder('thoi_gian')" ng-class="{'order-active': vm.pageOptions.ui.sort.by=='thoi_gian'}">Bắt đầu</td>
+                                        <td ng-click="vm.utils.getDataView.cycleSortOrder('du_kien')" ng-class="{'order-active': vm.pageOptions.ui.sort.by=='du_kien'}" style="text-align:right;width:12%;">DK bàn giao</td>
                                     </tr>
                                     <!-- <tr ng-repeat="suachua in vm.pageData.dummy.suachuas | filter: { ma_tb: vm.myFilter } " class="suachuas-dashboard-item" style="background-color: yellow;"> -->
-                                    <tr ng-repeat="suachua in vm.pageData.suachuas.view | orderBy: vm.pageOptions.ui.sort" class="xuongdvkt-dashboard-list-item suachua">
+                                    <tr ng-repeat="suachua in vm.pageData.suachuas.view" class="xuongdvkt-dashboard-list-item suachua">
                                         <td style="color:#888;">{{suachua.dia_diem.vi_tri}}</td>
                                         <td ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.ma_tb.ma_tb}}</td> 
                                         <td style="color:#888;">{{suachua.ma_tb.dvql}}</td>
