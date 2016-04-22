@@ -71,6 +71,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             	none: {'metadata.ngay_tao': -1}
                     		}
                     	}
+                    },
+                    heroContent: {
+                        content: {}
                     }
                 },
                 displayMode: {
@@ -81,7 +84,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     current_nav_tab: '',
                     isDisplaySearchPanel: false,
                     current_manage_mode: 'createNew'
-                }                        
+                }        
             };
 
             vm.pageData = {
@@ -223,6 +226,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // ***************************************************
 
             vm.helpers({
+                skyNotify: () => {
+                    vm.pageOptions.ui.heroContent = Notifies.findOne();
+                    return;
+                },
                 suachuas: () => {
                     vm.pageData.suachuas.raw = SuaChuas.find({}, {sort: vm.getReactively('pageOptions.ui.sort.criteria')}).fetch();
                     vm.pageData.suachuas.dataSource.data(vm.pageData.suachuas.raw);

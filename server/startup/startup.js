@@ -32,7 +32,7 @@ Meteor.startup(function() {
             subject: 'hero-content',
             content: {
                 text: '',
-                isActive: false
+                mode: 'default'
             }
         }
         Notifies.insert(item);

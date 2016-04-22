@@ -1,7 +1,7 @@
 
 <div id="xuongdvkt-dashboard">
-    <div class="uk-panel uk-panel-box uk-panel-box-primary hero-background-{{vm.pageOptions.displayMode.hero_content.mode}}" id="dashboard-xuongdvkt-hero-content" ng-if="vm.pageOptions.displayMode.hero_content.text">
-        <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;" class="hero-color-{{vm.pageOptions.displayMode.hero_content.mode}}">{{vm.pageOptions.displayMode.hero_content.text}}</marquee>
+    <div class="uk-panel uk-panel-box uk-panel-box-primary hero-background-{{vm.pageOptions.ui.heroContent.content.mode}}" id="dashboard-xuongdvkt-hero-content" ng-if="vm.pageOptions.ui.heroContent.content.text">
+        <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;" class="hero-color-{{vm.pageOptions.ui.heroContent.content.mode}}">{{vm.pageOptions.ui.heroContent.content.text}}</marquee>
     </div>
     <div style="padding: 0 48px;">
         <div>    
@@ -68,7 +68,7 @@
                             <dashboard-xuongdvkt-manage page-options="vm.pageOptions" page-data="vm.pageData"></dashboard-xuongdvkt-manage>
                         </li>
                         <li>
-                            <dashboard-xuongdvkt-settings page-options="vm.pageOptions"></dashboard-xuongdvkt-settings>
+                            <dashboard-xuongdvkt-settings page-options="vm.pageOptions" page-data="vm.pageData"></dashboard-xuongdvkt-settings>
                         </li>
                     </ul>  
                 </div>
