@@ -6,7 +6,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             pageOptions: '=',
             pageData: '='
         },
-        controller: function($scope, skynetHelpers, skynetDictionary, iNotifier) {
+        controller: function($scope, skynetHelpers, skynetDictionary, $timeout, iNotifier) {
 
             // ***************************************************
             // INITIALIZE
@@ -150,10 +150,77 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         return error;
                     }
                     return;
+                },
+                heroContent: {
+                    current: {
+                        text: '',
+                        mode: 'default'
+                    },
+                    update: function(text, mode, timeoutStop) {
+                        if (!mode)
+                            mode = 'default';
+                        if (!timeoutStop)
+                        	timeoutStop = 38000;
+
+                        if ($scope.pageOptions.ui.heroContent._id) {
+                            Notifies.update({
+                                _id: $scope.pageOptions.ui.heroContent._id
+                            }, {
+                                $set: {
+                                    'content': {
+                                        text: text,
+                                        mode: mode
+                                    }
+                                }
+                            }, (error) => {
+                                if (!error) {
+									this.current.text = text;
+									this.current.mode = mode;
+									$timeout(() => {
+			                        	// Nếu sau 38s không có thông báo khác xen vào thì reset
+			                        	if (this.current.text === $scope.pageOptions.ui.heroContent.content.text)
+											this.reset();
+			                        }, timeoutStop);
+                                }
+                            });
+                        }
+                    },
+                    reset: function() {
+                        // $scope.utils.heroContent.update()
+                        this.update('', 'default');
+                    }
                 }
             }
 
             $scope.utils.reset.newSuaChua($scope.pageData.source.newSuaChua);
+
+            // Collection Hooks - Nếu có lượt phương tiện được tạo mới thì phát sinh tông báo
+            SuaChuas.after.insert(function(userId, doc) {
+            	text = 'Phương tiện ' + $scope.pageData.source.newSuaChua.ma_tb.ma_tb + ' đã được đưa vào ' + $scope.pageData.source.newSuaChua.phan_loai.loai_sua_chua.toLowerCase() + ' tại khu vực ' + $scope.pageData.source.newSuaChua.dia_diem.vi_tri + '. Thời gian nằm xưởng dự kiến: ' + kendo.toString($scope.pageData.source.newSuaChua.thoi_gian.sua_chua_du_kien, 'n2') + ' giờ.';
+                mode = 'success';
+
+                $scope.utils.heroContent.update(text, mode, 38000);
+            }); 
+
+            // Collection Hooks - Nếu có thay đổi về trạng thái và trạng thái đó là một trong hai dạng 'Chuẩn bị bàn giao' hoặc 'Sửa chữa xong' thì phát sinh thông báo
+            SuaChuas.after.update(function(userId, doc) {
+            	if (doc.trang_thai !== this.previous) {
+	        		let text = '', mode = 'default';
+
+	        		if (doc.trang_thai == 'Chuẩn bị bàn giao') {            			
+	        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' dự kiến được bàn giao trong 15 phút tới. Yêu cầu khách hàng tới khu vực ' + doc.dia_diem.vi_tri + ' để chuẩn bị các thủ tục giấy tờ bàn giao.';
+	        			mode = 'warning';
+
+	        			$scope.utils.heroContent.update(text, mode, 38000);
+	        		}
+	        		if (doc.trang_thai == 'Sửa chữa xong') {
+	        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' tại khu vực ' + doc.dia_diem.vi_tri + ' đã được ' + doc.phan_loai.loai_sua_chua.toLowerCase() + ' và bàn giao. Thời gian nằm xưởng: ' + kendo.toString(doc.thong_ke.thoi_gian.sua_chua.gio, 'n2') + ' giờ.';
+	        			mode = 'success';
+
+	        			$scope.utils.heroContent.update(text, mode, 38000);
+            		}
+            	}
+            }); 
 
             // ***************************************************
             // SUBSCRIBE
@@ -236,9 +303,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
 	                                    if (error) {
 	                                        iNotifier.error('Không thể cập nhật lượt sửa chữa này. ' + error.message + '.');
 	                                    } else {
-	                                        iNotifier.success('Lượt sửa chữa được cập nhật thành công.');
+	                                        iNotifier.success('Lượt sửa chữa được cập nhật thành công.');	                                        
 	                                        $scope.$apply(() => {
-	                                        	$scope.pageData.source.master = SuaChuas.findOne({_id: $scope.pageData.source.selectedSuaChua._id});
+	                                        	// $scope.pageData.source.master = SuaChuas.findOne({_id: $scope.pageData.source.selectedSuaChua._id});
                         						$scope.pageData.source.selectedSuaChua = angular.copy($scope.pageData.source.master);
 	                                        });
 	                                    }

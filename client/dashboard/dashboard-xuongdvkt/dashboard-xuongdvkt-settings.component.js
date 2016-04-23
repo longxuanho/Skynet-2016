@@ -16,7 +16,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSettings', functio
                 content: {
                     text: '',
                     mode: 'default'
-                }
+                },
+                isAuto: false
             }
 
             // ***************************************************
