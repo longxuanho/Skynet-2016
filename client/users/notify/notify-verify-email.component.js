@@ -14,9 +14,17 @@ angular.module('angular-skynet').directive('notifyVerifyEmail', function() {
             // ***************************************************
             // INITIALIZE
             // ***************************************************
-            $scope._data = skynetHelpers.data;
             $scope.message = '';
-            $scope.verifyState = 'ongoing';  
+            $scope.verifyState = 'ongoing';
+
+            $scope.masterState = {
+                default: {
+                    name: 'users_profile',
+                    params: {
+                        // Cần lấy thông tin về userId tại đây...
+                    }
+                }
+            }; 
 
             // ***************************************************
             // METHODS
@@ -41,7 +49,10 @@ angular.module('angular-skynet').directive('notifyVerifyEmail', function() {
                             $scope.$apply(() => {
                                 $scope.verifyState = 'ok';
                                 $timeout(() => {
-                                    $state.go($scope._data.states.master);
+                                    $scope.masterState.default.params = {
+                                        userId: Meteor.userId()
+                                    };
+                                    $state.go($scope.masterState.default.name, $scope.masterState.default.params);
                                     iNotifier.success('Địa chỉ email của bạn đã được kích hoạt thành công!');
                                 }, 5000);
                             });                        

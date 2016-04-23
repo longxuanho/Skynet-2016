@@ -94,8 +94,8 @@ angular.module('angular-skynet').directive('mainSidebar', function() {
                     title: 'Câu hỏi NGB',
                     link: 'dashboard.cauhois'
                 }, {
-                    title: 'Sửa chữa',
-                    link: 'dashboard.suachuas'
+                    title: 'Xưởng DVKT',
+                    link: 'dashboard.xuongdvkt'
                 }]
             }, {
                 id: 1,

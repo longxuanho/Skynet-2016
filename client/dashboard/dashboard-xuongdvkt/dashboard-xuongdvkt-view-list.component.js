@@ -16,12 +16,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;
 
-            // vm._data = skynetHelpers.data;
-            // vm._helpers = skynetHelpers.helpers;
-            $rootScope.hideMainHeader = true;
-            $rootScope.primarySidebarOpen = false;
-            $rootScope.hideStyleSwitcher = true;
-
             vm.pageOptions = {
                 ui: {
                     perPage: 4,
@@ -172,15 +166,25 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 getStatistics: {
                 	countPanel: function() {
                 		vm.pageData.statistics.count_panel.totalOfSuaChuas = vm.pageData.suachuas.raw.length;
-                		vm.pageData.suachuas.dataSource.group({ 
-                			field: 'trang_thai',
-                			aggregates: [
-								{ field: "_id", aggregate: "count" }
-							] 
-						});
-                		_.each(vm.pageData.suachuas.dataSource.view(), (view) => {
-                			vm.pageData.statistics.count_panel[view.value] = view.items.length;
-                		});
+                        // Reset các giá trị bộ đếm về 0
+                        vm.pageData.statistics.count_panel['Đang sửa chữa'] = 0;
+                        vm.pageData.statistics.count_panel['Sửa chữa xong'] = 0;
+                        vm.pageData.statistics.count_panel['Chuẩn bị bàn giao'] = 0;
+
+                        // Nếu có sửa chữa tại thời điểm hiện tại -> Thực hiện các thống kê
+                        if (vm.pageData.statistics.count_panel.totalOfSuaChuas) {
+                            
+                            vm.pageData.suachuas.dataSource.group({ 
+                                field: 'trang_thai',
+                                aggregates: [
+                                    { field: "_id", aggregate: "count" }
+                                ] 
+                            });
+
+                            _.each(vm.pageData.suachuas.dataSource.view(), (view) => {
+                                vm.pageData.statistics.count_panel[view.value] = view.items.length;
+                            });
+                        }                		
                 	}
                 },
                 dummy: {
@@ -266,7 +270,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             vm.pageOptions.ui.page = 1;
                     }                   
                 }                
-            }, 12000);           
+            }, 12000);
             
 
             // ***************************************************

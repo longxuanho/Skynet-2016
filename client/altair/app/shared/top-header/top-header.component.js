@@ -85,14 +85,11 @@ angular.module('angular-skynet').directive('topHeader', function() {
             // ***************************************************
 
             $scope.helpers({
-                currentuser: () => {
+                currentUser: () => {
                     return Meteor.user();
                 },
                 isLoggedIn: () => {
                     return Meteor.userId() !== null;
-                },
-                currentUserId: () => {
-                    return Meteor.userId();
                 }
             });
 

@@ -22,7 +22,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/sua-chua-thiet-bi',
             template: '<dashboard-suachuas-main></dashboard-suachuas-main>',
             resolve: {
-                currentUser: ($q) => {
+                meteorUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
                     } else if (!Meteor.user().emails[0].verified) {
@@ -40,7 +40,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/ngan-hang-cau-hoi',
             template: '<dashboard-cauhois-main></dashboard-cauhois-main>',
             resolve: {
-                currentUser: ($q) => {
+                meteorUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
                     } else if (!Meteor.user().emails[0].verified) {
@@ -56,7 +56,31 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         })
         .state('dashboard.xuongdvkt', {
             url: '/xuong-dvkt',
-            template: '<dashboard-xuongdvkt-main></dashboard-xuongdvkt-main>'
+            template: '<dashboard-xuongdvkt-main></dashboard-xuongdvkt-main>',
+            resolve: {
+                meteorUser: ($q, $rootScope) => {
+                    if (Meteor.userId() == null) {
+                        return $q.reject('AUTH_REQUIRED');
+                    } else if (!Meteor.user().emails[0].verified) {
+                        return $q.reject('AUTH_NOT_VERIFIED');
+                    } if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'quanly-suachuas', 'support-suachuas'], 'sky-project')) {
+                        // Không đủ quyền xem nội dung câu hỏi
+                        return $q.reject('AUTH_NOT_AUTHORIZED');
+                    } else {
+                        // Ẩn sidebar trước khi vào route
+                        $rootScope.primarySidebarOpen = false;
+                        $rootScope.primarySidebarActive = false;
+                        $rootScope.primarySidebarHiding = false;
+                        $rootScope.hide_content_sidebar = false;
+                        // Ẩn top header trước khi vào route
+                        $rootScope.hideMainHeader = true;
+                        // Ẩn style switcher trước khi vào route
+                        $rootScope.hideStyleSwitcher = true;
+                        
+                        return $q.resolve();
+                    }
+                }
+            }
         })
         // NHOMS
         .state('nhoms', {
@@ -334,7 +358,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/quan-ly/ngan-hang-cau-hoi',
             template: '<cauhois-main></cauhois-main>',
             resolve: {
-                currentUser: ($q) => {
+                meteorUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
                     } else if (!Meteor.user().emails[0].verified) {
@@ -365,7 +389,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/admin/quan-ly',
             template: '<admin-main></admin-main>',
             resolve: {
-                currentUser: ($q) => {
+                meteorUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
                     } else if (!Meteor.user().emails[0].verified) {
@@ -388,7 +412,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/quan-ly/sua-chua-thiet-bi',
             template: '<suachuas-main></suachuas-main>',
             resolve: {
-                currentUser: ($q) => {
+                meteorUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
                     } else if (!Meteor.user().emails[0].verified) {
@@ -464,7 +488,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/quan-ly/ho-so-luu-tru/:hosoluutruId',
             template: '<hosoluutru-details></hosoluutru-details>',
             resolve: {
-                currentUser: ($q) => {
+                meteorUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
                     } else {
@@ -481,7 +505,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/parties/:partyId',
             template: '<party-details></party-details>',
             resolve: {
-                currentUser: ($q) => {
+                meteorUser: ($q) => {
                     if (Meteor.userId() == null) {
                         return $q.reject('AUTH_REQUIRED');
                     } else if (!Meteor.user().emails[0].verified) {
@@ -498,7 +522,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             templateUrl: 'client/users/views/users-list.html',
             controller: 'UsersListCtrl',
             resolve: {
-                "currentUser": ["$meteor", function($meteor) {
+                "meteorUser": ["$meteor", function($meteor) {
                     return $meteor.waitForUser();
                 }]
             }
@@ -508,17 +532,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             templateUrl: 'client/users/views/user-details.html',
             controller: 'UserDetailsCtrl',
             resolve: {
-                "currentUser": ["$meteor", function($meteor) {
-                    return $meteor.waitForUser();
-                }]
-            }
-        })
-        .state('user_login', {
-            url: '/dang-nhap',
-            templateUrl: 'client/accounts/views/user-login.html',
-            controller: 'UserLoginCtrl',
-            resolve: {
-                "currentUser": ["$meteor", function($meteor) {
+                "meteorUser": ["$meteor", function($meteor) {
                     return $meteor.waitForUser();
                 }]
             }
@@ -528,7 +542,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
         //     templateUrl: 'client/accounts/views/user-profile.html',
         //     controller: 'UserProfileCtrl',
         //     resolve: {
-        //         "currentUser": ["$meteor", function($meteor) {
+        //         "meteorUser": ["$meteor", function($meteor) {
         //             return $meteor.waitForUser(); // Must fully resolve user
         //         }]
         //     }
@@ -567,15 +581,6 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/login',
             template: '<login></login>'
         });
-
-    // .state('register', {
-    //     url: '/register',
-    //     template: '<register></register>'
-    // })
-    // .state('resetpw', {
-    //     url: '/resetpw',
-    //     template: '<resetpw></resetpw>'
-    // });
 
     $urlRouterProvider.otherwise("/login");
 });

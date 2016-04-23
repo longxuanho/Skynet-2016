@@ -10,14 +10,20 @@ angular.module('angular-skynet').directive('usersResetPassword', function() {
             // INITIALIZE
             // ***************************************************
 
-            $scope._data = skynetHelpers.data;
-
             $scope.resetState = 'idle';
             $scope.credentials = {
                 newPassword: '',
                 repeatNewPassword: '',
             }
 
+            $scope.masterState = {
+                default: {
+                    name: 'users_profile',
+                    params: {
+                        // Cần lấy thông tin về userId tại đây...
+                    }
+                }
+            };
 
             // ***************************************************
             // METHODS
@@ -39,7 +45,10 @@ angular.module('angular-skynet').directive('usersResetPassword', function() {
                             $scope.$apply(() => {
                                 $scope.resetState = 'ok';
                                 $timeout(() => {
-                                    $state.go($scope._data.states.master);
+                                    $scope.masterState.default.params = {
+                                        userId: Meteor.userId()
+                                    };
+                                    $state.go($scope.masterState.default.name, $scope.masterState.default.params);
                                     iNotifier.success('Reset mật khẩu thành công.');
                                 }, 4000);
                             });

@@ -15,10 +15,31 @@ angular.module('angular-skynet').directive('login', function() {
             $scope._data = skynetHelpers.data;
             $scope.loginState = 'idle';
 
-            // Trường hợp người dùng đã login -> redirect tới trang chính
+            $scope.masterState = {
+            	default: {
+            		name: 'users_profile',
+            		params: {
+	                   	// Cần lấy thông tin về userId tại đây...
+	                }
+            	},
+            	notifyCheckEmail: {
+            		name: 'notify_checkEmail'
+            	},
+            	notifyResetMatKhau: {
+            		name: 'notify_resetMatKhau'
+            	}
+            };
+
+            // Trường hợp người dùng đã login -> redirect tới hồ sơ cá nhân ui-sref="users_profile({userId: currentUser._id})"
             if (Meteor.userId()) {
-                $state.go($scope._data.states.master);
-            }   
+            	$scope.masterState.default = {
+	                name: 'users_profile',
+	                params: {
+	                    userId: Meteor.userId()
+	                }
+	            };
+                $state.go($scope.masterState.default.name, $scope.masterState.default.params);
+            }
 
             $scope.credentials = {
                 email: '',
@@ -105,9 +126,16 @@ angular.module('angular-skynet').directive('login', function() {
                         $scope.$apply(() => {
                             $scope.loginState = 'idle';
                         });
-                    } else {                        
+                    } else {
+
                         $scope.$apply(() => {
-                            $state.go($scope._data.states.master);
+                        	$scope.masterState.default = {
+				                name: 'users_profile',
+				                params: {
+				                    userId: Meteor.userId()
+				                }
+				            };
+                        	$state.go($scope.masterState.default.name, $scope.masterState.default.params);
                         });
                         $timeout(() => {
                             iNotifier.success("Đăng nhập thành công!");
@@ -141,7 +169,7 @@ angular.module('angular-skynet').directive('login', function() {
                                     });
                                 } else {
                                     iNotifier.success("Một email kích hoạt tài khoản đã được gửi tới địa chỉ hộp thư của bạn.");
-                                    $state.go($scope._data.states.notifyCheckEmail);
+                                    $state.go($scope.masterState.notifyCheckEmail.name);                                    
                                 }
                             });
                         }
@@ -173,7 +201,7 @@ angular.module('angular-skynet').directive('login', function() {
                                     $scope.loginState = 'idle';
                                 });
                             } else {
-                                $state.go($scope._data.states.notifyResetMatKhau);
+                                $state.go($scope.masterState.notifyResetMatKhau.name);
                                 $timeout(() => {                                
                                     iNotifier.success('Một email chứa thông tin reset mật khẩu đã được gửi tới địa chỉ hộp thư của bạn.');
                                 }, 1000);

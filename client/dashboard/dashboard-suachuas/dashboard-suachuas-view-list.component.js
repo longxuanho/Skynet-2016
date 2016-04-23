@@ -165,17 +165,6 @@ angular.module('angular-skynet').directive('dashboardSuachuasViewList', function
                 //     console.log('new action: ', SuaChuaLogs.findOne({}, {sort:{_id:-1}})); 
                 // }
             });
-
-            ddpEvents.addListener('suachuasChageEvent', function(message) {
-                console.log('event fired!');
-                if ($state && $state.$current.name==='dashboard.suachuas') {
-                    console.log('to this!', message);
-                    if (message.action==='insert')
-                        iNotifier.info('Thiết bị mã số ' + message.data.ma_tb.ma_tb + ' đã được đưa vào sửa chữa tại ô ' + message.data.dia_diem.vi_tri + '.');
-                    if (message.action==='update')
-                        iNotifier.success('Thiết bị mã số ' + message.data.ma_tb.ma_tb + ' tại ô ' + message.data.dia_diem.vi_tri + ' đã được sửa chữa xong.');
-                }
-            });
             
 
             // ***************************************************
