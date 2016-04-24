@@ -702,4 +702,8 @@ angular.module('angular-skynet')
             // app debug
             PrintToConsole.active = false;
         }
-    ]);
+    ])
+    // Cấu hình angular-moment tiếng việt
+    .run(function(amMoment) {
+        amMoment.changeLocale('vi');
+    });

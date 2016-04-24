@@ -13,7 +13,8 @@ var skynetApp = angular.module('angular-skynet', [
 	'ngFileUpload',
   	'ngImgCrop',
   	'angular-meteor.auth',
-    'easypiechart']);
+    'easypiechart',
+    'angularMoment']);
 
 skynetApp.config(function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([

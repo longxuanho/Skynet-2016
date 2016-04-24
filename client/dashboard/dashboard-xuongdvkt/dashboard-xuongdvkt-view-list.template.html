@@ -50,7 +50,7 @@
                                         <td ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.ma_tb.ma_tb}}</td> 
                                         <td style="color:#888;">{{suachua.ma_tb.dvql}}</td>
                                         <td style="color:#888;white-space: nowrap;max-width:500px;overflow: hidden;">{{suachua.noi_dung}}</td>
-                                        <td style="color:#888;">{{suachua.thoi_gian.bat_dau | displayDate:'fromNow'}}</td>
+                                        <td style="color:#888;">{{suachua.thoi_gian_bat_dau_resolved}}</td>
                                         <td ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}" style="text-align:right;">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate:'shortHour'}}</td>
                                     </tr>
                                 </table>                      
