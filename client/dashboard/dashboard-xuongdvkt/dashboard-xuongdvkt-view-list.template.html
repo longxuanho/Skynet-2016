@@ -4,21 +4,19 @@
     </div>
     <div style="padding: 0 48px;">
         <div>    
-            <div class="flip-board-panel">
-                <div class="uk-clearfix">
-                    <div class="uk-align-left" style="margin-top: 10px;margin-bottom:10px;">
-                        <div style="display: inline-block;margin-right: 48px;padding-left:18px;"><span class="count color-danger">{{vm.pageData.statistics.count_panel['Đang sửa chữa']}}</span> <span class="flip-board-desc">lượt đang sửa chữa</span></div>
-                        <div style="display: inline-block;margin-right: 48px;"><span class="count color-warning">{{vm.pageData.statistics.count_panel['Chuẩn bị bàn giao']}}</span> <span class="flip-board-desc">lượt chuẩn bị bàn giao</span></div>
-                        <div style="display: inline-block;margin-right: 48px;"><span class="count color-success">{{vm.pageData.statistics.count_panel['Sửa chữa xong']}}</span> <span class="flip-board-desc">lượt sửa chữa xong</span></div>    
-                    </div>
-                    <div id="xuongdvkt-realtime-clock" class="uk-align-right" ng-hide="$root.primarySidebarOpen" style="margin: 10px 0 0;">
-                        <!-- <div style="display: block;text-align: right;margin-bottom: -20px;"><span class="count">3:30</span> <span class="flip-board-desc">SA</span></div>
-                        <div style="display: block;text-align: right;margin-bottom: 48px" ng-if="!vm.pageOptions.displayMode.hero_content.text">
-                            <span class="flip-board-desc" style="font-size:1.15rem; color: #758587;">Thứ 7, ngày 14 tháng 4 năm 2016</span>  
-                        </div>   -->
-                        <dashboard-xuongdvkt-realtime-clock></dashboard-xuongdvkt-realtime-clock>
-                    </div>
-                </div>               
+            <div class="flip-board-panel" ng-show="vm.pageOptions.displayMode.current_nav_tab !== 'Thống kê'">
+                <div>
+                    <div class="uk-clearfix">
+                        <div class="uk-align-left" style="margin-top: 10px;margin-bottom:10px;">
+                            <div style="display: inline-block;margin-right: 48px;padding-left:18px;"><span class="count color-danger">{{vm.pageData.statistics.count_panel['Đang sửa chữa']}}</span> <span class="flip-board-desc">lượt đang sửa chữa</span></div>
+                            <div style="display: inline-block;margin-right: 48px;"><span class="count color-warning">{{vm.pageData.statistics.count_panel['Chuẩn bị bàn giao']}}</span> <span class="flip-board-desc">lượt chuẩn bị bàn giao</span></div>
+                            <div style="display: inline-block;margin-right: 48px;"><span class="count color-success">{{vm.pageData.statistics.count_panel['Sửa chữa xong']}}</span> <span class="flip-board-desc">lượt sửa chữa xong</span></div>    
+                        </div>
+                        <div id="xuongdvkt-realtime-clock" class="uk-align-right" ng-hide="$root.primarySidebarOpen" style="margin: 10px 0 0;display: inline-block;">
+                            <dashboard-xuongdvkt-realtime-clock></dashboard-xuongdvkt-realtime-clock>
+                        </div>
+                    </div>    
+                </div>                              
             </div>
             <div class="uk-grid">
                 <div ng-class="{'uk-width-medium-7-10': vm.pageOptions.displayMode.isDisplaySearchPanel, 'uk-width-medium-1-1': !vm.pageOptions.displayMode.isDisplaySearchPanel}" id="xuong_dvkt_list_view">

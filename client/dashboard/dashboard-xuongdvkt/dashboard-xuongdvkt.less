@@ -162,6 +162,7 @@
 		
 	}
 	.flip-board-panel {
+		overflow: hidden;
 		.count {
 			font-family: "Helvetica Neue", Helvetica, sans-serif;
 			font-size: 100px;
@@ -170,6 +171,24 @@
 		.flip-board-desc {
 			font-size: 1.5rem;
 			color: #555;
+		}
+		&.ng-hide-remove {
+			transition: transform 1.5s, margin 1s;
+			margin-bottom: -205px;
+			transform: translateY(-205px);
+			&.ng-hide-remove-active {
+				margin-bottom: 0;
+				transform: translateY(0);
+			}
+		}
+		&.ng-hide-add {
+			transition: transform 1.5s, margin 1s;
+			margin-bottom: 0;
+			transform: translateY(0);
+			&.ng-hide-add-active {
+				margin-bottom: -205px;
+				transform: translateY(-205px);
+			}
 		}
 	}
 	.input-form {
