@@ -107,17 +107,12 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 	                    'Sửa chữa xong': 0,
 	                    'Chuẩn bị bàn giao': 0,
 	                    totalOfSuaChuas: 9
-                	},
-                	
+                	}                	
                 },
-                dummy: {
-                    statistics: {
-                        numOfDangSuaChua: 8,
-                        numOfSuaChuaXong: 3,
-                        numOfChuanBiBanGiao: 2,
-                        totalOfSuaChuas: 9
-                    },
-                    headerText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam arcu libero.'
+                kendoOptions: {
+                    dataSource: {
+                        curr_ma_tbs: []
+                    }
                 }
             }
 
@@ -194,40 +189,16 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         }                		
                 	}
                 },
-                dummy: {
-                    dashboard: {
-                        cycleOrder: function(where) {
-                            let options = [];
-                            switch (where) {                                
-                                case 'khu_vuc':
-                                    options = ['dia_diem.vi_tri', '-dia_diem.vi_tri', '', 'dia_diem.vi_tri'];
-                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
-                                    break;
-                                case 'ma_tb':
-                                    options = ['ma_tb', '-ma_tb', '', 'ma_tb'];
-                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
-                                    break;
-                                case 'dvql':
-                                    options = ['dvql', '-dvql', '', 'dvql'];
-                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
-                                    break;
-                                case 'noi_dung_sc':
-                                    options = ['noi_dung_sc', '-noi_dung_sc', '', 'noi_dung_sc'];
-                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
-                                    break;
-                                case 'thoi_gian':
-                                    options = ['thoi_gian', '-thoi_gian', '', 'thoi_gian'];
-                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
-                                    break;
-                                case 'du_kien':
-                                    options = ['du_kien', '-du_kien', '', 'du_kien'];
-                                    vm.pageOptions.ui.sort = options[_.indexOf(options, vm.pageOptions.ui.sort) + 1];
-                                    break;
-                            }
+                resolveKendo: {
+                    dataSource: {
+                        resolveAll: function () {
+                            this.get_curr_ma_tbs_list();
+                        },
+                        get_curr_ma_tbs_list: function() {
+                            vm.pageData.kendoOptions.dataSource.curr_ma_tbs = _.map(vm.pageData.suachuas.raw, (suachua) => {
+                                return suachua.ma_tb.ma_tb
+                            });                           
                         }
-                    },
-                    pageChanged: function(newPage) {
-                        vm.pageOptions.ui.page = newPage;
                     }
                 }
             };
@@ -251,6 +222,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     // if (!vm.pageData.suachuas.raw.length)
                     vm.utils.getDataView.suachuas();
                     vm.utils.getStatistics.countPanel();
+                    vm.utils.resolveKendo.dataSource.resolveAll();
                     return;
                 },
                 selectedSuaChua: () => {

@@ -14,6 +14,15 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             $scope._helpers = skynetHelpers.helpers;
             $scope._dictionary = angular.copy(skynetDictionary.data.xuongdvkt);
 
+            $scope.config = {
+                update: {
+                    inputForm: {
+                        isTGSCLabel: true,
+                        tgscDuKienBanGiao: 0
+                    }
+                }
+            }
+
             // ***************************************************
             // UTILS
             // ***************************************************
@@ -74,6 +83,21 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
 			            $scope._helpers.buildMetadata('buildNew', newSuaChua.metadata); 
             		},
                     sourceSuaChua: function(suachua) {
+                        // Chú ý nếu cờ isTGSCLabel được tắt, nghĩa là tính thời gian dự kiến qua trường tgscDuKienBanGiao (ph),
+                        // ta cộng với thời gian hiện tại để có thời gian dự kiến bàn giao, rồi lấy thời gian dự kiến bàn giao 
+                        // trừ đi thời gian vào để có thời gian dự kiến mới.
+                        
+                        if (!$scope.config.update.inputForm.isTGSCLabel) {
+                            if ($scope.config.update.inputForm.tgscDuKienBanGiao) {
+                                suachua.thoi_gian.ket_thuc_du_kien = moment().add($scope.config.update.inputForm.tgscDuKienBanGiao, 'minutes').toDate();
+                                suachua.thoi_gian.sua_chua_du_kien = moment.duration(moment(suachua.thoi_gian.ket_thuc_du_kien).diff(moment(suachua.thoi_gian.bat_dau))).asHours();
+                                
+                                // Sau khi tính toán xong, reset lại isTGSCLabel và tgscDuKienBanGiao 
+                                $scope.config.update.inputForm.isTGSCLabel = true;
+                                $scope.config.update.inputForm.tgscDuKienBanGiao = 0;
+                            }
+                        }
+
                     	// Tính toán thời gian kết thúc dự kiến và thực tế nếu có
 						suachua.thoi_gian.ket_thuc_du_kien = moment(suachua.thoi_gian.bat_dau).add(suachua.thoi_gian.sua_chua_du_kien, 'hours').toDate();
 						// Tính toán các thông số thống kê
@@ -207,8 +231,12 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             	if (doc.trang_thai !== this.previous) {
 	        		let text = '', mode = 'default';
 
-	        		if (doc.trang_thai == 'Chuẩn bị bàn giao') {            			
-	        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' dự kiến được bàn giao trong 15 phút tới. Yêu cầu khách hàng tới khu vực ' + doc.dia_diem.vi_tri + ' để chuẩn bị các thủ tục giấy tờ bàn giao.';
+	        		if (doc.trang_thai == 'Chuẩn bị bàn giao') {
+                        // Nếu phương tiện chuẩn bị bàn giao, cần tính được thời gian sẽ bàn giao sắp tới (ph) bằng cách trừ thời gian
+                        // dự kiến bàn giao cho thời điểm hiện tại
+                        let minutes = Math.ceil(moment.duration(moment(doc.thoi_gian.ket_thuc_du_kien).diff(moment())).asMinutes());
+
+	        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' dự kiến được bàn giao trong ' + minutes + ' phút tới. Yêu cầu khách hàng tới khu vực ' + doc.dia_diem.vi_tri + ' để chuẩn bị các thủ tục bàn giao.';
 	        			mode = 'warning';
 
 	        			$scope.utils.heroContent.update(text, mode, 38000);
@@ -316,6 +344,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                     },
                     resetSelected: function(id) {
                         $scope.pageData.source.selectedSuaChua = angular.copy($scope.pageData.source.master);
+
+                        // reset lại isTGSCLabel và tgscDuKienBanGiao 
+                        $scope.config.update.inputForm.isTGSCLabel = true;
+                        $scope.config.update.inputForm.tgscDuKienBanGiao = 0;
                     }
                 }
             }
