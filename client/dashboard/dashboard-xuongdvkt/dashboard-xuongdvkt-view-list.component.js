@@ -265,7 +265,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 	                            type: "bar",
 	                            stack: {
 	                                type: "100%"
-	                            }
+	                            },
+	                            gap: 2.5
 	                        },
 	                        series: [],
 	                        valueAxis: {
