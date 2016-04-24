@@ -620,6 +620,13 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                 "D": [ "D01", "D02", "D03", "D04", "D05" ],
                 "E": [ "E01", "E02", "E03", "E04", "E05" ]
             },
+            "vi_tris_full": {
+                "Khu A": [ "A01", "A02", "A03", "A04", "A05" ],
+                "Khu B": [ "B01", "B02", "B03", "B04", "B05" ],
+                "Khu C": [ "C01", "C02", "C03", "C04", "C05" ],
+                "Khu D": [ "D01", "D02", "D03", "D04", "D05" ],
+                "Khu E": [ "E01", "E02", "E03", "E04", "E05" ]
+            },
             trang_thais: [
                 "Đang sửa chữa",
                 "Chuẩn bị bàn giao",

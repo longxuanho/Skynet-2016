@@ -1,5 +1,5 @@
 <div id="xuongdvkt-dashboard">
-    <div class="uk-panel uk-panel-box uk-panel-box-primary hero-background-{{vm.pageOptions.ui.heroContent.content.mode}}" id="dashboard-xuongdvkt-hero-content" ng-if="vm.pageOptions.ui.heroContent.content.text">
+    <div class="uk-panel uk-panel-box uk-panel-box-primary hero-background-{{vm.pageOptions.ui.heroContent.content.mode}}" id="dashboard-xuongdvkt-hero-content" ng-if="vm.pageOptions.ui.heroContent.content.text && vm.pageOptions.displayMode.current_nav_tab !== 'Thống kê'">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="width:100%;" class="hero-color-{{vm.pageOptions.ui.heroContent.content.mode}}">{{vm.pageOptions.ui.heroContent.content.text}}</marquee>
     </div>
     <div style="padding: 0 48px;">

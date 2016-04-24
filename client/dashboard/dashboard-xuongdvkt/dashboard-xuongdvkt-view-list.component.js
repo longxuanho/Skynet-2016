@@ -84,7 +84,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 charts: {
                 	colorPalettes: {
                 		'Vitamin C': ['#004358', '#1F8A70', '#BEDB39', '#FFE11A', '#FD7400', '#004358', '#1F8A70'],
-                        'Ad Majora - Aspirin C': ['#225378', '#1595A3', '#ACF0F2', '#F2FFE3', '#EB7F00'],
+                        'Ad Majora - Aspirin C': ['#225378', '#1595A3', '#ACF0F2', '#F2FFE3', '#EB7F00', '#225378', '#1595A3'],
                         'Blue Mono': ['#B0DAFC', '#7B98B0', '#325B7D', '#4681B0', '#455663', '#B0DAFC'],
                         'backup': ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4']
                 	}
@@ -203,11 +203,11 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                                 data: []
                             }),
                             categoryAxis: {
-                                field: "khu_vuc",
-                                labels: {
+                            	labels: {
                                 	color: "#757575",
                                     font: "12px Roboto,Arial,Helvetica,sans-serif"
                                 },
+                                field: "khu_vuc",                                
 							    majorGridLines: {
 							      	color: "#757575"
 							    }
@@ -217,6 +217,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                                     color: "#757575",
                                     font: "12px Roboto,Arial,Helvetica,sans-serif"
                                 },
+                                line: {
+	                                color: "#757575"
+	                            },
                                 majorGridLines: {
 							      	color: "#757575"
 							    },
@@ -238,6 +241,65 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                                 field: "sua_chua_xong",
                                 color: "#9BBF17"
                             }],
+                        },
+                        stacked_bar_luot_sua_chua: {
+                        	theme: "material",
+                        	chartArea: {
+							    background: "transparent"
+							},
+                        	title: {
+	                            text: "Hiệu suất xưởng sửa chữa",
+	                            font: "16px Roboto,Arial,Helvetica,sans-serif",
+	                            position: "bottom",
+	                            color: "#F05A28"
+	                        },
+	                        legend: {
+	                            visible: true,
+	                            position: 'top',
+	                            labels: {
+      								color: "#757575",
+      								font: "12px Roboto,Arial,Helvetica,sans-serif"
+    							}
+	                        },
+	                        seriesDefaults: {
+	                            type: "bar",
+	                            stack: {
+	                                type: "100%"
+	                            }
+	                        },
+	                        series: [],
+	                        valueAxis: {
+	                        	labels: {
+                                    color: "#757575",
+                                    font: "12px Roboto,Arial,Helvetica,sans-serif"
+                                },
+	                            line: {
+	                                visible: false
+	                            },
+	                            minorGridLines: {
+	                                visible: false
+	                            },
+	                            majorGridLines: {
+	                                color: "#555"
+	                            }
+	                        },
+	                        categoryAxis: {
+	                            categories: [],
+	                            labels: {
+	                                color: "#757575",
+                                    font: "12px Roboto,Arial,Helvetica,sans-serif"
+	                            },
+	                            line: {
+	                                color: "#555"
+	                            },
+	                            majorGridLines: {
+	                                visible: false
+	                            }
+	                        },
+	                        tooltip: {
+	                            visible: true,
+	                            template: "#= series.name #: #= value # ô (#= kendo.format('{0:P0}', percentage) #)"
+	                        }
                         }
                     }
                 }
@@ -378,6 +440,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     	resolveAll: function() {
                     		this.donut_thong_ke_luot_suachuas();
                     		this.polar_phan_loai_luot_suachuas();
+                    		this.stacked_bar_luot_sua_chua();
                     	},
                         donut_thong_ke_luot_suachuas: function() {
                         	// Khởi tạo
@@ -411,7 +474,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             // Thiết đặt các giá trị cho chart options
                             vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[0].data = arr_serie_inside;
                             vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[1].data = arr_serie_outside;
-
                         },
                         polar_phan_loai_luot_suachuas: function() {
                             // Khởi tạo
@@ -448,6 +510,54 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             });
                             // Thiết đặt các giá trị này cho dataSource của chart options
                             vm.pageData.kendoOptions.charts.polar_phan_loai_luot_suachuas.dataSource.data(arr_data);
+                            // Reset group
+                            vm.pageData.suachuas.dataSource.group([]);
+                        },
+                        stacked_bar_luot_sua_chua: function() {
+                        	// Khởi tạo
+                        	let views = [], arr_series_inUse = [], arr_series_empty = [], arr_category = [], obj_statistics = {};
+                        	// Tìm tất cả các khu vực trong nhà xưởng
+                    		arr_category = _.keys(vm._dictionary.vi_tris_full);                    		                        	
+                        	// Khởi tạo lại các giá trị thống kê về vị trí ban đầu: tất cả đều chưa sửa dụng và còn trống.
+                        	_.each(arr_category, (khuvuc) => {
+                        		arr_series_inUse.push(0);
+                        		arr_series_empty.push(vm._dictionary.vi_tris_full[khuvuc].length);
+                        	});
+                        	if (vm.pageData.suachuas.dataSource.view().length) {
+                        		// Loại bỏ các sửa chữa đã thực hiện xong
+                        		vm.pageData.suachuas.dataSource.filter({ field: "trang_thai", operator: "neq", value: "Sửa chữa xong" });
+	                        	// Thống kê theo từng khu vực
+	                        	vm.pageData.suachuas.dataSource.group({ field: "dia_diem.khu_vuc.ten" });
+	                        	views = vm.pageData.suachuas.dataSource.view();
+	                        	_.each(views, (khuvuc) => {
+	                        		obj_statistics[khuvuc.value] = khuvuc.items.length;
+	                        	});
+	                        	// Cập nhật các series:
+	                        	_.each(_.keys(obj_statistics), (khuvuc) => {
+	                        		// Tìm index của Khu vực này trong arr_category rồi cập nhật các mảng arr_series_inUse và arr_series_empty
+	                        		let index = _.indexOf(arr_category, khuvuc);
+	                        		if (index >= 0) {
+	                        			arr_series_inUse[index] = obj_statistics[khuvuc];
+	                        			arr_series_empty[index] = vm._dictionary.vi_tris_full[khuvuc].length - obj_statistics[khuvuc];
+	                        		}
+	                        	});
+	                        	// Thiết đặt các giá trị này cho options của chart
+	                        	vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.categoryAxis.categories = arr_category;
+	                        	vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.series = [{
+	                        			name: 'Đang sử dụng',
+		                        		data: arr_series_inUse,
+		                        		color: vm.pageOptions.charts.colorPalettes['Blue Mono'][1]	
+	                        		}, {
+	                        			name: 'Còn trống',
+		                        		data: arr_series_empty,
+		                        		color: vm.pageOptions.charts.colorPalettes['Blue Mono'][2]	
+	                        		}];
+	                        	// Reset groups and filters
+	                        	vm.pageData.suachuas.dataSource.filter({});
+	                        	vm.pageData.suachuas.dataSource.group([]);
+
+                        	}
+                        	
                         }
                     }
                 }
