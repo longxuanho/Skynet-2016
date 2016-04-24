@@ -2,6 +2,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktCharts', function(
     return {
         restrict: 'E',
         templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-charts.template.html',
+        scope: {
+            pageOptions: '=',
+            pageData: '='
+        },
         controller: function($scope) {
 
             // ***************************************************

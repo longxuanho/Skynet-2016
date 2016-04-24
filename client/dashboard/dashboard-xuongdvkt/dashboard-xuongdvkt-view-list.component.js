@@ -80,7 +80,15 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     current_nav_tab: '',
                     isDisplaySearchPanel: false,
                     current_manage_mode: 'createNew'
-                }        
+                },
+                charts: {
+                	colorPalettes: {
+                		'Vitamin C': ['#004358', '#1F8A70', '#BEDB39', '#FFE11A', '#FD7400', '#004358', '#1F8A70'],
+                        'Ad Majora - Aspirin C': ['#225378', '#1595A3', '#ACF0F2', '#F2FFE3', '#EB7F00'],
+                        'Blue Mono': ['#B0DAFC', '#7B98B0', '#325B7D', '#4681B0', '#455663', '#B0DAFC'],
+                        'backup': ['#D7D780', '#FEAB63', '#F95146', '#B2E6C6', '#FE9396', '#91DAA4']
+                	}
+                }
             };
 
             vm.pageData = {
@@ -118,6 +126,58 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             isAvailable: {}
                         },
                         curr_ma_tbs: []
+                    },
+                    charts: {
+                        donut_thong_ke_luot_suachuas: {
+                            theme: "material",
+                            chartArea: {
+							    background: "transparent"
+							},
+                            title: {
+                                position: "bottom",
+                                text: "Thống kê lượt sửa chữa",
+                                font: "16px Roboto,Arial,Helvetica,sans-serif",
+                                color: "#F05A28"
+                            },
+                            legend: {
+                                visible: true,
+                                position: 'top',
+                                labels: {
+      								color: "#757575",
+      								font: "12px Roboto,Arial,Helvetica,sans-serif"
+    							}
+                            },
+                            seriesDefaults: {
+                                type: "donut",
+                                startAngle: 0
+                            },
+                            series: [{
+                                name: 'inside',                            
+                                holeSize: 60,
+                                data: []
+                            }, {
+                                name: 'outside',
+                                data: [],
+                                labels: {
+                                    visible: true,
+                                    background: "transparent",
+                                    position: "outsideEnd",
+                                    template: "#= category #\n#= value # lượt",
+                                    color: "#757575",
+      								font: "12px Roboto,Arial,Helvetica,sans-serif"
+                                }
+                            }],
+                            tooltip: {
+                                visible: true,
+                                template: "#= category #: #= value # lượt (#= kendo.format('{0:P0}', percentage) #)"
+                            }
+                        },
+                        polar_phan_loai_luot_suachuas: {
+                            theme: "material",
+                            dataSource: kendo.data.DataSource.create({
+                                data: []
+                            })
+                        }
                     }
                 }
             }
@@ -252,6 +312,48 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 								vm.pageData.kendoOptions.dataSource.vi_tris.isAvailable[vitri.charAt(0)].push(vitri);
 							});
                         }
+                    },
+                    charts: {
+                    	resolveAll: function() {
+                    		this.donut_thong_ke_luot_suachuas();
+                    		this.polar_phan_loai_luot_suachuas();
+                    	},
+                        donut_thong_ke_luot_suachuas: function() {
+                        	// Khởi tạo
+                        	let views = [], arr_serie_inside = [], arr_serie_outside = [];
+
+                        	// Thống kê số liệu cho serie vòng trong: Loại phương tiện
+                            vm.pageData.suachuas.dataSource.group({ field: "phan_loai.loai_tb" });
+                            views = vm.pageData.suachuas.dataSource.view();
+                            _.each(views, (view, index) => {
+                            	arr_serie_inside.push({
+                            		category: view.value,
+                            		value: view.items.length,
+                            		color: vm.pageOptions.charts.colorPalettes['Ad Majora - Aspirin C'][index]
+                            	});
+                            });
+
+                        	// Thống kê số liệu cho serie vòng ngoài: Loại sửa chữa
+                            vm.pageData.suachuas.dataSource.group({ field: "phan_loai.loai_sua_chua" });
+                            views = vm.pageData.suachuas.dataSource.view();
+                            _.each(views, (view, index) => {
+                            	arr_serie_outside.push({
+                            		category: view.value,
+                            		value: view.items.length,
+                            		color: vm.pageOptions.charts.colorPalettes['Vitamin C'][index]
+                            	});
+                            });
+
+                            // Reset group
+                            vm.pageData.suachuas.dataSource.group([]);
+
+                            // Thiết đặt các giá trị cho chart options
+                            vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[0].data = arr_serie_inside;
+                            vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[1].data = arr_serie_outside;
+                        },
+                        polar_phan_loai_luot_suachuas: function() {
+
+                        }
                     }
                 }
             };
@@ -276,6 +378,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     vm.utils.getDataView.suachuas();
                     vm.utils.getStatistics.countPanel();
                     vm.utils.resolveKendo.dataSource.resolveAll();
+                    vm.utils.resolveKendo.charts.resolveAll();
                     return;
                 },
                 selectedSuaChua: () => {
