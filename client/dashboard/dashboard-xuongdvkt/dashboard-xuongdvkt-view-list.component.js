@@ -135,7 +135,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 							},
                             title: {
                                 position: "bottom",
-                                text: "Thống kê lượt sửa chữa",
+                                text: "Phân loại sửa chữa",
                                 font: "16px Roboto,Arial,Helvetica,sans-serif",
                                 color: "#F05A28"
                             },
@@ -153,7 +153,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             },
                             series: [{
                                 name: 'inside',                            
-                                holeSize: 60,
+                                holeSize: 54,
                                 data: []
                             }, {
                                 name: 'outside',
@@ -174,9 +174,70 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         },
                         polar_phan_loai_luot_suachuas: {
                             theme: "material",
+                            chartArea: {
+                                background: "transparent"
+                            },
+                            title: {
+                                position: "bottom",
+                                text: "Tổng quan theo khu vực",
+                                font: "16px Roboto,Arial,Helvetica,sans-serif",
+                                color: "#F05A28"
+                            },
+                            legend: {
+                                visible: true,
+                                position: 'top',
+                                labels: {
+                                    color: "#757575",
+                                    font: "12px Roboto,Arial,Helvetica,sans-serif"
+                                }
+                            },
+                            seriesDefaults: {
+                                type: "radarLine",
+                                style: "smooth"
+                            },
+                            tooltip: {
+                                visible: true,
+                                template: "#= category #: #= value # lượt #= series.name.toLowerCase() #."
+                            },
                             dataSource: kendo.data.DataSource.create({
                                 data: []
-                            })
+                            }),
+                            categoryAxis: {
+                                field: "khu_vuc",
+                                labels: {
+                                	color: "#757575",
+                                    font: "12px Roboto,Arial,Helvetica,sans-serif"
+                                },
+							    majorGridLines: {
+							      	color: "#757575"
+							    }
+                            },
+                            valueAxis: {
+                                labels: {
+                                    color: "#757575",
+                                    font: "12px Roboto,Arial,Helvetica,sans-serif"
+                                },
+                                majorGridLines: {
+							      	color: "#757575"
+							    },
+							    majorUnit: 1,
+							    majorTicks: {
+      								color: "#757575"
+    							}
+                            },
+                            series: [{
+                                name: "Đang sửa chữa",
+                                field: "dang_sua_chua",
+                                color: "#F05A28"
+                            }, {
+                                name: "Chuẩn bị bàn giao",
+                                field: "chuan_bi_ban_giao",
+                                color: "#FFB400"
+                            }, {
+                                name: "Sửa chữa xong",
+                                field: "sua_chua_xong",
+                                color: "#9BBF17"
+                            }],
                         }
                     }
                 }
@@ -350,9 +411,43 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             // Thiết đặt các giá trị cho chart options
                             vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[0].data = arr_serie_inside;
                             vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[1].data = arr_serie_outside;
+
                         },
                         polar_phan_loai_luot_suachuas: function() {
-
+                            // Khởi tạo
+                            let views = [], arr_data = [], arr_khuvucs = [],
+                                arr_trangthais = ['Đang sửa chữa', 'Chuẩn bị bàn giao', 'Sửa chữa xong'],
+                                arr_keymap = {
+                                    'Đang sửa chữa': 'dang_sua_chua',
+                                    'Chuẩn bị bàn giao': 'chuan_bi_ban_giao',
+                                    'Sửa chữa xong': 'sua_chua_xong'
+                                };
+                            // Tìm tất cả các khu vực trong nhà xưởng
+                        	arr_khuvucs = _.keys(vm._dictionary.vi_tris);
+                            // Thống kê số liệu cho dataSource: Vị trí và Trạng thái sửa chữa (ứng với mỗi vị trí là số liệu thống kê về số lượt đang/đã/chuẩn bị sc xong.)
+                            vm.pageData.suachuas.dataSource.group([
+                                { field: "dia_diem.khu_vuc.ten" },
+                                { field: "trang_thai" }
+                            ]);
+                            views = vm.pageData.suachuas.dataSource.view();
+                        	_.each(views, (khuvuc) => {
+                                let item = {
+                                    'khu_vuc': khuvuc.value
+                                };
+                                // Khởi tạo các giá trị ban đầu
+                                _.each(arr_trangthais, (key) => {
+                                    item[arr_keymap[key]] = 0;
+                                });
+                                if (khuvuc.items.length) {
+                                	_.each(khuvuc.items, (trangthai) => {
+	                                	item[arr_keymap[trangthai.value]] = trangthai.items.length;
+	                                });
+                                }            
+                                // Lưu lại item vào mảng arr_data
+                                arr_data.push(item);
+                            });
+                            // Thiết đặt các giá trị này cho dataSource của chart options
+                            vm.pageData.kendoOptions.charts.polar_phan_loai_luot_suachuas.dataSource.data(arr_data);
                         }
                     }
                 }

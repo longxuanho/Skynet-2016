@@ -1,9 +1,22 @@
- <div class="uk-grid">
-    <div class="uk-width-medium-1-1">
+<div class="uk-grid">
+	<div class="uk-width-medium-1-2 uk-margin-medium-top">
+		<h3 style="color:#D3D3D3;margin-left:48px;">Thống kê sửa chữa trong ngày: <span style="color:#F05A28;">{{pageData.statistics.count_panel.totalOfSuaChuas}} lượt</span></h3>
+	</div>
+</div>
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2">
         <div kendo-chart id="donut_thong_ke_luot_suachuas"
             k-options="pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas"
             k-rebind="pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas"
-            style="height: 350px;">
+            style="height: 300px;">
         </div>  
-    </div>                    
+    </div>
+</div>
+<div class="uk-grid">
+	<div class="uk-width-medium-1-2">
+    	<div kendo-chart id="polar_phan_loai_luot_suachuas"
+	        k-options="pageData.kendoOptions.charts.polar_phan_loai_luot_suachuas"
+	        style="height: 300px;">
+	    </div>      
+    </div>
 </div>
