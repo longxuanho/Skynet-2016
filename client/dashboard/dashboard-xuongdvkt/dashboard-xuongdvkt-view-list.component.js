@@ -5,7 +5,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
         controllerAs: 'vm',
         bindToController: true,
 
-        controller: function($scope, $rootScope, iNotifier, $reactive, $interval) {
+        controller: function($scope, $rootScope, iNotifier, $reactive, $interval, skynetDictionary) {
 
             $reactive(this).attach($scope);
 
@@ -15,6 +15,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
             let vm = this;
+
+            vm._dictionary = angular.copy(skynetDictionary.data.xuongdvkt);
 
             vm.pageOptions = {
                 ui: {
@@ -111,6 +113,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 },
                 kendoOptions: {
                     dataSource: {
+                        vi_tris: {
+                            isInUse: {},
+                            isAvailable: {}
+                        },
                         curr_ma_tbs: []
                     }
                 }
@@ -193,11 +199,58 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     dataSource: {
                         resolveAll: function () {
                             this.get_curr_ma_tbs_list();
+                            this.get_curr_vitris();
                         },
                         get_curr_ma_tbs_list: function() {
                             vm.pageData.kendoOptions.dataSource.curr_ma_tbs = _.map(vm.pageData.suachuas.raw, (suachua) => {
                                 return suachua.ma_tb.ma_tb
                             });                           
+                        },
+                        get_curr_vitris: function() {
+                        	// Khởi tạo
+                        	let arr_keys = [],
+                        		arr_VitrisAll_flatten = [],
+                        		arr_CurrSuaChua = [], 
+                        		arr_CurrVitrisInUse_flatten = [], arr_CurrVitrisIsAvailable_flatten = []
+                        	
+                        	// Tìm tất cả các khu vực trong nhà xưởng
+                        	arr_keys = _.keys(vm._dictionary.vi_tris);
+
+                        	// Khởi tạo lại các mảng output theo arr_keys
+                        	_.each(arr_keys, (key) => {
+                        		vm.pageData.kendoOptions.dataSource.vi_tris.isInUse[key] = [];
+                        		vm.pageData.kendoOptions.dataSource.vi_tris.isAvailable[key] = [];
+                        	});
+
+                        	// Tìm tất cả các vị trí trong nhà xưởng
+                        	 _.each(vm._dictionary.vi_tris, (value, key) => {
+                        	 	arr_VitrisAll_flatten.push(value);
+                        	});
+                        	arr_VitrisAll_flatten = _.flatten(arr_VitrisAll_flatten);
+
+                        	// Tìm tất cả các vị trí trong nhà xưởng đang được sử dụng
+                        	arr_CurrSuaChua = _.filter(vm.pageData.suachuas.raw, (suachua) => {
+                        		return suachua.trang_thai !== 'Sửa chữa xong';
+                        	});
+                        	arr_CurrVitrisInUse_flatten = _.uniq(
+                        		_.map(arr_CurrSuaChua, (suachua) => {
+                        			return suachua.dia_diem.vi_tri;
+                        		})
+                        	);
+
+                        	// So sánh lấy diff của Tất cả vị trí và các vị trí đang được sử dụng để có các Vị trí còn trống
+                        	arr_CurrVitrisIsAvailable_flatten = _.uniq(
+                        		_.difference(arr_VitrisAll_flatten, arr_CurrVitrisInUse_flatten)
+                        	);
+
+							// Nhóm theo khu vực để có các dataSource tương ứng:
+							_.each(arr_CurrVitrisInUse_flatten, (vitri) => {
+								vm.pageData.kendoOptions.dataSource.vi_tris.isInUse[vitri.charAt(0)].push(vitri);
+							});
+
+							_.each(arr_CurrVitrisIsAvailable_flatten, (vitri) => {
+								vm.pageData.kendoOptions.dataSource.vi_tris.isAvailable[vitri.charAt(0)].push(vitri);
+							});
                         }
                     }
                 }
