@@ -40,10 +40,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         };
                         newSuaChua.dia_diem = {
                             dia_diem: 'Xưởng DVKT',
-                            khu_vuc: {
-                                ten: '',
-                                ma: ''
-                            },
+                            khu_vuc: '',
                             vi_tri: ''
                         };
 						newSuaChua.noi_dung = '';
@@ -144,12 +141,16 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                     if (!suachua.ma_tb.ma_tb) {
                         error.message = "Chưa có thông tin về mã phương tiện.";
                         return error;
-                    }                        
+                    }
+                    if (!suachua.ma_tb.dvql) {
+                        error.message = "Chưa có thông tin về mã đơn vị quản lý phương tiện.";
+                        return error;
+                    }           
                     if (!suachua.dia_diem.dia_diem) {
                         error.message = "Chưa có thông tin về địa điểm sửa chữa.";
                         return error;
                     }
-                    if (!suachua.dia_diem.khu_vuc.ma) {
+                    if (!suachua.dia_diem.khu_vuc) {
                         error.message = "Chưa có thông tin về khu vực sửa chữa.";
                         return error;
                     }
@@ -220,7 +221,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
 
             // Collection Hooks - Nếu có lượt phương tiện được tạo mới thì phát sinh tông báo
             SuaChuas.after.insert(function(userId, doc) {
-            	text = 'Phương tiện ' + $scope.pageData.source.newSuaChua.ma_tb.ma_tb + ' đã được đưa vào ' + $scope.pageData.source.newSuaChua.phan_loai.loai_sua_chua.toLowerCase() + ' tại khu vực ' + $scope.pageData.source.newSuaChua.dia_diem.vi_tri + '. Thời gian nằm xưởng dự kiến: ' + kendo.toString($scope.pageData.source.newSuaChua.thoi_gian.sua_chua_du_kien, 'n2') + ' giờ.';
+            	text = 'Phương tiện ' + $scope.pageData.source.newSuaChua.ma_tb.ma_tb + ' đã được đưa vào ' + $scope.pageData.source.newSuaChua.phan_loai.loai_sua_chua.toLowerCase() + ' tại vị trí ' + $scope.pageData.source.newSuaChua.dia_diem.vi_tri + '. Thời gian nằm xưởng dự kiến: ' + kendo.toString($scope.pageData.source.newSuaChua.thoi_gian.sua_chua_du_kien, 'n2') + ' giờ.';
                 mode = 'success';
 
                 $scope.utils.heroContent.update(text, mode, 38000);
@@ -356,7 +357,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             // ***************************************************
             // WATCHERS
             // ***************************************************
-
+            $scope.$watch('pageData.source.newSuaChua.dia_diem.khu_vuc', (newVal) => {
+                $scope.pageData.source.newSuaChua.dia_diem.vi_tri = '';
+            })
 
         }
     }

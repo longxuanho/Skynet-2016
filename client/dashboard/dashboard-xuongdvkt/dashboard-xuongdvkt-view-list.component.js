@@ -399,6 +399,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	
                         	// Tìm tất cả các khu vực trong nhà xưởng
                         	arr_keys = _.keys(vm._dictionary.vi_tris);
+                            console.log('arr_keys', arr_keys);
 
                         	// Khởi tạo lại các mảng output theo arr_keys
                         	_.each(arr_keys, (key) => {
@@ -426,14 +427,15 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	arr_CurrVitrisIsAvailable_flatten = _.uniq(
                         		_.difference(arr_VitrisAll_flatten, arr_CurrVitrisInUse_flatten)
                         	);
-
+                            console.log('arr_CurrVitrisInUse_flatten', arr_CurrVitrisInUse_flatten);
+                            console.log('arr_CurrVitrisIsAvailable_flatten', arr_CurrVitrisIsAvailable_flatten);
 							// Nhóm theo khu vực để có các dataSource tương ứng:
 							_.each(arr_CurrVitrisInUse_flatten, (vitri) => {
-								vm.pageData.kendoOptions.dataSource.vi_tris.isInUse[vitri.charAt(0)].push(vitri);
+								vm.pageData.kendoOptions.dataSource.vi_tris.isInUse[('Khu ' + vitri.charAt(0))].push(vitri);
 							});
 
 							_.each(arr_CurrVitrisIsAvailable_flatten, (vitri) => {
-								vm.pageData.kendoOptions.dataSource.vi_tris.isAvailable[vitri.charAt(0)].push(vitri);
+								vm.pageData.kendoOptions.dataSource.vi_tris.isAvailable[('Khu ' + vitri.charAt(0))].push(vitri);
 							});
                         }
                     },
@@ -489,7 +491,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	arr_khuvucs = _.keys(vm._dictionary.vi_tris);
                             // Thống kê số liệu cho dataSource: Vị trí và Trạng thái sửa chữa (ứng với mỗi vị trí là số liệu thống kê về số lượt đang/đã/chuẩn bị sc xong.)
                             vm.pageData.suachuas.dataSource.group([
-                                { field: "dia_diem.khu_vuc.ten" },
+                                { field: "dia_diem.khu_vuc" },
                                 { field: "trang_thai" }
                             ]);
                             views = vm.pageData.suachuas.dataSource.view();
@@ -518,17 +520,17 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	// Khởi tạo
                         	let views = [], arr_series_inUse = [], arr_series_empty = [], arr_category = [], obj_statistics = {};
                         	// Tìm tất cả các khu vực trong nhà xưởng
-                    		arr_category = _.keys(vm._dictionary.vi_tris_full);                    		                        	
+                    		arr_category = _.keys(vm._dictionary.vi_tris);                    		                        	
                         	// Khởi tạo lại các giá trị thống kê về vị trí ban đầu: tất cả đều chưa sửa dụng và còn trống.
                         	_.each(arr_category, (khuvuc) => {
                         		arr_series_inUse.push(0);
-                        		arr_series_empty.push(vm._dictionary.vi_tris_full[khuvuc].length);
+                        		arr_series_empty.push(vm._dictionary.vi_tris[khuvuc].length);
                         	});
                         	if (vm.pageData.suachuas.dataSource.view().length) {
                         		// Loại bỏ các sửa chữa đã thực hiện xong
                         		vm.pageData.suachuas.dataSource.filter({ field: "trang_thai", operator: "neq", value: "Sửa chữa xong" });
 	                        	// Thống kê theo từng khu vực
-	                        	vm.pageData.suachuas.dataSource.group({ field: "dia_diem.khu_vuc.ten" });
+	                        	vm.pageData.suachuas.dataSource.group({ field: "dia_diem.khu_vuc" });
 	                        	views = vm.pageData.suachuas.dataSource.view();
 	                        	_.each(views, (khuvuc) => {
 	                        		obj_statistics[khuvuc.value] = khuvuc.items.length;
@@ -539,7 +541,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 	                        		let index = _.indexOf(arr_category, khuvuc);
 	                        		if (index >= 0) {
 	                        			arr_series_inUse[index] = obj_statistics[khuvuc];
-	                        			arr_series_empty[index] = vm._dictionary.vi_tris_full[khuvuc].length - obj_statistics[khuvuc];
+	                        			arr_series_empty[index] = vm._dictionary.vi_tris[khuvuc].length - obj_statistics[khuvuc];
 	                        		}
 	                        	});
 	                        	// Thiết đặt các giá trị này cho options của chart

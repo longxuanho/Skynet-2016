@@ -562,7 +562,8 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                     "Đầu kéo chạy ngoài",
                     "Đầu kéo nội bộ",
                     "Rơ móoc",
-                    "Xe bus nội bộ"
+                    "Xe bus nội bộ",
+                    "Thiết bị khác"
                 ]
             },
             "ma_tbs": {
@@ -607,20 +608,13 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                 "Kiểm tra"
             ],
             "khu_vucs": [
-                { ten: "Khu A", ma: "A" },
-                { ten: "Khu B", ma: "B" },
-                { ten: "Khu C", ma: "C" },
-                { ten: "Khu D", ma: "D" },
-                { ten: "Khu E", ma: "E" }
+                "Khu A",
+                "Khu B",
+                "Khu C",
+                "Khu D",
+                "Khu E"
             ],
             "vi_tris": {
-                "A": [ "A01", "A02", "A03", "A04", "A05" ],
-                "B": [ "B01", "B02", "B03", "B04", "B05" ],
-                "C": [ "C01", "C02", "C03", "C04", "C05" ],
-                "D": [ "D01", "D02", "D03", "D04", "D05" ],
-                "E": [ "E01", "E02", "E03", "E04", "E05" ]
-            },
-            "vi_tris_full": {
                 "Khu A": [ "A01", "A02", "A03", "A04", "A05" ],
                 "Khu B": [ "B01", "B02", "B03", "B04", "B05" ],
                 "Khu C": [ "C01", "C02", "C03", "C04", "C05" ],

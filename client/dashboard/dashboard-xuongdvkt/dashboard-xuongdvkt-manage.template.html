@@ -54,7 +54,7 @@
 			        <label for="newsuachua_diadiem_khuvuc">Khu vực</label>
 			        <select kendo-drop-down-list style="width: 100%;" id="newsuachua_diadiem_khuvuc"
 			        	k-ng-model="pageData.source.newSuaChua.dia_diem.khu_vuc"
-			            k-data-text-field="'ten'"
+			            k-value-primitive="true"
 			            k-filter="'contains'"
 			            k-index="-1"
 			            k-data-source="_dictionary.khu_vucs">
@@ -69,7 +69,7 @@
 			        	k-value-primitive="true"
 			            k-filter="'contains'"
 			            k-index="-1"
-			            k-data-source="pageData.kendoOptions.dataSource.vi_tris.isAvailable[pageData.source.newSuaChua.dia_diem.khu_vuc.ma]">
+			            k-data-source="pageData.kendoOptions.dataSource.vi_tris.isAvailable[pageData.source.newSuaChua.dia_diem.khu_vuc]">
 			            <!-- Chú ý sửa datasource ở đây: chỉ lọc các giá trị đang trống -->
 			        </select>
 			    </div>
@@ -113,7 +113,7 @@
 		    </div>
 		    <div ng-class="{'uk-margin-medium-top': pageData.source.master.trang_thai == 'Sửa chữa xong'}">
 		    	<dt >Vị trí</dt>
-		    	<dd style="color: #888;">{{pageData.source.selectedSuaChua.dia_diem.khu_vuc.ten}} : {{pageData.source.selectedSuaChua.dia_diem.vi_tri}}</dd>	
+		    	<dd style="color: #888;">{{pageData.source.selectedSuaChua.dia_diem.khu_vuc}} : {{pageData.source.selectedSuaChua.dia_diem.vi_tri}}</dd>	
 		    </div>		    
 		    <dt>Thời gian vào</dt>
 		    <dd style="color: #888;">{{pageData.source.selectedSuaChua.thoi_gian.bat_dau | displayDate:'calendar'}}</dd>
