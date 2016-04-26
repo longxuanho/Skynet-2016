@@ -533,6 +533,25 @@
 		}
 	}
 
+	.nav_thong_ke {
+		&_chart_header {
+			&.ng-enter {
+				animation: 1s fadeInUp;
+			}
+			&.ng-leave {
+				animation: 1.6s fadeInDown;
+			}
+		}
+		&_chart_zones {
+			&.ng-enter {
+				animation: 1.6s fadeInUp;
+			}
+			&.ng-leave {
+				animation: 1s fadeInDown;
+			}
+		}
+	}
+
 	/* ANIMATION */
 	.suachua.ng-enter {
 		transition: transform 1.5s, opacity 1.2s;
