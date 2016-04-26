@@ -96,7 +96,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 
             vm.pageData = {
                 rights: {
-                    'can_upsert_sua_chua': ["admin", "super-manager", "quanly-suachuas"]
+                    'can_upsert_sua_chua': ["admin", "super-manager", "quanly-suachuas", "support-suachuas"]
                 },
                 source: {
                     newMatb: {},
@@ -403,7 +403,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	
                         	// Tìm tất cả các khu vực trong nhà xưởng
                         	arr_keys = _.keys(vm._dictionary.vi_tris);
-                            console.log('arr_keys', arr_keys);
 
                         	// Khởi tạo lại các mảng output theo arr_keys
                         	_.each(arr_keys, (key) => {
@@ -431,8 +430,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	arr_CurrVitrisIsAvailable_flatten = _.uniq(
                         		_.difference(arr_VitrisAll_flatten, arr_CurrVitrisInUse_flatten)
                         	);
-                            console.log('arr_CurrVitrisInUse_flatten', arr_CurrVitrisInUse_flatten);
-                            console.log('arr_CurrVitrisIsAvailable_flatten', arr_CurrVitrisIsAvailable_flatten);
 							// Nhóm theo khu vực để có các dataSource tương ứng:
 							_.each(arr_CurrVitrisInUse_flatten, (vitri) => {
 								vm.pageData.kendoOptions.dataSource.vi_tris.isInUse[('Khu ' + vitri.charAt(0))].push(vitri);

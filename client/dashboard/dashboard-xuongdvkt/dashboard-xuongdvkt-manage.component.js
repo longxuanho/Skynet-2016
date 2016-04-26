@@ -36,7 +36,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         _.each($scope._dictionary.loai_tbs[$scope.pageData.source.newSuaChua.phan_loai.loai_tb], (loai_tb) => {
                             $scope.pageOptions.ui.selectOptions.ma_tbs[loai_tb] = [];
                         });
-                        console.log('reset: ', $scope.pageOptions.ui.selectOptions.ma_tbs);
                     },
                     newMatb: function(newMatb) {
                         newMatb.subject = 'xuongdvkt';
@@ -69,7 +68,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         newSuaChua.thong_ke = {
                         	thoi_gian: {
                         		bat_dau: {},
-                        		sua_chua: {},                        		
+                        		sua_chua: {},
                         		ket_thuc: {}
                         	}
                         };
@@ -161,11 +160,19 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         error.message = "Chưa có thông tin về mã phương tiện.";
                         return error;
                     }
+                    // Kiểm tra liệu mã thiết bị này đã tồn tại trong hệ thống
+                    let validator = _.find( $scope.pageOptions.ui.selectOptions.ma_tbs[newMatb.container.group], (item) => {
+                        return item.ma_tb == newMatb.container.text;
+                    });
+                    if (!_.isEmpty(validator)) {
+                        error.message = "Mã phương tiện này đã tồn tại trong hệ thống.";
+                        return error;
+                    }
                     if (!newMatb.container.ref) {
                         error.message = "Chưa có thông tin về mã đơn vị quản lý.";
                         return error;
                     }
-                    // Kiểm tra liệu mã thiết bị này đã tồn tại trong hệ thống
+                    
                     return error;
                 },
                 validateForm: function(suachua) {
@@ -331,8 +338,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                             });
                         });
                     });
-                    console.log('get data: ', ma_tbs);
-                    console.log('out data: ', output);
                     $scope.pageOptions.ui.selectOptions.ma_tbs = output;
                     return;
                 }
@@ -364,7 +369,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                                         } else {
                                             $scope.$apply(() => {
                                                 $scope.utils.reset.newMatb($scope.pageData.source.newMatb);
-                                            });                                    
+                                            });
                                             iNotifier.success('Mã thiết bị mới đã được lưu trữ thành công.');
                                         }
                                     });
