@@ -70,6 +70,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     },
                     heroContent: {
                         content: {}
+                    },
+                    selectOptions: {
+                        ma_tbs: {}  // Cần khởi tạo các giá trị này
                     }
                 },
                 displayMode: {
@@ -96,6 +99,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     'can_upsert_sua_chua': ["admin", "super-manager", "quanly-suachuas"]
                 },
                 source: {
+                    newMatb: {},
                     newSuaChua: {},
                     selectedSuaChua: {},
                     selectedSuaChuaId: '',

@@ -28,6 +28,25 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             // ***************************************************
             $scope.utils = {
             	reset: {
+                    selectOptions: function() {
+                        if (!$scope.pageData.source.newSuaChua.phan_loai.loai_tb)
+                            $scope.pageData.source.newSuaChua.phan_loai.loai_tb = "Xe - máy";
+                        
+                        // Phải khởi tạo các giá trị ban đầu cho kendo select!
+                        _.each($scope._dictionary.loai_tbs[$scope.pageData.source.newSuaChua.phan_loai.loai_tb], (loai_tb) => {
+                            $scope.pageOptions.ui.selectOptions.ma_tbs[loai_tb] = [];
+                        });
+                        console.log('reset: ', $scope.pageOptions.ui.selectOptions.ma_tbs);
+                    },
+                    newMatb: function(newMatb) {
+                        newMatb.subject = 'xuongdvkt';
+                        newMatb.category = 'ma_tbs';
+                        newMatb.container = {
+                            group: '',
+                            ref: '',
+                            text: ''
+                        };
+                    },
             		newSuaChua: function(newSuaChua) {
             			newSuaChua.phan_loai = {
                             nhom_tb: "Xe - máy",
@@ -59,6 +78,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             		}
             	},
             	build: {
+                    newMatb: function(newMatb) {
+                        newMatb.metadata = {};
+                        $scope._helpers.buildMetadata('buildNew', newMatb.metadata); 
+                    },
             		newSuaChua: function (newSuaChua) {
             			// Tính toán thời gian kết thúc dự kiến
 						newSuaChua.thoi_gian.ket_thuc_du_kien = moment(newSuaChua.thoi_gian.bat_dau).add(newSuaChua.thoi_gian.sua_chua_du_kien, 'hours').toDate();
@@ -120,6 +143,31 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
 						$scope._helpers.buildMetadata('build', suachua.metadata);
                     }
             	},
+                validateNewMatb: function(newMatb) {
+                    let error = {};
+                    if (!newMatb.subject) {
+                        error.message = "Chưa có thông tin về subject.";
+                        return error;
+                    }
+                    if (!newMatb.category) {
+                        error.message = "Chưa có thông tin về category.";
+                        return error;
+                    }
+                    if (!newMatb.container.group) {
+                        error.message = "Chưa có thông tin về phân loại phương tiện.";
+                        return error;
+                    }
+                    if (!newMatb.container.text) {
+                        error.message = "Chưa có thông tin về mã phương tiện.";
+                        return error;
+                    }
+                    if (!newMatb.container.ref) {
+                        error.message = "Chưa có thông tin về mã đơn vị quản lý.";
+                        return error;
+                    }
+                    // Kiểm tra liệu mã thiết bị này đã tồn tại trong hệ thống
+                    return error;
+                },
                 validateForm: function(suachua) {
                     let error = {};    
                     if (!suachua._id && $scope.pageOptions.displayMode.current_manage_mode==='update') {
@@ -216,8 +264,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                     }
                 }
             }
-
+            
             $scope.utils.reset.newSuaChua($scope.pageData.source.newSuaChua);
+            $scope.utils.reset.newMatb($scope.pageData.source.newMatb);
+            $scope.utils.reset.selectOptions();
 
             // Collection Hooks - Nếu có lượt phương tiện được tạo mới thì phát sinh tông báo
             SuaChuas.after.insert(function(userId, doc) {
@@ -260,6 +310,32 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             // ***************************************************
 
             $scope.helpers({
+                datahelpers: () => {
+                    // Lấy thông tin dạng thô - raw Data
+                    let ma_tbs = DataHelpers.find({
+                        subject: 'xuongdvkt',
+                        category: 'ma_tbs'
+                    }).fetch();
+                    // Nhóm theo nhóm phương tiện
+                    ma_tbs = _.groupBy(ma_tbs, (item) => { 
+                        return item.container.group;
+                    });
+                    let output = {};
+                    // Trích xuất ra thông tin cuối cùng dùng cho kendoselect
+                    _.each(_.keys(ma_tbs), (key) => {
+                        output[key] = [];
+                        _.each( ma_tbs[key], (item) => {
+                            output[key].push({
+                                'ma_tb': item.container.text,
+                                'dvql': item.container.ref
+                            });
+                        });
+                    });
+                    console.log('get data: ', ma_tbs);
+                    console.log('out data: ', output);
+                    $scope.pageOptions.ui.selectOptions.ma_tbs = output;
+                    return;
+                }
             });
             
 
@@ -269,6 +345,35 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             
             $scope.methods = {
                 manage: {
+                    insertNewMatb: function () {
+                        let error = {}
+                        if (!Meteor.userId()) {
+                            error.message = 'Bạn cần đăng nhập để sử dụng chức năng này.';
+                            iNotifier.error(error.message);
+                        } else {
+                            if (!Roles.userIsInRole(Meteor.userId(), $scope.pageData.rights['can_upsert_sua_chua'], 'sky-project')) {
+                                error.message = 'Bạn không đủ quyền hạn để thực hiện chức năng này.';
+                                iNotifier.error(error.message);
+                            } else {
+                                error = $scope.utils.validateNewMatb($scope.pageData.source.newMatb);
+                                if (_.isEmpty(error)) {
+                                    $scope.utils.build.newMatb($scope.pageData.source.newMatb);
+                                    DataHelpers.insert($scope.pageData.source.newMatb, (err, result) => {
+                                        if (err) {
+                                            iNotifier.error('Không thể tạo mới dữ liệu này. ' + err.message + '.');
+                                        } else {
+                                            $scope.$apply(() => {
+                                                $scope.utils.reset.newMatb($scope.pageData.source.newMatb);
+                                            });                                    
+                                            iNotifier.success('Mã thiết bị mới đã được lưu trữ thành công.');
+                                        }
+                                    });
+                                } else {
+                                    iNotifier.error(error.message);
+                                }
+                            }
+                        }
+                    },
                     insert: function () {
                         let error = {}
                         if (!Meteor.userId()) {

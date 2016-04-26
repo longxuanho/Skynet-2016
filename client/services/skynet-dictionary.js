@@ -563,6 +563,8 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                     "Đầu kéo nội bộ",
                     "Rơ móoc",
                     "Xe bus nội bộ",
+                    "Xe chuyên dụng",
+                    "Xe tải / bán tải",
                     "Thiết bị khác"
                 ]
             },
@@ -604,24 +606,28 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                 "Sửa chữa nhỏ",
                 "Sửa chữa cụm",
                 "Sửa chữa lớn",
+                "Sơn",
                 "Đại tu",
-                "Kiểm tra"
+                "Kiểm tra",
+                "Kiểm định"
             ],
             "khu_vucs": [
                 "Khu A",
                 "Khu B",
                 "Khu C",
                 "Khu D",
-                "Khu E"
+                "Khu E",
+                "Khu Z"
             ],
             "vi_tris": {
-                "Khu A": [ "A01", "A02", "A03", "A04", "A05" ],
-                "Khu B": [ "B01", "B02", "B03", "B04", "B05" ],
+                "Khu A": [ "A1:01", "A1:02", "A1:03", "A1:04", "A1:05", "A1:06", "A1:07", "A2:01", "A2:02", "A2:03", "A2:04", "A2:05", "A2:06", "A2:07", "A3:01", "A3:02", "A3:03", "A3:04", "A3:05" ],
+                "Khu B": [ "B01", "B02", "B03", "B04" ],
                 "Khu C": [ "C01", "C02", "C03", "C04", "C05" ],
-                "Khu D": [ "D01", "D02", "D03", "D04", "D05" ],
-                "Khu E": [ "E01", "E02", "E03", "E04", "E05" ]
+                "Khu D": [ "D01", "D02", "D03", "D04" ],
+                "Khu E": [ "E01", "E02" ],
+                "Khu Z": [ "Z01", "Z02", "Z03", "Z04", "Z05" ]
             },
-            trang_thais: [
+            "trang_thais": [
                 "Đang sửa chữa",
                 "Chuẩn bị bàn giao",
                 "Sửa chữa xong",
