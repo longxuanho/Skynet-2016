@@ -27,6 +27,20 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             // UTILS
             // ***************************************************
             $scope.utils = {
+                mics: {
+                    formatHoursAsHM: function(hours) {
+                        // Format giờ thành giá trị gồm giờ và ph. VD 3 -> '3 giờ'; 3,25 -> '3 giờ 15 phút'; 0,25 -> 15 phút.
+                        let text = '',
+                            duration = moment.duration(hours, "hours");
+                        if (duration.hours() && duration.minutes())
+                            text = duration.hours() + ' giờ ' + duration.minutes() + ' phút';
+                        else if (!duration.hours()) 
+                            text = duration.minutes() + ' phút';
+                        else
+                            text = duration.hours() + ' giờ';
+                        return text;
+                    }
+                },
             	reset: {
                     selectOptions: function() {
                         if (!$scope.pageData.source.newSuaChua.phan_loai.loai_tb)
@@ -222,8 +236,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         return error;
                     }
                     if (!suachua.thoi_gian.sua_chua_du_kien) {
-                        error.message = "Chưa có thông tin về thời gian sửa chữa theo dự kiến.";
-                        return error;
+                        // Trường hợp đặc biệt, nếu đặt thời gian sửa chữa dự kiến = 0 -> thiết bị cần có khoảng thời gian để kiểm tra, chưa xác định lỗi.
+                        suachua.thoi_gian.sua_chua_du_kien = 0;
                     }
                     if (!suachua.trang_thai) {
                         error.message = "Chưa có thông tin trạng thái sửa chữa.";
@@ -278,34 +292,43 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
 
             // Collection Hooks - Nếu có lượt phương tiện được tạo mới thì phát sinh tông báo
             SuaChuas.after.insert(function(userId, doc) {
-            	text = 'Phương tiện ' + $scope.pageData.source.newSuaChua.ma_tb.ma_tb + ' đã được đưa vào ' + $scope.pageData.source.newSuaChua.phan_loai.loai_sua_chua.toLowerCase() + ' tại vị trí ' + $scope.pageData.source.newSuaChua.dia_diem.vi_tri + '. Thời gian nằm xưởng dự kiến: ' + kendo.toString($scope.pageData.source.newSuaChua.thoi_gian.sua_chua_du_kien, 'n2') + ' giờ.';
+                let text = '', mode = 'default';
+                if (doc.thoi_gian.sua_chua_du_kien)
+            	   text = 'Phương tiện ' + $scope.pageData.source.newSuaChua.ma_tb.ma_tb + ' đã được đưa vào ' + $scope.pageData.source.newSuaChua.phan_loai.loai_sua_chua.toLowerCase() + ' tại vị trí ' + $scope.pageData.source.newSuaChua.dia_diem.vi_tri + '. Thời gian nằm xưởng dự kiến: ' + $scope.utils.mics.formatHoursAsHM($scope.pageData.source.newSuaChua.thoi_gian.sua_chua_du_kien) + '.';
+                else
+                   text = 'Phương tiện ' + $scope.pageData.source.newSuaChua.ma_tb.ma_tb + ' đã được đưa vào ' + $scope.pageData.source.newSuaChua.phan_loai.loai_sua_chua.toLowerCase() + ' tại vị trí ' + $scope.pageData.source.newSuaChua.dia_diem.vi_tri + '. Đang tiến hành các thủ tục kiểm tra...';
+                
                 mode = 'success';
-
                 $scope.utils.heroContent.update(text, mode, 38000);
             }); 
 
             // Collection Hooks - Nếu có thay đổi về trạng thái và trạng thái đó là một trong hai dạng 'Chuẩn bị bàn giao' hoặc 'Sửa chữa xong' thì phát sinh thông báo
             SuaChuas.after.update(function(userId, doc) {
-            	if (doc.trang_thai !== this.previous) {
-	        		let text = '', mode = 'default';
+                // Trường hợp cập nhật trạng thái sửa chữa phương tiện
+        		let text = '', mode = 'default';
 
-	        		if (doc.trang_thai == 'Chuẩn bị bàn giao') {
-                        // Nếu phương tiện chuẩn bị bàn giao, cần tính được thời gian sẽ bàn giao sắp tới (ph) bằng cách trừ thời gian
-                        // dự kiến bàn giao cho thời điểm hiện tại
-                        let minutes = Math.ceil(moment.duration(moment(doc.thoi_gian.ket_thuc_du_kien).diff(moment())).asMinutes());
+        		if (doc.trang_thai == 'Chuẩn bị bàn giao') {
+                    // Nếu phương tiện chuẩn bị bàn giao, cần tính được thời gian sẽ bàn giao sắp tới (ph) bằng cách trừ thời gian
+                    // dự kiến bàn giao cho thời điểm hiện tại
+                    let minutes = Math.ceil(moment.duration(moment(doc.thoi_gian.ket_thuc_du_kien).diff(moment())).asMinutes());
 
-	        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' dự kiến được bàn giao trong ' + minutes + ' phút tới. Yêu cầu khách hàng tới khu vực ' + doc.dia_diem.vi_tri + ' để chuẩn bị các thủ tục bàn giao.';
-	        			mode = 'warning';
+        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' dự kiến được bàn giao trong ' + minutes + ' phút tới. Yêu cầu khách hàng tới khu vực ' + doc.dia_diem.vi_tri + ' để chuẩn bị các thủ tục bàn giao.';
+        			mode = 'warning';
 
-	        			$scope.utils.heroContent.update(text, mode, 38000);
-	        		}
-	        		if (doc.trang_thai == 'Sửa chữa xong') {
-	        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' tại khu vực ' + doc.dia_diem.vi_tri + ' đã được ' + doc.phan_loai.loai_sua_chua.toLowerCase() + ' và bàn giao. Thời gian nằm xưởng: ' + kendo.toString(doc.thong_ke.thoi_gian.sua_chua.gio, 'n2') + ' giờ.';
-	        			mode = 'success';
+        			$scope.utils.heroContent.update(text, mode, 38000);
+        		}
+        		if (doc.trang_thai == 'Sửa chữa xong') {
+        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' tại khu vực ' + doc.dia_diem.vi_tri + ' đã được ' + doc.phan_loai.loai_sua_chua.toLowerCase() + ' và bàn giao. Thời gian nằm xưởng: ' + $scope.utils.mics.formatHoursAsHM(doc.thong_ke.thoi_gian.sua_chua.gio) + '.';
+        			mode = 'success';
 
-	        			$scope.utils.heroContent.update(text, mode, 38000);
-            		}
-            	}
+        			$scope.utils.heroContent.update(text, mode, 38000);
+        		}
+                // Trường hợp cập nhật thời gian dự kiến sau khi kiểm tra phương tiện
+                if (!this.previous.thoi_gian.sua_chua_du_kien && doc.thoi_gian.sua_chua_du_kien) {
+                    text = doc.ma_tb.ma_tb + ': ' + doc.noi_dung + '. Dự kiến bàn giao sau ' + $scope.utils.mics.formatHoursAsHM(doc.thoi_gian.sua_chua_du_kien) + '.';
+                    mode = 'warning';
+                    $scope.utils.heroContent.update(text, mode, 38000);
+                }
             }); 
 
             // ***************************************************
