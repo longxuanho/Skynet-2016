@@ -443,8 +443,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     charts: {
                     	resolveAll: function() {
                     		this.donut_thong_ke_luot_suachuas();
-                    		this.polar_phan_loai_luot_suachuas();
-                    		this.stacked_bar_luot_sua_chua();
+                            this.stacked_bar_luot_sua_chua();
+                    		this.polar_phan_loai_luot_suachuas();                    		
                     	},
                         donut_thong_ke_luot_suachuas: function() {
                         	// Khởi tạo
@@ -478,6 +478,51 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             // Thiết đặt các giá trị cho chart options
                             vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[0].data = arr_serie_inside;
                             vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[1].data = arr_serie_outside;
+                        },
+                        stacked_bar_luot_sua_chua: function() {
+                            // Khởi tạo
+                            let views = [], arr_series_inUse = [], arr_series_empty = [], arr_category = [], obj_statistics = {};
+                            // Tìm tất cả các khu vực trong nhà xưởng
+                            arr_category = _.keys(vm._dictionary.vi_tris);                                                      
+                            // Khởi tạo lại các giá trị thống kê về vị trí ban đầu: tất cả đều chưa sửa dụng và còn trống.
+                            _.each(arr_category, (khuvuc) => {
+                                arr_series_inUse.push(0);
+                                arr_series_empty.push(vm._dictionary.vi_tris[khuvuc].length);
+                            });
+                            if (vm.pageData.suachuas.dataSource.view().length) {
+                                // Loại bỏ các sửa chữa đã thực hiện xong
+                                vm.pageData.suachuas.dataSource.filter({ field: "trang_thai", operator: "neq", value: "Sửa chữa xong" });
+                                // Thống kê theo từng khu vực
+                                vm.pageData.suachuas.dataSource.group({ field: "dia_diem.khu_vuc" });
+                                views = vm.pageData.suachuas.dataSource.view();
+                                _.each(views, (khuvuc) => {
+                                    obj_statistics[khuvuc.value] = khuvuc.items.length;
+                                });
+                                // Cập nhật các series:
+                                _.each(_.keys(obj_statistics), (khuvuc) => {
+                                    // Tìm index của Khu vực này trong arr_category rồi cập nhật các mảng arr_series_inUse và arr_series_empty
+                                    let index = _.indexOf(arr_category, khuvuc);
+                                    if (index >= 0) {
+                                        arr_series_inUse[index] = obj_statistics[khuvuc];
+                                        arr_series_empty[index] = vm._dictionary.vi_tris[khuvuc].length - obj_statistics[khuvuc];
+                                    }
+                                });
+                                // Thiết đặt các giá trị này cho options của chart
+                                vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.categoryAxis.categories = arr_category;
+                                vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.series = [{
+                                        name: 'Đang sử dụng',
+                                        data: arr_series_inUse,
+                                        color: vm.pageOptions.charts.colorPalettes['Blue Mono'][1]  
+                                    }, {
+                                        name: 'Còn trống',
+                                        data: arr_series_empty,
+                                        color: vm.pageOptions.charts.colorPalettes['Blue Mono'][2]  
+                                    }];
+                                // Reset groups and filters
+                                vm.pageData.suachuas.dataSource.filter({});
+                                vm.pageData.suachuas.dataSource.group([]);
+                            }
+                            
                         },
                         polar_phan_loai_luot_suachuas: function() {
                             // Khởi tạo
@@ -516,52 +561,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             vm.pageData.kendoOptions.charts.polar_phan_loai_luot_suachuas.dataSource.data(arr_data);
                             // Reset group
                             vm.pageData.suachuas.dataSource.group([]);
-                        },
-                        stacked_bar_luot_sua_chua: function() {
-                        	// Khởi tạo
-                        	let views = [], arr_series_inUse = [], arr_series_empty = [], arr_category = [], obj_statistics = {};
-                        	// Tìm tất cả các khu vực trong nhà xưởng
-                    		arr_category = _.keys(vm._dictionary.vi_tris);                    		                        	
-                        	// Khởi tạo lại các giá trị thống kê về vị trí ban đầu: tất cả đều chưa sửa dụng và còn trống.
-                        	_.each(arr_category, (khuvuc) => {
-                        		arr_series_inUse.push(0);
-                        		arr_series_empty.push(vm._dictionary.vi_tris[khuvuc].length);
-                        	});
-                        	if (vm.pageData.suachuas.dataSource.view().length) {
-                        		// Loại bỏ các sửa chữa đã thực hiện xong
-                        		vm.pageData.suachuas.dataSource.filter({ field: "trang_thai", operator: "neq", value: "Sửa chữa xong" });
-	                        	// Thống kê theo từng khu vực
-	                        	vm.pageData.suachuas.dataSource.group({ field: "dia_diem.khu_vuc" });
-	                        	views = vm.pageData.suachuas.dataSource.view();
-	                        	_.each(views, (khuvuc) => {
-	                        		obj_statistics[khuvuc.value] = khuvuc.items.length;
-	                        	});
-	                        	// Cập nhật các series:
-	                        	_.each(_.keys(obj_statistics), (khuvuc) => {
-	                        		// Tìm index của Khu vực này trong arr_category rồi cập nhật các mảng arr_series_inUse và arr_series_empty
-	                        		let index = _.indexOf(arr_category, khuvuc);
-	                        		if (index >= 0) {
-	                        			arr_series_inUse[index] = obj_statistics[khuvuc];
-	                        			arr_series_empty[index] = vm._dictionary.vi_tris[khuvuc].length - obj_statistics[khuvuc];
-	                        		}
-	                        	});
-	                        	// Thiết đặt các giá trị này cho options của chart
-	                        	vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.categoryAxis.categories = arr_category;
-	                        	vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.series = [{
-	                        			name: 'Đang sử dụng',
-		                        		data: arr_series_inUse,
-		                        		color: vm.pageOptions.charts.colorPalettes['Blue Mono'][1]	
-	                        		}, {
-	                        			name: 'Còn trống',
-		                        		data: arr_series_empty,
-		                        		color: vm.pageOptions.charts.colorPalettes['Blue Mono'][2]	
-	                        		}];
-	                        	// Reset groups and filters
-	                        	vm.pageData.suachuas.dataSource.filter({});
-	                        	vm.pageData.suachuas.dataSource.group([]);
-
-                        	}
-                        	
                         }
                     }
                 }
