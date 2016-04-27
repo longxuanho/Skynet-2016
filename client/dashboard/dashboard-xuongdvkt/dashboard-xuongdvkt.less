@@ -323,8 +323,11 @@
 				animation: .75s flipInX;
 			}
 			.label-open-khuvuc-modal-helper {
+				display: inline-block;
 				cursor: pointer;
+				transition: padding .5s;
 				&:hover {
+					padding: 8px 0px 12px 0px;
 					color: @app_xuongdvkt_color_danger;
 				} 
 			}
@@ -576,5 +579,60 @@
 	}
 	.suachua.ng-move {
 		animation: .75s slideInUp;
+	}
+}
+
+#modal_xuongdvkt_dashboard_khuvucs_helper {
+	.uk-modal-dialog {
+		padding-top: 5px;
+		background-color: #333;	
+	}
+	.uk_nav_thong_tin {
+		dl {
+			color: #757575;
+			font-size: 1.15rem;
+			font-weight: 300;
+			padding-left: 30px;
+			padding-top: 30px;
+			div {
+				cursor: default;
+				transition: padding .5s;
+				&:hover {
+					color: @app_xuongdvkt_color_danger;
+					padding: 10px 0px;
+				}
+			}
+			dt {
+				font-weight: 400;
+				width: 90px;				
+			}
+			dd {
+				cursor: default;
+				margin-left: 100px;
+			}
+		}
+	}
+	.uk-modal-footer {
+		background-color: #333;
+		button {
+			margin-top: 10px;
+			margin-left: 30px;
+			font-size: 1rem;
+			font-weight: 300;
+		    background-color: transparent;
+		    display: inline-block;
+		    border: 1px solid #555;
+		    border-radius: 3px;
+		    cursor: pointer;
+		    min-width: 160px;
+		    padding: 0 25px;
+		    text-align: center;
+		    color: #555;
+		    height: 40px;
+		    &:hover {
+		    	color: #f96816;
+		    	border: 1px solid #FF7B39;
+		    }
+		}
 	}
 }
