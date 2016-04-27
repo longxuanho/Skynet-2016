@@ -374,6 +374,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
             $scope.methods = {
                 manage: {
                     insertNewMatb: function () {
+                        // Trước khi xử lý ta chuyển mã thiết bị và mã ĐVQL toUpperCase xncg -> XNCG và nb280 -> NB280
+                        $scope.pageData.source.newMatb.container.ref = $scope.pageData.source.newMatb.container.ref.toUpperCase();
+                        $scope.pageData.source.newMatb.container.text = $scope.pageData.source.newMatb.container.text.toUpperCase();
+                        
                         let error = {}
                         if (!Meteor.userId()) {
                             error.message = 'Bạn cần đăng nhập để sử dụng chức năng này.';

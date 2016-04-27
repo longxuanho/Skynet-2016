@@ -568,40 +568,6 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                     "Thiết bị khác"
                 ]
             },
-            "ma_tbs": {
-                "Đầu kéo chạy ngoài": [
-                    { ma_tb: "CP189-01", dvql: "CPCL" },
-                    { ma_tb: "CP189-02", dvql: "TCL" },
-                    { ma_tb: "CPCL16", dvql: "KVTC" },
-                    { ma_tb: "CPCL17", dvql: "XNCG" },
-                    { ma_tb: "KC01", dvql: "XNCG" },
-                    { ma_tb: "KC02", dvql: "TCL" },
-                ],
-                "Đầu kéo nội bộ": [
-                    { ma_tb: "NB100", dvql: "CPCL" },
-                    { ma_tb: "NB101", dvql: "TVVT" },
-                    { ma_tb: "NB102", dvql: "XNCG" },
-                    { ma_tb: "NB103", dvql: "XNCG" },
-                    { ma_tb: "NB104", dvql: "TCL" },
-                    { ma_tb: "NB105", dvql: "XDCT" },
-                    { ma_tb: "NB106", dvql: "XNCG" }
-                ],
-                "Xe bus nội bộ": [
-                    { ma_tb: "NO-07", dvql: "CPCL" },
-                    { ma_tb: "NO-08", dvql: "TVVT" },
-                    { ma_tb: "NO-09", dvql: "XNCG" },
-                    { ma_tb: "NO-10", dvql: "XNCG" },
-                    { ma_tb: "NO-11", dvql: "TCL" },
-                    { ma_tb: "NO-12", dvql: "XDCT" },
-                    { ma_tb: "NO-13", dvql: "XNCG" }
-                ],
-                "Rơ móoc": [
-                    { ma_tb: "R-50R-0010", dvql: "CPCL" },
-                    { ma_tb: "R-51R-00070", dvql: "TVVT" },
-                    { ma_tb: "R-51R-00074", dvql: "XNCG" },
-                    { ma_tb: "R-51R-00159", dvql: "XNCG" }
-                ]
-            },
             "loai_sua_chuas": [
                 "Sửa chữa nhỏ",
                 "Sửa chữa cụm",
@@ -617,15 +583,18 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                 "Khu C",
                 "Khu D",
                 "Khu E",
-                "Khu Z"
+                "Khu F"
             ],
             "vi_tris": {
-                "Khu A": [ "A1:01", "A1:02", "A1:03", "A1:04", "A1:05", "A1:06", "A1:07", "A2:01", "A2:02", "A2:03", "A2:04", "A2:05", "A2:06", "A2:07", "A3:01", "A3:02", "A3:03", "A3:04", "A3:05" ],
-                "Khu B": [ "B01", "B02", "B03", "B04" ],
+                "Khu A": [  "A1:01", "A1:02", "A1:03", "A1:04", "A1:05", "A1:06", "A1:07",
+                            "A2:01", "A2:02", "A2:03", "A2:04", "A2:05", "A2:06", "A2:07",
+                            "A3:01", "A3:02", "A3:03", "A3:04", "A3:05", "A3:06", "A3:07", "A3:08", "A3:09", "A3:10", "A3:11"
+                    ],
+                "Khu B": [ "B01", "B02", "B03", "B04", "B05" ],
                 "Khu C": [ "C01", "C02", "C03", "C04", "C05" ],
                 "Khu D": [ "D01", "D02", "D03", "D04" ],
                 "Khu E": [ "E01", "E02" ],
-                "Khu Z": [ "Z01", "Z02", "Z03", "Z04", "Z05" ]
+                "Khu F": [ "F01", "F02", "F03", "F04" ]
             },
             "trang_thais": [
                 "Đang sửa chữa",
