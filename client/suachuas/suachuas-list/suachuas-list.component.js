@@ -136,6 +136,33 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // ***************************************************
 
             vm.utils = {
+                // Kiểm tra tính hợp lệ của truy vấn ngày bắt đầu và ngày kết thúc
+                resolveDateRange: function(fromDate, toDate) {
+                    if (fromDate && toDate && (fromDate <= toDate))
+                        return true;
+                    // Reset dữ liệu grid
+                    vm.utils.resetGridData();
+                    return false;
+                },
+                // Build query data cho suachuas helper
+                resolveDBQuery: function(selector) {
+                    let query = {
+                        'thong_ke.thoi_gian.bat_dau.ngay': {
+                            $gte: vm.criteria.dateRage.from,
+                            $lte: vm.criteria.dateRage.to
+                        }
+                    }
+                    if (!!selector) 
+                        query['trang_thai'] = selector;
+                    return query;
+                },
+                resetGridData: function() {
+                    try {
+                        vm.gridData.kGrid.kData.dataSource.data([]);   
+                    } catch (err) {
+                        console.log('Catched Error: ', err)
+                    }
+                },
                 openModal: function(modal_selector) {
                     let modal = UIkit.modal(modal_selector);
                     if (!modal.isActive()) {
@@ -184,15 +211,19 @@ angular.module('angular-skynet').directive('suachuasList', function() {
 
             vm.helpers({
                 suachuas: () => {
-                    let data = vm.pageOptions.filters.filterNhomId ? SuaChuas.find({'trang_thai': vm.pageOptions.filters.filterNhomId}).fetch() : SuaChuas.find({}).fetch();
-                    try {
-                        vm.gridData.kGrid.kData.dataSource.data(data);
-                    } catch (error) {
-                        console.log("Error: ", error);
+                    // Nếu khoảng thời gian ngày bắt đầu và kết thúc là hợp lệ
+                    if (vm.utils.resolveDateRange(
+                        vm.getReactively('criteria.dateRage.from'),
+                        vm.getReactively('criteria.dateRage.to')
+                    )) {
+                        let query = vm.utils.resolveDBQuery(vm.pageOptions.filters.filterNhomId);
+                        let data = SuaChuas.find(query).fetch();
+                        if (data.length)
+                            vm.gridData.kGrid.kData.dataSource.data(data);
+                        else
+                            vm.utils.resetGridData();
                     }
-                    return SuaChuas.find({
-                        'trang_thai': vm.getReactively('pageOptions.filters.filterNhomId')
-                    });
+                    return;
                 },
                 numOfSuaChuas: () => {
                   return Counts.get('numberOfSuaChuas');
@@ -208,7 +239,6 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
-            
             
         }
     }
