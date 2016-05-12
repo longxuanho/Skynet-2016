@@ -95,10 +95,95 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     }
                 }
             }
+        },
+        suachuas: {
+            model: {
+                fields: {
+                    '_id': {
+                        type: 'string'
+                    },
+                    'phan_loai.nhom_tb': {
+                        type: 'string'
+                    },
+                    'phan_loai.loai_tb': {
+                        type: 'string'
+                    },
+                    'ma_tb.ma_tb': {
+                        type: 'string'
+                    },
+                    'phan_loai.loai_sua_chua': {
+                        type: 'string'
+                    },
+                    'trang_thai': {
+                        type: 'string'
+                    },
+                    'dia_diem.khu_vuc': {
+                        type: 'string'
+                    },
+                    'dia_diem.vi_tri': {
+                        type: 'string'
+                    },
+                    'noi_dung': {
+                        type: 'string'
+                    },
+                    'thong_ke.thoi_gian.sua_chua.thuc_te': {
+                        type: 'number'
+                    },
+                    'thoi_gian.sua_chua_du_kien': {
+                        type: 'number'
+                    },
+                    'thong_ke.thoi_gian.bat_dau.ngay': {
+                        type: 'string'
+                    },
+                    'thong_ke.thoi_gian.ket_thuc.ngay': {
+                        type: 'string'
+                    },
+                    'thong_ke.thoi_gian.bat_dau.thang': {
+                        type: 'string'
+                    },
+                    'thong_ke.thoi_gian.bat_dau.nam': {
+                        type: 'string'
+                    },
+                    'thong_ke.thoi_gian.bat_dau.nam': {
+                        type: 'string'
+                    },
+                    'ghi_chu': {
+                        tpye: 'string'
+                    },
+                    'metadata.ngay_tao': {
+                        tpye: 'date'
+                    },
+                    'metadata.ngay_cap_nhat_cuoi': {
+                        type: 'date'
+                    },
+                    'fields.thoi_gians.ngay_tao_string': {
+                        type: 'string'
+                    },
+                    'fields.thoi_gians.ngay_cap_nhat_cuoi_string': {
+                        type: 'string'
+                    },
+                    'metadata.nguoi_tao_name': {
+                        type: 'string'
+                    },
+                    'metadata.nguoi_tao_email': {
+                        type: 'string'
+                    },
+                    'metadata.nguoi_cap_nhat_cuoi_name': {
+                        type: 'string'
+                    },
+                    'metadata.nguoi_cap_nhat_cuoi_email': {
+                        type: 'string'
+                    }
+                }
+            }
         }
     }
 
     factory.cauhois = {
+        kendo: {}
+    }
+
+    factory.suachuas = {
         kendo: {}
     }
 
@@ -773,6 +858,265 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
 
                         // row.cells[1].value = template(dataItem);
                     }
+                    iNotifier.success('Dữ liệu đã được trích xuất dưới định dạng Excel.');
+                },
+                pdfExport: function(e) {
+                    iNotifier.success('Dữ liệu đã được trích xuất dưới định dạng Pdf thành công.');
+                }
+            }
+        }
+    }
+
+    factory.suachuas.kendo.options = {
+        grids: {
+            suachuas_list: {
+                dataSource: kendo.data.DataSource.create({
+                    data: [],
+                    schema: factory.schemas.suachuas,
+                    page: 1,
+                    pageSize: 5
+                }),
+
+                columns: [{
+                    field: "_id",
+                    title: "ID Sửa chữa",
+                    type: "string",
+                    width: "100px"
+                }, {
+                    field: "phan_loai.nhom_tb",
+                    title: "Nhóm phương tiện",
+                    type: "string",
+                    width: "160px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Nhóm PT: #= value # (#= count# lượt)"
+                }, {
+                    field: "phan_loai.loai_tb",
+                    title: "Loại PT",
+                    type: "string",
+                    width: "160px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Loại PT: #= value # (#= count# lượt)"
+                }, {
+                    field: "ma_tb.ma_tb",
+                    title: "Mã PT",
+                    type: "string",
+                    width: "120px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Mã PT: #= value # (#= count# lượt)"
+                }, {
+                    field: "phan_loai.loai_sua_chua",
+                    title: "Loại sửa chữa",
+                    type: "string",
+                    width: "160px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Loại SC: #= value # (#= count# lượt)"
+                }, {
+                    field: "trang_thai",
+                    title: "Trạng thái",
+                    type: "string",
+                    width: "180px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Trạng thái: #= value # (#= count# lượt)"
+                }, {
+                    field: "dia_diem.khu_vuc",
+                    title: "Khu vực SC",
+                    type: "string",
+                    width: "130px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "#= value # (#= count# lượt)"
+                }, {
+                    field: "dia_diem.vi_tri",
+                    title: "Vị trí",
+                    type: "string",
+                    width: "120px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Vị trí: #= value # (#= count# lượt)"
+                }, {
+                    field: "noi_dung",
+                    title: "Nội dung sửa chữa",
+                    type: "string",
+                    width: "320px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Nội dung SC: #= value # (#= count# lượt)"
+                }, {
+                    field: "thong_ke.thoi_gian.sua_chua.thuc_te",
+                    title: "TGSC (giờ)",
+                    type: "number",
+                    width: "120px",
+                    format: "{0: #.00}",
+                    attributes: {
+                        style: "text-align: right;"
+                    },
+                    aggregates: ["min", "max", "average"],
+                    groupHeaderTemplate: "Thời gian SC: #= value # (min: #= min#, max: #= max#, avg: #= average#)"
+                }, {
+                    field: "thoi_gian.sua_chua_du_kien",
+                    title: "SC dự kiến (giờ)",
+                    type: "number",
+                    width: "120px",
+                    format: "{0: #.00}",
+                    attributes: {
+                        style: "text-align: right;"
+                    },
+                    aggregates: ["min", "max", "average"],
+                    groupHeaderTemplate: "Thời gian SC dự kiến: #= value # (min: #= min#, max: #= max#, avg: #= average#)"
+                }, {
+                    field: "thong_ke.thoi_gian.bat_dau.ngay",
+                    title: "Ngày bắt đầu",
+                    type: "string",
+                    width: "140px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Ngày: #= value # (#= count# lượt)"
+                }, {
+                    field: "thong_ke.thoi_gian.ket_thuc.ngay",
+                    title: "Ngày kết thúc",
+                    type: "string",
+                    width: "140px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Ngày: #= value # (#= count# lượt)"
+                }, {
+                    field: "thong_ke.thoi_gian.bat_dau.thang",
+                    title: "Tháng",
+                    type: "string",
+                    width: "100px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Tháng: #= value # (#= count# lượt)"
+                }, {
+                    field: "thong_ke.thoi_gian.bat_dau.nam",
+                    title: "Năm",
+                    type: "string",
+                    width: "100px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Năm: #= value # (#= count# lượt)"
+                }, {
+                    field: "ghi_chu",
+                    title: "Ghi chú",
+                    type: "string",
+                    width: "300px"
+                }, {
+                    field: "metadata.ngay_tao",
+                    title: "Ngày tạo",
+                    type: "date",
+                    format: "{0: yyyy-MM-dd}",
+                    width: "160px"
+                }, {
+                    field: "metadata.ngay_cap_nhat_cuoi",
+                    title: "Ngày CN cuối",
+                    type: "date",
+                    format: "{0: yyyy-MM-dd}",
+                    width: "160px"
+                }, {
+                    field: "metadata.nguoi_tao_name",
+                    title: "Người tạo",
+                    type: "string",
+                    width: "160px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)"
+                }, {
+                    field: "metadata.nguoi_tao_email",
+                    title: "Người tạo (Email)",
+                    type: "string",
+                    width: "160px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)"
+                }, {
+                    field: "metadata.nguoi_cap_nhat_cuoi_name",
+                    title: "Người cập nhật cuối",
+                    type: "string",
+                    width: "160px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)"
+                }, {
+                    field: "metadata.nguoi_cap_nhat_cuoi_email",
+                    title: "Người cập nhật cuối (Email)",
+                    type: "string",
+                    width: "160px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)"
+                }],
+
+                allowCopy: {
+                    delimeter: "\t"
+                },
+                excel: {
+                    allPages: false,
+                    filterable: false,
+                    fileName: "From Sky with Love.xlsx",
+                },
+                filterable: {
+                    mode: 'menu',
+                    extra: false
+                },
+                groupable: {
+                    enabled: true,
+                    showFooter: false,
+                    messages: {
+                      empty: "Kéo/thả để nhóm theo nội dung được chọn"
+                    }
+                },
+                pageable: {
+                    pageSize: 2,
+                    refresh: false,
+                    pageSizes: false,
+                    info: true,
+                    buttonCount: 3,
+                    numeric: false,
+                    input: true,
+                    previousNext: true
+                },
+                pdf: {
+                    allPages: false,
+                    avoidLinks: true,
+                    author: "Long Ho",
+                    creator: "Skynet",
+                    date: new Date(),
+                    fileName: "From Sky with Love.pdf",
+                    keywords: "Skynet's database",
+                    landscape: false,
+                    paperSize: "auto",
+                    subject: "From Sky with Love",
+                    title: "Tong Hop Sua Chua Xuong DVKT - from Skynet"
+                },
+                reorderable: true,
+                resizable: true,
+                scrollable: {
+                    virtual: false
+                },
+                selectable: "row",
+                sortable: {
+                    mode: "single",
+                    allowUnsort: true
+                },
+                toolbar: ["excel", "pdf"],
+                filterMenuInit: function(e) {
+                    if (_.contains([
+                            "_id",
+                            "phan_loai.nhom_tb",
+                            "phan_loai.loai_tb",
+                            "ma_tb.ma_tb",
+                            "phan_loai.loai_sua_chua",
+                            "trang_thai",
+                            "dia_diem.khu_vuc",
+                            "dia_diem.vi_tri",
+                            "noi_dung",
+                            "thong_ke.thoi_gian.bat_dau.ngay",
+                            "thong_ke.thoi_gian.ket_thuc.ngay",
+                            "thong_ke.thoi_gian.bat_dau.thang",
+                            "thong_ke.thoi_gian.bat_dau.nam",
+                            "ghi_chu",
+                            "metadata.nguoi_cap_nhat_cuoi_name",
+                            "metadata.nguoi_cap_nhat_cuoi_email",
+                            "fields.lua_chons.A",
+                            "fields.lua_chons.B",
+                            "fields.lua_chons.C",
+                            "fields.lua_chons.D"
+                        ], e.field)) {
+                        let firstValueDropDown = e.container.find("select:eq(0)").data("kendoDropDownList");
+                        firstValueDropDown.value("contains");
+                        firstValueDropDown.trigger("change");
+                    }
+                },
+                excelExport: function(e) {
                     iNotifier.success('Dữ liệu đã được trích xuất dưới định dạng Excel.');
                 },
                 pdfExport: function(e) {

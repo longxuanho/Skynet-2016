@@ -14,7 +14,7 @@
     <div class="uk-width-1-1">
     	<div class="uk-container-center" ng-class="{'uk-width-large-8-10': !vm.pageOptions.isDisplayFullWidthGrid, 'uk-width-large-1-1': vm.pageOptions.isDisplayFullWidthGrid}">
             
-            <k-grid-menu
+<!--             <k-grid-menu
                 grid-data="vm.gridData"
                 page-options="vm.pageOptions"
                 k-data="vm._kData"
@@ -22,8 +22,15 @@
                 local-config-data-name="vm.pageOptions.localConfigDataName"
                 cloud-config-data-name="vm.pageOptions.cloudConfigDataName"
                 >
-            </k-grid-menu>
-			
+            </k-grid-menu> -->
+			<s-grid-menu
+                k-grid-data-source="vm.gridData.kGrid.kOptions.dataSource"
+                page-options="vm.pageOptions"
+                local-config-data-name="vm.pageOptions.localConfigDataName"
+                cloud-config-data-name="vm.pageOptions.cloudConfigDataName"
+            >
+            </s-grid-menu>
+
             <br/>
 
 <!--             <div class="uk-grid uk-margin-top no-animate" ng-show="!vm.numOfSuaChuas">
@@ -54,30 +61,14 @@
                 </div>
             </div>
             
-            <kendo-grid class="no-animate"
-                id="myGrid"
-                k-data-source="vm.gridData.kGrid.kData.dataSource"
-                k-columns="vm.gridData.kGrid.kOptions.columns"
-                k-column-menu="vm.gridData.kGrid.kOptions.columnMenu"
-                k-selectable="vm.gridData.kGrid.kOptions.selectable"
-                k-allow-copy="vm.gridData.kGrid.kOptions.allowCopy"
-                k-sortable="vm.gridData.kGrid.kOptions.sortable"
-                k-pageable="vm.gridData.kGrid.kOptions.pageable"
-                k-filterable="vm.gridData.kGrid.kOptions.filterable"
-                k-groupable="vm.gridData.kGrid.kOptions.groupable"
-                k-navigatable="vm.gridData.kGrid.kOptions.navigatable"
-                k-resizable="vm.gridData.kGrid.kOptions.resizable"
-                k-reorderable="vm.gridData.kGrid.kOptions.reorderable"
-                k-scrollable="vm.gridData.kGrid.kOptions.scrollable"
-                k-excel="vm.gridData.kGrid.kOptions.excel"
-                k-pdf="vm.gridData.kGrid.kOptions.pdf"
-                k-toolbar="vm.gridData.kGrid.kOptions.toolbar"
-                k-rebind="vm.gridData.kGrid"
-                k-on-change="vm.gridData.kGrid.gridOnChange(kendoEvent)"
-                k-on-data-bound="vm.gridData.kGrid.gridOnDataBound(kendoEvent)"
-                k-ng-delay = "vm.gridData.kGrid.kData.dataSource"        
-                >
-            </kendo-grid>
+            <div class="no-animate" id="myGrid"
+                
+                kendo-grid="vm.pageOptions.gridRef"
+                k-options="vm.gridData.kGrid.kOptions"
+                k-on-change="vm.gridData.kGrid.kEvents.onChange(kendoEvent, data)"
+                k-on-data-bound="vm.gridData.kGrid.kEvents.onDataBound(kendoEvent)"    
+            >
+            </div>
             
 		</div>
     </div>

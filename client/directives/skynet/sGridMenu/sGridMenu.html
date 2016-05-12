@@ -36,7 +36,7 @@
             <div class="uk-width-medium-1-1">
                 Danh sách khả dụng:
             </div>
-            <div class="uk-width-medium-1-1" ng-repeat="item in vm.data.sMenu.status.columns.current">
+            <div class="uk-width-medium-1-2" ng-repeat="item in vm.data.sMenu.status.columns.current">
                 <span class="icheck-inline uk-margin-left">
                     <input id="cb_menu_data_columns_{{item.field}}" class="iCheckInput" type="checkbox" icheck ng-model="item.isActive"/>
                     <label for="cb_menu_data_columns_{{item.field}}" class="inline-label">{{item.title}}</label>

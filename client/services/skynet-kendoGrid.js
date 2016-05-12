@@ -1358,11 +1358,6 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope,
                 type: "string",
                 width: "300px"
             }, {
-                field: "mo_ta",
-                title: "Mô tả",
-                type: "string",
-                width: "120px"
-            }, {
                 field: "metadata.ngay_tao",
                 title: "Ngày tạo",
                 type: "date",

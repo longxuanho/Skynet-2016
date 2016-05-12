@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
         templateUrl: 'client/suachuas/suachuas-list/suachuas-list.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary) {
+        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary, skynetLiveOptions) {
 
             $reactive(this).attach($scope);
 
@@ -24,9 +24,13 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             vm.dictionary = angular.copy(skynetDictionary.data.suachuas);
 
             vm.pageOptions = {
+                gridRef: {},
+                // Cờ này dùng để fix bug mất select sau khi render lại grid
+                isSelectFromController: false,
                 localData: {
                     suachuas_config_data_filter: {}
                 },
+                isExpandedView: false,
                 isDisplayTopBar: true,
                 isDisplayFullWidthGrid: false,
                 topBarHeight: 'x1',
@@ -36,13 +40,10 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                     nhomsFilterActiveIds: [],
                 },
                 fabState: _.isEmpty(vm._helpers.validateUser('can_upsert_sua_chua')) ? 'suachuas_createNew' : '',
-                selected: {
-                    suachua: {
-                        tags: []
-                    }
-                },
+                selected: {},
                 localConfigDataName: 'suachuas_config_data_local',
                 cloudConfigDataName: 'suachuas_grid_config_data_skynet'
+                ///////
             };
 
             
@@ -92,42 +93,45 @@ angular.module('angular-skynet').directive('suachuasList', function() {
 
             vm.gridData = {
                 kGrid: {
-                    kOptions: angular.copy(vm._kHelpers.initDefaultOptions()),
-                    kData: {
-                        dataSource: new kendo.data.DataSource(vm._kHelpers.initDefaultDataSource())
-                    },
-                    gridOnChange: function(event) {
-                        let grid = $("#myGrid").data("kendoGrid");
-
-                        if (grid.select().length) {
-                            if (this.kOptions.selectable === 'row') {
-
-                                let selected = grid.dataItem(grid.select());
-                                
-                                if (vm.pageOptions.selected.suachua._id === selected._id) {
-                                    // Nếu click lại một lần nữa vào hàng đã chọn -> bỏ chọn
-                                    vm.pageOptions.selected.suachua = {};
-                                    vm.pageOptions.fabState = 'suachuas_createNew';                                                                       
-
-                                    try {
-                                        grid.clearSelection();    
-                                    } catch (err) {
-                                        // ERROR CLEAR SELECTION???
-                                        console.log('Error clearing selection: ', err.message);
-                                    }
-                                } else {
-                                    vm.pageOptions.fabState = 'suachuas_viewDetails';
-                                    vm.pageOptions.selected.suachua = grid.dataItem(grid.select());
-                                }
-                            }
-                        }
-                    },                                        
-                    gridOnDataBound: function(event) {
-                        vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_sua_chua')) ? 'suachuas_createNew' : '';
-                        vm.pageOptions.selected.suachua = '';
-                    }
+                    // kOptions: angular.copy(vm._kHelpers.initDefaultOptions()),
+                    kOptions: skynetLiveOptions.suachuas.kendo.options.grids.suachuas_list,
+                    kEvents: {}
                 }
             }
+
+            console.log('vm.gridData.kGrid: ', vm.gridData.kGrid);
+
+            // Quản lý các sự kiện events với kOptions
+            // Khi người dùng click chọn một item, nếu item chưa được chọn -> chọn, nếu item đã được chọn trước đó -> bỏ chọn.
+            vm.gridData.kGrid.kEvents.onChange = function(event, data) {
+                if (!_.isEmpty(data)) {
+                    if (vm.gridData.kGrid.kOptions.selectable === 'row') {                        
+                        vm.pageOptions.fabState = 'suachuas_viewDetails';
+                        vm.pageOptions.selected = angular.copy(data);
+                    }
+                }
+            };
+
+            // Security: Chỉ cho phép tạo câu hỏi mới nếu người dùng có đủ thẩm quyền.
+            vm.gridData.kGrid.kEvents.onDataBound = function(event) {
+                // Fix lỗi khi chuyển từ dashboard sang suachuas-list thì bị mất tham chiếu
+                if (_.isEmpty(vm.pageOptions.gridRef))
+                    vm.pageOptions.gridRef = $("#myGrid").data("kendoGrid");
+                vm.pageOptions.fabState = _.isEmpty(vm._helpers.validateUser('can_upsert_sua_chua')) ? 'suachuas_createNew' : '';
+
+                if (vm.pageOptions.gridRef.tbody) {
+                    // Fix lỗi mất select sau khi bounding do grid re-render
+                    if (!_.isEmpty(vm.pageOptions.selected)) {
+                        vm.pageOptions.gridRef.select(vm.pageOptions.gridRef.tbody.find(">tr[data-uid='" + vm.pageOptions.selected.uid + "']"));
+                    };
+
+                    // Trường hợp isExpandedview được set là true thông qua menu -> expanded View
+                    if (vm.pageOptions.isExpandedView) {
+                        vm.pageOptions.gridRef.expandRow(vm.pageOptions.gridRef.tbody.find("tr.k-master-row"));
+                    }
+                }
+                
+            };
 
             
 
@@ -158,7 +162,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                 },
                 resetGridData: function() {
                     try {
-                        vm.gridData.kGrid.kData.dataSource.data([]);   
+                        vm.gridData.kGrid.kOptions.dataSource.data([]);  
                     } catch (err) {
                         console.log('Catched Error: ', err)
                     }
@@ -183,10 +187,35 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                     })
 
                     console.log('buildNhomsFilterSource: ', vm.pageOptions.filters.nhomsFilterSource);
+                },
+                loadNhomsFilterSourceFromLocal: function() {
+                    // Thử load dữ liệu local cho cấu hình của thanh Topbar (nếu có)
+                    try {
+                        let localData = JSON.parse(localStorage.getItem(vm.pageOptions.localConfigDataName));
+                        if (!_.isEmpty(localData)) {
+                            console.log('data preload from cache: ', localData)
+                    
+                            vm.pageOptions.localData = angular.copy(localData);
+
+                            vm.pageOptions.isDisplayTopBar = _.has(localData, 'isDisplayTopBar') ? localData.isDisplayTopBar : true;
+                            vm.pageOptions.topBarHeight = (localData.topBarHeight) ? localData.topBarHeight : 'x1';
+                            vm.pageOptions.filters.filterNhomId = (localData.filters.filterNhomId) ? localData.filters.filterNhomId : '';
+                            vm.pageOptions.filters.nhomsFilterSource = (localData.filters.nhomsFilterSource) ? angular.copy(localData.filters.nhomsFilterSource) : [];
+                        } else {
+                            // Nếu chưa có dữ liệu cho topbar được lưu từ trước đó, tạo dữ liệu mới cho topbar
+                            vm.utils.buildNhomsFilterSource();
+                        }        
+                    }
+                    catch(err) {
+                        // Nếu dữ liệu không tương thích, tạo dữ liệu mới cho topbar
+                        vm.utils.buildNhomsFilterSource();
+                        iNotifier.error('Có lỗi xảy ra với cấu hình dữ liệu mà bạn đã lưu trên thiết bị này. Vui lòng reset theo các bước sau: Từ Menu > Dữ liệu > Thanh dữ liệu > Reset.');
+                    }
+                    console.log('data load from cache: ', vm.pageOptions);
                 }
             }
 
-            vm.utils.buildNhomsFilterSource();
+            vm.utils.loadNhomsFilterSourceFromLocal();
 
             // ***************************************************
             // SUBSCRIBE
@@ -219,7 +248,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                         let query = vm.utils.resolveDBQuery(vm.pageOptions.filters.filterNhomId);
                         let data = SuaChuas.find(query).fetch();
                         if (data.length)
-                            vm.gridData.kGrid.kData.dataSource.data(data);
+                            vm.gridData.kGrid.kOptions.dataSource.data(data);
                         else
                             vm.utils.resetGridData();
                     }
@@ -239,7 +268,15 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
-            
+            // Trường hợp flag pageOptions.isExpandedView được bật từ menu -> grid expand detail view
+            $scope.$watch('vm.pageOptions.isExpandedView', (newVal, oldVal) => {
+                let row = vm.pageOptions.gridRef.tbody.find(">tr.k-grouping-row").eq(0);
+                if (newVal) { 
+                    vm.pageOptions.gridRef.expandGroup(row);
+                } else if (oldVal) {
+                    vm.pageOptions.gridRef.collapseGroup(row);
+                }
+            });
         }
     }
 });

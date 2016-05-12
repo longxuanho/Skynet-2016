@@ -208,13 +208,17 @@ angular.module('angular-skynet').directive('sGridMenu', function() {
                     },
                     clearSelection: function() {
                         vm.pageOptions.selected = {};
-                        vm.pageOptions.data.kWindow.selectedItem = {};
-                        vm.pageOptions.fabState = 'cauhois_createNew';
                         try {
                             vm.pageOptions.gridRef.clearSelection();
                         } catch (error) {
                             console.log(error);
                         }
+                        try {
+                            vm.pageOptions.data.kWindow.selectedItem = {};
+                            vm.pageOptions.fabState = 'cauhois_createNew';
+                        } catch (err) {
+                            console.log(err);
+                        }                        
                     }
                 },
                 // Menu: Dữ liệu -> Các cột dữ liệu
