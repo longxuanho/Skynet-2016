@@ -289,7 +289,7 @@
             Để thêm/bớt các cột dữ liệu hiển thị trong bảng tổng hợp, xin vui lòng tích chọn vào các cột được hiển thị, và bỏ chọn ở các cột không được hiển thị trong danh sách liệt kê dưới đây.
         </p>
         <div class="uk-grid">
-            <div class="uk-width-medium-1-3" ng-repeat="item in columnStatus">
+            <div class="uk-width-medium-1-2" ng-repeat="item in columnStatus">
                 <span class="icheck-inline">
                     <input id="cb_menu_display_columns_{{item.field}}" class="iCheckInput" type="checkbox" icheck ng-model="item.isActive"/>
                     <label for="cb_menu_display_columns_{{item.field}}" class="inline-label">{{item.title}}</label>

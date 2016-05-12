@@ -165,18 +165,18 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            $scope.subscribe('suachuas', () => {
-                return [{
-                        limit: parseInt($scope.getReactively('perPage')),
-                        skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage'))
-                    },
-                    $rootScope.getReactively('searchText'),
-                    $rootScope.getReactively('searchBy'),
-                    $scope.getReactively('vm.pageReactiveData.searchTags'),
-                    $scope.getReactively('vm.pageReactiveData.searchLoaitbs'),
-                    $scope.getReactively('vm.pageReactiveData.searchBacthis')
-                ]
-            });
+            // $scope.subscribe('suachuas', () => {
+            //     return [{
+            //             limit: parseInt($scope.getReactively('perPage')),
+            //             skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage'))
+            //         },
+            //         $rootScope.getReactively('searchText'),
+            //         $rootScope.getReactively('searchBy'),
+            //         $scope.getReactively('vm.pageReactiveData.searchTags'),
+            //         $scope.getReactively('vm.pageReactiveData.searchLoaitbs'),
+            //         $scope.getReactively('vm.pageReactiveData.searchBacthis')
+            //     ]
+            // });
 
             // ***************************************************
             // REACTIVE HELPERS
@@ -184,14 +184,14 @@ angular.module('angular-skynet').directive('suachuasList', function() {
 
             vm.helpers({
                 suachuas: () => {
-                    let data = vm.pageOptions.filters.filterNhomId ? SuaChuas.find({'trang_thai.ma': vm.pageOptions.filters.filterNhomId}).fetch() : SuaChuas.find({}).fetch();
+                    let data = vm.pageOptions.filters.filterNhomId ? SuaChuas.find({'trang_thai': vm.pageOptions.filters.filterNhomId}).fetch() : SuaChuas.find({}).fetch();
                     try {
                         vm.gridData.kGrid.kData.dataSource.data(data);
                     } catch (error) {
                         console.log("Error: ", error);
                     }
                     return SuaChuas.find({
-                        'trang_thai.ma': vm.getReactively('pageOptions.filters.filterNhomId')
+                        'trang_thai': vm.getReactively('pageOptions.filters.filterNhomId')
                     });
                 },
                 numOfSuaChuas: () => {

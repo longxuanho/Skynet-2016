@@ -26,13 +26,14 @@
 			
             <br/>
 
-            <div class="uk-grid uk-margin-top no-animate" ng-show="!vm.numOfSuaChuas">
+<!--             <div class="uk-grid uk-margin-top no-animate" ng-show="!vm.numOfSuaChuas">
                <div style="margin:auto;">
                     <img style="border-radius: 50%;" src="assets/img/skynet/suachuas.list_empty.png">
                     <div class="heading_list uk-margin-top uk-text-center">Không có dữ liệu sửa chữa được hiển thị.</div>
                 </div>
-            </div>
-            <div class="no-animate" ng-show="vm.numOfSuaChuas">
+            </div> -->
+            <!-- <div class="no-animate" ng-show="vm.numOfSuaChuas"> -->
+            <div class="no-animate">
             <kendo-grid class="no-animate"
                 id="myGrid"
                 k-data-source="vm.gridData.kGrid.kData.dataSource"
@@ -71,12 +72,6 @@
         <i class="material-icons">&#xE880;</i>
     </a>
 </div>
-
-<script type="text/x-kendo-template" id="k_template">
-    <div class="myGridDetails">
-        Hello!
-    </div>
-</script>
 
 <suachuas-modal-add-new dictionary="vm.dictionary"></suachuas-modal-add-new>
 <suachuas-modal-details id="vm.pageOptions.selected.suachua._id" dictionary="vm.dictionary"></suachuas-modal-details>

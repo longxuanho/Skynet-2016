@@ -40,6 +40,8 @@ angular.module('angular-skynet').directive('suachuasMain', function() {
             $scope.subscribe('users');
             $scope.subscribe('usersettings');
 
+            $scope.subscribe('suachuas');
+
 
             // ***************************************************
             // METHODS

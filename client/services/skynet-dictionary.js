@@ -543,11 +543,11 @@ angular.module('angular-skynet').factory('skynetDictionary', function($meteor, $
                 {
                     "ten": "Đang sửa chữa",
                     "ten_ngan": "Đang SC",
-                    "ma": "dang_sua_chua"
+                    "ma": "Đang sửa chữa"
                 }, {
                     "ten": "Hoàn thành",
                     "ten_ngan": "Hoàn thành",
-                    "ma": "hoan_thanh"
+                    "ma": "Sửa chữa xong"
                 }
             ]
         },

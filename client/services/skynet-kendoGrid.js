@@ -1155,16 +1155,16 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope,
                 }
             },
             defaultColumns: [
-                'phan_loai.loai_tb.ten',
+                'phan_loai.loai_tb',
                 'ma_tb.ma_tb',
-                'phan_loai.loai_sua_chua.ten',
-                'trang_thai.ten',
-                'dia_diem.khu_vuc.ten',
+                'phan_loai.loai_sua_chua',
+                'trang_thai',
+                'dia_diem.khu_vuc',
                 'dia_diem.vi_tri',
-                'noi_dung.noi_dung',                
-                'thong_ke.thoi_gian.ngay_bat_dau',
-                'thong_ke.thoi_gian.thoi_gian_sua_chua',
-                'thoi_gian.sua_chua_du_kien'
+                'noi_dung',                
+                'thong_ke.thoi_gian.bat_dau.ngay',
+                'thong_ke.thoi_gian.sua_chua.thuc_te',
+                'thoi_gian.thoi_gian.sua_chua.du_kien'
             ],
             defaultOptions: {
                 allowCopy: {
@@ -1247,14 +1247,14 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope,
                 type: "string",
                 width: "100px"
             }, {
-                field: "phan_loai.nhom_tb.ten",
+                field: "phan_loai.nhom_tb",
                 title: "Nhóm phương tiện",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Nhóm PT: #= value # (#= count# lượt)"
             }, {
-                field: "phan_loai.loai_tb.ten",
+                field: "phan_loai.loai_tb",
                 title: "Loại PT",
                 type: "string",
                 width: "160px",
@@ -1268,21 +1268,21 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope,
                 aggregates: ["count"],
                 groupHeaderTemplate: "Mã PT: #= value # (#= count# lượt)"
             }, {
-                field: "phan_loai.loai_sua_chua.ten",
+                field: "phan_loai.loai_sua_chua",
                 title: "Loại sửa chữa",
                 type: "string",
                 width: "160px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Loại SC: #= value # (#= count# lượt)"
             }, {
-                field: "trang_thai.ten",
+                field: "trang_thai",
                 title: "Trạng thái",
                 type: "string",
                 width: "180px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Trạng thái: #= value # (#= count# lượt)"
             }, {
-                field: "dia_diem.khu_vuc.ten",
+                field: "dia_diem.khu_vuc",
                 title: "Khu vực SC",
                 type: "string",
                 width: "130px",
@@ -1296,14 +1296,14 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope,
                 aggregates: ["count"],
                 groupHeaderTemplate: "Vị trí: #= value # (#= count# lượt)"
             }, {
-                field: "noi_dung.noi_dung",
+                field: "noi_dung",
                 title: "Nội dung sửa chữa",
                 type: "string",
                 width: "320px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Nội dung SC: #= value # (#= count# lượt)"
             }, {
-                field: "thong_ke.thoi_gian.thoi_gian_sua_chua",
+                field: "thong_ke.thoi_gian.sua_chua.thuc_te",
                 title: "TGSC (giờ)",
                 type: "number",
                 width: "120px",
@@ -1325,35 +1325,28 @@ angular.module('angular-skynet').factory('skynetKendoGrid', function($rootScope,
                 aggregates: ["min", "max", "average"],
                 groupHeaderTemplate: "Thời gian SC dự kiến: #= value # (min: #= min#, max: #= max#, avg: #= average#)"
             }, {
-                field: "thong_ke.thoi_gian.ngay_bat_dau",
+                field: "thong_ke.thoi_gian.bat_dau.ngay",
                 title: "Ngày bắt đầu",
                 type: "string",
                 width: "140px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Ngày: #= value # (#= count# lượt)"
             }, {
-                field: "thong_ke.thoi_gian.ngay_ket_thuc",
+                field: "thong_ke.thoi_gian.ket_thuc.ngay",
                 title: "Ngày kết thúc",
                 type: "string",
                 width: "140px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Ngày: #= value # (#= count# lượt)"
             }, {
-                field: "thong_ke.tags_field",
-                title: "Thẻ dấu",
-                type: "string",
-                width: "320px",
-                aggregates: ["count"],
-                groupHeaderTemplate: "Thẻ: #= value # (#= count# lượt)"
-            }, {
-                field: "thong_ke.thoi_gian.thang_sua_chua",
+                field: "thong_ke.thoi_gian.bat_dau.thang",
                 title: "Tháng",
                 type: "string",
                 width: "100px",
                 aggregates: ["count"],
                 groupHeaderTemplate: "Tháng: #= value # (#= count# lượt)"
             }, {
-                field: "thong_ke.thoi_gian.nam_sua_chua",
+                field: "thong_ke.thoi_gian.bat_dau.nam",
                 title: "Năm",
                 type: "string",
                 width: "100px",
