@@ -325,6 +325,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                     suachuas: function() {
                     	// Tính lại tổng số trang
                     	vm.pageOptions.ui.maxNumOfPage = Math.ceil(vm.pageOptions.ui.totalItems / vm.pageOptions.ui.perPage);
+
+                        // Cập nhật tất cả các stamp thời gian lúc bắt đầu để hiển thị trên bảng tin
+                        vm.utils.getDataView.massageRawData();
                         
                         let fromIndex = vm.pageOptions.ui.perPage * (vm.pageOptions.ui.page - 1);
                         if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage) {
@@ -618,20 +621,21 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // ***************************************************
             
             autoPaging = $interval(() => {
-                
+                // Cập nhật tất cả các stamp thời gian lúc bắt đầu để hiển thị trên bảng tin
+                vm.utils.getDataView.massageRawData();
+
                 // Chỉ chuyển trang khi maxPage >= 1
             	if (vm.pageOptions.ui.maxNumOfPage >= 1) {
                     // Chỉ chuyển trang khi đang ở bảng tin
                     if (vm.pageOptions.displayMode.current_nav_tab === 'Bảng tin') {
-                        // Cập nhật tất cả các stamp thời gian lúc bắt đầu để hiển thị trên bảng tin
-                        vm.utils.getDataView.massageRawData();
+                        
                         // Tự động lật trang sau 3s
                         if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage)
                             vm.pageOptions.ui.page++;
                         else
                             vm.pageOptions.ui.page = 1;
                     }                   
-                }                
+                }           
             }, 12000);
             
 

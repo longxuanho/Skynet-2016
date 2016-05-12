@@ -10,7 +10,7 @@
                         <div class="uk-align-left" style="margin-top: 10px;margin-bottom:10px;">
                             <div style="display: inline-block;margin-right: 48px;padding-left:18px;"><span class="count color-danger">{{vm.pageData.statistics.count_panel['Đang sửa chữa']}}</span> <span class="flip-board-desc">đang sửa chữa</span></div>
                             <div style="display: inline-block;margin-right: 48px;"><span class="count color-warning">{{vm.pageData.statistics.count_panel['Chuẩn bị bàn giao']}}</span> <span class="flip-board-desc">chuẩn bị bàn giao</span></div>
-                            <div style="display: inline-block;margin-right: 48px;"><span class="count color-success">{{vm.pageData.statistics.count_panel['Sửa chữa xong']}}</span> <span class="flip-board-desc">sửa chữa xong</span></div>    
+                            <div style="display: inline-block;margin-right: 48px;"><span class="count color-success">{{vm.pageData.statistics.count_panel['Sửa chữa xong']}}</span> <span class="flip-board-desc">sửa chữa xong</span></div>
                         </div>
                         <div id="xuongdvkt-realtime-clock" class="uk-align-right" ng-hide="$root.primarySidebarOpen" style="margin: 10px 0 0;display: inline-block;">
                             <dashboard-xuongdvkt-realtime-clock></dashboard-xuongdvkt-realtime-clock>
@@ -48,7 +48,7 @@
                                         <td style="color:#888;">{{suachua.ma_tb.dvql}}</td>
                                         <td style="color:#888;white-space: nowrap;max-width:500px;overflow: hidden;">{{suachua.noi_dung}}</td>
                                         <td style="color:#888;">{{suachua.thoi_gian_bat_dau_resolved}}</td>
-                                        <td ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}" style="text-align:right;"><span ng-hide="suachua.thoi_gian.sua_chua_du_kien">--/--</span><span ng-show="suachua.thoi_gian.sua_chua_du_kien">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate:'shortHour'}}</span></td>
+                                        <td style="text-align:right;color:#888;"><span ng-hide="suachua.thoi_gian.sua_chua_du_kien">--/--</span><span><span ng-show="suachua.thoi_gian.sua_chua_du_kien" ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate:'fromNow'}}</span> / {{suachua.thoi_gian.ket_thuc_du_kien | displayDate:'shortHour24'}}</span></td>
                                     </tr>
                                 </table>                      
                                 <div ng-if="!vm.pageData.suachuas.view.length" style="color: #888;font-size: 1.25rem;font-weight: 300;padding-left: 18px;">Không có sửa chữa tại thời điểm này.</div>   
