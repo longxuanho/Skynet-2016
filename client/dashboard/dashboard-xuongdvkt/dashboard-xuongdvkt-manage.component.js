@@ -318,7 +318,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
         			$scope.utils.heroContent.update(text, mode, 38000);
         		}
         		if (doc.trang_thai == 'Sửa chữa xong') {
-        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' tại khu vực ' + doc.dia_diem.vi_tri + ' đã được ' + doc.phan_loai.loai_sua_chua.toLowerCase() + ' và bàn giao. Thời gian nằm xưởng: ' + $scope.utils.mics.formatHoursAsHM(doc.thong_ke.thoi_gian.sua_chua.gio) + '.';
+        			text = 'Phương tiện ' + doc.ma_tb.ma_tb + ' tại khu vực ' + doc.dia_diem.vi_tri + ' đã được ' + doc.phan_loai.loai_sua_chua.toLowerCase() + ' và bàn giao. Thời gian nằm xưởng: ' + $scope.utils.mics.formatHoursAsHM(doc.thong_ke.thoi_gian.sua_chua.thuc_te) + '.';
         			mode = 'success';
 
         			$scope.utils.heroContent.update(text, mode, 38000);
