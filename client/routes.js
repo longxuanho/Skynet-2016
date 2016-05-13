@@ -63,7 +63,7 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
                         return $q.reject('AUTH_REQUIRED');
                     } else if (!Meteor.user().emails[0].verified) {
                         return $q.reject('AUTH_NOT_VERIFIED');
-                    } if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'quanly-suachuas', 'support-suachuas'], 'sky-project')) {
+                    } if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'super-manager', 'quanly-suachuas', 'support-suachuas', 'xem-suachuas'], 'sky-project')) {
                         // Không đủ quyền xem nội dung câu hỏi
                         return $q.reject('AUTH_NOT_AUTHORIZED');
                     } else {

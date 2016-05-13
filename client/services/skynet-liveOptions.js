@@ -874,21 +874,23 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     data: [],
                     schema: factory.schemas.suachuas,
                     page: 1,
-                    pageSize: 5
+                    pageSize: 8
                 }),
 
                 columns: [{
                     field: "_id",
                     title: "ID Sửa chữa",
                     type: "string",
-                    width: "100px"
+                    width: "100px",
+                    hidden: "true"
                 }, {
                     field: "phan_loai.nhom_tb",
                     title: "Nhóm phương tiện",
                     type: "string",
                     width: "160px",
                     aggregates: ["count"],
-                    groupHeaderTemplate: "Nhóm PT: #= value # (#= count# lượt)"
+                    groupHeaderTemplate: "Nhóm PT: #= value # (#= count# lượt)",
+                    hidden: "true"
                 }, {
                     field: "phan_loai.loai_tb",
                     title: "Loại PT",
@@ -904,12 +906,26 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     aggregates: ["count"],
                     groupHeaderTemplate: "Mã PT: #= value # (#= count# lượt)"
                 }, {
+                    field: "ma_tb.dvql",
+                    title: "ĐVQL",
+                    type: "string",
+                    width: "120px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "ĐVQL: #= value # (#= count# lượt)"
+                }, {
                     field: "phan_loai.loai_sua_chua",
                     title: "Loại sửa chữa",
                     type: "string",
                     width: "160px",
                     aggregates: ["count"],
                     groupHeaderTemplate: "Loại SC: #= value # (#= count# lượt)"
+                }, {
+                    field: "noi_dung",
+                    title: "Nội dung sửa chữa",
+                    type: "string",
+                    width: "360px",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Nội dung SC: #= value # (#= count# lượt)"
                 }, {
                     field: "trang_thai",
                     title: "Trạng thái",
@@ -931,13 +947,6 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     width: "120px",
                     aggregates: ["count"],
                     groupHeaderTemplate: "Vị trí: #= value # (#= count# lượt)"
-                }, {
-                    field: "noi_dung",
-                    title: "Nội dung sửa chữa",
-                    type: "string",
-                    width: "320px",
-                    aggregates: ["count"],
-                    groupHeaderTemplate: "Nội dung SC: #= value # (#= count# lượt)"
                 }, {
                     field: "thong_ke.thoi_gian.sua_chua.thuc_te",
                     title: "TGSC (giờ)",
@@ -998,41 +1007,47 @@ angular.module('angular-skynet').factory('skynetLiveOptions', function(iNotifier
                     title: "Ngày tạo",
                     type: "date",
                     format: "{0: yyyy-MM-dd}",
-                    width: "160px"
+                    width: "160px",
+                    hidden: true
                 }, {
                     field: "metadata.ngay_cap_nhat_cuoi",
                     title: "Ngày CN cuối",
                     type: "date",
                     format: "{0: yyyy-MM-dd}",
-                    width: "160px"
+                    width: "160px",
+                    hidden: true
                 }, {
                     field: "metadata.nguoi_tao_name",
                     title: "Người tạo",
                     type: "string",
                     width: "160px",
                     aggregates: ["count"],
-                    groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)"
+                    groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)",
+                    hidden: true
                 }, {
                     field: "metadata.nguoi_tao_email",
                     title: "Người tạo (Email)",
                     type: "string",
                     width: "160px",
                     aggregates: ["count"],
-                    groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)"
+                    groupHeaderTemplate: "Người tạo: #= value # (#= count# lượt)",
+                    hidden: true
                 }, {
                     field: "metadata.nguoi_cap_nhat_cuoi_name",
                     title: "Người cập nhật cuối",
                     type: "string",
                     width: "160px",
                     aggregates: ["count"],
-                    groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)"
+                    groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)",
+                    hidden: true
                 }, {
                     field: "metadata.nguoi_cap_nhat_cuoi_email",
                     title: "Người cập nhật cuối (Email)",
                     type: "string",
                     width: "160px",
                     aggregates: ["count"],
-                    groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)"
+                    groupHeaderTemplate: "Người cập nhật cuối: #= value # (#= count# lượt)",
+                    hidden: true
                 }],
 
                 allowCopy: {

@@ -30,6 +30,7 @@ angular.module('angular-skynet').directive('adminUsersModalSetRoles', function()
                 		'sky-project': [
                 			'quanly-cauhois',
                             'xem-cauhois',
+                            'xem-suachuas',
                             'quanly-suachuas',
                 			'support-suachuas',
                 			'manage-users',

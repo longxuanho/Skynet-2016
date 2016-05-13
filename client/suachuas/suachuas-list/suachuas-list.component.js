@@ -44,9 +44,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                 localConfigDataName: 'suachuas_config_data_local',
                 cloudConfigDataName: 'suachuas_grid_config_data_skynet'
                 ///////
-            };
-
-            
+            };          
 
             vm.pageReactiveData = {
                 suachuas: [],
@@ -129,11 +127,8 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                     if (vm.pageOptions.isExpandedView) {
                         vm.pageOptions.gridRef.expandRow(vm.pageOptions.gridRef.tbody.find("tr.k-master-row"));
                     }
-                }
-                
-            };
-
-            
+                }                
+            };            
 
             // ***************************************************
             // UTILS
@@ -221,18 +216,11 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // SUBSCRIBE
             // ***************************************************
 
-            // $scope.subscribe('suachuas', () => {
-            //     return [{
-            //             limit: parseInt($scope.getReactively('perPage')),
-            //             skip: parseInt(($scope.getReactively('page') - 1) * $scope.getReactively('perPage'))
-            //         },
-            //         $rootScope.getReactively('searchText'),
-            //         $rootScope.getReactively('searchBy'),
-            //         $scope.getReactively('vm.pageReactiveData.searchTags'),
-            //         $scope.getReactively('vm.pageReactiveData.searchLoaitbs'),
-            //         $scope.getReactively('vm.pageReactiveData.searchBacthis')
-            //     ]
-            // });
+            $scope.subscribe('suachuas-all', () => {
+                return [{},
+                    $rootScope.getReactively('searchText')
+                ]
+            });
 
             // ***************************************************
             // REACTIVE HELPERS
@@ -245,7 +233,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
                         vm.getReactively('criteria.dateRage.from'),
                         vm.getReactively('criteria.dateRage.to')
                     )) {
-                        let query = vm.utils.resolveDBQuery(vm.pageOptions.filters.filterNhomId);
+                        let query = vm.utils.resolveDBQuery(vm.getReactively('pageOptions.filters.filterNhomId'));
                         let data = SuaChuas.find(query).fetch();
                         if (data.length)
                             vm.gridData.kGrid.kOptions.dataSource.data(data);
@@ -268,6 +256,15 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // ***************************************************
             // WATCHERS
             // ***************************************************
+            // Tùy biến màu sắc callendar khi theme thay đổi
+            $rootScope.$watch('main_theme', (newVal, oldVal) => {
+                console.log('theme: ', newVal);
+
+                // Đổi màu k window khi màu theme thay đổi
+                // let header = $('div.k-window-titlebar.k-header');
+                // header.removeClass('color-background-' + oldVal);
+                // header.addClass('color-background-' + newVal);
+            });
             // Trường hợp flag pageOptions.isExpandedView được bật từ menu -> grid expand detail view
             $scope.$watch('vm.pageOptions.isExpandedView', (newVal, oldVal) => {
                 let row = vm.pageOptions.gridRef.tbody.find(">tr.k-grouping-row").eq(0);

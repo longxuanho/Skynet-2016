@@ -73,3 +73,23 @@ Meteor.publish("suachuas", function(fromDate, toDate) {
 
     return SuaChuas.find(query);
 });
+
+Meteor.publish("suachuas-all", function(options, searchString) {
+    if (searchString == null)
+        searchString = '';
+
+    var query = {
+        $or: []
+    };
+
+    var regex = {
+        '$regex': '.*' + searchString || '' + '.*',
+        '$options': 'i'
+    };
+
+    query['$or'].push({ 'ma_tb.ma_tb' : regex });
+    query['$or'].push({ 'ma_tb.dvql' : regex });
+    query['$or'].push({ 'noi_dung' : regex });
+
+    return SuaChuas.find(query);
+});
