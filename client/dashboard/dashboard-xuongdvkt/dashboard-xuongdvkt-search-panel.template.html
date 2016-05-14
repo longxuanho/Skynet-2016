@@ -13,7 +13,7 @@
                         <td style="width:25%" ng-class="{'color-success': (suachua.trang_thai == 'Sửa chữa xong'), 'color-warning': (suachua.trang_thai == 'Chuẩn bị bàn giao'), 'color-danger': (suachua.trang_thai == 'Đang sửa chữa')}">{{suachua.ma_tb.ma_tb}}</td>
                         <td style="width:15%;">{{suachua.dia_diem.vi_tri}}</td>
                         <td style="width:40%;">{{suachua.thoi_gian.bat_dau | displayDate: 'fromNow'}}</td>
-                        <td style="text-align:right;"><span ng-hide="suachua.trang_thai=='Sửa chữa xong'">{{suachua.thoi_gian.ket_thuc_du_kien | displayDate: 'fromNow'}}</span><span ng-show="suachua.trang_thai=='Sửa chữa xong'">{{suachua.thoi_gian.ket_thuc | displayDate: 'fromNow'}}</span></td>
+                        <td style="text-align:right;"><span ng-hide="suachua.trang_thai=='Sửa chữa xong'">{{suachua.thoi_gian.sua_chua_du_kien | number: 1}}</span><span ng-show="suachua.trang_thai=='Sửa chữa xong'">{{suachua.thong_ke.thoi_gian.sua_chua.thuc_te | number: 1}}</span></td>
                     </tr>   
                 </tbody>                
             </table>    
