@@ -4,7 +4,7 @@ angular.module('angular-skynet').directive('suachuasList', function() {
         templateUrl: 'client/suachuas/suachuas-list/suachuas-list.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, skynetDictionary, skynetLiveOptions) {
+        controller: function($scope, $stateParams, skynetHelpers, $rootScope, iNotifier, skynetKendoGrid, $reactive, $timeout, skynetDictionary, skynetLiveOptions) {
 
             $reactive(this).attach($scope);
 
@@ -259,6 +259,10 @@ angular.module('angular-skynet').directive('suachuasList', function() {
             // Tùy biến màu sắc callendar khi theme thay đổi
             $rootScope.$watch('main_theme', (newVal, oldVal) => {
                 console.log('theme: ', newVal);
+
+                $timeout(() => {
+                    $('.k-calendar-container').removeClass(oldVal).addClass(newVal);
+                }, 2000);
 
                 // Đổi màu k window khi màu theme thay đổi
                 // let header = $('div.k-window-titlebar.k-header');
