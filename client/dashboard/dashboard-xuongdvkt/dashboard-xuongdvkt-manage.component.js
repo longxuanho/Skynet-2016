@@ -96,6 +96,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktManage', function(
                         $scope._helpers.buildMetadata('buildNew', newMatb.metadata); 
                     },
             		newSuaChua: function (newSuaChua) {
+                        // Cập nhật lại thời gian bắt đầu
+                        newSuaChua.thoi_gian.bat_dau = new Date();
             			// Tính toán thời gian kết thúc dự kiến
 						newSuaChua.thoi_gian.ket_thuc_du_kien = moment(newSuaChua.thoi_gian.bat_dau).add(newSuaChua.thoi_gian.sua_chua_du_kien, 'hours').toDate();
 
