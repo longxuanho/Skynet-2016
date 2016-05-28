@@ -2,23 +2,23 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
     return {
         restrict: 'E',
         templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-view-list.template.html',
-        controllerAs: 'vm',
+        controllerAs: '$scope',
         bindToController: true,
 
         controller: function($scope, $rootScope, iNotifier, $reactive, $interval, skynetDictionary) {
 
-            $reactive(this).attach($scope);
+            // $reactive(this).attach($scope);
 
             // ***************************************************
             // INITIALIZE
             // ***************************************************
 
-            // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
-            let vm = this;
+            // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-$scope
+            // let $scope = this;
 
-            vm._dictionary = angular.copy(skynetDictionary.data.xuongdvkt);
+            $scope._dictionary = angular.copy(skynetDictionary.data.xuongdvkt);
 
-            vm.pageOptions = {
+            $scope.pageOptions = {
                 ui: {
                     perPage: 4,
                     page: 1,
@@ -80,7 +80,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         text: '',
                         mode: 'default'
                     },
-                    current_nav_tab: '',
+                    current_nav_tab: 'Bảng tin',
                     isDisplaySearchPanel: false,
                     current_manage_mode: 'createNew'
                 },
@@ -94,7 +94,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 }
             };
 
-            vm.pageData = {
+            $scope.pageData = {
                 rights: {
                     'can_upsert_sua_chua': ["admin", "super-manager", "quanly-suachuas", "support-suachuas"]
                 },
@@ -313,74 +313,74 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // UTILS
             // ***************************************************
 
-            vm.utils = {
+            $scope.utils = {
                 getDataView: {
                     massageRawData: function() {
-                        if (vm.pageData.suachuas.raw.length) {
-                            _.each(vm.pageData.suachuas.raw, (item) => {
+                        if ($scope.pageData.suachuas.raw.length) {
+                            _.each($scope.pageData.suachuas.raw, (item) => {
                                 item.thoi_gian_bat_dau_resolved = moment(item.thoi_gian.bat_dau).fromNow();
                             });
                         }
                     },
                     suachuas: function() {
                     	// Tính lại tổng số trang
-                    	vm.pageOptions.ui.maxNumOfPage = Math.ceil(vm.pageOptions.ui.totalItems / vm.pageOptions.ui.perPage);
+                    	$scope.pageOptions.ui.maxNumOfPage = Math.ceil($scope.pageOptions.ui.totalItems / $scope.pageOptions.ui.perPage);
 
                         // Cập nhật tất cả các stamp thời gian lúc bắt đầu để hiển thị trên bảng tin
-                        vm.utils.getDataView.massageRawData();
+                        $scope.utils.getDataView.massageRawData();
                         
-                        let fromIndex = vm.pageOptions.ui.perPage * (vm.pageOptions.ui.page - 1);
-                        if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage) {
-                            let endIndex = fromIndex + vm.pageOptions.ui.perPage;
-                            vm.pageData.suachuas.view = vm.pageData.suachuas.raw.slice(fromIndex, endIndex);
+                        let fromIndex = $scope.pageOptions.ui.perPage * ($scope.pageOptions.ui.page - 1);
+                        if ($scope.pageOptions.ui.page < $scope.pageOptions.ui.maxNumOfPage) {
+                            let endIndex = fromIndex + $scope.pageOptions.ui.perPage;
+                            $scope.pageData.suachuas.view = $scope.pageData.suachuas.raw.slice(fromIndex, endIndex);
                         } else {
-                            vm.pageData.suachuas.view = vm.pageData.suachuas.raw.slice(fromIndex);
+                            $scope.pageData.suachuas.view = $scope.pageData.suachuas.raw.slice(fromIndex);
                         }
                     },
                     sortBy: function(where) {
-                    	if (vm.pageOptions.ui.sort.by != where) {
-                        	vm.pageOptions.ui.sort.by = where;
-                        	vm.pageOptions.ui.sort.mode = 'asc';
+                    	if ($scope.pageOptions.ui.sort.by != where) {
+                        	$scope.pageOptions.ui.sort.by = where;
+                        	$scope.pageOptions.ui.sort.mode = 'asc';
                         } else {
-                        	vm.pageOptions.ui.sort.mode = vm.pageOptions.ui.sort.keys[_.indexOf(vm.pageOptions.ui.sort.keys, vm.pageOptions.ui.sort.mode) + 1];
-                        	if (vm.pageOptions.ui.sort.mode == 'none')
-                        		vm.pageOptions.ui.sort.by = '';
+                        	$scope.pageOptions.ui.sort.mode = $scope.pageOptions.ui.sort.keys[_.indexOf($scope.pageOptions.ui.sort.keys, $scope.pageOptions.ui.sort.mode) + 1];
+                        	if ($scope.pageOptions.ui.sort.mode == 'none')
+                        		$scope.pageOptions.ui.sort.by = '';
                         }
-                        vm.pageOptions.ui.sort.criteria = vm.pageOptions.ui.sort.collection[vm.pageOptions.ui.sort.by][vm.pageOptions.ui.sort.mode];	
+                        $scope.pageOptions.ui.sort.criteria = $scope.pageOptions.ui.sort.collection[$scope.pageOptions.ui.sort.by][$scope.pageOptions.ui.sort.mode];	
                     },
                     cycleSortOrder: function(where) {
-                    	if (vm.pageOptions.ui.sort.by != where) {
-                        	vm.pageOptions.ui.sort.by = where;
-                        	vm.pageOptions.ui.sort.mode = 'asc';
+                    	if ($scope.pageOptions.ui.sort.by != where) {
+                        	$scope.pageOptions.ui.sort.by = where;
+                        	$scope.pageOptions.ui.sort.mode = 'asc';
                         } else {
-                        	vm.pageOptions.ui.sort.mode = vm.pageOptions.ui.sort.keys[_.indexOf(vm.pageOptions.ui.sort.keys, vm.pageOptions.ui.sort.mode) + 1];
-                        	if (vm.pageOptions.ui.sort.mode == 'none')
-                        		vm.pageOptions.ui.sort.by = '';
+                        	$scope.pageOptions.ui.sort.mode = $scope.pageOptions.ui.sort.keys[_.indexOf($scope.pageOptions.ui.sort.keys, $scope.pageOptions.ui.sort.mode) + 1];
+                        	if ($scope.pageOptions.ui.sort.mode == 'none')
+                        		$scope.pageOptions.ui.sort.by = '';
                         }
-                        if (vm.pageOptions.ui.sort.by)
-                        	vm.pageOptions.ui.sort.criteria = vm.pageOptions.ui.sort.collection[vm.pageOptions.ui.sort.by][vm.pageOptions.ui.sort.mode];
+                        if ($scope.pageOptions.ui.sort.by)
+                        	$scope.pageOptions.ui.sort.criteria = $scope.pageOptions.ui.sort.collection[$scope.pageOptions.ui.sort.by][$scope.pageOptions.ui.sort.mode];
                     }
                 },
                 getStatistics: {
                 	countPanel: function() {
-                		vm.pageData.statistics.count_panel.totalOfSuaChuas = vm.pageData.suachuas.raw.length;
+                		$scope.pageData.statistics.count_panel.totalOfSuaChuas = $scope.pageData.suachuas.raw.length;
                         // Reset các giá trị bộ đếm về 0
-                        vm.pageData.statistics.count_panel['Đang sửa chữa'] = 0;
-                        vm.pageData.statistics.count_panel['Sửa chữa xong'] = 0;
-                        vm.pageData.statistics.count_panel['Chuẩn bị bàn giao'] = 0;
+                        $scope.pageData.statistics.count_panel['Đang sửa chữa'] = 0;
+                        $scope.pageData.statistics.count_panel['Sửa chữa xong'] = 0;
+                        $scope.pageData.statistics.count_panel['Chuẩn bị bàn giao'] = 0;
 
                         // Nếu có sửa chữa tại thời điểm hiện tại -> Thực hiện các thống kê
-                        if (vm.pageData.statistics.count_panel.totalOfSuaChuas) {
+                        if ($scope.pageData.statistics.count_panel.totalOfSuaChuas) {
                             
-                            vm.pageData.suachuas.dataSource.group({ 
+                            $scope.pageData.suachuas.dataSource.group({ 
                                 field: 'trang_thai',
                                 aggregates: [
                                     { field: "_id", aggregate: "count" }
                                 ] 
                             });
 
-                            _.each(vm.pageData.suachuas.dataSource.view(), (view) => {
-                                vm.pageData.statistics.count_panel[view.value] = view.items.length;
+                            _.each($scope.pageData.suachuas.dataSource.view(), (view) => {
+                                $scope.pageData.statistics.count_panel[view.value] = view.items.length;
                             });
                         }                		
                 	}
@@ -392,7 +392,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             this.get_curr_vitris();
                         },
                         get_curr_ma_tbs_list: function() {
-                            vm.pageData.kendoOptions.dataSource.curr_ma_tbs = _.map(vm.pageData.suachuas.raw, (suachua) => {
+                            $scope.pageData.kendoOptions.dataSource.curr_ma_tbs = _.map($scope.pageData.suachuas.raw, (suachua) => {
                                 return suachua.ma_tb.ma_tb
                             });                           
                         },
@@ -404,22 +404,22 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         		arr_CurrVitrisInUse_flatten = [], arr_CurrVitrisIsAvailable_flatten = []
                         	
                         	// Tìm tất cả các khu vực trong nhà xưởng
-                        	arr_keys = _.keys(vm._dictionary.vi_tris);
+                        	arr_keys = _.keys($scope._dictionary.vi_tris);
 
                         	// Khởi tạo lại các mảng output theo arr_keys
                         	_.each(arr_keys, (key) => {
-                        		vm.pageData.kendoOptions.dataSource.vi_tris.isInUse[key] = [];
-                        		vm.pageData.kendoOptions.dataSource.vi_tris.isAvailable[key] = [];
+                        		$scope.pageData.kendoOptions.dataSource.vi_tris.isInUse[key] = [];
+                        		$scope.pageData.kendoOptions.dataSource.vi_tris.isAvailable[key] = [];
                         	});
 
                         	// Tìm tất cả các vị trí trong nhà xưởng
-                        	 _.each(vm._dictionary.vi_tris, (value, key) => {
+                        	 _.each($scope._dictionary.vi_tris, (value, key) => {
                         	 	arr_VitrisAll_flatten.push(value);
                         	});
                         	arr_VitrisAll_flatten = _.flatten(arr_VitrisAll_flatten);
 
                         	// Tìm tất cả các vị trí trong nhà xưởng đang được sử dụng
-                        	arr_CurrSuaChua = _.filter(vm.pageData.suachuas.raw, (suachua) => {
+                        	arr_CurrSuaChua = _.filter($scope.pageData.suachuas.raw, (suachua) => {
                         		return suachua.trang_thai !== 'Sửa chữa xong';
                         	});
                         	arr_CurrVitrisInUse_flatten = _.uniq(
@@ -434,11 +434,11 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	);
 							// Nhóm theo khu vực để có các dataSource tương ứng:
 							_.each(arr_CurrVitrisInUse_flatten, (vitri) => {
-								vm.pageData.kendoOptions.dataSource.vi_tris.isInUse[('Khu ' + vitri.charAt(0))].push(vitri);
+								$scope.pageData.kendoOptions.dataSource.vi_tris.isInUse[('Khu ' + vitri.charAt(0))].push(vitri);
 							});
 
 							_.each(arr_CurrVitrisIsAvailable_flatten, (vitri) => {
-								vm.pageData.kendoOptions.dataSource.vi_tris.isAvailable[('Khu ' + vitri.charAt(0))].push(vitri);
+								$scope.pageData.kendoOptions.dataSource.vi_tris.isAvailable[('Khu ' + vitri.charAt(0))].push(vitri);
 							});
                         }
                     },
@@ -454,50 +454,50 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                         	let views = [], arr_serie_inside = [], arr_serie_outside = [];
 
                         	// Thống kê số liệu cho serie vòng trong: Loại phương tiện
-                            vm.pageData.suachuas.dataSource.group({ field: "phan_loai.loai_tb" });
-                            views = vm.pageData.suachuas.dataSource.view();
+                            $scope.pageData.suachuas.dataSource.group({ field: "phan_loai.loai_tb" });
+                            views = $scope.pageData.suachuas.dataSource.view();
                             _.each(views, (view, index) => {
                             	arr_serie_inside.push({
                             		category: view.value,
                             		value: view.items.length,
-                            		color: vm.pageOptions.charts.colorPalettes['Ad Majora - Aspirin C'][index]
+                            		color: $scope.pageOptions.charts.colorPalettes['Ad Majora - Aspirin C'][index]
                             	});
                             });
 
                         	// Thống kê số liệu cho serie vòng ngoài: Loại sửa chữa
-                            vm.pageData.suachuas.dataSource.group({ field: "phan_loai.loai_sua_chua" });
-                            views = vm.pageData.suachuas.dataSource.view();
+                            $scope.pageData.suachuas.dataSource.group({ field: "phan_loai.loai_sua_chua" });
+                            views = $scope.pageData.suachuas.dataSource.view();
                             _.each(views, (view, index) => {
                             	arr_serie_outside.push({
                             		category: view.value,
                             		value: view.items.length,
-                            		color: vm.pageOptions.charts.colorPalettes['Vitamin C'][index]
+                            		color: $scope.pageOptions.charts.colorPalettes['Vitamin C'][index]
                             	});
                             });
 
                             // Reset group
-                            vm.pageData.suachuas.dataSource.group([]);
+                            $scope.pageData.suachuas.dataSource.group([]);
 
                             // Thiết đặt các giá trị cho chart options
-                            vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[0].data = arr_serie_inside;
-                            vm.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[1].data = arr_serie_outside;
+                            $scope.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[0].data = arr_serie_inside;
+                            $scope.pageData.kendoOptions.charts.donut_thong_ke_luot_suachuas.series[1].data = arr_serie_outside;
                         },
                         stacked_bar_luot_sua_chua: function() {
                             // Khởi tạo
                             let views = [], arr_series_inUse = [], arr_series_empty = [], arr_category = [], obj_statistics = {};
                             // Tìm tất cả các khu vực trong nhà xưởng
-                            arr_category = _.keys(vm._dictionary.vi_tris);                                                      
+                            arr_category = _.keys($scope._dictionary.vi_tris);                                                      
                             // Khởi tạo lại các giá trị thống kê về vị trí ban đầu: tất cả đều chưa sửa dụng và còn trống.
                             _.each(arr_category, (khuvuc) => {
                                 arr_series_inUse.push(0);
-                                arr_series_empty.push(vm._dictionary.vi_tris[khuvuc].length);
+                                arr_series_empty.push($scope._dictionary.vi_tris[khuvuc].length);
                             });
-                            if (vm.pageData.suachuas.dataSource.view().length) {
+                            if ($scope.pageData.suachuas.dataSource.view().length) {
                                 // Loại bỏ các sửa chữa đã thực hiện xong
-                                vm.pageData.suachuas.dataSource.filter({ field: "trang_thai", operator: "neq", value: "Sửa chữa xong" });
+                                $scope.pageData.suachuas.dataSource.filter({ field: "trang_thai", operator: "neq", value: "Sửa chữa xong" });
                                 // Thống kê theo từng khu vực
-                                vm.pageData.suachuas.dataSource.group({ field: "dia_diem.khu_vuc" });
-                                views = vm.pageData.suachuas.dataSource.view();
+                                $scope.pageData.suachuas.dataSource.group({ field: "dia_diem.khu_vuc" });
+                                views = $scope.pageData.suachuas.dataSource.view();
                                 _.each(views, (khuvuc) => {
                                     obj_statistics[khuvuc.value] = khuvuc.items.length;
                                 });
@@ -507,23 +507,23 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                                     let index = _.indexOf(arr_category, khuvuc);
                                     if (index >= 0) {
                                         arr_series_inUse[index] = obj_statistics[khuvuc];
-                                        arr_series_empty[index] = vm._dictionary.vi_tris[khuvuc].length - obj_statistics[khuvuc];
+                                        arr_series_empty[index] = $scope._dictionary.vi_tris[khuvuc].length - obj_statistics[khuvuc];
                                     }
                                 });
                                 // Thiết đặt các giá trị này cho options của chart
-                                vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.categoryAxis.categories = arr_category;
-                                vm.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.series = [{
+                                $scope.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.categoryAxis.categories = arr_category;
+                                $scope.pageData.kendoOptions.charts.stacked_bar_luot_sua_chua.series = [{
                                         name: 'Đang sử dụng',
                                         data: arr_series_inUse,
-                                        color: vm.pageOptions.charts.colorPalettes['Blue Mono'][1]  
+                                        color: $scope.pageOptions.charts.colorPalettes['Blue Mono'][1]  
                                     }, {
                                         name: 'Còn trống',
                                         data: arr_series_empty,
-                                        color: vm.pageOptions.charts.colorPalettes['Blue Mono'][2]  
+                                        color: $scope.pageOptions.charts.colorPalettes['Blue Mono'][2]  
                                     }];
                                 // Reset groups and filters
-                                vm.pageData.suachuas.dataSource.filter({});
-                                vm.pageData.suachuas.dataSource.group([]);
+                                $scope.pageData.suachuas.dataSource.filter({});
+                                $scope.pageData.suachuas.dataSource.group([]);
                             }
                             
                         },
@@ -538,7 +538,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             
                             arr_trangthais = ['Đang sửa chữa', 'Chuẩn bị bàn giao', 'Sửa chữa xong'];
                             // Tìm tất cả các khu vực trong nhà xưởng
-                            arr_khuvucs = _.keys(vm._dictionary.vi_tris);
+                            arr_khuvucs = _.keys($scope._dictionary.vi_tris);
 
                             // Khởi tạo mảng output ban đầu
                             _.each(arr_trangthais, (trangthai) => {
@@ -548,11 +548,11 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             	}); 
                             });
                             // Thống kê số liệu cho dataSource: Vị trí và Trạng thái sửa chữa (ứng với mỗi vị trí là số liệu thống kê về số lượt đang/đã/chuẩn bị sc xong.)
-                            vm.pageData.suachuas.dataSource.group([
+                            $scope.pageData.suachuas.dataSource.group([
                                 { field: "trang_thai" },
                                 { field: "dia_diem.khu_vuc" }
                             ]);
-                            views = vm.pageData.suachuas.dataSource.view();
+                            views = $scope.pageData.suachuas.dataSource.view();
                             _.each(views, (trangthai) => {
                                 _.each(trangthai.items, (khuvuc) => {
                                 	obj_series[trangthai.value][khuvuc.value] = khuvuc.items.length;
@@ -576,10 +576,10 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             });
 
                             // Thiết đặt các giá trị này cho dataSource của chart options
-                            vm.pageData.kendoOptions.charts.radar_phan_loai_luot_suachuas.series = arr_series;
-                            vm.pageData.kendoOptions.charts.radar_phan_loai_luot_suachuas.categoryAxis.categories = arr_khuvucs;
+                            $scope.pageData.kendoOptions.charts.radar_phan_loai_luot_suachuas.series = arr_series;
+                            $scope.pageData.kendoOptions.charts.radar_phan_loai_luot_suachuas.categoryAxis.categories = arr_khuvucs;
                             // Reset group
-                            vm.pageData.suachuas.dataSource.group([]);
+                            $scope.pageData.suachuas.dataSource.group([]);
                         }
                     }
                 }
@@ -589,28 +589,28 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             // REACTIVE HELPERS
             // ***************************************************
 
-            vm.helpers({
+            $scope.helpers({
                 skyNotify: () => {
-                    vm.pageOptions.ui.heroContent = Notifies.findOne();
+                    $scope.pageOptions.ui.heroContent = Notifies.findOne();
                     return;
                 },
                 suachuas: () => {
-                    vm.pageData.suachuas.raw = SuaChuas.find({}, {sort: vm.getReactively('pageOptions.ui.sort.criteria')}).fetch();
-                    vm.pageData.suachuas.dataSource.data(vm.pageData.suachuas.raw);
+                    $scope.pageData.suachuas.raw = SuaChuas.find({}, {sort: $scope.getReactively('pageOptions.ui.sort.criteria')}).fetch();
+                    $scope.pageData.suachuas.dataSource.data($scope.pageData.suachuas.raw);
                     
-                    vm.pageOptions.ui.totalItems = vm.pageData.suachuas.raw.length;
+                    $scope.pageOptions.ui.totalItems = $scope.pageData.suachuas.raw.length;
                     
                     // Cập nhật list view cho lần đầu tiên khởi tạo
-                    // if (!vm.pageData.suachuas.raw.length)
-                    vm.utils.getDataView.suachuas();
-                    vm.utils.getStatistics.countPanel();
-                    vm.utils.resolveKendo.dataSource.resolveAll();
-                    vm.utils.resolveKendo.charts.resolveAll();
+                    // if (!$scope.pageData.suachuas.raw.length)
+                    $scope.utils.getDataView.suachuas();
+                    $scope.utils.getStatistics.countPanel();
+                    $scope.utils.resolveKendo.dataSource.resolveAll();
+                    $scope.utils.resolveKendo.charts.resolveAll();
                     return;
                 },
                 selectedSuaChua: () => {
-                	vm.pageData.source.master = SuaChuas.findOne( {_id: vm.getReactively('pageData.source.selectedSuaChuaId')} );
-                	vm.pageData.source.selectedSuaChua = angular.copy(vm.pageData.source.master);
+                	$scope.pageData.source.master = SuaChuas.findOne( {_id: $scope.getReactively('pageData.source.selectedSuaChuaId')} );
+                	$scope.pageData.source.selectedSuaChua = angular.copy($scope.pageData.source.master);
                 	return;
                 }
             });
@@ -622,18 +622,22 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
             
             autoPaging = $interval(() => {
                 // Cập nhật tất cả các stamp thời gian lúc bắt đầu để hiển thị trên bảng tin
-                vm.utils.getDataView.massageRawData();
+                $scope.utils.getDataView.massageRawData();
 
                 // Chỉ chuyển trang khi maxPage >= 1
-            	if (vm.pageOptions.ui.maxNumOfPage >= 1) {
+            	if ($scope.pageOptions.ui.maxNumOfPage >= 1) {
+                    console.log('maxNumOfPage', $scope.pageOptions.ui.maxNumOfPage);
+
                     // Chỉ chuyển trang khi đang ở bảng tin
-                    if (vm.pageOptions.displayMode.current_nav_tab === 'Bảng tin') {
+                    if ($scope.pageOptions.displayMode.current_nav_tab === 'Bảng tin' || $scope.pageOptions.displayMode.current_nav_tab === 'Thông tin' ) {
                         
                         // Tự động lật trang sau 3s
-                        if (vm.pageOptions.ui.page < vm.pageOptions.ui.maxNumOfPage)
-                            vm.pageOptions.ui.page++;
+                        if ($scope.pageOptions.ui.page < $scope.pageOptions.ui.maxNumOfPage)
+                            $scope.pageOptions.ui.page++;
                         else
-                            vm.pageOptions.ui.page = 1;
+                            $scope.pageOptions.ui.page = 1;
+
+                        console.log('page', $scope.pageOptions.ui.page);
                     }                   
                 }           
             }, 12000);
@@ -649,8 +653,8 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 
             UIkit.on('change.uk.tab', function(event, active_item) {
                 if (active_item) {
-                    vm.pageOptions.displayMode.current_nav_tab = active_item.text();
-                    vm.pageOptions.displayMode.isDisplaySearchPanel = (vm.pageOptions.displayMode.current_nav_tab === 'Quản lý') ? true : false;    
+                    $scope.pageOptions.displayMode.current_nav_tab = active_item.text();
+                    $scope.pageOptions.displayMode.isDisplaySearchPanel = ($scope.pageOptions.displayMode.current_nav_tab === 'Quản lý') ? true : false;    
                 }                
             });
 
@@ -662,13 +666,13 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                 }
             });
 
-			$scope.$watch('vm.pageOptions.ui.heroContent.content.text', (newVal) => {
-				vm.pageOptions.ui.perPage = (newVal) ? 4 : 5;
-				vm.utils.getDataView.suachuas();
+			$scope.$watch('pageOptions.ui.heroContent.content.text', (newVal) => {
+				$scope.pageOptions.ui.perPage = (newVal) ? 4 : 5;
+				$scope.utils.getDataView.suachuas();
 			});
 
-			$scope.$watch('vm.pageOptions.ui.page', (newVal) => {
-				vm.utils.getDataView.suachuas();
+			$scope.$watch('pageOptions.ui.page', (newVal) => {
+				$scope.utils.getDataView.suachuas();
 			});
         }
     }

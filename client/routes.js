@@ -82,277 +82,6 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
                 }
             }
         })
-        // NHOMS
-        .state('nhoms', {
-            url: '/quan-ly/nhom',
-            template: '<nhoms-main></nhoms-main>'
-        })
-        .state('nhoms.blank', {
-            url: '/',
-            template: '<nhoms-blank></nhoms-blank>'
-        })
-        .state('nhoms.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/nhoms/nhoms-add-new/nhoms-add-new.template.html',
-            controller: 'NhomsAddNewCtrl'
-        })
-        .state('nhoms.content', {
-            url: '/:nhomId',
-            templateUrl: 'client/nhoms/nhoms-content/nhoms-content.template.html',
-            controller: 'NhomsContentCtrl'
-        })
-        .state('nhoms.details', {
-            url: '/cap-nhat/:nhomId',
-            templateUrl: 'client/nhoms/nhoms-details/nhoms-details.template.html',
-            controller: 'NhomsDetailsCtrl'
-        })
-        // CHUNGLOAIS
-        .state('chungloais', {
-            url: '/quan-ly/chung-loai',
-            template: '<chungloais-main></chungloais-main>'
-        })
-        .state('chungloais.blank', {
-            url: '/',
-            template: '<chungloais-blank></chungloais-blank>'
-        })
-        .state('chungloais.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/chungloais/chungloais-add-new/chungloais-add-new.template.html',
-            controller: 'ChungLoaisAddNewCtrl'
-        })
-        .state('chungloais.content', {
-            url: '/:chungloaiId',
-            templateUrl: 'client/chungloais/chungloais-content/chungloais-content.template.html',
-            controller: 'ChungLoaisContentCtrl'
-        })
-        .state('chungloais.details', {
-            url: '/cap-nhat/:chungloaiId',
-            templateUrl: 'client/chungloais/chungloais-details/chungloais-details.template.html',
-            controller: 'ChungLoaisDetailsCtrl'
-        })
-        // LOAIS
-        .state('loais', {
-            url: '/quan-ly/loai',
-            template: '<loais-main></loais-main>'
-        })
-        .state('loais.blank', {
-            url: '/',
-            template: '<loais-blank></loais-blank>'
-        })
-        .state('loais.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/loais/loais-add-new/loais-add-new.template.html',
-            controller: 'LoaisAddNewCtrl'
-        })
-        .state('loais.content', {
-            url: '/:loaiId',
-            templateUrl: 'client/loais/loais-content/loais-content.template.html',
-            controller: 'LoaisContentCtrl'
-        })
-        .state('loais.details', {
-            url: '/cap-nhat/:loaiId',
-            templateUrl: 'client/loais/loais-details/loais-details.template.html',
-            controller: 'LoaisDetailsCtrl'
-        })
-        // QUOGIAS
-        .state('quocgias', {
-            url: '/quan-ly/quoc-gia',
-            template: '<quocgias-main></quocgias-main>'
-        })
-        .state('quocgias.blank', {
-            url: '/',
-            template: '<quocgias-blank></quocgias-blank>'
-        })
-        .state('quocgias.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/quocgias/quocgias-add-new/quocgias-add-new.template.html',
-            controller: 'QuocGiasAddNewCtrl'
-        })
-        .state('quocgias.content', {
-            url: '/:quocgiaId',
-            templateUrl: 'client/quocgias/quocgias-content/quocgias-content.template.html',
-            controller: 'QuocGiasContentCtrl'
-        })
-        .state('quocgias.details', {
-            url: '/cap-nhat/:quocgiaId',
-            templateUrl: 'client/quocgias/quocgias-details/quocgias-details.template.html',
-            controller: 'QuocGiasDetailsCtrl'
-        })
-        // HANGSANXUATS
-        .state('hangsanxuats', {
-            url: '/quan-ly/hang-san-xuat',
-            template: '<hangsanxuats-main></hangsanxuats-main>'
-        })
-        .state('hangsanxuats.blank', {
-            url: '/',
-            template: '<hangsanxuats-blank></hangsanxuats-blank>'
-        })
-        .state('hangsanxuats.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/hangsanxuats/hangsanxuats-add-new/hangsanxuats-add-new.template.html',
-            controller: 'HangSanXuatsAddNewCtrl'
-        })
-        .state('hangsanxuats.content', {
-            url: '/:hangsanxuatId',
-            templateUrl: 'client/hangsanxuats/hangsanxuats-content/hangsanxuats-content.template.html',
-            controller: 'HangSanXuatsContentCtrl'
-        })
-        .state('hangsanxuats.details', {
-            url: '/cap-nhat/:hangsanxuatId',
-            templateUrl: 'client/hangsanxuats/hangsanxuats-details/hangsanxuats-details.template.html',
-            controller: 'HangSanXuatsDetailsCtrl'
-        })
-        // MODELTHIETBIS
-        .state('modelthietbis', {
-            url: '/quan-ly/model-thiet-bi',
-            template: '<modelthietbis-main></modelthietbis-main>'
-        })
-        .state('modelthietbis.blank', {
-            url: '/',
-            template: '<modelthietbis-blank></modelthietbis-blank>'
-        })
-        .state('modelthietbis.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/modelthietbis/modelthietbis-add-new/modelthietbis-add-new.template.html',
-            controller: 'ModelThietBisAddNewCtrl'
-        })
-        .state('modelthietbis.content', {
-            url: '/:modelthietbiId',
-            templateUrl: 'client/modelthietbis/modelthietbis-content/modelthietbis-content.template.html',
-            controller: 'ModelThietBisContentCtrl'
-        })
-        .state('modelthietbis.details', {
-            url: '/cap-nhat/:modelthietbiId',
-            templateUrl: 'client/modelthietbis/modelthietbis-details/modelthietbis-details.template.html',
-            controller: 'ModelThietBisDetailsCtrl'
-        })
-        // DONVIS
-        .state('donvis', {
-            url: '/quan-ly/don-vi',
-            template: '<donvis-main></donvis-main>'
-        })
-        .state('donvis.blank', {
-            url: '/',
-            template: '<donvis-blank></donvis-blank>'
-        })
-        .state('donvis.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/donvis/donvis-add-new/donvis-add-new.template.html',
-            controller: 'DonVisAddNewCtrl'
-        })
-        .state('donvis.content', {
-            url: '/:donviId',
-            templateUrl: 'client/donvis/donvis-content/donvis-content.template.html',
-            controller: 'DonVisContentCtrl'
-        })
-        .state('donvis.details', {
-            url: '/cap-nhat/:donviId',
-            templateUrl: 'client/donvis/donvis-details/donvis-details.template.html',
-            controller: 'DonVisDetailsCtrl'
-        })
-        // LOAITHONGSOKYTHUATS
-        .state('loaithongsokythuats', {
-            url: '/quan-ly/loai-thong-so-ky-thuat',
-            template: '<loaithongsokythuats-main></loaithongsokythuats-main>'
-        })
-        .state('loaithongsokythuats.blank', {
-            url: '/',
-            template: '<loaithongsokythuats-blank></loaithongsokythuats-blank>'
-        })
-        .state('loaithongsokythuats.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/loaithongsokythuats/loaithongsokythuats-add-new/loaithongsokythuats-add-new.template.html',
-            controller: 'LoaiThongSoKyThuatsAddNewCtrl'
-        })
-        .state('loaithongsokythuats.content', {
-            url: '/:loaithongsokythuatId',
-            templateUrl: 'client/loaithongsokythuats/loaithongsokythuats-content/loaithongsokythuats-content.template.html',
-            controller: 'LoaiThongSoKyThuatsContentCtrl'
-        })
-        .state('loaithongsokythuats.details', {
-            url: '/cap-nhat/:loaithongsokythuatId',
-            templateUrl: 'client/loaithongsokythuats/loaithongsokythuats-details/loaithongsokythuats-details.template.html',
-            controller: 'LoaiThongSoKyThuatsDetailsCtrl'
-        })
-        // DIABANS
-        .state('diabans', {
-            url: '/quan-ly/dia-ban',
-            template: '<diabans-main></diabans-main>'
-        })
-        .state('diabans.blank', {
-            url: '/',
-            template: '<diabans-blank></diabans-blank>'
-        })
-        .state('diabans.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/diabans/diabans-add-new/diabans-add-new.template.html',
-            controller: 'DiaBansAddNewCtrl'
-        })
-        .state('diabans.content', {
-            url: '/:diabanId',
-            templateUrl: 'client/diabans/diabans-content/diabans-content.template.html',
-            controller: 'DiaBansContentCtrl'
-        })
-        .state('diabans.details', {
-            url: '/cap-nhat/:diabanId',
-            templateUrl: 'client/diabans/diabans-details/diabans-details.template.html',
-            controller: 'DiaBansDetailsCtrl'
-        })
-        // LICHSUACHUAS
-        .state('lichsuachuas', {
-            url: '/quan-ly/lich-sua-chua',
-            template: '<lichsuachuas-main></lichsuachuas-main>'
-        })
-        .state('lichsuachuas.blank', {
-            url: '/',
-            template: '<lichsuachuas-blank></lichsuachuas-blank>'
-        })
-        .state('lichsuachuas.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/lichsuachuas/lichsuachuas-add-new/lichsuachuas-add-new.template.html',
-            controller: 'LichSuaChuasAddNewCtrl'
-        })
-        .state('lichsuachuas.content', {
-            url: '/:lichsuachuaId',
-            templateUrl: 'client/lichsuachuas/lichsuachuas-content/lichsuachuas-content.template.html',
-            controller: 'LichSuaChuasContentCtrl'
-        })
-        .state('lichsuachuas.details', {
-            url: '/cap-nhat/:lichsuachuaId',
-            templateUrl: 'client/lichsuachuas/lichsuachuas-details/lichsuachuas-details.template.html',
-            controller: 'LichSuaChuasDetailsCtrl'
-        })
-        // THIETBIS
-        .state('thietbis', {
-            url: '/quan-ly/thiet-bi',
-            template: '<thietbis-main></thietbis-main>'
-        })
-        .state('thietbis.list', {
-            url: '/thong-ke',
-            template: '<thietbis-list></thietbis-list>'
-        })
-        .state('thietbis.addNew', {
-            url: '/tao-moi',
-            template: '<thietbis-add-new></thietbis-add-new>'
-        })
-        .state('thietbis.content', {
-            url: '/:thietbiId',
-            templateUrl: 'client/thietbis/thietbis-content/thietbis-content.template.html',
-            controller: 'ThietBisContentCtrl'
-        })
-        .state('thietbis.update', {
-            url: '/cap-nhat/:thietbiId',
-            template: '<thietbis-update></thietbis-update>'
-        })
-        // THONGSOKYTHUATS
-        .state('thongsokythuats', {
-            url: '/quan-ly/thong-so-ky-thuat',
-            template: '<thongsokythuats-main></thongsokythuats-main>'
-        })
-        .state('thongsokythuats.list', {
-            url: '/thong-ke',
-            template: '<thongsokythuats-list></thongsokythuats-list>'
-        })
         // CAUHOIS
         .state('cauhois', {
             url: '/quan-ly/ngan-hang-cau-hoi',
@@ -438,83 +167,10 @@ angular.module('angular-skynet').config(function($urlRouterProvider, $stateProvi
             url: '/cap-nhat/:suachuaId',
             template: '<suachuas-update></suachuas-update>'
         })
-        // NHANSUS
-        .state('nhansus', {
-            url: '/quan-ly/nhan-su',
-            template: '<nhansus-main></nhansus-main>',
-            resolve: {
-                data_nhansus: function($http){
-                    return $http({ method: 'GET', url: '/data/data_nhansus.json' })
-                        .then(function (data) {
-                            return data.data;
-                        });
-                }
-            }
-        })
-        .state('nhansus.blank', {
-            url: '/',
-            templateUrl: 'client/nhansus/nhansus-blank/nhansus-blank.template.html',
-            controller: 'NhanSusBlankCtrl'
-        })
-        .state('nhansus.addNew', {
-            url: '/tao-moi',
-            templateUrl: 'client/nhansus/nhansus-add-new/nhansus-add-new.template.html',
-            controller: 'NhanSusAddNewCtrl'
-        })
-        .state('nhansus.content', {
-            url: '/:nhansuId',
-            templateUrl: 'client/nhansus/nhansus-content/nhansus-content.template.html',
-            controller: 'NhanSusContentCtrl'
-        })
-        .state('nhansus.details', {
-            url: '/cap-nhat/:nhansuId',
-            templateUrl: 'client/nhansus/nhansus-details/nhansus-details.template.html',
-            controller: 'NhanSusDetailsCtrl'
-        })
-        
-        .state('thongkes', {
-            url: '/quan-ly/thong-ke-thiet-bi',
-            template: '<thongkes-list></thongkes-list>'
-        })
+
         .state('settings', {
             url: '/nguoi-dung/thiet-lap',
             template: '<settings-list></settings-list>'
-        })
-        .state('hosoluutrus', {
-            url: '/quan-ly/ho-so-luu-tru',
-            template: '<hosoluutrus-list></hosoluutrus-list>'
-        })
-        .state('hosoluutruDetails', {
-            url: '/quan-ly/ho-so-luu-tru/:hosoluutruId',
-            template: '<hosoluutru-details></hosoluutru-details>',
-            resolve: {
-                meteorUser: ($q) => {
-                    if (Meteor.userId() == null) {
-                        return $q.reject('AUTH_REQUIRED');
-                    } else {
-                        return $q.resolve();
-                    }
-                }
-            }
-        })
-        .state('parties', {
-            url: '/parties',
-            template: '<parties-list></parties-list>'
-        })
-        .state('partyDetails', {
-            url: '/parties/:partyId',
-            template: '<party-details></party-details>',
-            resolve: {
-                meteorUser: ($q) => {
-                    if (Meteor.userId() == null) {
-                        return $q.reject('AUTH_REQUIRED');
-                    } else if (!Meteor.user().emails[0].verified) {
-                        return $q.reject('AUTH_NOT_VERIFIED');
-                    } else {
-                        return $q.resolve();
-                    }
-                }
-            }
         })
 
         .state('manage_users', {
@@ -611,10 +267,10 @@ angular.module('angular-skynet')
         });
 
         $rootScope.$on('$stateChangeSuccess', function() {
-           // scroll view to top
-            $("html, body").animate({
-                scrollTop: 0
-            }, 200);
+           // // scroll view to top
+           //  $("html, body").animate({
+           //      scrollTop: 0
+           //  }, 200);
 
             $timeout(function() {
                 $rootScope.pageLoading = false;
@@ -624,9 +280,6 @@ angular.module('angular-skynet')
             $timeout(function() {
                 $rootScope.pageLoaded = true;
                 $rootScope.appInitialized = true;
-                // wave effects
-                $window.Waves.attach('.md-btn-wave,.md-fab-wave', ['waves-button']);
-                $window.Waves.attach('.md-btn-wave-light,.md-fab-wave-light', ['waves-button', 'waves-light']);
             }, 600);
         });
 
@@ -693,8 +346,8 @@ angular.module('angular-skynet')
 
             $rootScope.pageLoading = true;
 
-            // wave effects
-            $window.Waves.init();
+            // // wave effects
+            // $window.Waves.init();
     })
     .run([
         'PrintToConsole',

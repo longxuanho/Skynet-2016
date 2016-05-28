@@ -4,9 +4,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktMain', function() 
         templateUrl: 'client/dashboard/dashboard-xuongdvkt/dashboard-xuongdvkt-main.template.html',
         controllerAs: 'vm',
         bindToController: true,
-        controller: function($scope, $reactive) {
+        controller: function($scope) {
 
-            $reactive(this).attach($scope);
+            // $reactive(this).attach($scope);
 
             // ***************************************************
             // INITIALIZE
@@ -14,7 +14,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktMain', function() 
             $("body").addClass("skynet-dark-theme-background");
 
             // Capture 'this contex - Refer to https://github.com/johnpapa/angular-styleguide#controlleras-with-vm
-            let vm = this;        
+            // let vm = this;        
 
             // ***************************************************
             // SUBSCRIBE
@@ -32,9 +32,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktMain', function() 
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************
-
-            vm.helpers({
-            });
             
 
             // ***************************************************

@@ -143,8 +143,6 @@ angular.module('angular-skynet').directive('dashboardCauhoisViewList', function(
             // SUBSCRIBE
             // ***************************************************
 
-            $scope.subscribe('suachuas');
-
             // ***************************************************
             // REACTIVE HELPERS
             // ***************************************************

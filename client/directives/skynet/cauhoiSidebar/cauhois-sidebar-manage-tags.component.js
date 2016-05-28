@@ -82,7 +82,6 @@ angular.module('angular-skynet').directive('cauhoisSidebarManageTags', function(
             // SUBSCRIBE
             // ***************************************************
 
-            // $scope.subscribe('suachuas');
 
             // ***************************************************
             // UTILS

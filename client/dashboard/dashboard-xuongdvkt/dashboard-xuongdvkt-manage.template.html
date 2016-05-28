@@ -176,10 +176,11 @@
 			<div class="btn-group-manage-update-trang-thai">
 				<button class="btn-danger" ng-class="{ 'color-mode-danger': (pageData.source.selectedSuaChua.trang_thai == 'Đang sửa chữa') }" ng-click="pageData.source.selectedSuaChua.trang_thai = 'Đang sửa chữa'">Đang sửa chữa</button>
 				<button class="btn-warning" ng-class="{ 'color-mode-warning': (pageData.source.selectedSuaChua.trang_thai == 'Chuẩn bị bàn giao') }" ng-click="pageData.source.selectedSuaChua.trang_thai = 'Chuẩn bị bàn giao'">Chuẩn bị bàn giao</button>
-				<button class="btn-success" ng-class="{ 'color-mode-success': (pageData.source.selectedSuaChua.trang_thai == 'Sửa chữa xong') }" ng-click="pageData.source.selectedSuaChua.trang_thai = 'Sửa chữa xong'">Sửa chữa xong</button>	
+				<button class="btn-success" ng-class="{ 'color-mode-success': (pageData.source.selectedSuaChua.trang_thai == 'Sửa chữa xong') }" ng-click="pageData.source.selectedSuaChua.trang_thai = 'Sửa chữa xong'">Sửa chữa xong</button>
+				<button class="btn-cancel" ng-class="{ 'color-mode-cancel': (pageData.source.selectedSuaChua.trang_thai == 'Hủy bỏ') }" ng-click="pageData.source.selectedSuaChua.trang_thai = 'Hủy bỏ'">Hủy bỏ</button>
 			</div>			
 		</div>
-		<div ng-hide="pageData.source.master.trang_thai == 'Sửa chữa xong'">
+		<div ng-hide="pageData.source.master.trang_thai == 'Sửa chữa xong' || pageData.source.master.trang_thai == 'Hủy bỏ'">
 			<div class="uk-grid uk-margin-small-top">
 				<div class="uk-width-medium-2-3">
 				    <div class="uk-form-row uk-form-stacked">

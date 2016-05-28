@@ -18,7 +18,7 @@ angular.module('angular-skynet').directive('dashboardXuongdvktSearchPanel', func
                     scrollx: false,
                     duration: 100
                 });
-            }, 1000);            
+            }, 2000);            
 
             // ***************************************************
             // SUBSCRIBE
