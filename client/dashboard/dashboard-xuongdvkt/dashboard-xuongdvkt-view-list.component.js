@@ -420,8 +420,9 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 
                         	// Tìm tất cả các vị trí trong nhà xưởng đang được sử dụng
                         	arr_CurrSuaChua = _.filter($scope.pageData.suachuas.raw, (suachua) => {
-                        		return suachua.trang_thai !== 'Sửa chữa xong';
+                        		return (suachua.trang_thai !== 'Sửa chữa xong') && (suachua.trang_thai !== 'Hủy bỏ');
                         	});
+
                         	arr_CurrVitrisInUse_flatten = _.uniq(
                         		_.map(arr_CurrSuaChua, (suachua) => {
                         			return suachua.dia_diem.vi_tri;
@@ -533,10 +534,11 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
                             let colorRef = {
                             	'Đang sửa chữa': '#F05A28',
                             	'Chuẩn bị bàn giao': '#FFB400',
-                            	'Sửa chữa xong': '#9BBF17' 
+                            	'Sửa chữa xong': '#9BBF17',
+                                'Hủy bỏ': '#888888'  
                             };
                             
-                            arr_trangthais = ['Đang sửa chữa', 'Chuẩn bị bàn giao', 'Sửa chữa xong'];
+                            arr_trangthais = ['Đang sửa chữa', 'Chuẩn bị bàn giao', 'Sửa chữa xong', 'Hủy bỏ'];
                             // Tìm tất cả các khu vực trong nhà xưởng
                             arr_khuvucs = _.keys($scope._dictionary.vi_tris);
 
@@ -626,7 +628,6 @@ angular.module('angular-skynet').directive('dashboardXuongdvktViewList', functio
 
                 // Chỉ chuyển trang khi maxPage >= 1
             	if ($scope.pageOptions.ui.maxNumOfPage >= 1) {
-                    console.log('maxNumOfPage', $scope.pageOptions.ui.maxNumOfPage);
 
                     // Chỉ chuyển trang khi đang ở bảng tin
                     if ($scope.pageOptions.displayMode.current_nav_tab === 'Bảng tin' || $scope.pageOptions.displayMode.current_nav_tab === 'Thông tin' ) {

@@ -334,38 +334,6 @@ angular.module('angular-skynet').directive('suachuasAddNew', function() {
                 }).color_accent;
             });
 
-            $scope.$watch('vm.pageOptions.props.isHasImages', (newVal, oldVal) => {
-                if (oldVal) {
-                    // Nếu người dùng tắt chức năng sử dụng url hình ảnh, xóa tất cả các trường ngay lập tức
-                    vm.newCauHoi.noi_dung.url_hinh_anhs = ['', ''];
-                }
-            });
-
-            $scope.$watch('vm.newCauHoi.noi_dung.url_hinh_anhs.length', (newVal) => {
-                if (newVal > vm.pageOptions.limit.numOfUrlHinhAnhsMin && newVal < vm.pageOptions.limit.numOfUrlHinhAnhsMax) {
-                    // Nếu số trường url hình ảnh trong giới hạn cho phép, mở khóa các tính năng
-                    vm.pageOptions.able.decreaseNumOfUrlHinhAnhs = true;
-                    vm.pageOptions.able.addNumOfUrlHinhAnhs = true; 
-                }
-                if (newVal <= vm.pageOptions.limit.numOfUrlHinhAnhsMin) {
-                    // Nếu số trường url hình ảnh ít hơn giới hạn dưới, khóa khả năng decreaseUrlHinhAnh
-                    vm.pageOptions.able.decreaseNumOfUrlHinhAnhs = false; 
-                }
-                if (newVal >= vm.pageOptions.limit.numOfUrlHinhAnhsMax) {
-                    // Nếu số trường url hình ảnh ít hơn giới hạn trên, khóa khả năng addUrlHinhAnh
-                    vm.pageOptions.able.addNumOfUrlHinhAnhs = false; 
-                }
-
-            });
-
-            $scope.$watch('vm.newCauHoi.noi_dung.tieu_de', (newVal) => {
-                if (vm.pageOptions.props.isDiffViewLink) {
-                    vm.pageOptions.input.diffViewSearch = newVal;
-                    if (vm.pageOptions.props.currentSection==='accordion_so_sanh')
-                        $("#pageOptions_diffViewSearch").data("kendoAutoComplete").search(newVal);
-                }
-            });
-
         }
     }
 });
