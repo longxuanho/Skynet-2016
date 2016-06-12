@@ -19,6 +19,11 @@
                     <textarea cols="30" rows="3" class="md-input" md-input textarea-autosize ng-model="cauhoisWindow.source.noi_dung.tieu_de"></textarea>
                 </div>
             </div>
+            <div class="uk-width-medium-1-1" id="cauhoisAutoCompleteSection">
+                <div class="uk-form-row">
+                    <input kendo-auto-complete="cauhoisAutoComplete" k-data-source="cauhoisWindow.pageReactiveData.cauhois" ng-model="cauhoisWindow.source.noi_dung.tieu_de" k-min-length="3" k-filter="'contains'" style="width: 100%;" />
+                </div>
+            </div>
             <div class="uk-width-medium-1-1 uk-clearfix">
                 <div class="uk-align-medium-right">
                     Thêm / bớt các lựa chọn:

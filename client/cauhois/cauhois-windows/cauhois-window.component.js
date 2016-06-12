@@ -73,7 +73,9 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             };
 
             cauhoisWindow.pageReactiveData = {
-                cauhois: [],
+                cauhois: kendo.data.DataSource.create({
+                    data: []
+                }),
                 tags: kendo.data.DataSource.create({
                     data: []
                 }),
@@ -407,6 +409,16 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
                         }
                     }).fetch());
 
+                    // Xây dựng nội dung cho autocomplete
+                    cauhoisWindow.pageReactiveData.cauhois.data(_.map(CauHois.find({
+                    }, {
+                        fields: {
+                            'noi_dung.tieu_de': 1
+                        }
+                    }).fetch(), (item) => {
+                        return item.noi_dung.tieu_de;
+                    }));
+
                     cauhoisWindow.utils.resolve_data.loai_tbs(cauhoisWindow.pageReactiveData.loai_tbs);
                     cauhoisWindow.utils.resolve_data.tags(cauhoisWindow.pageReactiveData.tags);
                     // cauhoisWindow.utils.resolve_data.tags(cauhoisWindow.pageReactiveData.tags);
@@ -499,11 +511,12 @@ angular.module('angular-skynet').directive('cauhoisWindow', function() {
             });
 
             $scope.$watch('cauhoisWindow.source.noi_dung.tieu_de', (newVal) => {
-                if (cauhoisWindow.pageOptions.props.isDiffViewLink) {
-                    cauhoisWindow.pageOptions.input.diffViewSearch = newVal;
-                    if (cauhoisWindow.pageOptions.props.currentSection==='accordion_so_sanh')
-                        $("#pageOptions_diffViewSearch").data("kendoAutoComplete").search(newVal);
-                }
+                // if (cauhoisWindow.pageOptions.props.isDiffViewLink) {
+                //     cauhoisWindow.pageOptions.input.diffViewSearch = newVal;
+                //     if (cauhoisWindow.pageOptions.props.currentSection==='accordion_so_sanh')
+                //         $("#pageOptions_diffViewSearch").data("kendoAutoComplete").search(newVal);
+                // }
+                $scope.cauhoisAutoComplete.search(newVal);
             });
 
         }
